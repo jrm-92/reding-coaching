@@ -224,7 +224,7 @@
       max-width: 1650px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 320px 450px;
+      grid-template-columns: 320px 1fr 450px;
       gap: 60px;
       align-items: center;
     }
@@ -1603,10 +1603,6 @@
         gap: 50px;
       }
 
-      .hero-middle {
-        order: 1;
-      }
-
       .hero-photo-container {
         order: 2;
         margin-top: 0;
@@ -1614,6 +1610,10 @@
         max-width: 350px;
         margin-left: auto;
         margin-right: auto;
+      }
+
+      .hero-middle {
+        order: 1;
       }
 
       .hero-right {
@@ -1624,6 +1624,11 @@
       
       .hero-title-section {
         left: 0 !important;
+        margin-top: 0 !important;
+      }
+      
+      .hero-text-section {
+        margin-top: 20px !important;
       }
       
       .about-container {
@@ -1654,14 +1659,14 @@
         gap: 40px;
       }
 
-      .hero-middle {
-        order: 1;
-      }
-
       .hero-photo-container {
         order: 2;
         margin-top: 0;
         padding-left: 0;
+      }
+
+      .hero-middle {
+        order: 1;
       }
 
       .hero-right {
@@ -1672,6 +1677,11 @@
       
       .hero-title-section {
         left: 0 !important;
+        margin-top: 0 !important;
+      }
+      
+      .hero-text-section {
+        margin-top: 20px !important;
       }
 
       .hero-cta {
@@ -1803,6 +1813,10 @@
       .hero-title-section .hero-title {
         font-size: 32px !important;
         white-space: normal !important;
+      }
+      
+      .hero-text-section {
+        margin-top: 20px !important;
       }
 
       .hero-right {
@@ -2258,14 +2272,18 @@
   <!-- HERO SECTION -->
   <section class="hero-section" id="top">
     <div class="hero-content">
+      <div class="hero-photo-container">
+        <img src="jerem_ratp.jpeg" alt="Jérémy - Coach Running">
+      </div>
+      
       <div class="hero-middle">
-        <div class="hero-title-section" style="position: relative; margin-bottom: 40px; margin-top: 0px;">
-          <h1 class="hero-title" style="font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 1px; font-size: 56px;">
+        <div class="hero-title-section" style="position: relative; left: -220px; margin-bottom: 0px; margin-top: -40px;">
+          <h1 class="hero-title" style="font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 1px; font-size: 56px; white-space: nowrap;">
             "Seul on va plus vite,<br><span class="highlight">ensemble</span> on va <span class="highlight">plus loin</span>."
           </h1>
         </div>
         
-        <div class="hero-text-section">
+        <div class="hero-text-section" style="margin-top: 100px;">
           <p class="hero-subtitle">
             <strong style="color: #FFFFFF;">Chaque projet est unique</strong>, et l'accompagnement doit l'être tout autant.
           </p>
@@ -2278,10 +2296,6 @@
           </p>
           <p class="hero-subtitle"><strong>Jérémy.</strong></p>
         </div>
-      </div>
-      
-      <div class="hero-photo-container">
-        <img src="jerem_ratp.jpeg" alt="Jérémy - Coach Running">
       </div>
       
       <div class="hero-right">
