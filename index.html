@@ -1013,7 +1013,7 @@
 
     @media (max-width: 600px) {
       .solo-duo-section {
-        padding: 60px 15px;
+        padding: 60px 20px;
       }
 
       .solo-duo-content h2 {
@@ -1022,6 +1022,101 @@
 
       .solo-duo-content > p {
         font-size: 16px;
+      }
+      
+      /* Liste à puces */
+      .solo-duo-content > p[style*="text-align: left"] {
+        font-size: 14px !important;
+        padding: 0 5px !important;
+        line-height: 1.8 !important;
+      }
+      
+      /* Grille de tarifs Solo/Duo/Trio */
+      .solo-duo-content > div[style*="display: grid"] {
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+        margin-top: 35px !important;
+      }
+      
+      /* Cards Solo/Duo/Trio */
+      .solo-duo-content > div > div[style*="border-radius: 20px"] {
+        padding: 24px 20px !important;
+        border-radius: 16px !important;
+      }
+      
+      /* Titres des cards */
+      .solo-duo-content > div > div > div[style*="text-transform: uppercase"] {
+        font-size: 24px !important;
+        margin-bottom: 6px !important;
+      }
+      
+      /* Espaceur sous titre */
+      .solo-duo-content > div > div > div[style*="height: 28px"] {
+        height: 18px !important;
+        margin-bottom: 18px !important;
+      }
+      
+      /* Prix */
+      .solo-duo-content div[style*="font-size: 42px"] {
+        font-size: 32px !important;
+      }
+      
+      .solo-duo-content div[style*="font-size: 36px"] {
+        font-size: 28px !important;
+      }
+      
+      .solo-duo-content div[style*="font-size: 15px"] {
+        font-size: 13px !important;
+      }
+      
+      .solo-duo-content div[style*="font-size: 13px"] {
+        font-size: 12px !important;
+      }
+      
+      /* Boutons Groupe */
+      .solo-duo-content a[style*="padding: 14px 24px"] {
+        padding: 12px 20px !important;
+        font-size: 13px !important;
+      }
+      
+      /* Bandeau localisation */
+      .solo-duo-content > div[style*="margin-top: 40px"] {
+        margin-top: 30px !important;
+        margin-bottom: 20px !important;
+      }
+      
+      .solo-duo-content > div > div[style*="display: inline-block"] {
+        padding: 12px 18px !important;
+      }
+      
+      .solo-duo-content > div > div p[style*="font-size: 15px"] {
+        font-size: 13px !important;
+        white-space: normal !important;
+        line-height: 1.5 !important;
+      }
+    }
+    
+    /* 2 colonnes pour écrans moyens (500-768px) */
+    @media (min-width: 500px) and (max-width: 768px) {
+      .solo-duo-content > div[style*="display: grid"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+      }
+      
+      .solo-duo-content > div > div[style*="border-radius: 20px"] {
+        padding: 28px 22px !important;
+      }
+      
+      .solo-duo-content > div > div > div[style*="text-transform: uppercase"] {
+        font-size: 22px !important;
+      }
+      
+      .solo-duo-content div[style*="font-size: 42px"] {
+        font-size: 30px !important;
+      }
+      
+      .solo-duo-content div[style*="font-size: 36px"] {
+        font-size: 26px !important;
       }
     }
 
