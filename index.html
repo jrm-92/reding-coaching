@@ -1758,27 +1758,28 @@
 
       /* Ajustements des éléments inline */
       .service-card > div[style*="margin"] {
-        margin: 10px 30px 15px !important;
-        padding: 10px 14px !important;
-        font-size: 13px !important;
+        margin: 8px 18px 12px !important;
+        padding: 8px 12px !important;
+        font-size: 12px !important;
       }
 
       .service-card > div[style*="border-left"] {
-        margin: 15px 30px !important;
-        padding: 15px !important;
+        margin: 12px 18px !important;
+        padding: 12px !important;
       }
 
       .service-card > div[style*="border-left"] > div {
-        font-size: 20px !important;
+        font-size: 17px !important;
+        line-height: 1.3 !important;
       }
 
       .service-card > div[style*="border-left"] > div span {
-        font-size: 14px !important;
+        font-size: 12px !important;
       }
 
       .service-card > div[style*="text-transform"] {
-        padding: 15px 30px 0 !important;
-        font-size: 14px !important;
+        padding: 12px 18px 0 !important;
+        font-size: 12px !important;
       }
     }
 
@@ -1910,41 +1911,44 @@
       .services-grid {
         grid-template-columns: 1fr;
         gap: 20px;
+        padding: 0 20px;
       }
 
       .service-card {
-        padding: 20px;
+        padding: 0 !important;
       }
 
       .service-card h3 {
-        font-size: 22px !important;
-        padding: 25px 20px 0 !important;
-        margin-bottom: 12px !important;
+        font-size: 20px !important;
+        padding: 20px 18px 0 !important;
+        margin-bottom: 10px !important;
       }
 
       .service-card p {
-        font-size: 14px !important;
-        padding: 0 20px !important;
-        margin-bottom: 16px !important;
+        font-size: 13px !important;
+        padding: 0 18px !important;
+        margin-bottom: 12px !important;
+        line-height: 1.5 !important;
       }
 
       .service-price {
-        font-size: 32px !important;
-        padding: 0 20px !important;
+        font-size: 28px !important;
+        padding: 0 18px !important;
       }
 
       .service-period {
-        font-size: 14px !important;
+        font-size: 13px !important;
       }
 
       .service-features {
-        padding: 20px 20px 25px !important;
+        padding: 18px 18px 22px !important;
       }
 
       .service-features li {
-        font-size: 14px !important;
-        padding: 8px 0 !important;
+        font-size: 13px !important;
+        padding: 6px 0 !important;
         gap: 8px !important;
+        line-height: 1.4 !important;
       }
 
       .service-features li::before {
@@ -1981,15 +1985,15 @@
     /* Breakpoint 480px - Extra Small Mobile */
     @media (max-width: 480px) {
       .hero-title {
-        font-size: 28px !important;
+        font-size: 26px !important;
       }
 
       .hero-subtitle {
-        font-size: 14px;
+        font-size: 14px !important;
       }
 
       .section-title {
-        font-size: 32px !important;
+        font-size: 28px !important;
       }
 
       .btn-primary,
@@ -1997,84 +2001,112 @@
         padding: 14px 25px;
         font-size: 12px;
       }
+      
+      .services-grid {
+        padding: 0 15px;
+        gap: 15px;
+      }
 
       .service-card {
-        padding: 15px !important;
+        padding: 0 !important;
       }
 
       .service-card h3 {
-        font-size: 20px !important;
-        padding: 20px 15px 0 !important;
-        margin-bottom: 10px !important;
+        font-size: 18px !important;
+        padding: 16px 14px 0 !important;
+        margin-bottom: 8px !important;
         letter-spacing: 0.5px !important;
       }
 
       .service-card p {
-        font-size: 13px !important;
-        padding: 0 15px !important;
-        margin-bottom: 12px !important;
+        font-size: 12px !important;
+        padding: 0 14px !important;
+        margin-bottom: 10px !important;
         line-height: 1.5 !important;
       }
 
       .service-price {
-        font-size: 28px !important;
-        padding: 0 15px !important;
+        font-size: 26px !important;
+      .service-price {
+        font-size: 26px !important;
+        padding: 0 14px !important;
         margin-bottom: 6px !important;
       }
 
       .service-period {
-        font-size: 13px !important;
+        font-size: 12px !important;
       }
 
       .service-features {
-        padding: 16px 15px 20px !important;
-        margin-top: 8px !important;
+        padding: 14px 14px 18px !important;
+        margin-top: 6px !important;
       }
 
       .service-features li {
-        font-size: 13px !important;
-        padding: 6px 0 !important;
+        font-size: 12px !important;
+        padding: 5px 0 !important;
         gap: 6px !important;
         line-height: 1.4 !important;
       }
 
       .service-features li::before {
-        font-size: 16px !important;
+        font-size: 15px !important;
       }
 
       /* Ajustements des éléments inline */
       .service-card > div[style*="margin"] {
-        margin: 6px 15px 10px !important;
+        margin: 6px 14px 10px !important;
         padding: 6px 10px !important;
         font-size: 11px !important;
       }
 
       .service-card > div[style*="border-left"] {
-        margin: 10px 15px !important;
+        margin: 10px 14px !important;
         padding: 10px !important;
         border-radius: 8px !important;
       }
 
       .service-card > div[style*="border-left"] > div {
-        font-size: 16px !important;
+        font-size: 15px !important;
         line-height: 1.3 !important;
-        margin-bottom: 6px !important;
+        margin-bottom: 4px !important;
       }
 
       .service-card > div[style*="border-left"] > div span {
-        font-size: 12px !important;
+        font-size: 11px !important;
         display: block !important;
         margin-top: 2px !important;
       }
 
       .service-card > div[style*="text-transform"] {
-        padding: 10px 15px 0 !important;
-        font-size: 12px !important;
+        padding: 10px 14px 0 !important;
+        font-size: 11px !important;
         letter-spacing: 0.3px !important;
       }
-
-      .service-card .service-price {
-        font-size: 28px;
+    }
+    
+    /* Breakpoint 500-768px - 2 colonnes pour mieux utiliser l'espace */
+    @media (min-width: 500px) and (max-width: 768px) {
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 18px !important;
+        padding: 0 20px !important;
+      }
+      
+      .service-card h3 {
+        font-size: 17px !important;
+      }
+      
+      .service-card p {
+        font-size: 12px !important;
+      }
+      
+      .service-price {
+        font-size: 24px !important;
+      }
+      
+      .service-features li {
+        font-size: 11px !important;
       }
     }
 
