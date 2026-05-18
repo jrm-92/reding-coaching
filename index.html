@@ -149,6 +149,30 @@
       display: none;
     }
 
+    .nav-cta {
+      background: #FF6B35 !important;
+      color: #ffffff !important;
+      padding: 10px 22px !important;
+      border-radius: 50px !important;
+      font-weight: 700 !important;
+      font-size: 12px !important;
+      letter-spacing: 0.5px !important;
+      transition: all 0.3s ease !important;
+      box-shadow: 0 4px 18px rgba(255, 107, 53, 0.4) !important;
+      white-space: nowrap;
+    }
+
+    .nav-cta:hover {
+      background: #ff7a47 !important;
+      color: #ffffff !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 28px rgba(255, 107, 53, 0.55) !important;
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
     /* Mobile Menu Toggle */
     .mobile-menu-toggle {
       display: none;
@@ -212,42 +236,366 @@
       }
     }
 
-    /* ===== HERO SECTION ===== */
+    /* ===== HERO SECTION (REDESIGNED) ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-16px); }
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.5; }
+      50%       { opacity: 1; }
+    }
+    @keyframes pulse-badge {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.8); }
+    }
+
     .hero-section {
       min-height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: center;
       position: relative;
-      background: linear-gradient(135deg, #0A1128 0%, #001F54 25%, #034078 50%, #1282A2 75%, #0091B8 100%);
-      padding: 120px 60px 60px;
+      background: linear-gradient(160deg, #06090F 0%, #0B1526 35%, #0E1E38 65%, #0D2845 100%);
+      padding: 120px 60px 80px;
+      overflow: hidden;
     }
 
-    .hero-content {
-      max-width: 1400px;
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 750px;
+      height: 750px;
+      background: radial-gradient(circle, rgba(255, 107, 53, 0.16) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+      animation: glowPulse 5s ease-in-out infinite;
+    }
+
+    .hero-section::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: 10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(18, 130, 162, 0.1) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-grid {
+      max-width: 1380px;
+      width: 100%;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 450px;
-      gap: 80px;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 60px;
       align-items: center;
+      position: relative;
+      z-index: 1;
     }
 
-    .hero-photo-container {
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      padding-top: 60px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 107, 53, 0.12);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      color: #FF6B35;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      padding: 9px 18px;
+      border-radius: 30px;
+      width: fit-content;
+      margin-bottom: 32px;
+      animation: fadeInUp 0.7s ease both;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      background: #FF6B35;
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulse-badge 2s ease-in-out infinite;
+    }
+
+    .hero-main-title {
+      font-size: clamp(40px, 4.8vw, 62px);
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      color: #ffffff;
+      margin-bottom: 32px;
+      animation: fadeInUp 0.7s 0.1s ease both;
+    }
+
+    .hero-main-title .line-orange {
+      color: #FF6B35;
+      display: block;
+    }
+
+    .hero-main-title .line-outline {
+      -webkit-text-stroke: 2px rgba(255, 255, 255, 0.35);
+      color: transparent;
+      display: block;
+    }
+
+    .hero-accent-line {
+      width: 64px;
+      height: 4px;
+      background: linear-gradient(90deg, #FF6B35, #FFE766);
+      border-radius: 2px;
+      margin-bottom: 28px;
+      animation: fadeInUp 0.7s 0.2s ease both;
+    }
+
+    .hero-body-text {
+      font-size: 21px;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 780px;
+      animation: fadeInUp 0.7s 0.3s ease both;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 52px;
+      animation: fadeInUp 0.7s 0.4s ease both;
+    }
+
+    .hero-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FF6B35;
+      color: #ffffff;
+      padding: 17px 38px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 32px rgba(255, 107, 53, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .hero-btn-primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 50px rgba(255, 107, 53, 0.6);
+      background: #ff7a47;
+      color: #ffffff;
+    }
+
+    .hero-btn-primary:hover::before {
+      opacity: 1;
+    }
+
+    .hero-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.07);
+      color: rgba(255, 255, 255, 0.88);
+      padding: 17px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-4px);
+      color: #ffffff;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.7s 0.5s ease both;
+    }
+
+    .hero-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 12px 16px;
+      min-width: 78px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .hero-badge:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 107, 53, 0.35);
+      transform: translateY(-2px);
+    }
+
+    .hero-badge-value {
+      font-size: 17px;
+      font-weight: 900;
+      font-style: italic;
+      color: #FF6B35;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .hero-badge-label {
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.55);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+      font-weight: 600;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .hero-img-col {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 200px;
-      padding-left: 0px;
+      position: relative;
+      animation: fadeInRight 0.8s 0.2s ease both;
     }
 
-    .hero-photo-container img {
-      width: 85%;
-      height: auto;
-      border-radius: 16px;
-      border: 3px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    .hero-img-col::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(ellipse, rgba(255, 107, 53, 0.22) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+      animation: glowPulse 4s ease-in-out infinite;
     }
 
+    .hero-img-wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-img-wrap img {
+      width: 100%;
+      max-width: 440px;
+      height: 600px;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 28px;
+      display: block;
+      box-shadow:
+        0 50px 120px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(255, 107, 53, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-img-badge {
+      position: absolute;
+      bottom: 22px;
+      left: 20px;
+      right: 20px;
+      background: rgba(6, 9, 15, 0.88);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-img-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #FF6B35;
+      border-radius: 50%;
+      flex-shrink: 0;
+      animation: pulse-badge 2s ease-in-out infinite;
+    }
+
+    .hero-img-badge-text {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* Hero responsive */
+    @media (max-width: 1100px) {
+      .hero-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .hero-img-wrap img { height: 500px; max-width: 360px; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-section { padding: 100px 25px 60px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+      .hero-img-col { order: -1; }
+      .hero-img-wrap img { height: 340px; max-width: 100%; object-position: center 10%; }
+      .hero-main-title { font-size: clamp(34px, 8vw, 52px); }
+      .hero-body-text { font-size: 18px; }
+      .hero-cta-group { margin-bottom: 36px; }
+      .hero-badges { gap: 8px; }
+      .hero-badge { padding: 10px 12px; min-width: 68px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-section { padding: 90px 18px 50px; }
+      .hero-main-title { font-size: clamp(28px, 10vw, 42px); }
+      .hero-cta-group { flex-direction: column; }
+      .hero-btn-primary, .hero-btn-secondary { justify-content: center; text-align: center; }
+      .hero-img-wrap img { height: 280px; }
+    }
+
+    /* ===== CLASSES PRÉSERVÉES POUR AUTRES SECTIONS ===== */
     .hero-middle {
       display: flex;
       flex-direction: column;
@@ -262,110 +610,33 @@
       text-align: left;
     }
 
-    .hero-text-section {
-      text-align: left;
-      margin-top: 40px;
-    }
-
-    .hero-left {
-      text-align: left;
-      margin-top: 0px;
-    }
-
-    .hero-right {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: flex-start;
-      margin-top: 0;
-      padding-left: 0px;
-      margin-left: 0;
-      position: sticky;
-      top: 120px;
-      align-self: flex-start;
-    }
-
-    .hero-image {
-      width: 100%;
-      max-width: 400px;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      margin-top: 40px;
-    }
-
-    .hero-image img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      width: 100%;
-      max-width: 280px;
-    }
-
-    .hero-stat-item {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      padding: 10px 12px;
-      border-radius: 8px;
-      text-align: center;
-      flex: 1;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .hero-stat-value {
-      font-size: 15px;
-      font-weight: 800;
-      color: #FF6B35;
-      margin-bottom: 3px;
-    }
-
-    .heréel {
-      font-size: 9px;
-      color: rgba(255, 255, 255, 0.8);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .hero-strava-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(252, 76, 2, 0.9);
+    .hero-title {
+      font-size: clamp(38px, 4.5vw, 52px);
+      font-weight: 900;
+      line-height: 1.15;
       color: #ffffff;
-      padding: 8px 16px;
-      border-radius: 20px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 12px;
-      transition: all 0.3s ease;
-      border: 2px solid rgba(252, 76, 2, 1);
+      margin-bottom: 0px;
+      letter-spacing: 0.5px;
+      max-width: 100%;
+      width: 100%;
     }
 
-    .hero-strava-link:hover {
-      background: rgba(252, 76, 2, 1);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(252, 76, 2, 0.4);
+    .hero-title .highlight {
+      color: #FF6B35;
+      position: relative;
+      display: inline-block;
     }
 
     /* ===== HERO FORM ===== */
     .hero-form {
       background: rgba(10, 17, 40, 0.7);
       backdrop-filter: blur(25px);
-      padding: 32px 26px;
+      padding: 18px 20px;
       border-radius: 20px;
       border: 2px solid rgba(255, 231, 102, 0.35);
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-      max-width: 400px;
       width: 100%;
       position: relative;
-      overflow: hidden;
       scroll-margin-top: 120px;
     }
 
@@ -384,7 +655,7 @@
       font-weight: 900;
       font-style: italic;
       color: #FFE766;
-      margin-bottom: 27px;
+      margin-bottom: 24px;
       text-align: center;
       text-transform: uppercase;
       letter-spacing: 1.5px;
@@ -395,7 +666,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .form-row .form-group {
@@ -403,7 +674,7 @@
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       position: relative;
     }
 
@@ -412,7 +683,7 @@
       color: #FFE766;
       font-size: 12px;
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -421,7 +692,7 @@
     .form-group textarea,
     .form-group select {
       width: 100%;
-      padding: 14px 14px;
+      padding: 12px 14px;
       border: 2px solid rgba(255, 255, 255, 0.2);
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.97);
@@ -450,7 +721,7 @@
 
     .form-group textarea {
       resize: vertical;
-      min-height: 92px;
+      min-height: 90px;
       line-height: 1.5;
     }
 
@@ -477,7 +748,7 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-transform: uppercase;
       letter-spacing: 1.8px;
-      margin-top: 14px;
+      margin-top: 12px;
       box-shadow: 0 8px 24px rgba(255, 107, 53, 0.45);
       position: relative;
       overflow: hidden;
@@ -527,15 +798,6 @@
       display: inline-block;
     }
 
-    .hero-subtitle {
-      font-size: clamp(18px, 1.8vw, 22px);
-      color: rgba(255, 255, 255, 0.92);
-      margin-top: 24px;
-      margin-bottom: 24px;
-      max-width: 90%;
-      line-height: 1.7;
-      letter-spacing: 0.2px;
-    }
 
     .hero-cta {
       display: flex;
@@ -1794,20 +2056,12 @@
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1200px) {
       .hero-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
+        grid-template-columns: 1fr 400px;
+        gap: 50px;
       }
 
-      .hero-left {
-        text-align: center;
-      }
-
-      .hero-cta {
-        justify-content: center;
-      }
-
-      .hero-right {
-        order: -1;
+      .hero-photo-col {
+        display: none;
       }
 
       .about-container {
@@ -1819,38 +2073,14 @@
 
     @media (max-width: 992px) {
       .hero-content {
-        grid-template-columns: 1fr;
-        gap: 50px;
+        grid-template-columns: 1fr 360px;
+        gap: 40px;
       }
 
-      .hero-photo-container {
-        order: 2;
-        margin-top: 0;
-        padding-left: 0;
-        max-width: 350px;
-        margin-left: auto;
-        margin-right: auto;
+      .hero-photo-col {
+        display: none;
       }
 
-      .hero-middle {
-        order: 1;
-      }
-
-      .hero-right {
-        order: 3;
-        margin-left: 0;
-        margin-top: 30px;
-      }
-      
-      .hero-title-section {
-        left: 0 !important;
-        margin-top: 0 !important;
-      }
-      
-      .hero-text-section {
-        margin-top: 20px !important;
-      }
-      
       .about-container {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -1876,57 +2106,11 @@
       
       .hero-content {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
       }
 
-      .hero-photo-container {
-        order: 2;
-        margin-top: 0;
-        padding-left: 0;
-        max-width: 300px;
-        margin-left: auto;
-        margin-right: auto;
-      }
-
-      .hero-middle {
-        order: 1;
-      }
-
-      .hero-right {
-        order: 3;
-        margin-left: 0;
-        margin-top: 25px;
-      }
-      
-      .hero-title-section {
-        left: 0 !important;
-        margin-top: 0 !important;
-        margin-bottom: 30px !important;
-      }
-      
-      .hero-title {
-        font-size: 36px !important;
-        line-height: 1.2 !important;
-      }
-      
-      .hero-subtitle {
-        font-size: 17px !important;
-        margin-bottom: 18px !important;
-      }
-      
-      .hero-text-section {
-        margin-top: 0 !important;
-      }
-
-      .hero-cta {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .btn-primary,
-      .btn-secondary {
-        width: 100%;
-        max-width: 400px;
+      .hero-photo-col {
+        display: none;
       }
 
       .hero-form {
@@ -2020,79 +2204,40 @@
 
       .hero-content {
         grid-template-columns: 1fr;
-        gap: 35px;
+        gap: 30px;
       }
 
-      .hero-middle {
-        order: 1;
-        padding-right: 0;
-      }
-      
-      .hero-title-section {
-        margin-bottom: 25px !important;
-        margin-top: 0 !important;
-        left: 0 !important;
+      .hero-logo {
+        max-width: 170px;
+        margin-bottom: 22px;
       }
 
-      .hero-photo-container {
-        order: 2;
-        width: 100%;
-        max-width: 280px;
-        margin: 0 auto;
-        padding-left: 0;
-      }
-
-      .hero-photo-container img {
-        width: 100%;
-        border-radius: 12px;
-      }
-
-      .hero-title-section .hero-title {
-        font-size: 28px !important;
-        white-space: normal !important;
-        line-height: 1.25 !important;
-        letter-spacing: 0.5px !important;
-      }
-      
-      .hero-subtitle {
-        font-size: 16px !important;
-        line-height: 1.6 !important;
-        margin-bottom: 15px !important;
-      }
-      
-      .hero-text-section {
-        margin-top: 0 !important;
-      }
-
-      .hero-right {
-        order: 3;
-        margin-left: 0;
-        margin-top: 20px;
-        position: static;
+      .hero-tagline {
+        font-size: 20px;
       }
 
       .hero-form {
         padding: 28px 22px;
         max-width: 100%;
       }
-      
+
       .hero-form h3 {
         font-size: 18px !important;
         margin-bottom: 22px !important;
       }
-      
+
       .form-group label {
         font-size: 11px !important;
         margin-bottom: 8px !important;
       }
-      
+
       .form-group input,
       .form-group textarea,
       .form-group select {
         font-size: 14px !important;
         padding: 12px !important;
       }
-      
+
       .form-submit-btn {
         font-size: 13px !important;
         padding: 14px 24px !important;
@@ -2342,45 +2487,33 @@
       }
       
       /* Photos maintenues visibles */
-      .hero-photo-container,
       .apropos-image {
         display: flex !important;
       }
     }
 
     /* Orientation Landscape - Optimisations desktop */
-    @media (orientation: landscape) and (min-width: 992px) {
+    @media (orientation: landscape) and (min-width: 1200px) {
       .hero-content {
-        grid-template-columns: 1fr 450px;
+        grid-template-columns: 1fr 260px 380px;
       }
 
-      .hero-photo-container {
+      .hero-photo-col {
         display: flex !important;
       }
     }
 
     /* Breakpoint 992px - Tablet/Medium Screens */
-    @media (max-width: 992px) and (min-width: 601px) {
+    @media (max-width: 992px) and (min-width: 769px) {
       .hero-content {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 360px;
         gap: 40px;
       }
 
-      .hero-photo-container {
-        width: 100%;
-        max-width: 300px;
-        margin: 0 auto;
-        padding-left: 0;
+      .hero-photo-col {
+        display: none;
       }
 
-      .hero-right {
-        margin-left: 0;
-      }
-
-      .hero-title-section {
-        left: 0 !important;
-        position: static !important;
-      }
 
 
 
@@ -2407,6 +2540,10 @@
         gap: 50px;
       }
 
+      .hero-photo-col {
+        display: none;
+      }
+
       .services-grid {
         padding: 0 40px;
       }
@@ -2415,7 +2552,7 @@
     /* Adaptations pour écrans moyens */
     @media (max-width: 1400px) and (min-width: 1201px) {
       .hero-content {
-        grid-template-columns: 1fr 420px;
+        grid-template-columns: 300px 1fr 420px;
         gap: 55px;
       }
     }
@@ -2441,12 +2578,52 @@
       nav.main-nav a:hover {
         background: rgba(18, 130, 162, 0.05);
       }
+
+      .nav-cta {
+        background: #FF6B35 !important;
+        color: #ffffff !important;
+        border-radius: 50px !important;
+        border-bottom: none !important;
+        text-align: center;
+        margin-top: 5px;
+      }
     }
 
     /* Smooth Scroll Animation */
     @media (prefers-reduced-motion: no-preference) {
       html {
         scroll-behavior: smooth;
+      }
+    }
+
+    /* ===== FORMULAIRE SECTION ===== */
+    .form-section {
+      background: linear-gradient(135deg, #0A1128 0%, #001F54 25%, #034078 50%, #1282A2 75%, #0091B8 100%);
+      padding: 80px 60px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .form-section-inner {
+      width: 100%;
+      max-width: 640px;
+    }
+
+    .form-section .section-title {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      color: #FF6B35;
+      margin: 40px 0 30px 0;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .form-section {
+        padding: 60px 20px;
       }
     }
 
@@ -2570,7 +2747,7 @@
   <!-- HEADER -->
   <header class="site-header">
     <a href="#top" class="brand">
-      <img src="logo_running.png" alt="Reding Running" class="logo-img" />
+      <img src="logo_raccourci_blanc.png" alt="Reding Running" class="logo-img" />
     </a>
 
     <nav class="main-nav">
@@ -2583,8 +2760,8 @@
         <a href="#solo-duo-trio">Séances terrains</a>
       </div>
       <div class="nav-right">
-        <a href="#contactForm">Formulaire</a>
         <a href="#contact">Contact</a>
+        <a href="#contactForm" class="nav-cta">Commencer →</a>
       </div>
     </nav>
 
@@ -2597,89 +2774,43 @@
 
   <!-- HERO SECTION -->
   <section class="hero-section" id="top">
-    <div class="hero-content">
-      
-      <div class="hero-middle">
-        <div class="hero-title-section" style="margin-bottom: 0px; margin-top: -40px; padding-top: 50px;">
-          <h1 class="hero-title" style="font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 1px; font-size: 56px; white-space: nowrap;">
-            <span class="highlight">REDING Coaching</span><br><span style="font-size: 0.65em;">Un accompagnement basé sur l'humain.</span>
-          </h1>
-          <img src="coach_running.jpg" alt="Coach Running" style="max-width: 300px; height: auto; margin-top: 40px; border-radius: 12px;">
+
+    <div class="hero-grid">
+
+      <!-- GAUCHE : Texte -->
+      <div class="hero-left">
+        <h1 class="hero-main-title">
+          <span class="line-orange">Progresse durablement.</span>
+          <span>Prends du plaisir.</span>
+          <span class="line-outline">Cours plus vite.</span>
+        </h1>
+
+        <div class="hero-accent-line"></div>
+
+        <p class="hero-body-text">
+          <strong style="color:#ffffff;">Chaque projet est unique,</strong> l’accompagnement doit l’être tout autant.<br><span style="display:block; margin-top:10px;"></span>
+          Je te propose un <strong style="color:#ffffff;">suivi personnalisé</strong> qui permet de trouver l’équilibre entre <strong style="color:#ffffff;">performance</strong>, <strong style="color:#ffffff;">préservation des blessures</strong> et <strong style="color:#ffffff;">plaisir de courir</strong>.<br><span style="display:block; margin-top:10px;"></span>
+          En plus des séances de courses, tu bénéficieras de <strong style="color:#ffffff;">séances de renforcement musculaire</strong> et de <strong style="color:#ffffff;">travail technique</strong>.<br>
+          <a href="#suivi-personnalise" style="display:inline-block; margin-top:8px; font-size:13px; color:#FF6B35; text-decoration:none; opacity:0.85; letter-spacing:0.5px;">→ En savoir plus</a>
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#contactForm" class="hero-btn-primary">Commencer →</a>
         </div>
-         
-        <div class="hero-text-section" style="margin-top: 20px;">
-          <p class="hero-subtitle">
-            <strong style="color: #FFFFFF;">Chaque projet est unique</strong>, l'accompagnement doit l'être tout autant.
-          </p>
-          <p class="hero-subtitle">
-            Que tu sois un <strong style="color: #FFFFFF;">coureur débutant ou expérimenté</strong>, je propose des entraînements<strong style="color: #FFFFFF;"> adaptés à ton niveau, à ton rythme et à tes objectifs.</strong>
-          </p>
-          <p class="hero-subtitle">
-            Si tu souhaites avoir plus d'informations sur le coaching, remplis le formulaire et parle-moi de ton projet.
-          </p>
-          <p class="hero-subtitle"><strong>Jérémy.</strong></p>
+
+      </div>
+
+      <!-- DROITE : Photo forte -->
+      <div class="hero-img-col">
+        <div class="hero-img-wrap">
+          <img src="photo_10k_jo.jpg" alt="Jérémy Reding - 10K JO · 35'20&quot;">
+          <div class="hero-img-badge">
+            <div class="hero-img-badge-dot"></div>
+            <span class="hero-img-badge-text">Coach Running Certifié FFA</span>
+          </div>
         </div>
       </div>
-      
-      <div class="hero-right">
-        <form class="hero-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
-          <!-- Web3Forms Configuration -->
-          <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
-          <input type="hidden" name="subject" value="Nouvelle demande de coaching">
-          <input type="hidden" name="from_name" value="Site Reding Coaching">
-          <input type="checkbox" name="botcheck" style="display: none;">
-          
-          <h3 style="font-size: 20px;">Parlons de ton objectif.</h3>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="prenom">Prénom *</label>
-              <input type="text" id="prenom" name="Prénom" required placeholder="Ton prénom">
-            </div>
-            
-            <div class="form-group">
-              <label for="nom">Nom *</label>
-              <input type="text" id="nom" name="Nom" required placeholder="Ton nom">
-            </div>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="telephone">Téléphone *</label>
-              <input type="tel" id="telephone" name="Téléphone" required placeholder="06 12 34 56 78">
-            </div>
-            
-            <div class="form-group">
-              <label for="email">Mail *</label>
-              <input type="email" id="email" name="Email" required placeholder="ton@email.com">
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="type_coaching">Type de coaching *</label>
-            <select id="type_coaching" name="Type de coaching" required>
-              <option value="">-- Sélectionne une option --</option>
-              <option value="Suivi personnalisé">Suivi personnalisé</option>
-              <option value="Coaching Solo/Duo-Trio">Séances d'entraînement</option>
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="objectifs">Ton message *</label>
-            <textarea id="objectifs" name="Message" required placeholder="Écris ton message..." rows="3"></textarea>
-          </div>
-          
-          <div class="form-checkbox-group">
-            <input type="checkbox" id="rgpd_consent" name="RGPD_Consent" required>
-            <label for="rgpd_consent" style="color: rgba(255, 255, 255, 0.9);">
-              J'accepte que mes données personnelles soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" style="color: #ffffff;">politique de confidentialité</a> *
-            </label>
-          </div>
-          
-          <button type="submit" class="form-submit-btn">Envoyer ma demande</button>
-          <p id="form-message" style="display: none; margin-top: 15px; padding: 12px; border-radius: 8px; text-align: center; font-weight: 600;"></p>
-        </form>
-      </div>
+
     </div>
   </section>
 
@@ -2728,13 +2859,13 @@
         </div>
                 <div style="max-width: 1200px; margin: 80px auto 0; padding: 0 20px; text-align: center;">
           <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
-            <strong style="color: rgba(255, 255, 255, 0.95);">Passionné par l’athlétisme, je pratique ce sport depuis plus de 20 ans</strong>, j’ai d’abord commencé par le sprint, puis maintenant <strong style="color: rgba(255, 255, 255, 0.95);">les épreuves d’endurance</strong>, désormais mon objectif principal.
+            <strong style="color: rgba(255, 255, 255, 0.95);">Passionné par l’athlétisme, je pratique ce sport depuis 2008</strong>, j’ai d’abord commencé par le sprint sur 200 et 400m, puis maintenant <strong style="color: rgba(255, 255, 255, 0.95);">les épreuves d’endurance</strong>, désormais mon objectif principal.
           </p>
           <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
             Par l’intermédiaire de la Fédération Française d’Athlétisme, <strong style="color: rgba(255, 255, 255, 0.95);">j’ai obtenu une certification qui me permet d’accompagner les coureurs dans leur préparation</strong> avec une approche structurée, adaptée à leur rythme et à leurs besoins.
           </p>
           <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
-            Mon rôle est d’être <strong style="color: rgba(255, 255, 255, 0.95);">la personne de confiance</strong> qui t’accompagne vers <strong style="color: rgba(255, 255, 255, 0.95);">l’accomplissement de tes objectifs</strong>, dans le respect de la progressivité et de la durabilité.
+            Mon rôle est d’être <strong style="color: rgba(255, 255, 255, 0.95);">la personne de confiance</strong> qui t’accompagne vers <strong style="color: rgba(255, 255, 255, 0.95);">l’accomplissement de tes objectifs</strong>, en associant performance, plaisir et préservation des blessures.
           </p>
           <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
             À mes côtés, tu bénéficies d’<strong style="color: rgba(255, 255, 255, 0.95);">un coach passionné, impliqué et disponible</strong>.
@@ -2764,7 +2895,7 @@
             L'avantage du suivi personnalisé : <strong style="color: rgba(255, 255, 255, 0.95);">ton plan est conçu sur mesure en fonction de tes besoins, tes contraintes et tes objectifs</strong>. Tu bénéficies également <strong style="color: rgba(255, 255, 255, 0.95);">d'un accompagnement permanent pour échanger sur tes séances</strong>, ton ressenti ou toute autre question.
           </p>
           <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
-            Pour aller plus loin dans ta progression, tu as également la possibilité de <strong style="color: rgba(255, 255, 255, 0.95);">programmer des séances en présentiel</strong>.<br> <span style="font-size: 14px; font-style: italic;">(📍 Lieu d'entraînement : À maximum 30 min de <a href="https://www.google.com/maps/dir/La+D%C3%A9fense//@48.9043275,2.2511616,14z/data=!4m9!4m8!1m5!1m1!1s0x47e66503bb403457:0xda098f7887a51000!2m2!1d2.238767!2d48.891759!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color: rgba(255, 255, 255, 0.95); text-decoration: underline; font-weight: 700;">La Défense</a> en transport en commun ou 2 roues)</span>
+            Pour aller plus loin dans ta progression, tu as également la possibilité de <strong style="color: rgba(255, 255, 255, 0.95);">programmer des séances terrains</strong>.<br> <span style="font-size: 14px; font-style: italic;">(📍 Lieu d'entraînement : À maximum 30 min de <a href="https://www.google.com/maps/dir/La+D%C3%A9fense//@48.9043275,2.2511616,14z/data=!4m9!4m8!1m5!1m1!1s0x47e66503bb403457:0xda098f7887a51000!2m2!1d2.238767!2d48.891759!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color: rgba(255, 255, 255, 0.95); text-decoration: underline; font-weight: 700;">La Défense</a> en transport en commun ou 2 roues)</span>
           </p>
         </div>
       </div>
@@ -2962,7 +3093,7 @@
   <section class="solo-duo-section" id="solo-duo-trio">
     <div class="solo-duo-container">
       <div class="solo-duo-content">
-        <h2>Séances d'entraînement</h2>
+        <h2>Séances terrains</h2>
         <p>
           Des séances de coaching en face à face, pour un accompagnement précis et entièrement personnalisé.
         </p>
@@ -3020,6 +3151,68 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- FORMULAIRE SECTION -->
+  <section class="form-section" id="contactForm">
+    <div class="form-section-inner">
+      <h2 class="section-title">Formulaire</h2>
+      <form class="hero-form" action="https://api.web3forms.com/submit" method="POST">
+        <!-- Web3Forms Configuration -->
+        <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
+        <input type="hidden" name="subject" value="Nouvelle demande de coaching">
+        <input type="hidden" name="from_name" value="Site logo_running">
+        <input type="checkbox" name="botcheck" style="display: none;">
+
+        <h3>Parlons de ton objectif.</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prenom">Prénom *</label>
+            <input type="text" id="prenom" name="Prénom" required placeholder="Ton prénom">
+          </div>
+          <div class="form-group">
+            <label for="nom">Nom *</label>
+            <input type="text" id="nom" name="Nom" required placeholder="Ton nom">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="telephone">Téléphone *</label>
+            <input type="tel" id="telephone" name="Téléphone" required placeholder="06 12 34 56 78">
+          </div>
+          <div class="form-group">
+            <label for="email">Mail *</label>
+            <input type="email" id="email" name="Email" required placeholder="ton@email.com">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="type_coaching">Type de coaching *</label>
+          <select id="type_coaching" name="Type de coaching" required>
+            <option value="">-- Sélectionne une option --</option>
+            <option value="Suivi personnalisé">Suivi personnalisé</option>
+            <option value="Coaching Solo/Duo-Trio">Séances d'entraînement</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="objectifs">Ton message *</label>
+          <textarea id="objectifs" name="Message" required placeholder="Écris ton message..." rows="3"></textarea>
+        </div>
+
+        <div class="form-checkbox-group">
+          <input type="checkbox" id="rgpd_consent" name="RGPD_Consent" required>
+          <label for="rgpd_consent" style="color: rgba(255, 255, 255, 0.9);">
+            J'accepte que mes données personnelles soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" style="color: #ffffff;">politique de confidentialité</a> *
+          </label>
+        </div>
+
+        <button type="submit" class="form-submit-btn">Envoyer ma demande</button>
+        <p id="form-message" style="display: none; margin-top: 15px; padding: 12px; border-radius: 8px; text-align: center; font-weight: 600;"></p>
+      </form>
     </div>
   </section>
 
