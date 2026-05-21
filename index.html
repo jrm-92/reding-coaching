@@ -390,7 +390,7 @@
       color: rgba(255, 255, 255, 0.78);
       line-height: 1.8;
       margin-bottom: 16px;
-      max-width: 600px;
+      max-width: 960px;
       animation: fadeInUp 0.7s 0.3s ease both;
     }
 
@@ -1462,9 +1462,118 @@
     }
 
     /* ===== SUIVI PERSONNALISÉ — GRILLE RESPONSIVE ===== */
+    .suivi-intro-text {
+      max-width: 700px;
+      margin: 0 auto 56px;
+      padding: 0 30px;
+      text-align: center;
+      font-size: clamp(15px, 1.5vw, 18px);
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.85;
+    }
+
+    /* ===== SUIVI À DISTANCE — EN-TÊTE PREMIUM ===== */
+    .suivi-distance-header {
+      max-width: 1080px;
+      margin: 0 auto 64px;
+      padding: 24px 30px 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .suivi-distance-title {
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      color: #FF6B35;
+      margin: 0 0 22px;
+      line-height: 1.05;
+    }
+
+    .suivi-distance-divider {
+      display: block;
+      width: 72px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.9), transparent);
+      margin: 0 auto 32px;
+      border-radius: 2px;
+    }
+
+    .suivi-distance-lead {
+      font-size: clamp(20px, 2.1vw, 26px);
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.98);
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      margin: 0 auto 20px;
+      max-width: 960px;
+    }
+
+    .suivi-distance-sub {
+      font-size: clamp(16px, 1.5vw, 18px);
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.75;
+      margin: 0 auto 36px;
+      max-width: 960px;
+    }
+
+    .suivi-distance-meta {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 10px 22px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .suivi-distance-meta li {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .suivi-distance-meta .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #FF6B35;
+      box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.18);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 640px) {
+      .suivi-distance-header {
+        padding: 12px 20px 0;
+        margin-bottom: 48px;
+      }
+      .suivi-distance-meta {
+        gap: 8px;
+        width: 100%;
+      }
+      .suivi-distance-meta li {
+        flex: 1 1 100%;
+        justify-content: center;
+        background: rgba(255, 107, 53, 0.06);
+        border: 1px solid rgba(255, 107, 53, 0.2);
+        padding: 9px 14px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+    }
+
     .suivi-cards-grid {
       max-width: 1800px;
-      margin: 120px auto 0;
+      margin: 40px auto 0;
       padding: 0 30px;
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
@@ -3667,7 +3776,7 @@
         <h1 class="hero-main-title">
           <span class="line-orange">Courir vite</span>
           <span class="line-white">Courir longtemps</span>
-          <span class="line-outline">Courir avec plaisir</span>
+          <span class="line-outline">Aimer courir</span>
         </h1>
 
         <div class="hero-accent-line"></div>
@@ -3770,16 +3879,23 @@
   <!-- ABOUT SECTION -->
   <section class="about-section" id="suivi-personnalise">
     <div class="about-container" style="display: block; width: 100%; max-width: 1200px; margin: 0 auto;">
-      <div class="about-content">
-        <div class="hero-middle">
-        <div class="hero-title-section" style="margin-bottom: 0px; margin-top: 0px; text-align: center;">
-          <h1 class="hero-title" style="font-size: clamp(32px, 4vw, 48px); font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.02em; color: #FF6B35; margin: 0 0 30px 0; line-height: 1.2; white-space: nowrap;">
-            Suivi à distance 
-          </h1>
-        </div>
-        
-      </div>
-    </div>
+
+      <!-- En-tête premium Suivi à distance -->
+      <header class="suivi-distance-header">
+        <h2 class="suivi-distance-title">Suivi à distance</h2>
+        <span class="suivi-distance-divider" aria-hidden="true"></span>
+        <p class="suivi-distance-lead">
+          Tu prépares une course, tu souhaites un accompagnement structuré, pensé entièrement pour toi ?
+        </p>
+        <p class="suivi-distance-sub">
+          À partir de ton profil, de tes contraintes et de tes ambitions, je construis un plan d'entraînement sur mesure — ajusté semaine après semaine pour suivre précisément ton évolution et te faire progresser durablement.
+        </p>
+        <ul class="suivi-distance-meta" aria-label="Engagements clés">
+          <li><span class="dot" aria-hidden="true"></span>Plan 100 % personnalisé</li>
+          <li><span class="dot" aria-hidden="true"></span>Suivi hebdomadaire</li>
+          <li><span class="dot" aria-hidden="true"></span>Sans engagement</li>
+        </ul>
+      </header>
 
     <!-- Services Cards -->
     <div class="suivi-cards-grid">
