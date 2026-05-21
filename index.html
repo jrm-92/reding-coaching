@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
-  <title>Coaching Sportif - Reding Running</title>
+  <title>Coach Running Certifié FFA – Reding Running | Île-de-France</title>
+  <meta name="description" content="Coach running certifié FFA basé en Île-de-France. Suivi personnalisé à distance ou en présentiel (30 min de La Défense). Plan d'entraînement individualisé, technique de course, préparation compétition." />
+  <meta name="keywords" content="coach running, coaching course à pied, entraîneur running Île-de-France, plan entraînement running, coach FFA, suivi personnalisé running" />
+  <meta name="author" content="Jérémy Reding" />
+  <link rel="canonical" href="https://redingrunnning.fr/" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Coach Running Certifié FFA – Reding Running" />
+  <meta property="og:description" content="Suivi personnalisé à distance ou en présentiel. Plan d'entraînement individualisé, technique de course, préparation compétition." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -264,7 +273,7 @@
       align-items: center;
       position: relative;
       background: linear-gradient(160deg, #06090F 0%, #0B1526 35%, #0E1E38 65%, #0D2845 100%);
-      padding: 120px 60px 80px;
+      padding: 110px 40px 70px;
       overflow: hidden;
     }
 
@@ -294,12 +303,12 @@
     }
 
     .hero-grid {
-      max-width: 1380px;
+      max-width: 1480px;
       width: 100%;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 60px;
+      grid-template-columns: 1.2fr 0.9fr;
+      gap: 48px;
       align-items: center;
       position: relative;
       z-index: 1;
@@ -308,7 +317,7 @@
     .hero-left {
       display: flex;
       flex-direction: column;
-      padding-top: 60px;
+      padding-top: 40px;
     }
 
     .hero-eyebrow {
@@ -340,7 +349,7 @@
     }
 
     .hero-main-title {
-      font-size: clamp(40px, 4.8vw, 62px);
+      font-size: clamp(44px, 5.5vw, 72px);
       font-weight: 900;
       font-style: italic;
       text-transform: uppercase;
@@ -353,6 +362,11 @@
 
     .hero-main-title .line-orange {
       color: #FF6B35;
+      display: block;
+    }
+
+    .hero-main-title .line-white {
+      color: #ffffff;
       display: block;
     }
 
@@ -372,18 +386,74 @@
     }
 
     .hero-body-text {
-      font-size: 21px;
-      color: rgba(255, 255, 255, 0.75);
+      font-size: clamp(16px, 1.7vw, 19px);
+      color: rgba(255, 255, 255, 0.78);
       line-height: 1.8;
-      margin-bottom: 40px;
-      max-width: 780px;
+      margin-bottom: 16px;
+      max-width: 600px;
       animation: fadeInUp 0.7s 0.3s ease both;
+    }
+
+    .hero-subtitle-line {
+      color: #FF6B35;
+      font-size: clamp(14px, 1.4vw, 18px);
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      margin-bottom: 18px;
+      max-width: 600px;
+      text-transform: uppercase;
+      animation: fadeInUp 0.7s 0.25s ease both;
+    }
+
+    .hero-en-savoir-plus {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      position: relative;
+      width: fit-content;
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 13px;
+      font-weight: 500;
+      font-style: normal;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding-bottom: 2px;
+      margin-top: 8px;
+      white-space: nowrap;
+      transition: color 0.25s;
+    }
+    .hero-en-savoir-plus::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: #FF6B35;
+      transition: width 0.3s ease;
+    }
+    .hero-en-savoir-plus:hover {
+      color: #FF6B35;
+    }
+    .hero-en-savoir-plus:hover::after {
+      width: 100%;
+    }
+    .hero-en-savoir-plus .esm-arrow {
+      display: inline-block;
+      transition: transform 0.25s ease;
+      font-style: normal;
+    }
+    .hero-en-savoir-plus:hover .esm-arrow {
+      transform: translateX(4px);
     }
 
     .hero-cta-group {
       display: flex;
-      gap: 14px;
+      align-items: center;
+      gap: 16px;
       flex-wrap: wrap;
+      margin-top: 32px;
       margin-bottom: 52px;
       animation: fadeInUp 0.7s 0.4s ease both;
     }
@@ -394,11 +464,11 @@
       gap: 8px;
       background: #FF6B35;
       color: #ffffff;
-      padding: 17px 38px;
+      padding: 18px 42px;
       border-radius: 50px;
       text-decoration: none;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 16px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       transition: all 0.3s ease;
@@ -525,8 +595,8 @@
 
     .hero-img-wrap img {
       width: 100%;
-      max-width: 440px;
-      height: 600px;
+      max-width: 500px;
+      height: 660px;
       object-fit: cover;
       object-position: center top;
       border-radius: 28px;
@@ -571,27 +641,49 @@
 
     /* Hero responsive */
     @media (max-width: 1100px) {
-      .hero-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-      .hero-img-wrap img { height: 500px; max-width: 360px; }
+      .hero-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+      .hero-img-wrap img { height: 540px; max-width: 400px; }
     }
 
     @media (max-width: 768px) {
       .hero-section { padding: 100px 25px 60px; }
-      .hero-grid { grid-template-columns: 1fr; gap: 36px; }
-      .hero-img-col { order: -1; }
+      .hero-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+        align-items: stretch;
+      }
+      .hero-left { display: contents; }
+      .hero-main-title { order: 1; margin-bottom: 0; }
+      .hero-img-col { order: 2; }
+      .hero-accent-line { order: 3; margin-bottom: 0; margin-top: 8px; }
+      .hero-subtitle-line { order: 3; margin-top: 10px; }
+      .hero-body-text { order: 4; }
+      .hero-en-savoir-plus { order: 4; align-self: flex-start; margin-left: 0; }
+      .hero-cta-group { order: 5; }
       .hero-img-wrap img { height: 340px; max-width: 100%; object-position: center 10%; }
       .hero-main-title { font-size: clamp(34px, 8vw, 52px); }
-      .hero-body-text { font-size: 18px; }
-      .hero-cta-group { margin-bottom: 36px; }
+      .hero-body-text { font-size: 17px; max-width: 100%; line-height: 1.65; margin-bottom: 8px; }
+      .hero-en-savoir-plus { margin-top: 2px; }
+      .hero-subtitle-line { font-size: 13px; }
+      .hero-cta-group { margin-bottom: 36px; gap: 12px; }
+      .hero-btn-primary { padding: 16px 32px; font-size: 15px; }
+      .hero-btn-secondary { padding: 15px 28px; font-size: 15px; }
       .hero-badges { gap: 8px; }
       .hero-badge { padding: 10px 12px; min-width: 68px; }
+      .hero-img-badge { padding: 8px 12px; gap: 7px; border-radius: 10px; bottom: 14px; left: 14px; right: 14px; }
+      .hero-img-badge-text { font-size: 9px; letter-spacing: 1.4px; }
+      .hero-img-badge-dot { width: 6px; height: 6px; }
     }
 
     @media (max-width: 480px) {
       .hero-section { padding: 90px 18px 50px; }
       .hero-main-title { font-size: clamp(28px, 10vw, 42px); }
-      .hero-cta-group { flex-direction: column; }
-      .hero-btn-primary, .hero-btn-secondary { justify-content: center; text-align: center; }
+      .hero-body-text { font-size: 15px; line-height: 1.6; margin-bottom: 6px; }
+      .hero-subtitle-line { font-size: 12px; }
+      .hero-cta-group { flex-direction: column; gap: 10px; }
+      .hero-btn-primary { width: 100%; justify-content: center; text-align: center; padding: 17px 24px; font-size: 15px; }
+      .hero-btn-secondary { width: 100%; justify-content: center; text-align: center; padding: 15px 24px; font-size: 14px; }
       .hero-img-wrap img { height: 280px; }
     }
 
@@ -1000,8 +1092,12 @@
     gap: 40px;
   }
 
+  .about-content {
+    order: 1;
+  }
+
   .apropos-image-wrapper {
-    order: -1;
+    order: 2;
     margin-top: 0;
   }
 
@@ -1198,6 +1294,16 @@
       display: none;
     }
 
+    .about-section .hero-title-section::after,
+    .apropos-section .hero-title-section::after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #FF6B35, transparent);
+      margin: 12px auto 0;
+    }
+
     @keyframes float {
       0%, 100% { transform: translateY(0px) scale(1); }
       50% { transform: translateY(-20px) scale(1.05); }
@@ -1254,6 +1360,225 @@
     .promo-banner,
     .services-grid {
       grid-column: 1 / -1;
+    }
+
+    /* ===== ÉTAPES — CARD "PARCOURS D'ACCOMPAGNEMENT" ===== */
+    .steps-list {
+      list-style: none;
+      margin: 0;
+      counter-reset: step;
+    }
+
+    .step-item {
+      display: block !important;
+      align-items: unset !important;
+      gap: unset !important;
+      text-align: left;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .step-item--last {
+      border-bottom: none;
+      padding-bottom: 18px;
+    }
+
+    .step-item::before {
+      display: none !important;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 10px;
+    }
+
+    .step-number {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 46px;
+      height: 46px;
+      padding: 0 10px;
+      background: rgba(255, 107, 53, 0.12);
+      border: 1px solid rgba(255, 107, 53, 0.4);
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 900;
+      font-style: italic;
+      color: #FF6B35;
+      letter-spacing: 0.5px;
+      line-height: 1;
+    }
+
+    .step-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      line-height: 1.3;
+    }
+
+    .step-text {
+      margin: 0;
+      padding-left: 64px;
+      font-size: 14.5px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    @media (max-width: 600px) {
+      .step-item {
+        padding: 18px 0;
+      }
+      .step-header {
+        gap: 14px;
+        margin-bottom: 8px;
+      }
+      .step-number {
+        min-width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+      .step-title {
+        font-size: 13.5px;
+        letter-spacing: 1px;
+      }
+      .step-text {
+        padding-left: 54px;
+        font-size: 13.5px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .step-text {
+        padding-left: 0;
+      }
+    }
+
+    /* ===== SUIVI PERSONNALISÉ — GRILLE RESPONSIVE ===== */
+    .suivi-cards-grid {
+      max-width: 1800px;
+      margin: 120px auto 0;
+      padding: 0 30px;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 40px;
+      align-items: stretch;
+    }
+
+    /* Tablettes : on passe en colonne unique pour éviter l'écrasement */
+    @media (max-width: 1024px) {
+      .suivi-cards-grid {
+        grid-template-columns: 1fr;
+        margin-top: 60px;
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .suivi-cards-grid {
+        padding: 0 20px;
+        margin-top: 50px;
+        gap: 24px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .suivi-cards-grid {
+        padding: 0 15px;
+        margin-top: 40px;
+        gap: 20px;
+      }
+    }
+
+    /* Réajustements des éléments internes des cards (titres, prix, blocs imbriqués) */
+    @media (max-width: 768px) {
+      #suivi-personnalise .service-card h3 {
+        white-space: normal !important;
+        font-size: 22px !important;
+        padding: 24px 20px 0 !important;
+        line-height: 1.25 !important;
+      }
+
+      #suivi-personnalise .service-card .price-badge {
+        font-size: 18px !important;
+        padding: 12px 24px !important;
+        white-space: normal !important;
+        text-align: center !important;
+      }
+
+      #suivi-personnalise .service-features {
+        padding: 20px 20px 24px !important;
+      }
+
+      #suivi-personnalise .service-features li {
+        font-size: 14px !important;
+        gap: 10px !important;
+        padding: 8px 0 !important;
+      }
+
+      #suivi-personnalise .service-features li.has-icon svg {
+        width: 20px !important;
+        height: 20px !important;
+      }
+
+      /* Bloc "Option : Ajouter des séances terrains" — empile prix + bullets */
+      #suivi-personnalise .service-card.distance > div[style*="border-top"] {
+        padding: 16px 14px !important;
+      }
+
+      #suivi-personnalise .service-card.distance > div[style*="border-top"] h4 {
+        font-size: 16px !important;
+      }
+
+      #suivi-personnalise .service-card.distance > div[style*="border-top"] p {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+      }
+
+      #suivi-personnalise .service-card.distance > div[style*="border-top"] > div[style*="flex-wrap"] {
+        flex-direction: column !important;
+        gap: 14px !important;
+        align-items: stretch !important;
+      }
+
+      #suivi-personnalise .service-card.distance > div[style*="border-top"] > div[style*="flex-wrap"] > .price-badge {
+        align-self: center !important;
+        padding: 10px 20px !important;
+      }
+
+      #suivi-personnalise .service-card.distance > div[style*="border-top"] > div[style*="flex-wrap"] ul li {
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #suivi-personnalise .service-card h3 {
+        font-size: 20px !important;
+        padding: 22px 16px 0 !important;
+      }
+
+      #suivi-personnalise .service-card .price-badge {
+        font-size: 17px !important;
+      }
+
+      #suivi-personnalise .service-features {
+        padding: 18px 16px 22px !important;
+      }
+
+      #suivi-personnalise .service-features li {
+        font-size: 13px !important;
+      }
     }
 
     .promo-banner-content {
@@ -1373,6 +1698,15 @@
       letter-spacing: -0.02em;
     }
 
+    .solo-duo-content h2::after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #FF6B35, transparent);
+      margin: 12px auto 0;
+    }
+
     .solo-duo-content > p {
       font-size: clamp(18px, 1.8vw, 22px);
       line-height: 1.7;
@@ -1382,10 +1716,345 @@
       margin-right: auto;
     }
 
-    /* Responsive solo-duo section */
+    /* ===== SÉANCES TERRAINS — STRUCTURE RESPONSIVE ===== */
+    .seances-layout {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .seances-text-col {
+      flex: 1 1 360px;
+      min-width: 0;
+      max-width: 480px;
+      text-align: left;
+    }
+
+    .seances-intro {
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.75);
+      margin: 0 0 18px 0;
+      font-size: 15px;
+      font-style: italic;
+    }
+
+    .seances-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .seances-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .seances-list li:last-child {
+      border-bottom: none;
+    }
+
+    .seances-arrow {
+      color: #FF6B35;
+      font-weight: 900;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .seances-cards-col {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 60px;
+    }
+
+    .seances-price-card {
+      border-radius: 20px;
+      padding: 0;
+      text-align: left;
+      min-width: 220px;
+      flex: 0 1 260px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+    }
+
+    .seances-price-card--individuel {
+      background: rgba(255, 107, 53, 0.15);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .seances-price-card--individuel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #FF6B35, #ff8856);
+    }
+
+    .seances-price-card--groupe {
+      background: rgba(18, 130, 162, 0.18);
+      border: 1px solid rgba(18, 130, 162, 0.35);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .seances-price-card--groupe::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #4AB8D8, #0091B8);
+    }
+
+    .seances-price-card h3 {
+      font-size: 20px;
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 0;
+      padding: 28px 26px 0;
+    }
+
+    .seances-price-card--individuel h3 { color: #FF6B35; }
+    .seances-price-card--groupe h3 { color: #ffffff; text-shadow: 0 0 30px rgba(74,184,216,0.25); }
+
+    .seances-price-badge {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 50px;
+      padding: 12px 28px;
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.3;
+      white-space: nowrap;
+      margin: 16px 26px 0;
+    }
+
+    .seances-price-card--individuel .seances-price-badge {
+      background: linear-gradient(135deg, #FF6B35, #ff8856);
+      color: #ffffff;
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    }
+
+    .seances-price-card--groupe .seances-price-badge {
+      background: linear-gradient(135deg, #1282A2, #0091B8);
+      color: #ffffff;
+      box-shadow: 0 6px 20px rgba(18, 130, 162, 0.4);
+    }
+
+    .seances-price-badge-sub {
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0.9;
+      letter-spacing: 0.5px;
+    }
+
+    .seances-features {
+      list-style: none;
+      margin: 16px 0 0;
+      padding: 0 26px 20px;
+    }
+
+    .seances-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 13.5px;
+      font-weight: 500;
+      line-height: 1.4;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.82);
+    }
+
+    .seances-features li:last-child { border-bottom: none; }
+
+    .seances-features li svg {
+      flex-shrink: 0;
+    }
+
+    .seances-price-card--individuel .seances-features li svg { color: #FF6B35; }
+    .seances-price-card--groupe .seances-features li svg { color: #4AB8D8; }
+
+    .seances-card-cta {
+      display: block;
+      margin: 0 26px 26px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 13px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .seances-price-card--individuel .seances-card-cta {
+      background: #FF6B35;
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.35);
+    }
+    .seances-price-card--individuel .seances-card-cta:hover {
+      background: #ff7a47;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.5);
+    }
+
+    .seances-price-card--groupe .seances-card-cta {
+      background: transparent;
+      color: #4AB8D8;
+      border: 1.5px solid rgba(74, 184, 216, 0.5);
+    }
+    .seances-price-card--groupe .seances-card-cta:hover {
+      background: rgba(74, 184, 216, 0.15);
+      border-color: #4AB8D8;
+      transform: translateY(-2px);
+    }
+
+    .seances-price-label { display: none; }
+    .seances-price-value { display: none; }
+    .seances-price-value--devis { display: none; }
+    .seances-price-unit { display: none; }
+    .seances-price-cta { display: none; }
+
+    .seances-map-wrap {
+      margin-top: 48px;
+      width: 100%;
+    }
+
+    .seances-map-label {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.65);
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .seances-map-label span {
+      color: #FF6B35;
+      font-weight: 900;
+      margin-right: 2px;
+    }
+
+    .seances-map-label strong {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    #seances-map {
+      width: 100%;
+      height: 380px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 107, 53, 0.25);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .location-hover-trigger {
+      position: relative;
+      display: inline-block;
+      cursor: default;
+    }
+
+    .location-map-tooltip {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      width: 300px;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 107, 53, 0.35);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 9999;
+    }
+
+    .location-map-tooltip.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    #location-mini-map {
+      width: 300px;
+      height: 200px;
+      display: block;
+    }
+
+    .seances-footnote-link {
+      color: #FF6B35;
+      font-weight: 900;
+      font-size: 13px;
+      text-decoration: none;
+      vertical-align: super;
+      line-height: 0;
+      transition: color 0.2s;
+    }
+    .seances-footnote-link:hover { color: #ff8856; }
+
+    .seances-cities-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .seances-cities-grid span {
+      background: rgba(255, 231, 102, 0.12);
+      border: 1px solid rgba(255, 231, 102, 0.25);
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* Responsive Séances terrains */
     @media (max-width: 992px) {
       .solo-duo-section {
         padding: 80px 30px;
+      }
+      .seances-layout {
+        gap: 40px;
+      }
+      .seances-cards-col {
+        margin-bottom: 20px;
+        align-self: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .seances-layout {
+        gap: 32px;
+      }
+      .seances-text-col {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+      .seances-cards-col {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0;
+      }
+      .seances-price-card {
+        flex: 1 1 240px;
+        max-width: 300px;
       }
     }
 
@@ -1393,108 +2062,48 @@
       .solo-duo-section {
         padding: 60px 20px;
       }
-
       .solo-duo-content h2 {
         font-size: 28px;
       }
-
       .solo-duo-content > p {
         font-size: 16px;
       }
-      
-      /* Liste à puces */
-      .solo-duo-content > p[style*="text-align: left"] {
-        font-size: 14px !important;
-        padding: 0 5px !important;
-        line-height: 1.8 !important;
+      .seances-intro {
+        font-size: 14px;
       }
-      
-      /* Grille de tarifs Solo/Duo/Trio */
-      .solo-duo-content > div[style*="display: grid"] {
-        grid-template-columns: 1fr !important;
-        gap: 18px !important;
-        margin-top: 35px !important;
+      .seances-list li {
+        font-size: 14px;
+        line-height: 1.55;
+        gap: 10px;
       }
-      
-      /* Cards Solo/Duo/Trio */
-      .solo-duo-content > div > div[style*="border-radius: 20px"] {
-        padding: 24px 20px !important;
-        border-radius: 16px !important;
+      .seances-cards-col {
+        gap: 16px;
       }
-      
-      /* Titres des cards */
-      .solo-duo-content > div > div > div[style*="text-transform: uppercase"] {
-        font-size: 24px !important;
-        margin-bottom: 6px !important;
+      .seances-price-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+        border-radius: 16px;
       }
-      
-      /* Espaceur sous titre */
-      .solo-duo-content > div > div > div[style*="height: 28px"] {
-        height: 18px !important;
-        margin-bottom: 18px !important;
+      .seances-location-wrap {
+        margin-top: 28px;
+        margin-bottom: 16px;
       }
-      
-      /* Prix */
-      .solo-duo-content div[style*="font-size: 42px"] {
-        font-size: 32px !important;
+      .seances-location-box {
+        padding: 14px 20px;
       }
-      
-      .solo-duo-content div[style*="font-size: 36px"] {
-        font-size: 28px !important;
-      }
-      
-      .solo-duo-content div[style*="font-size: 15px"] {
-        font-size: 13px !important;
-      }
-      
-      .solo-duo-content div[style*="font-size: 13px"] {
-        font-size: 12px !important;
-      }
-      
-      /* Boutons Groupe */
-      .solo-duo-content a[style*="padding: 14px 24px"] {
-        padding: 12px 20px !important;
-        font-size: 13px !important;
-      }
-      
-      /* Bandeau localisation */
-      .solo-duo-content > div[style*="margin-top: 40px"] {
-        margin-top: 30px !important;
-        margin-bottom: 20px !important;
-      }
-      
-      .solo-duo-content > div > div[style*="display: inline-block"] {
-        padding: 12px 18px !important;
-      }
-      
-      .solo-duo-content > div > div p[style*="font-size: 15px"] {
-        font-size: 13px !important;
-        white-space: normal !important;
-        line-height: 1.5 !important;
+      .seances-location-text {
+        font-size: 13.5px;
+        line-height: 1.55;
       }
     }
-    
-    /* 2 colonnes pour écrans moyens (500-768px) */
-    @media (min-width: 500px) and (max-width: 768px) {
-      .solo-duo-content > div[style*="display: grid"] {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 20px !important;
+
+    /* Forcer 2 cards côte à côte sur petits paysages mais 1 sur très petits */
+    @media (min-width: 480px) and (max-width: 768px) {
+      .seances-cards-col {
+        flex-direction: row;
       }
-      
-      .solo-duo-content > div > div[style*="border-radius: 20px"] {
-        padding: 28px 22px !important;
-      }
-      
-      .solo-duo-content > div > div > div[style*="text-transform: uppercase"] {
-        font-size: 22px !important;
-      }
-      
-      .solo-duo-content div[style*="font-size: 42px"] {
-        font-size: 30px !important;
-      }
-      
-      .solo-duo-content div[style*="font-size: 36px"] {
-        font-size: 26px !important;
+      .seances-price-card {
+        flex: 1 1 240px;
       }
     }
 
@@ -1562,7 +2171,6 @@
       background: #ffffff;
       padding: 0;
       border-radius: 20px;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       border: none;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
       overflow: hidden;
@@ -1572,11 +2180,17 @@
     }
 
     .service-card.distance {
-      background: #accdf7;
+      background: rgba(18, 130, 162, 0.18);
+      border: 1px solid rgba(18, 130, 162, 0.35);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(6px);
     }
 
     .seréel {
-      background: #FFD9C7;
+      background: rgba(255, 107, 53, 0.15);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(6px);
     }
 
     .service-card::before {
@@ -1587,23 +2201,14 @@
       right: 0;
       height: 6px;
       background: linear-gradient(90deg, #1282A2, #0091B8);
-      transition: height 0.4s ease;
     }
 
     .service-card.distance::before {
-      background: linear-gradient(90deg, #0A1128, #1282A2, #0091B8);
+      background: linear-gradient(90deg, #4AB8D8, #0091B8);
     }
 
     .seréel::before {
       background: linear-gradient(90deg, #FF6B35, #ff8856);
-    }
-
-    .service-card:hover::before {
-      height: 12px;
-    }
-
-    .service-card:hover {
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.18);
     }
 
     .price-badge {
@@ -1628,7 +2233,8 @@
     }
 
     .service-card.distance h3 {
-      color: #1282A2;
+      color: #ffffff;
+      text-shadow: 0 0 30px rgba(74, 184, 216, 0.25);
     }
 
     .seréel h3 {
@@ -1700,8 +2306,25 @@
       color: #1282A2;
     }
 
+    .service-card.distance .service-features li.has-icon::before {
+      display: none;
+    }
+
+    .service-card.distance .service-features li {
+      color: rgba(255, 255, 255, 0.88);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .service-card.distance .service-features li:last-child {
+      border-bottom: none;
+    }
+
+    .service-card.distance .service-features li.has-icon svg {
+      color: #4AB8D8;
+    }
+
     .service-card.distance .service-features li strong {
-      color: #003366;
+      color: #ffffff;
     }
 
     .seréel .service-features li::before {
@@ -1709,7 +2332,7 @@
     }
 
     .seréel .service-features li strong {
-      color: #C24914;
+      color: #FF8C60;
     }
 
     /* ===== FAQ SECTION ===== */
@@ -2566,6 +3189,8 @@
         gap: 15px;
         position: static;
         transform: none;
+        margin-left: 0;
+        width: 100%;
       }
 
       nav.main-nav a {
@@ -2621,6 +3246,15 @@
       text-align: center;
     }
 
+    .form-section .section-title::after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #FF6B35, transparent);
+      margin: 12px auto 0;
+    }
+
     @media (max-width: 768px) {
       .form-section {
         padding: 60px 20px;
@@ -2659,6 +3293,25 @@
 
     .footer-links a:hover {
       color: #FFE766;
+    }
+
+    .footer-brand {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .footer-logo-text {
+      font-size: 18px;
+      font-weight: 900;
+      font-style: italic;
+      color: #ffffff;
+      letter-spacing: 1px;
+    }
+
+    .footer-tagline {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      margin: 4px 0 0;
     }
 
     .footer-copyright {
@@ -2740,7 +3393,239 @@
     .form-checkbox-group label a:hover {
       color: #ffd700;
     }
+
+    /* =====================================================
+       AMÉLIORATIONS RESPONSIVES GLOBALES
+       — applique des règles génériques sur tous les écrans
+       ===================================================== */
+
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    img, video, iframe {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Évite que les longs mots/URLs cassent le layout */
+    p, li, h1, h2, h3, h4, span, a {
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+
+    /* Tablette (≤992px) — resserrement des paddings de section */
+    @media (max-width: 992px) {
+      .hero-section,
+      .apropos-section,
+      .about-section,
+      .solo-duo-section,
+      .faq-section,
+      .form-section,
+      .contact-section {
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+
+      .site-header {
+        padding: 0 30px;
+      }
+    }
+
+    /* Mobile (≤640px) — paddings et tailles globales */
+    @media (max-width: 640px) {
+      .hero-section { padding: 100px 20px 50px; }
+      .apropos-section,
+      .about-section,
+      .solo-duo-section { padding: 60px 18px; }
+      .faq-section { padding: 60px 18px; }
+      .form-section { padding: 50px 18px; }
+      .contact-section { padding: 60px 18px; }
+      .site-header { padding: 0 18px; }
+      .site-footer { padding: 30px 18px 20px; }
+
+      .section-title { font-size: clamp(26px, 7vw, 36px) !important; }
+      .section-subtitle { font-size: 15px; }
+
+      .faq-category-title { font-size: 17px; letter-spacing: 1px; }
+      .faq-question { font-size: 15px; padding: 16px 18px; }
+      .faq-answer { padding: 0 18px; }
+      .faq-item.active .faq-answer { padding: 16px 18px 18px; }
+      .faq-answer p { font-size: 14px; line-height: 1.7; }
+
+      .hero-form { padding: 22px 18px; border-radius: 16px; }
+      .hero-form h3 { font-size: 18px; letter-spacing: 1px; margin-bottom: 18px; }
+      .form-group input,
+      .form-group textarea,
+      .form-group select { padding: 12px; font-size: 14px; }
+      .form-group label { font-size: 11px; }
+      .form-submit-btn { padding: 14px 22px; font-size: 13px; letter-spacing: 1.2px; }
+    }
+
+    /* Titres de section (h1.hero-title inline) — empêche overflow sur petits écrans */
+    @media (max-width: 480px) {
+      .apropos-section .hero-title,
+      .about-section .hero-title {
+        white-space: normal !important;
+        font-size: clamp(24px, 7vw, 36px) !important;
+      }
+    }
+
+    /* Très petits écrans (≤380px) — derniers ajustements */
+    @media (max-width: 380px) {
+      .hero-section { padding: 90px 14px 40px; }
+      .apropos-section,
+      .about-section,
+      .solo-duo-section,
+      .faq-section,
+      .form-section,
+      .contact-section { padding-left: 14px; padding-right: 14px; }
+
+      .section-title { font-size: 24px !important; }
+      .hero-main-title { font-size: clamp(26px, 11vw, 38px) !important; }
+
+      .hero-btn-primary { padding: 15px 20px; font-size: 14px; width: 100%; justify-content: center; }
+      .hero-btn-secondary { padding: 13px 20px; font-size: 13px; width: 100%; justify-content: center; }
+      .hero-cta-group { flex-direction: column; width: 100%; gap: 9px; }
+      .hero-body-text { font-size: 14px; line-height: 1.55; margin-bottom: 5px; }
+    }
+
+    /* Header mobile — burger plus accessible et menu plus propre */
+    @media (max-width: 768px) {
+      .site-header {
+        height: 72px;
+      }
+      .logo-img {
+        height: 44px;
+      }
+      .mobile-menu-toggle {
+        padding: 8px;
+      }
+      nav.main-nav {
+        top: 72px;
+        padding: 24px 22px;
+        gap: 4px;
+      }
+      nav.main-nav a {
+        width: 100%;
+        text-align: left;
+        font-size: 15px;
+        padding: 14px 4px;
+        color: #1a1a1a;
+      }
+      nav.main-nav .nav-cta {
+        margin-top: 8px;
+        text-align: center !important;
+      }
+    }
+
+    /* Cibles tactiles confortables (44px min) sur écrans tactiles */
+    @media (hover: none) and (pointer: coarse) {
+      nav.main-nav a,
+      .footer-links a,
+      .contact-item a,
+      .faq-question {
+        min-height: 44px;
+      }
+    }
+    /* ===== ANIMATIONS SCROLL ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+
+    /* ===== STICKY CTA MOBILE ===== */
+    .sticky-cta-mobile {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .sticky-cta-mobile {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9998;
+        padding: 12px 16px;
+        background: rgba(6, 9, 15, 0.92);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(255, 107, 53, 0.3);
+      }
+
+      .sticky-cta-mobile a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background: #FF6B35;
+        color: #ffffff;
+        padding: 14px 20px;
+        border-radius: 30px;
+        font-weight: 700;
+        font-size: 15px;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 20px rgba(255, 107, 53, 0.45);
+        transition: background 0.2s;
+      }
+
+      .sticky-cta-mobile a:hover {
+        background: #ff7a47;
+      }
+    }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+
+  <!-- Schema.org : Coach Sportif -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SportsOrganization",
+    "name": "Reding Running",
+    "description": "Coach running certifié FFA en Île-de-France. Suivi personnalisé à distance ou en présentiel, plan d'entraînement individualisé.",
+    "url": "https://reding-runnning.fr",
+    "founder": {
+      "@type": "Person",
+      "name": "Jérémy Reding",
+      "jobTitle": "Coach Running Certifié FFA",
+      "email": "jeremy.reding@outlook.fr",
+      "sameAs": "https://www.athle.fr/athletes/861859"
+    },
+    "areaServed": {
+      "@type": "AdministrativeArea",
+      "name": "Île-de-France"
+    },
+    "serviceType": ["Coaching running", "Suivi personnalisé", "Plan d'entraînement"],
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Suivi à distance",
+        "price": "70",
+        "priceCurrency": "EUR",
+        "description": "Suivi personnalisé à distance via Nolio, sans engagement"
+      },
+      {
+        "@type": "Offer",
+        "name": "Séance individuelle terrain",
+        "price": "50",
+        "priceCurrency": "EUR",
+        "description": "Coaching en présentiel, 1h minimum"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -2756,8 +3641,8 @@
         <a href="#apropos">À propos</a>
       </div>
       <div class="nav-center">
-        <a href="#suivi-personnalise">Suivi personnalisé</a>
-        <a href="#solo-duo-trio">Séances terrains</a>
+        <a href="#suivi-personnalise">Suivi à distance</a>
+        <a href="#solo-duo-trio">Séances terrain</a>
       </div>
       <div class="nav-right">
         <a href="#contact">Contact</a>
@@ -2780,22 +3665,29 @@
       <!-- GAUCHE : Texte -->
       <div class="hero-left">
         <h1 class="hero-main-title">
-          <span class="line-orange">Progresse durablement.</span>
-          <span>Prends du plaisir.</span>
-          <span class="line-outline">Cours plus vite.</span>
+          <span class="line-orange">Courir vite</span>
+          <span class="line-white">Courir longtemps</span>
+          <span class="line-outline">Courir avec plaisir</span>
         </h1>
 
         <div class="hero-accent-line"></div>
 
+        <p class="hero-subtitle-line">La progression n'est jamais un hasard.</p>
+
         <p class="hero-body-text">
-          <strong style="color:#ffffff;">Chaque projet est unique,</strong> l’accompagnement doit l’être tout autant.<br><span style="display:block; margin-top:10px;"></span>
-          Je te propose un <strong style="color:#ffffff;">suivi personnalisé</strong> qui permet de trouver l’équilibre entre <strong style="color:#ffffff;">performance</strong>, <strong style="color:#ffffff;">préservation des blessures</strong> et <strong style="color:#ffffff;">plaisir de courir</strong>.<br><span style="display:block; margin-top:10px;"></span>
-          En plus des séances de courses, tu bénéficieras de <strong style="color:#ffffff;">séances de renforcement musculaire</strong> et de <strong style="color:#ffffff;">travail technique</strong>.<br>
-          <a href="#suivi-personnalise" style="display:inline-block; margin-top:8px; font-size:13px; color:#FF6B35; text-decoration:none; opacity:0.85; letter-spacing:0.5px;">→ En savoir plus</a>
+          Progresser, c'est trouver le bon équilibre entre:<br> <strong style="color:#ffffff;">La performance</strong>, <strong style="color:#ffffff;">la santé</strong> et <strong style="color:#ffffff;"> le plaisir de courir</strong>.
         </p>
 
+        <p class="hero-body-text">
+          Grâce à un suivi personnalisé et une approche structurée, je t'accompagne vers tes objectifs pour construire une <strong style="color:#ffffff;">progression durable</strong>, adaptée à ton profil et à ton quotidien.
+        </p>
+
+        <a href="#suivi-personnalise" class="hero-en-savoir-plus">En savoir plus <span class="esm-arrow">→</span></a>
+
+
+
         <div class="hero-cta-group">
-          <a href="#contactForm" class="hero-btn-primary">Commencer →</a>
+          <a href="#contactForm" class="hero-btn-primary">Me contacter →</a>
         </div>
 
       </div>
@@ -2859,7 +3751,7 @@
         </div>
                 <div style="max-width: 1200px; margin: 80px auto 0; padding: 0 20px; text-align: center;">
           <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
-            <strong style="color: rgba(255, 255, 255, 0.95);">Passionné par l’athlétisme, je pratique ce sport depuis 2008</strong>, j’ai d’abord commencé par le sprint sur 200 et 400m, puis maintenant <strong style="color: rgba(255, 255, 255, 0.95);">les épreuves d’endurance</strong>, désormais mon objectif principal.
+            <strong style="color: rgba(255, 255, 255, 0.95);">Passionné par l’athlétisme, je pratique ce sport depuis 2008</strong>, l'année de ma première licence. J’ai d’abord commencé par le sprint sur 200 et 400m, puis maintenant <strong style="color: rgba(255, 255, 255, 0.95);">les épreuves d’endurance</strong>, désormais mon objectif principal.
           </p>
           <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
             Par l’intermédiaire de la Fédération Française d’Athlétisme, <strong style="color: rgba(255, 255, 255, 0.95);">j’ai obtenu une certification qui me permet d’accompagner les coureurs dans leur préparation</strong> avec une approche structurée, adaptée à leur rythme et à leurs besoins.
@@ -2882,52 +3774,96 @@
         <div class="hero-middle">
         <div class="hero-title-section" style="margin-bottom: 0px; margin-top: 0px; text-align: center;">
           <h1 class="hero-title" style="font-size: clamp(32px, 4vw, 48px); font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.02em; color: #FF6B35; margin: 0 0 30px 0; line-height: 1.2; white-space: nowrap;">
-            Suivi personnalisé 
+            Suivi à distance 
           </h1>
         </div>
         
-        <!-- Texte explicatif Suivi personnalisé -->
-        <div style="max-width: 1600px; margin: 80px auto 0; padding: 0 20px; text-align: center;">
-          <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
-            L'accompagnement à distance s'adresse à <strong style="color: rgba(255, 255, 255, 0.95);">toutes les personnes disposant d'une montre cardio GPS</strong>.<br>Tu reçois <strong style="color: rgba(255, 255, 255, 0.95);">un plan d'entraînement personnalisé</strong> via <a href="https://help.nolio.io/fr/articles/11623193-premier-jour-avec-nolio-en-tant-que-sportif" target="_blank" style="color: rgba(255, 255, 255, 0.95); text-decoration: underline; font-weight: 700;">Nolio</a> <em>(plateforme de suivi sportif)</em>, <strong style="color: rgba(255, 255, 255, 0.95);">tes séances sont synchronisées automatiquement sur ta montre</strong>, tu n'a plus qu'à te laisser guider.
-          </p>
-          <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
-            L'avantage du suivi personnalisé : <strong style="color: rgba(255, 255, 255, 0.95);">ton plan est conçu sur mesure en fonction de tes besoins, tes contraintes et tes objectifs</strong>. Tu bénéficies également <strong style="color: rgba(255, 255, 255, 0.95);">d'un accompagnement permanent pour échanger sur tes séances</strong>, ton ressenti ou toute autre question.
-          </p>
-          <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.95); margin-bottom: 20px;">
-            Pour aller plus loin dans ta progression, tu as également la possibilité de <strong style="color: rgba(255, 255, 255, 0.95);">programmer des séances terrains</strong>.<br> <span style="font-size: 14px; font-style: italic;">(📍 Lieu d'entraînement : À maximum 30 min de <a href="https://www.google.com/maps/dir/La+D%C3%A9fense//@48.9043275,2.2511616,14z/data=!4m9!4m8!1m5!1m1!1s0x47e66503bb403457:0xda098f7887a51000!2m2!1d2.238767!2d48.891759!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color: rgba(255, 255, 255, 0.95); text-decoration: underline; font-weight: 700;">La Défense</a> en transport en commun ou 2 roues)</span>
-          </p>
-        </div>
       </div>
     </div>
 
     <!-- Services Cards -->
-    <div style="max-width: 1800px; margin: 120px auto 0; padding: 0 30px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 40px; align-items: stretch;">
+    <div class="suivi-cards-grid">
       <!-- Service 1: Suivi à distance -->
       <div class="service-card distance">
-        <h3 style="white-space: nowrap; margin: 0; padding: 30px 30px 0;">Accompagnement à distance</h3>
+        <h3 style="white-space: nowrap; margin: 0; padding: 30px 30px 0; text-align: center;">Suivi à distance</h3>
         <div style="display: flex; align-items: center; justify-content: center; padding: 20px 30px 0;">
           <span class="price-badge" style="display: inline-flex; flex-direction: column; align-items: center; background: linear-gradient(135deg, #1282A2, #0091B8); color: white; border-radius: 50px; padding: 14px 36px; font-size: 22px; font-weight: 800; box-shadow: 0 6px 20px rgba(18, 130, 162, 0.4); text-align: center; line-height: 1.4; white-space: nowrap;">70€ / mois<span style="font-size: 14px; font-weight: 600; opacity: 0.9; letter-spacing: 0.5px; margin-top: 2px;">Sans engagement</span></span>
         </div>
         <ul class="service-features" style="margin-top: 0; padding-top: 15px;">
-          <li>Plan d'entraînement individualisé</li>
-          <li>Import automatique des séances sur montre GPS</li>
-          <li>Analyse et retour des séances spécifiques</li>
-          <li>Communication via WhatsApp ou la messagerie Nolio</li>
-          <li>Suivi téléphonique</li>
+          <li class="has-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+              <rect x="8" y="2" width="8" height="4" rx="1"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <path d="m9 14 2 2 4-4"/>
+            </svg>
+            Appel téléphonique définition profil et objectifs
+          </li>
+          <li class="has-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+              <rect x="8" y="2" width="8" height="4" rx="1"/>
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>
+            </svg>
+            Plan d'entraînement individualisé via Nolio
+          </li>
+          <li class="has-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+              <path d="m6.5 6.5 11 11"/><path d="m21 21-1-1"/><path d="m3 3 1 1"/>
+              <path d="m18 22 4-4"/><path d="m2 6 4-4"/>
+              <path d="m3 10 7-7"/><path d="m14 21 7-7"/>
+            </svg>
+            Renforcement musculaire et exercices spécifiques
+          </li>
+          <li class="has-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+              <circle cx="12" cy="12" r="6"/>
+              <polyline points="12 10 12 12 13.5 13.5"/>
+              <path d="m16.13 7.66-.81-4.05a2 2 0 0 0-2-1.61h-2.68a2 2 0 0 0-2 1.61l-.78 4.05"/>
+              <path d="m7.88 16.36.8 4a2 2 0 0 0 2 1.61h2.72a2 2 0 0 0 2-1.61l.81-4.05"/>
+            </svg>
+            Import automatique des séances sur montre GPS
+          </li>
+          <li class="has-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+              <line x1="18" x2="18" y1="20" y2="10"/>
+              <line x1="12" x2="12" y1="20" y2="4"/>
+              <line x1="6" x2="6" y1="20" y2="14"/>
+              <line x1="2" x2="22" y1="20" y2="20"/>
+            </svg>
+            Analyse et retour des séances
+          </li>
+          <li class="has-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+              <path d="M21 3v5h-5"/>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+              <path d="M8 16H3v5"/>
+            </svg>
+            Ajustement du plan en fonction de l'évolution
+          </li>
+          <li class="has-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            Communication via WhatsApp ou téléphone
+          </li>
         </ul>
-        <div style="margin-top: 8px; padding: 20px 15px; border-top: 2px solid #1282A2; background: linear-gradient(135deg, rgba(18, 130, 162, 0.05), rgba(255, 231, 102, 0.08));">
+        <div style="margin-top: 8px; padding: 20px 15px; border-top: 1px solid rgba(74, 184, 216, 0.25); background: rgba(74, 184, 216, 0.08);">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
             <span style="font-size: 20px;">➕</span>
-            <h4 style="font-size: 20px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 1px; color: #1282A2; margin: 0;">Option : Ajouter des séances terrains</h4>
+            <h4 style="font-size: 20px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 1px; color: #4AB8D8; margin: 0;">Option : Ajouter des séances terrains</h4>
           </div>
-          <p style="margin: 0 0 16px 0; padding: 0 5px; font-size: 13px; color: #1a1a1a !important; font-weight: 500; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">📍 Lieu d'entraînement à maximum 30 min de <a href="https://www.google.com/maps/dir/La+D%C3%A9fense//@48.9043275,2.2511616,14z/data=!4m9!4m8!1m5!1m1!1s0x47e66503bb403457:0xda098f7887a51000!2m2!1d2.238767!2d48.891759!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">La Défense</a> en transport en commun ou en 2 roues.</p>
           <div style="display: flex; align-items: stretch; gap: 24px; flex-wrap: wrap;">
-            <div class="price-badge" style="padding: 12px 22px; background: linear-gradient(135deg, #1282A2, #0091B8); color: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(18, 130, 162, 0.25); text-align: center; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; flex-shrink: 0;">
-              <span style="font-size: 26px; font-weight: 800;">50€</span>
-              <span style="font-size: 14px; opacity: 0.95;">la séance</span>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0;">
+              <div class="price-badge" style="padding: 12px 22px; background: linear-gradient(135deg, #1282A2, #0091B8); color: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(18, 130, 162, 0.25); text-align: center; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;">
+                <span style="font-size: 26px; font-weight: 800;">50€</span>
+                <span style="font-size: 14px; opacity: 0.95;">la séance</span>
+              </div>
+              <a href="#note-lieux" style="color: #FF6B35; text-decoration: none; font-size: 11px; font-style: italic; text-align: center; transition: color 0.2s;" onmouseover="this.style.color='#ff8856'" onmouseout="this.style.color='#FF6B35'">
+                📍 Je me déplace jusqu'à<br>30 min de La Défense
+              </a>
             </div>
-            <ul style="list-style: none; padding: 0; margin: 0; color: #1a1a1a; font-size: 13px; font-weight: 500;">
+            <ul style="list-style: none; padding: 0; margin: 0; color: rgba(255, 255, 255, 0.82); font-size: 13px; font-weight: 500;">
               <li style="display: flex; align-items: center; gap: 8px; padding: 4px 0;"><span style="color: #FF6B35; font-weight: 900; flex-shrink: 0;">→</span> Remise en forme grâce à des circuits training adaptés</li>
               <li style="display: flex; align-items: center; gap: 8px; padding: 4px 0;"><span style="color: #FF6B35; font-weight: 900; flex-shrink: 0;">→</span> Évaluation du niveau à travers des tests de terrain</li>
               <li style="display: flex; align-items: center; gap: 8px; padding: 4px 0;"><span style="color: #FF6B35; font-weight: 900; flex-shrink: 0;">→</span> Développement des capacités de vitesse et d'endurance</li>
@@ -2940,28 +3876,45 @@
 
       <!-- Étapes -->
       <div class="service-card seréel">
-        <h3 style="white-space: nowrap; text-align: center;">Comment démarrer ?</h3>
-        <ul class="service-features" style="padding-top: 20px;">
-          <li style="display: block; text-align: center; margin-bottom: 20px;">
-          <div style="margin-bottom: 8px;"><strong>Étape 1 : 📝</strong></div>
-          <span style="font-weight: 500; font-size: 16px; line-height: 1.7; display: block; color: #666;">Remplis le formulaire  <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">"Parlons de ton objectif."</a> ou envoie moi un mail à <a href="mailto:jeremy.reding@outlook.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">jeremy.reding@outlook.fr</a> en me précisant ton projet.</span></li>
-          
-          <li style="display: block; text-align: center; margin-bottom: 20px;">
-          <div style="margin-bottom: 8px;"><strong>Étape 2 : 📞</strong></div>
-          <span style="font-weight: 500; font-size: 16px; line-height: 1.7; display: block; color: #666;">On convient d'un moment pour échanger afin d'apprendre à mieux se connaître (expériences, contraintes, objectifs...) et pour t'expliquer le fonctionnement du coaching.</span></li>
-          
-          <li style="display: block; text-align: center; margin-bottom: 20px;">
-          <div style="margin-bottom: 8px;"><strong>Étape 3 : 🧠</strong></div>
-          <span style="font-weight: 500; font-size: 16px; line-height: 1.7; display: block; color: #666;">L'entretien n'engage en rien, tu disposes d'un temps de réflexion pour décider si tu souhaites continuer.</span></li>
-          
-          
-          <li style="display: block; text-align: center;">
-          <div style="margin-bottom: 8px;"><strong>Étape 4 : 🔥</strong></div>
-          <span style="font-weight: 500; font-size: 16px; line-height: 1.7; display: block; color: #666;">Si tu me donnes ton feu vert, tu rejoins mon équipe et ton coaching commence!</span></li>
+        <h3 style="text-align: center;">Comment démarrer ?</h3>
+        <ul class="service-features steps-list" style="padding: 0 30px 24px;">
+
+          <li class="step-item">
+            <div class="step-header">
+              <span class="step-number">01</span>
+              <h4 class="step-title">Prise de contact</h4>
+            </div>
+            <p class="step-text">Renseigne le formulaire <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">« Parlons de ton objectif »</a> ou écris-moi à <a href="mailto:jeremy.reding@outlook.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">jeremy.reding@outlook.fr</a> en précisant ton profil, ton projet et ton échéance.</p>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <span class="step-number">02</span>
+              <h4 class="step-title">Entretien découverte</h4>
+            </div>
+            <p class="step-text">Nous fixons un échange (téléphone ou visioconférence) pour analyser ton parcours, tes contraintes et tes objectifs, et te présenter ma méthode d'accompagnement.</p>
+          </li>
+
+          <li class="step-item">
+            <div class="step-header">
+              <span class="step-number">03</span>
+              <h4 class="step-title">Temps de réflexion</h4>
+            </div>
+            <p class="step-text">L'entretien est sans engagement. Tu disposes du temps nécessaire pour évaluer si la démarche correspond à tes attentes avant toute décision.</p>
+          </li>
+
+          <li class="step-item step-item--last">
+            <div class="step-header">
+              <span class="step-number">04</span>
+              <h4 class="step-title">Démarrage du suivi</h4>
+            </div>
+            <p class="step-text">Dès validation, je construis ton plan d'entraînement individualisé et nous démarrons le suivi.</p>
+          </li>
+
         </ul>
-        <div style="text-align: center; margin-top: -10px;">
-          <a href="#contactForm" style="display: inline-block; background: #FF6B35; color: #ffffff; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);">
-            📝 Accéder au formulaire
+        <div style="text-align: center; padding: 0 30px 8px;">
+          <a href="#contactForm" style="display: inline-flex; align-items: center; gap: 10px; background: #FF6B35; color: #ffffff; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);">
+            Accéder au formulaire <span style="font-size: 16px;">→</span>
           </a>
         </div>
       </div>
@@ -3083,72 +4036,180 @@
               <p>Les séances en présentiel sont un excellent complément au suivi à distance. Elles permettent de travailler sur des points techniques spécifiques, de bénéficier d'un coaching en temps réel et d'une motivation supplémentaire. Ces séances ne sont pas obligatoires mais peuvent vraiment accélérer ta progression.</p>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- SOLO-DUO/TRIO SECTION -->
   <section class="solo-duo-section" id="solo-duo-trio">
     <div class="solo-duo-container">
       <div class="solo-duo-content">
-        <h2>Séances terrains</h2>
+        <h2>Séances terrain</h2>
         <p>
           Des séances de coaching en face à face, pour un accompagnement précis et entièrement personnalisé.
         </p>
         <!-- Layout : texte gauche + cards droite -->
-        <div style="display: flex; align-items: center; gap: 50px; margin-top: 10px; flex-wrap: wrap; justify-content: center;">
+        <div class="seances-layout">
 
           <!-- Colonne texte -->
-          <div style="flex: 1; min-width: 280px; max-width: 460px; text-align: left;">
-            <p style="line-height: 1.8; color: rgba(255, 255, 255, 0.75); margin: 0 0 18px 0; font-size: 15px; font-style: italic;">
+          <div class="seances-text-col">
+            <p class="seances-intro">
               Différents formats de séances sont proposés afin de s'adapter au mieux à tes besoins et à tes objectifs :
             </p>
-            <ul style="list-style: none; padding: 0; margin: 0; color: rgba(255, 255, 255, 0.92);">
-              <li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <span style="color: #FF6B35; font-weight: 900; font-size: 18px; flex-shrink: 0;">→</span> Remise en forme grâce à des circuits training adaptés
-              </li>
-              <li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <span style="color: #FF6B35; font-weight: 900; font-size: 18px; flex-shrink: 0;">→</span> Évaluation du niveau à travers des tests de terrain
-              </li>
-              <li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <span style="color: #FF6B35; font-weight: 900; font-size: 18px; flex-shrink: 0;">→</span> Développement des capacités de vitesse et d'endurance
-              </li>
-              <li style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <span style="color: #FF6B35; font-weight: 900; font-size: 18px; flex-shrink: 0;">→</span> Amélioration de la technique de course
-              </li>
-              <li style="display: flex; align-items: center; gap: 12px; padding: 11px 0;">
-                <span style="color: #FF6B35; font-weight: 900; font-size: 18px; flex-shrink: 0;">→</span> Renforcement musculaire avec des exercices spécifiques
-              </li>
+            <ul class="seances-list">
+              <li><span class="seances-arrow">→</span> Remise en forme grâce à des circuits training adaptés</li>
+              <li><span class="seances-arrow">→</span> Évaluation du niveau à travers des tests de terrain</li>
+              <li><span class="seances-arrow">→</span> Développement des capacités de vitesse et d'endurance</li>
+              <li><span class="seances-arrow">→</span> Amélioration de la technique de course</li>
+              <li><span class="seances-arrow">→</span> Renforcement musculaire avec des exercices spécifiques</li>
             </ul>
           </div>
 
           <!-- Colonne cards côte à côte -->
-          <div style="display: flex; flex-direction: row; gap: 20px; flex-shrink: 0; align-self: flex-end; margin-bottom: 60px;">
+          <div class="seances-cards-col">
 
             <!-- Carte Individuel -->
-            <div style="background: linear-gradient(135deg, #FFB4A0 0%, #FFD9C7 25%, #FFEADF 60%, #FFF5F0 100%); border-radius: 18px; padding: 28px 32px; box-shadow: 0 8px 28px rgba(255, 107, 53, 0.25); text-align: center; min-width: 180px;">
-              <div style="background: linear-gradient(135deg, #E85A30 0%, #FF6B35 30%, #FF8856 70%, #FFA078 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 20px; font-weight: 900; font-style: italic; text-transform: uppercase; margin-bottom: 14px; letter-spacing: 1px;">INDIVIDUEL</div>
-              <div style="font-size: 40px; font-weight: 900; color: #FF6B35; margin-bottom: 4px;">50€</div>
-              <div style="font-size: 14px; color: #888; font-weight: 600;">la séance</div>
+            <div class="seances-price-card seances-price-card--individuel">
+              <h3>Individuel</h3>
+              <span class="seances-price-badge">50€<span class="seances-price-badge-sub">la séance</span></span>
+              <ul class="seances-features">
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+                  Coaching solo
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+                  1h de séance minimum
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Lieu à définir <a href="#note-lieux" class="seances-footnote-link">*</a>
+                </li>
+              </ul>
+              <a href="#contactForm" class="seances-card-cta">Réserver une séance →</a>
             </div>
 
             <!-- Carte Groupe -->
-            <div style="background: linear-gradient(135deg, #A5D6A7 0%, #C8E6C9 25%, #DCEDC8 60%, #F1F8E9 100%); border-radius: 18px; padding: 28px 32px; box-shadow: 0 8px 28px rgba(46, 125, 50, 0.25); text-align: center; min-width: 180px;">
-              <div style="background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 30%, #388E3C 60%, #43A047 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 20px; font-weight: 900; font-style: italic; text-transform: uppercase; margin-bottom: 14px; letter-spacing: 1px;">GROUPE</div>
-              <div style="font-size: 30px; font-weight: 900; color: #2E7D32; font-style: italic; margin-bottom: 16px;">Sur devis</div>
-              <a href="mailto:jeremy.reding@outlook.fr" style="display: block; background: transparent; color: #2E7D32; padding: 10px 16px; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px; text-align: center; border: 2px solid #2E7D32;">✉️ Contacter par email</a>
+            <div class="seances-price-card seances-price-card--groupe">
+              <h3>Groupe</h3>
+              <span class="seances-price-badge">Sur devis<span class="seances-price-badge-sub">2 coureurs et +</span></span>
+              <ul class="seances-features">
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  Coaching groupe 2 et +
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+                  1h de séance minimum
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Lieu à définir <a href="#note-lieux" class="seances-footnote-link">*</a>
+                </li>
+              </ul>
+              <a href="mailto:jeremy.reding@outlook.fr" class="seances-card-cta">Contacter par email →</a>
             </div>
 
           </div>
         </div>
 
-        <!-- Lieu d'entraînement -->
-        <div style="margin-top: 40px; margin-bottom: 30px; text-align: center;">
-          <div style="display: inline-block; padding: 16px 28px; background: rgba(255, 231, 102, 0.15); border-radius: 12px; border: 2px solid rgba(255, 231, 102, 0.3);">
-            <p style="color: rgba(255, 255, 255, 0.95); font-size: 15px; margin: 0; line-height: 1.6; white-space: nowrap;"><strong style="color: #FFE766;">📍 Lieu d'entraînement :</strong> À maximum 30 min de <a href="https://www.google.com/maps/dir/La+D%C3%A9fense//@48.9043275,2.2511616,14z/data=!4m9!4m8!1m5!1m1!1s0x47e66503bb403457:0xda098f7887a51000!2m2!1d2.238767!2d48.891759!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color: #FFE766; text-decoration: underline; font-weight: 700;">La Défense</a> en transport en commun ou en 2 roues.</p>
-          </div>
+        <!-- Carte zone d'entraînement -->
+        <div class="seances-map-wrap" id="note-lieux">
+          <p class="seances-map-label">
+            <span>*</span> Je me déplace jusqu'à 30 min de <strong>La Défense</strong>
+          </p>
+          <div id="seances-map"></div>
         </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+        <script>
+          /* Mini-carte tooltip */
+          (function() {
+            var miniMapInit = false;
+            var trigger = document.querySelector('.location-hover-trigger');
+            var tooltip = document.querySelector('.location-map-tooltip');
+            if (!trigger || !tooltip) return;
+
+            function showTooltip() {
+              tooltip.classList.add('visible');
+              if (!miniMapInit) {
+                miniMapInit = true;
+                var miniMap = L.map('location-mini-map', {
+                  center: [48.8917, 2.2396],
+                  zoom: 10,
+                  zoomControl: false,
+                  scrollWheelZoom: false,
+                  dragging: false,
+                  attributionControl: false
+                });
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                  subdomains: 'abcd', maxZoom: 19
+                }).addTo(miniMap);
+                L.circle([48.8917, 2.2396], {
+                  radius: 12000,
+                  color: '#FF6B35',
+                  fillColor: '#FF6B35',
+                  fillOpacity: 0.12,
+                  weight: 2,
+                  dashArray: '6, 4'
+                }).addTo(miniMap);
+                var icon = L.divIcon({
+                  className: '',
+                  html: '<div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;border:2px solid #fff;box-shadow:0 0 8px rgba(255,107,53,0.9);"></div>',
+                  iconSize: [10, 10], iconAnchor: [5, 5]
+                });
+                L.marker([48.8917, 2.2396], { icon: icon }).addTo(miniMap);
+                setTimeout(function() { miniMap.invalidateSize(); }, 50);
+              }
+            }
+
+            function hideTooltip() {
+              tooltip.classList.remove('visible');
+            }
+
+            trigger.addEventListener('mouseenter', showTooltip);
+            trigger.addEventListener('mouseleave', hideTooltip);
+          })();
+
+          /* Carte principale */
+          (function() {
+            var map = L.map('seances-map', {
+              center: [48.8917, 2.2396],
+              zoom: 11,
+              zoomControl: true,
+              scrollWheelZoom: false,
+              attributionControl: true
+            });
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+              subdomains: 'abcd',
+              maxZoom: 19
+            }).addTo(map);
+
+            /* Zone 30 min */
+            L.circle([48.8917, 2.2396], {
+              radius: 12000,
+              color: '#FF6B35',
+              fillColor: '#FF6B35',
+              fillOpacity: 0.10,
+              weight: 2,
+              dashArray: '8, 5'
+            }).addTo(map);
+
+            /* Marqueur La Défense */
+            var markerIcon = L.divIcon({
+              className: '',
+              html: '<div style="width:16px;height:16px;background:#FF6B35;border-radius:50%;border:3px solid #ffffff;box-shadow:0 0 16px rgba(255,107,53,0.9);"></div>',
+              iconSize: [16, 16],
+              iconAnchor: [8, 8],
+              popupAnchor: [0, -12]
+            });
+
+            L.marker([48.8917, 2.2396], { icon: markerIcon })
+              .addTo(map)
+              .bindPopup('<strong style="color:#FF6B35;font-family:Barlow,sans-serif;">La Défense</strong><br><span style="font-size:12px;font-family:Barlow,sans-serif;">Point de référence</span>')
+              .openPopup();
+          })();
+        </script>
       </div>
     </div>
   </section>
@@ -3192,8 +4253,8 @@
           <label for="type_coaching">Type de coaching *</label>
           <select id="type_coaching" name="Type de coaching" required>
             <option value="">-- Sélectionne une option --</option>
-            <option value="Suivi personnalisé">Suivi personnalisé</option>
-            <option value="Coaching Solo/Duo-Trio">Séances d'entraînement</option>
+            <option value="Suivi personnalisé">Suivi à distance</option>
+            <option value="Coaching Solo/Duo-Trio">Séances terrain</option>
           </select>
         </div>
 
@@ -3331,13 +4392,18 @@
   <!-- FOOTER RGPD -->
   <footer class="site-footer">
     <div class="footer-content">
+      <div class="footer-brand">
+        <span class="footer-logo-text">REDING RUNNING</span>
+        <p class="footer-tagline">Coach Running Certifié FFA · Île-de-France</p>
+      </div>
       <div class="footer-links">
         <a href="mentions-legales.html">Mentions légales</a>
         <a href="politique-confidentialite.html">Politique de confidentialité</a>
-        <a href="mailto:jeremy.reding@outlook.fr">Contact</a>
+        <a href="mailto:jeremy.reding@outlook.fr">jeremy.reding@outlook.fr</a>
+        <a href="https://www.athle.fr/athletes/861859" target="_blank" rel="noopener">Profil FFA</a>
       </div>
       <div class="footer-copyright">
-        © 2026 Reding Running 
+        © 2026 Reding Running
       </div>
     </div>
   </footer>
