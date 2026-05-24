@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Rdlab Desktop",
+  "schemaVersion": 1,
+  "description": "RedLab — version responsive unifiée. Desktop ≥860px : sidebar + topbar. Mobile &lt;860px : header + bottom nav fixe. Navigation go(id) unifiée."
+}
+</script>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<title>RedLab — Coaching Running</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   VARIABLES & RESET
+══════════════════════════════════════════ */
+:root {
+  --bg:#f5f6fa; --card:#fff; --border:#e8edf3;
+  --orange:#ff6b1a; --orange2:#e85a0a;
+  --dark:#111827; --dark2:#1e2a3a;
+  --text:#111827; --text2:#374151; --muted:#6b7280; --muted2:#9ca3af;
+  --font:'Barlow',sans-serif; --cond:'Barlow Condensed',sans-serif;
+  --r:14px; --rs:10px;
+  --sidebar:230px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ══════════════════════════════════════════
+   DESKTOP SHELL (default ≥ 860px)
+══════════════════════════════════════════ */
+html,body{height:100%;overflow:hidden;background:var(--dark)}
+body{color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+
+/* Mobile-only elements — hidden on desktop */
+.mobile-header{display:none}
+.bottom-nav{display:none}
+
+/* App shell */
+.app{display:flex;height:100vh}
+
+/* Sidebar */
+.sidebar{width:var(--sidebar);background:var(--dark);border-right:1px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;flex-shrink:0}
+.sidebar-logo{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.logo{font-family:var(--cond);font-weight:900;font-size:26px;color:#fff;text-transform:uppercase;letter-spacing:1px;line-height:1}
+.logo em{font-style:italic;color:var(--orange)}
+.tagline{font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:2.5px;text-transform:uppercase;margin-top:5px}
+.sidebar-nav{padding:14px 10px;flex:1;overflow-y:auto}
+.nav-group-label{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.22);padding:0 10px;margin:16px 0 6px}
+.nav-group-label:first-child{margin-top:0}
+.nav-btn{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border:none;background:transparent;cursor:pointer;color:rgba(255,255,255,0.42);font-family:var(--font);font-size:13.5px;font-weight:600;border-radius:8px;transition:all 0.15s;text-align:left;white-space:nowrap}
+.nav-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:0.8}
+.nav-btn:hover{background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.72)}
+.nav-btn.active{background:rgba(255,107,26,0.14);color:var(--orange)}
+.nav-btn.active svg{opacity:1}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.07)}
+.sf-name{font-family:var(--cond);font-weight:800;font-size:13px;color:#fff;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.sf-sub{font-size:11px;color:rgba(255,255,255,0.35);line-height:1.5}
+
+/* Main area */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;background:var(--bg)}
+
+/* Topbar */
+.topbar{height:54px;background:#fff;border-bottom:1px solid var(--border);padding:0 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar-title{font-family:var(--cond);font-weight:900;font-size:19px;color:var(--text);text-transform:uppercase;letter-spacing:0.5px}
+.topbar-title strong{color:var(--orange)}
+.topbar-pill{background:#f3f4f6;color:var(--muted);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;font-family:var(--cond);letter-spacing:1px;text-transform:uppercase}
+
+/* Scroll area */
+.scroll{flex:1;overflow-y:auto;padding:36px 40px 56px}
+
+/* ══════════════════════════════════════════
+   PANELS
+══════════════════════════════════════════ */
+.panel{display:none;animation:fu .18s ease}
+.panel.active{display:block}
+@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══════════════════════════════════════════
+   HOME
+══════════════════════════════════════════ */
+.home-hero{background:linear-gradient(120deg,var(--dark2) 0%,var(--dark) 100%);border-radius:var(--r);padding:44px 44px;margin-bottom:24px;position:relative;overflow:hidden}
+.home-hero::after{content:'';position:absolute;right:-40px;top:-60px;width:280px;height:280px;border-radius:50%;background:rgba(255,107,26,0.07);pointer-events:none}
+.hero-eyebrow{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.hero-eyebrow::before{content:'';display:block;width:14px;height:2px;background:var(--orange)}
+.hero-title{font-family:var(--cond);font-weight:900;font-size:clamp(36px,3.5vw,54px);color:#fff;text-transform:uppercase;line-height:.95;margin-bottom:12px;letter-spacing:-1px}
+.hero-title strong{color:var(--orange)}
+.hero-desc{font-size:15px;color:rgba(255,255,255,0.48);line-height:1.65;max-width:500px}
+.tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.tool-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:26px;cursor:pointer;transition:all 0.18s;border-top:3px solid transparent}
+.tool-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.08)}
+.tool-card.c-vma{border-top-color:#1a7cb8}
+.tool-card.c-vc{border-top-color:var(--orange)}
+.tool-card.c-fc{border-top-color:#a01818}
+.tool-card.c-allures{border-top-color:#0d7a52}
+.tc-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.tc-icon svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tc-name{font-family:var(--cond);font-weight:800;font-size:16px;text-transform:uppercase;letter-spacing:.5px;color:var(--text);margin-bottom:5px}
+.tc-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tc-cta{margin-top:14px;font-size:11px;font-weight:700;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;font-family:var(--cond)}
+
+/* ══════════════════════════════════════════
+   TOOL LAYOUT
+══════════════════════════════════════════ */
+.tool-stack{max-width:820px;display:flex;flex-direction:column;gap:24px}
+
+/* Card */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:28px 28px 24px}
+.card-hd{display:flex;align-items:center;gap:10px;font-family:var(--cond);font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);margin-bottom:22px}
+.card-hd-icon{width:26px;height:26px;background:#fff3ec;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-hd-icon svg{width:13px;height:13px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Fields */
+.field{margin-bottom:20px}
+.field:last-child{margin-bottom:0}
+label{display:block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.iw{display:flex;align-items:center;background:#f8fafc;border:1.5px solid var(--border);border-radius:var(--rs);overflow:hidden;transition:border-color .18s,box-shadow .18s}
+.iw:focus-within{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,107,26,.1);background:#fff}
+.ii{padding:0 12px;color:var(--muted2);flex-shrink:0}
+.ii svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+.iw input,.iw select{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font);font-size:19px;font-weight:600;padding:13px 16px 13px 0;-moz-appearance:textfield;-webkit-appearance:none}
+.iw input::-webkit-inner-spin-button,.iw input::-webkit-outer-spin-button{-webkit-appearance:none}
+.iu{padding-right:14px;font-size:12px;font-weight:600;color:var(--muted2);white-space:nowrap}
+.fhint{font-size:11px;color:var(--muted2);margin-top:6px}
+
+/* Grid 2 */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* Section label */
+.slabel{font-family:var(--cond);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange2);margin-top:36px;margin-bottom:18px;display:flex;align-items:center;gap:7px}
+.slabel::before{content:'';display:block;width:10px;height:2px;background:var(--orange2);flex-shrink:0}
+
+/* Result hero */
+.rhero{background:linear-gradient(135deg,#fff5f0,#fff);border:1px solid #fdd0b0;border-left:4px solid var(--orange);border-radius:var(--r);padding:26px 30px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.rh-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.rh-val{font-family:var(--cond);font-weight:900;font-size:50px;color:var(--orange);line-height:1;letter-spacing:-1px}
+.rh-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.rh-tags{display:flex;gap:7px;flex-wrap:wrap}
+.rh-tag{background:#fff3ec;border:1px solid #fdd0b0;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--orange2)}
+
+/* Stat cards */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+.sc{background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:18px 16px;border-top:3px solid var(--orange)}
+.sc-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.sc-val{font-family:var(--cond);font-weight:900;font-size:28px;color:var(--orange);line-height:1}
+.sc-sub{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;border-radius:var(--rs);border:1px solid var(--border);background:#fff}
+table{width:100%;border-collapse:collapse;font-family:var(--font)}
+thead th{text-align:left;padding:13px 18px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:#f8fafc;border-bottom:1px solid var(--border)}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:#fff8f5}
+tbody td{padding:13px 18px;font-size:14px;vertical-align:middle;color:var(--text)}
+.zb{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;font-family:var(--cond);white-space:nowrap}
+.z1{background:#e8f4fd;color:#1a7cb8}.z2{background:#e6f7f1;color:#0d7a52}
+.z3{background:#fef9e7;color:#8a6800}.z4{background:#fff0e6;color:#b84400}
+.z5{background:#fde8e8;color:#a01818}
+
+/* Slider card */
+.sl-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px 28px}
+.sl-hd{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.sl-out{font-family:var(--cond);font-size:21px;font-weight:900;color:var(--text);display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.sl-sep{color:var(--muted);font-size:13px;font-weight:400;font-family:var(--font)}
+.sl-row{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.adj{width:34px;height:34px;border-radius:50%;border:2px solid var(--border);background:#fff;color:var(--text);font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .14s;line-height:1;padding:0}
+.adj:hover{border-color:var(--orange);color:var(--orange);background:#fff8f5}
+.adj:active{transform:scale(.9)}
+input[type=range].sl{-webkit-appearance:none;appearance:none;flex:1;height:7px;border-radius:3px;background:var(--border);outline:none;cursor:pointer;border:none;padding:0}
+input[type=range].sl::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--orange);cursor:pointer;border:3px solid #fff;box-shadow:0 0 0 2px var(--orange)}
+input[type=range].sl::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--orange);cursor:pointer;border:3px solid #fff}
+.sl-bnds{display:flex;justify-content:space-between;font-size:10px;font-weight:600;color:var(--muted2);margin-top:1px;margin-bottom:6px}
+.zbar{position:relative;height:18px;border-radius:3px;overflow:hidden;background:#eee}
+
+/* Race grid */
+.race-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.race-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:22px;position:relative;overflow:hidden}
+.race-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),transparent)}
+.rc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.rc-name{font-family:var(--cond);font-size:22px;font-weight:900;color:var(--text);text-transform:uppercase;line-height:1}
+.rc-dist{font-size:12px;font-weight:600;color:var(--muted);margin-top:2px}
+.rc-allure-lbl{font-size:10px;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;text-align:right;margin-bottom:1px}
+.rc-allure{font-family:var(--cond);font-weight:800;font-size:16px;color:var(--orange);text-align:right}
+.rc-time{font-family:var(--cond);font-weight:900;font-size:36px;color:var(--orange);line-height:1;letter-spacing:-1px;margin-bottom:12px}
+.rc-sl-row{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+input[type=range].rsl{-webkit-appearance:none;appearance:none;flex:1;height:6px;border-radius:3px;background:var(--border);outline:none;cursor:pointer;border:none;padding:0}
+input[type=range].rsl::-webkit-slider-thumb{-webkit-appearance:none;width:19px;height:19px;border-radius:50%;background:var(--orange);cursor:pointer;border:2px solid #fff;box-shadow:0 0 0 2px var(--orange)}
+input[type=range].rsl::-moz-range-thumb{width:19px;height:19px;border-radius:50%;background:var(--orange);cursor:pointer;border:2px solid #fff}
+.rc-sl-bnds{display:flex;justify-content:space-between;font-size:10px;font-weight:600;color:var(--muted2);margin-bottom:10px}
+.rc-splits{border-top:1px solid var(--border);padding-top:8px}
+.spl-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #f3f4f6}
+.spl-row:last-child{border-bottom:none}
+.spl-lbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.spl-t{font-size:13px;font-weight:700;color:var(--text2)}
+
+/* FC zones */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.fz{background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:22px 18px;text-align:center}
+.fz-lbl{font-family:var(--cond);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.fz-val{font-family:var(--cond);font-weight:900;font-size:26px;line-height:1}
+.fz-bpm{font-size:11px;color:var(--muted);margin-top:3px}
+.fz-desc{font-size:11px;color:var(--muted);margin-top:5px}
+.fz1{border-top:3px solid #1a7cb8}.fz1 .fz-val{color:#1a7cb8}
+.fz2{border-top:3px solid #0d7a52}.fz2 .fz-val{color:#0d7a52}
+.fz3{border-top:3px solid #8a6800}.fz3 .fz-val{color:#8a6800}
+.fz4{border-top:3px solid #b84400}.fz4 .fz-val{color:#b84400}
+.fz5{border-top:3px solid #a01818}.fz5 .fz-val{color:#a01818}
+
+/* Seuil */
+.seuil-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.seuil-c{background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:22px 20px}
+.seuil-c-ttl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:7px}
+.seuil-c-val{font-family:var(--cond);font-weight:900;font-size:24px;line-height:1}
+.seuil-c-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.seuil-c-desc{font-size:11px;color:var(--text2);margin-top:7px;line-height:1.5}
+
+/* Domain */
+.domain-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dom-c{background:#fff;border:1px solid var(--border);border-radius:var(--rs);padding:22px 20px}
+.dom-ttl{font-family:var(--cond);font-weight:800;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.dom-intro{font-size:13px;color:var(--text2);margin-bottom:8px}
+.dom-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.dom-list li{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text2)}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* Predictor */
+.pred-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.pred-c{background:#f8fafc;border:1px solid var(--border);border-radius:var(--rs);padding:18px 14px;text-align:center}
+.pred-name{font-family:var(--cond);font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--text2);margin-bottom:1px}
+.pred-dist{font-size:10px;color:var(--muted);margin-bottom:8px}
+.pred-time{font-family:var(--cond);font-weight:900;font-size:24px;color:var(--orange);line-height:1}
+.pred-allure{font-size:10px;color:var(--muted);margin-top:2px}
+.pred-pct{font-size:9px;color:var(--muted2);margin-top:2px}
+
+/* Science block */
+.sci-c{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:28px 26px}
+.sci-badge{display:inline-flex;align-items:center;gap:5px;background:#e8f4fd;border:1px solid #bee3f8;border-radius:20px;padding:3px 11px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#1a7cb8;margin-bottom:12px}
+.sci-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:9px}
+.sci-body{font-size:13px;color:var(--text2);line-height:1.7}
+
+/* Info box */
+.info-box{background:#fff5f0;border:1px solid #fdd0b0;border-left:4px solid var(--orange);border-radius:var(--rs);padding:18px 20px;font-size:13px;color:var(--text2);line-height:1.75}
+.info-box strong{color:var(--orange2);font-weight:700}
+
+/* Hint card */
+.hint-card{background:linear-gradient(135deg,var(--dark2),#1a2535);border-radius:var(--r);padding:24px 28px;border:1px solid rgba(255,255,255,0.06)}
+.hint-ttl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:8px}
+.hint-body{font-size:13px;color:rgba(255,255,255,0.48);line-height:1.7}
+
+/* Misc */
+.empty{text-align:center;padding:40px 20px;color:var(--muted2);font-size:14px}
+.empty-ico{font-size:24px;margin-bottom:10px;opacity:0.15}
+.divider{height:1px;background:var(--border);margin:4px 0}
+
+/* ══════════════════════════════════════════
+   MOBILE OVERRIDES  (< 860px)
+══════════════════════════════════════════ */
+@media (max-width: 860px) {
+  /* Reset shell to normal document flow */
+  html,body{height:auto!important;overflow:auto!important;background:var(--bg)}
+
+  /* Mobile header */
+  .mobile-header{display:block;background:var(--dark);padding:16px 18px 14px;border-bottom:2px solid var(--orange);position:sticky;top:0;z-index:100}
+  .mobile-header .logo{font-size:28px}
+  .mobile-header .tagline{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;margin-top:3px}
+
+  /* Bottom nav */
+  .bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--dark);border-top:1px solid rgba(255,255,255,0.12)}
+  .bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 4px;border:none;background:transparent;cursor:pointer;color:rgba(255,255,255,0.4);font-family:var(--font);gap:3px;transition:color 0.18s}
+  .bnav-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .bnav-btn span{font-size:9px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase}
+  .bnav-btn.active{color:var(--orange)}
+
+  /* App shell flattened */
+  .app{flex-direction:column;height:auto}
+  .sidebar{display:none}
+  .main{overflow:visible;display:block}
+  .topbar{display:none}
+  .scroll{overflow:visible;padding:20px 16px 96px;flex:none}
+
+  /* Panels — no animation on mobile (perf) */
+  .panel{animation:none}
+
+  /* Home hero — edge to edge */
+  .home-hero{border-radius:0;padding:28px 18px 32px;margin-bottom:16px}
+  .hero-title{font-size:clamp(32px,9vw,48px)}
+  .hero-desc{font-size:14px}
+  .tools-grid{grid-template-columns:1fr 1fr;gap:12px;margin-bottom:0}
+  .tool-card{padding:18px 16px}
+  .tc-cta{display:none}
+
+  /* Tool stack */
+  .tool-stack{max-width:100%;gap:16px}
+  .card{padding:18px 16px 16px}
+  .card-hd{margin-bottom:16px}
+
+  /* Grid 2 on mid-size mobile */
+  .g2{grid-template-columns:1fr 1fr;gap:10px}
+
+  /* Input size */
+  .iw input,.iw select{font-size:17px;padding:11px 14px 11px 0}
+  .field{margin-bottom:16px}
+
+  /* Results */
+  .rhero{padding:16px 18px;gap:14px}
+  .rh-val{font-size:38px}
+  .slabel{margin-top:24px;margin-bottom:14px}
+  .stats-row{gap:10px}
+  .sc{padding:14px 12px}
+  .sc-val{font-size:24px}
+
+  /* Table — smaller text */
+  thead th{padding:10px 12px;font-size:9px}
+  tbody td{padding:10px 12px;font-size:13px}
+
+  /* Slider card */
+  .sl-card{padding:16px 18px}
+  .sl-hd{margin-bottom:12px}
+
+  /* Race cards — 2 col */
+  .race-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .race-card{padding:14px 14px}
+  .rc-time{font-size:28px}
+  .rc-name{font-size:18px}
+
+  /* FC zones */
+  .fc-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+  .fz{padding:16px 12px}
+
+  /* VC seuil / domain */
+  .seuil-row{gap:10px}
+  .seuil-c{padding:16px 14px}
+  .domain-row{gap:10px}
+  .dom-c{padding:16px 14px}
+
+  /* Predictor */
+  .pred-grid{grid-template-columns:1fr 1fr;margin-top:14px}
+  .pred-c{padding:14px 10px}
+  .pred-time{font-size:20px}
+
+  /* Science */
+  .sci-c{padding:18px 16px}
+
+  /* Info / hint */
+  .info-box{padding:14px 16px}
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+  .g2{grid-template-columns:1fr}
+  .seuil-row{grid-template-columns:1fr}
+  .domain-row{grid-template-columns:1fr}
+  .race-grid{grid-template-columns:1fr}
+  .tools-grid{grid-template-columns:1fr 1fr}
+  .pred-grid{grid-template-columns:1fr 1fr}
+  .stats-row{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
+}
+</style>
+</head>
+<body>
+
+<!-- ── MOBILE HEADER (hidden on desktop) ── -->
+<header class="mobile-header">
+  <div class="logo">Red<em>Lab</em></div>
+  <div class="tagline">Coaching Running</div>
+</header>
+
+<!-- ── APP SHELL ── -->
+<div class="app">
+
+  <!-- SIDEBAR (desktop only) -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo">Red<em>Lab</em></div>
+      <div class="tagline">Coaching Running</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-group-label">Accueil</div>
+      <button class="nav-btn active" id="sbn-home" onclick="go('home')">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Dashboard
+      </button>
+      <div class="nav-group-label">Outils</div>
+      <button class="nav-btn" id="sbn-vma" onclick="go('vma')">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Tableau VMA
+      </button>
+      <button class="nav-btn" id="sbn-vc" onclick="go('vc')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Vitesse Critique
+      </button>
+      <button class="nav-btn" id="sbn-fc" onclick="go('fc')">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        FC Karvonen
+      </button>
+      <button class="nav-btn" id="sbn-allures" onclick="go('allures')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="12" x2="15.2" y2="13.8"/></svg>
+        Allures &amp; Splits
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sf-name">Reding Running</div>
+      <div class="sf-sub">Coaching personnalisé<br>du débutant au confirmé</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title" id="tb-title">Dashboard</div>
+      </div>
+      <div class="topbar-pill" id="tb-pill">Reding Running</div>
+    </div>
+
+    <div class="scroll">
+
+      <!-- ── HOME ── -->
+      <div id="p-home" class="panel active">
+        <div class="home-hero">
+          <div class="hero-eyebrow">Reding Running</div>
+          <div class="hero-title">Trouvez vos zones<br><strong>d'entraînement.</strong></div>
+          <div class="hero-desc">Un panel d'outils terrain pour paramétrer vos zones d'entraînement. Pour des zones précises, prenez rendez-vous pour un test labo.</div>
+        </div>
+        <div class="tools-grid">
+          <div class="tool-card c-vma" onclick="go('vma')">
+            <div class="tc-icon" style="background:#e8f4fd"><svg viewBox="0 0 24 24" style="stroke:#1a7cb8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div class="tc-name">Tableau VMA</div>
+            <div class="tc-desc">5 zones d'entraînement + convertisseur vitesse/allure interactif.</div>
+            <div class="tc-cta">Ouvrir →</div>
+          </div>
+          <div class="tool-card c-vc" onclick="go('vc')">
+            <div class="tc-icon" style="background:#fff0e6"><svg viewBox="0 0 24 24" style="stroke:var(--orange)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div class="tc-name">Vitesse Critique</div>
+            <div class="tc-desc">CS, D', seuils et prédicteur de performance à partir de 2 tests.</div>
+            <div class="tc-cta">Ouvrir →</div>
+          </div>
+          <div class="tool-card c-fc" onclick="go('fc')">
+            <div class="tc-icon" style="background:#fde8e8"><svg viewBox="0 0 24 24" style="stroke:#a01818"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            <div class="tc-name">FC Karvonen</div>
+            <div class="tc-desc">Zones cardiaques cibles par méthode de la réserve cardiaque.</div>
+            <div class="tc-cta">Ouvrir →</div>
+          </div>
+          <div class="tool-card c-allures" onclick="go('allures')">
+            <div class="tc-icon" style="background:#e6f7f1"><svg viewBox="0 0 24 24" style="stroke:#0d7a52"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="12" x2="15.2" y2="13.8"/></svg></div>
+            <div class="tc-name">Allures &amp; Splits</div>
+            <div class="tc-desc">Allure, équivalences Riegel et temps de passage par distance.</div>
+            <div class="tc-cta">Ouvrir →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── VMA ── -->
+      <div id="p-vma" class="panel">
+        <div class="tool-stack">
+          <div class="card">
+            <div class="card-hd">
+              <div class="card-hd-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg></div>
+              Paramètres
+            </div>
+            <div class="field" style="max-width:320px;margin-bottom:0">
+              <label>VMA (km/h)</label>
+              <div class="iw">
+                <div class="ii"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                <input type="number" id="vma-inp" placeholder="14.5" step="0.5" min="6" max="30" oninput="genVMA()">
+                <span class="iu">km/h</span>
+              </div>
+            </div>
+          </div>
+          <div id="vma-res"><div class="empty"><div class="empty-ico">—</div>Entrez votre VMA pour générer le tableau</div></div>
+        </div>
+      </div>
+
+      <!-- ── VITESSE CRITIQUE ── -->
+      <div id="p-vc" class="panel">
+        <div class="tool-stack">
+          <div class="info-box">
+            Effectuez d'abord le <strong>test long (3600 m)</strong>, récupérez <strong>30 min</strong>, puis le <strong>test court (1200 m)</strong>.
+          </div>
+          <div class="g2">
+            <div class="card" style="border-top:3px solid var(--orange)">
+              <div class="card-hd" style="color:var(--orange)">
+                <span style="background:var(--orange);color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">1</span>
+                Test long
+              </div>
+              <div class="field"><label>Distance (m)</label><div class="iw"><input type="number" id="vc-d1" placeholder="3600" min="100" oninput="calcVC()" style="padding-left:14px"></div><div class="fhint">Recommandé : 3600 m</div></div>
+              <div class="field" style="margin-bottom:0"><label>Temps (mm:ss)</label><div class="iw"><input type="text" id="vc-t1" placeholder="ex : 14:50" oninput="calcVC()" style="padding-left:14px"></div></div>
+            </div>
+            <div class="card" style="border-top:3px solid #1a7cb8">
+              <div class="card-hd" style="color:#1a7cb8">
+                <span style="background:#1a7cb8;color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0">2</span>
+                Test court
+              </div>
+              <div class="field"><label>Distance (m)</label><div class="iw"><input type="number" id="vc-d2" placeholder="1200" min="100" oninput="calcVC()" style="padding-left:14px"></div><div class="fhint">Recommandé : 1200 m</div></div>
+              <div class="field" style="margin-bottom:0"><label>Temps (mm:ss)</label><div class="iw"><input type="text" id="vc-t2" placeholder="ex : 4:12" oninput="calcVC()" style="padding-left:14px"></div></div>
+            </div>
+          </div>
+          <div id="vc-res"><div class="empty"><div class="empty-ico">—</div>Renseignez 2 performances pour calculer</div></div>
+          <div class="domain-row">
+            <div class="dom-c" style="border-top:3px solid #0d7a52">
+              <div class="dom-ttl" style="color:#0d7a52">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Sous VC
+              </div>
+              <div class="dom-intro">Tu peux stabiliser :</div>
+              <ul class="dom-list">
+                <li><span class="dot" style="background:#0d7a52"></span>Lactate</li>
+                <li><span class="dot" style="background:#0d7a52"></span>Ventilation</li>
+                <li><span class="dot" style="background:#0d7a52"></span>Fatigue métabolique</li>
+              </ul>
+            </div>
+            <div class="dom-c" style="border-top:3px solid #a01818">
+              <div class="dom-ttl" style="color:#a01818">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+                Au-dessus de VC
+              </div>
+              <div class="dom-intro">Domaine sévère :</div>
+              <ul class="dom-list">
+                <li><span class="dot" style="background:#a01818"></span>VO2 dérive vers VO2max</li>
+                <li><span class="dot" style="background:#a01818"></span>Lactate monte continuellement</li>
+                <li><span class="dot" style="background:#a01818"></span>D' se vide progressivement</li>
+              </ul>
+            </div>
+          </div>
+          <div id="vc-pred" style="display:contents"></div>
+        </div>
+      </div>
+
+      <!-- ── FC KARVONEN ── -->
+      <div id="p-fc" class="panel">
+        <div class="tool-stack">
+          <div class="card">
+            <div class="card-hd">
+              <div class="card-hd-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+              Paramètres
+            </div>
+            <div class="g2" style="gap:14px">
+              <div>
+                <div class="field"><label>Âge (ans)</label><div class="iw"><input type="number" id="fc-age" placeholder="35" min="10" max="100" oninput="updFC()" style="padding-left:14px"></div></div>
+                <div class="field" style="margin-bottom:0"><label>FC Max mesurée (optionnel)</label><div class="iw"><input type="number" id="fc-max" placeholder="Auto : 220 − âge" min="100" max="230" oninput="calcFC()" style="padding-left:14px"></div></div>
+              </div>
+              <div>
+                <div class="field"><label>FC Repos (bpm)</label><div class="iw"><input type="number" id="fc-rest" placeholder="55" min="30" max="100" oninput="calcFC()" style="padding-left:14px"></div></div>
+                <div id="fc-est"></div>
+              </div>
+            </div>
+          </div>
+          <div class="info-box"><strong>Karvonen :</strong> FC cible = FC Repos + % × (FC Max − FC Repos). FCmax = <strong>220 − âge</strong> si non renseignée.</div>
+          <div id="fc-res"><div class="empty"><div class="empty-ico">—</div>Renseignez votre âge et FC de repos</div></div>
+        </div>
+      </div>
+
+      <!-- ── ALLURES & SPLITS ── -->
+      <div id="p-allures" class="panel">
+        <div class="tool-stack">
+          <div class="card">
+            <div class="card-hd">
+              <div class="card-hd-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              Votre performance
+            </div>
+            <div class="g2" style="gap:14px">
+              <div>
+                <div class="field">
+                  <label>Distance</label>
+                  <div class="iw">
+                    <select id="al-dist" onchange="onDist()" style="padding-left:14px">
+                      <option value="5">5 km</option>
+                      <option value="10" selected>10 km</option>
+                      <option value="21.0975">Semi-Marathon</option>
+                      <option value="42.195">Marathon</option>
+                      <option value="custom">Autre…</option>
+                    </select>
+                  </div>
+                </div>
+                <div id="al-custom-wrap" style="display:none">
+                  <div class="field" style="margin-bottom:0">
+                    <label>Distance (km)</label>
+                    <div class="iw"><input type="number" id="al-custom" placeholder="ex : 15" step="0.1" min="0.1" oninput="calcAl()" style="padding-left:14px"><span class="iu">km</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="field" style="margin-bottom:0">
+                <label>Chrono (hh:mm:ss)</label>
+                <div class="iw"><input type="text" id="al-time" placeholder="ex : 0:45:00" oninput="calcAl()" style="padding-left:14px"></div>
+              </div>
+            </div>
+          </div>
+          <div id="al-res"><div class="empty"><div class="empty-ico">—</div>Entrez une distance et un chrono</div></div>
+          <div class="slabel">Temps de passage par allure</div>
+          <div class="race-grid" id="race-grid"></div>
+        </div>
+      </div>
+
+    </div><!-- /scroll -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ── MOBILE BOTTOM NAV (hidden on desktop) ── -->
+<nav class="bottom-nav">
+  <button class="bnav-btn active" id="mbn-home" onclick="go('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <span>Accueil</span>
+  </button>
+  <button class="bnav-btn" id="mbn-vma" onclick="go('vma')">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <span>VMA</span>
+  </button>
+  <button class="bnav-btn" id="mbn-vc" onclick="go('vc')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <span>Vitesse C.</span>
+  </button>
+  <button class="bnav-btn" id="mbn-fc" onclick="go('fc')">
+    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <span>Karvonen</span>
+  </button>
+  <button class="bnav-btn" id="mbn-allures" onclick="go('allures')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="12" x2="15.2" y2="13.8"/></svg>
+    <span>Allures</span>
+  </button>
+</nav>
+
+<script>
+/* ══════════════════════════════════════════
+   NAVIGATION — unified for desktop + mobile
+══════════════════════════════════════════ */
+const TB = {home:'Dashboard',vma:'Tableau VMA',vc:'Vitesse Critique',fc:'FC Karvonen',allures:'Allures & Splits'};
+const TB_STRONG = {vma:'VMA',vc:'Critique',fc:'Karvonen',allures:'Splits'};
+const TB_PILL = {home:'Reding Running',vma:'VMA',vc:'Vitesse Critique',fc:'Karvonen',allures:'Calculateur'};
+
+function go(id) {
+  /* panels */
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('p-' + id).classList.add('active');
+
+  /* nav buttons — both sidebar (sbn-) and bottom nav (mbn-) */
+  document.querySelectorAll('.nav-btn, .bnav-btn').forEach(b => b.classList.remove('active'));
+  ['sbn-', 'mbn-'].forEach(pfx => {
+    const b = document.getElementById(pfx + id);
+    if (b) b.classList.add('active');
+  });
+
+  /* topbar */
+  const base = TB[id] || id;
+  const strong = TB_STRONG[id];
+  document.getElementById('tb-title').innerHTML = strong
+    ? base.replace(strong, `<strong>${strong}</strong>`)
+    : base;
+  document.getElementById('tb-pill').textContent = TB_PILL[id] || '';
+
+  /* scroll to top — desktop inner scroll OR mobile window */
+  const scEl = document.querySelector('.scroll');
+  if (scEl) scEl.scrollTop = 0;
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+/* ══════════════════════════════════════════
+   UTILS
+══════════════════════════════════════════ */
+function pt(s){if(!s)return null;s=s.trim();const p=s.split(':');if(p.length===2){const m=+p[0],sec=+p[1];return isNaN(m)||isNaN(sec)?null:m*60+sec;}const n=+s;return isNaN(n)?null:n;}
+function ptH(s){if(!s)return null;s=s.trim();const p=s.split(':');if(p.length===3){const h=+p[0],m=+p[1],sec=+p[2];return isNaN(h)||isNaN(m)||isNaN(sec)?null:h*3600+m*60+sec;}if(p.length===2){const m=+p[0],sec=+p[1];return isNaN(m)||isNaN(sec)?null:m*60+sec;}return null;}
+function fAll(s){const m=Math.floor(s/60),sec=Math.round(s%60);return m+':'+String(sec).padStart(2,'0');}
+function fHMS(s){const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=Math.round(s%60);if(h>0)return h+"h"+String(m).padStart(2,'0')+"'"+String(sec).padStart(2,'0')+'"';return m+"'"+String(sec).padStart(2,'0')+'"';}
+
+/* ══════════════════════════════════════════
+   VMA
+══════════════════════════════════════════ */
+const VZONES=[
+  {z:1,n:'Récupération',  lo:55,hi:65,cls:'z1',col:'#1a7cb8',txt:'Tu peux chanter'},
+  {z:2,n:'Endurance Fond',lo:65,hi:75,cls:'z2',col:'#0d7a52',txt:'Conversation facile'},
+  {z:3,n:'Seuil Aérobie', lo:75,hi:85,cls:'z3',col:'#8a6800',txt:'Phrases courtes'},
+  {z:4,n:'Seuil Lactique',lo:85,hi:95,cls:'z4',col:'#b84400',txt:'Quelques mots'},
+  {z:5,n:'VMA / VO2max',  lo:95,hi:105,cls:'z5',col:'#a01818',txt:'Impossible de parler'},
+];
+let _vma=0;
+function genVMA(){
+  const v=parseFloat(document.getElementById('vma-inp').value);
+  const box=document.getElementById('vma-res');
+  if(!v||v<5||v>35){box.innerHTML='<div class="empty"><div class="empty-ico">—</div>Entrez votre VMA pour générer le tableau</div>';return;}
+  _vma=v;
+  const rows=VZONES.map(z=>{
+    const vlo=_vma*z.lo/100,vhi=_vma*z.hi/100;
+    return `<tr><td><span class="zb ${z.cls}">Z${z.z} · ${z.lo}–${z.hi}%</span></td><td style="font-weight:700">${z.n}</td><td style="font-weight:600">${vlo.toFixed(1)} – ${vhi.toFixed(1)} km/h</td><td style="color:${z.col};font-weight:700">${fAll(3600/vlo)} – ${fAll(3600/vhi)}</td><td style="color:var(--muted)">${z.txt}</td></tr>`;
+  }).join('');
+  const slo=Math.round(_vma*.5*10),shi=Math.round(_vma*1.1*10),sdf=Math.round(_vma*10);
+  box.innerHTML=`
+    <div class="rhero">
+      <div><div class="rh-lbl">VMA saisie</div><div class="rh-val">${_vma.toFixed(1)}</div><div class="rh-sub">km/h</div></div>
+      <div class="rh-tags"><div class="rh-tag">${fAll(3600/_vma)} /km</div></div>
+    </div>
+    <div class="slabel">Convertisseur vitesse</div>
+    <div class="sl-card">
+      <div class="sl-hd">
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Vitesse → Allure</div>
+        <div class="sl-out">
+          <span id="sl-v" style="color:var(--orange)">${_vma.toFixed(1)}</span>
+          <span class="sl-sep">km/h →</span>
+          <span id="sl-a">${fAll(3600/_vma)}</span>
+          <span id="sl-p" style="font-size:13px;color:var(--muted);font-weight:500"> (100%)</span>
+        </div>
+      </div>
+      <div class="sl-row">
+        <button class="adj" onclick="adjV(-1)">−</button>
+        <input type="range" class="sl" id="vsl" min="${slo}" max="${shi}" value="${sdf}" step="1" oninput="updSl(this.value)">
+        <button class="adj" onclick="adjV(+1)">+</button>
+      </div>
+      <div class="sl-bnds"><span>${(_vma*.5).toFixed(1)} km/h</span><span>${(_vma*1.1).toFixed(1)} km/h</span></div>
+      <div class="zbar" id="zbar"></div>
+    </div>
+    <div class="slabel">Zones d'entraînement</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Zone</th><th>Type</th><th>Vitesse</th><th>Allure /km</th><th>Talk test</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>`;
+  bldZbar(slo,shi); updSl(sdf);
+}
+function updSl(val){
+  const kmh=+val/10,pct=Math.round((kmh/_vma)*100);
+  const z=VZONES.find(z=>pct>=z.lo&&pct<=z.hi),col=z?z.col:'var(--orange)';
+  document.getElementById('sl-v').textContent=kmh.toFixed(1);
+  document.getElementById('sl-v').style.color=col;
+  document.getElementById('sl-a').textContent=fAll(3600/kmh);
+  document.getElementById('sl-p').textContent=` (${pct}% VMA)`;
+  const sl=document.getElementById('vsl'),p=((val-sl.min)/(sl.max-sl.min))*100;
+  sl.style.background=`linear-gradient(to right,${col} 0%,${col} ${p}%,#e8edf3 ${p}%,#e8edf3 100%)`;
+}
+function adjV(d){const sl=document.getElementById('vsl');if(!sl)return;const v=Math.min(Math.max(+sl.value+d,+sl.min),+sl.max);sl.value=v;updSl(v);}
+function bldZbar(slo,shi){
+  const bar=document.getElementById('zbar');if(!bar)return;
+  const rng=shi-slo;let html='';
+  VZONES.forEach(z=>{
+    const zs=Math.max(z.lo/100*_vma*10,slo),ze=Math.min(z.hi/100*_vma*10,shi);
+    if(ze<=slo||zs>=shi)return;
+    const l=((zs-slo)/rng)*100,w=((ze-zs)/rng)*100;
+    html+=`<div style="position:absolute;left:${l}%;width:${w}%;height:100%;background:${z.col};opacity:0.2"></div>`;
+    html+=`<div style="position:absolute;left:${l+w/2}%;transform:translateX(-50%);top:50%;margin-top:-7px;font-size:9px;font-weight:800;color:${z.col};font-family:var(--cond)">Z${z.z}</div>`;
+  });
+  bar.innerHTML=html;
+}
+
+/* ══════════════════════════════════════════
+   RACES
+══════════════════════════════════════════ */
+const RACES=[
+  {id:'5k',  nm:'5K',      d:5000,   spl:[{d:1000,l:'1 km'},{d:2000,l:'2 km'},{d:3000,l:'3 km'},{d:4000,l:'4 km'},{d:5000,l:'Arrivée'}],   def:300,lo:155,hi:600},
+  {id:'10k', nm:'10K',     d:10000,  spl:[{d:2000,l:'2 km'},{d:5000,l:'5 km'},{d:8000,l:'8 km'},{d:10000,l:'Arrivée'}],                     def:330,lo:160,hi:660},
+  {id:'semi',nm:'Semi',    d:21097.5,spl:[{d:5000,l:'5 km'},{d:10000,l:'10 km'},{d:15000,l:'15 km'},{d:21097.5,l:'Arrivée'}],               def:360,lo:165,hi:720},
+  {id:'mara',nm:'Marathon',d:42195,  spl:[{d:10000,l:'10 km'},{d:21097.5,l:'21 km'},{d:30000,l:'30 km'},{d:42195,l:'Arrivée'}],             def:390,lo:172,hi:780},
+];
+const DL={'5000':'5 km','10000':'10 km','21097.5':'21,1 km','42195':'42,2 km'};
+function bldRaces(){
+  const g=document.getElementById('race-grid');if(!g)return;
+  g.innerHTML=RACES.map(r=>`
+    <div class="race-card">
+      <div class="rc-top">
+        <div><div class="rc-name">${r.nm}</div><div class="rc-dist">${DL[String(r.d)]}</div></div>
+        <div><div class="rc-allure-lbl">Allure</div><div class="rc-allure" id="ra-${r.id}">${fAll(r.def)}/km</div></div>
+      </div>
+      <div class="rc-time" id="rt-${r.id}">${fHMS(r.d/1000*r.def)}</div>
+      <div class="rc-sl-row">
+        <button class="adj" onclick="adjR('${r.id}',-1)">−</button>
+        <input type="range" class="rsl" id="rs-${r.id}" min="${r.lo}" max="${r.hi}" value="${r.def}" step="1" oninput="updR('${r.id}',this.value)">
+        <button class="adj" onclick="adjR('${r.id}',+1)">+</button>
+      </div>
+      <div class="rc-sl-bnds"><span>${fAll(r.lo)}</span><span>${fAll(r.hi)}</span></div>
+      <div class="rc-splits" id="rspl-${r.id}"></div>
+    </div>`).join('');
+  RACES.forEach(r=>updR(r.id,r.def));
+}
+function adjR(id,d){const sl=document.getElementById('rs-'+id);if(!sl)return;const v=Math.min(Math.max(+sl.value+d,+sl.min),+sl.max);sl.value=v;updR(id,v);}
+function updR(id,val){
+  const r=RACES.find(x=>x.id===id);if(!r)return;const s=+val;
+  document.getElementById('rt-'+id).textContent=fHMS(r.d/1000*s);
+  document.getElementById('ra-'+id).textContent=fAll(s)+'/km';
+  const sl=document.getElementById('rs-'+id),p=((s-sl.min)/(sl.max-sl.min))*100;
+  sl.style.background=`linear-gradient(to right,var(--orange) 0%,var(--orange) ${p}%,#e8edf3 ${p}%,#e8edf3 100%)`;
+  document.getElementById('rspl-'+id).innerHTML=r.spl.map(sp=>`<div class="spl-row"><span class="spl-lbl">${sp.l}</span><span class="spl-t">${fHMS(sp.d/1000*s)}</span></div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   VITESSE CRITIQUE
+══════════════════════════════════════════ */
+function calcVC(){
+  const d1=+document.getElementById('vc-d1').value,d2=+document.getElementById('vc-d2').value;
+  const t1=pt(document.getElementById('vc-t1').value),t2=pt(document.getElementById('vc-t2').value);
+  const box=document.getElementById('vc-res');
+  if(!d1||!d2||!t1||!t2||t1<=0||t2<=0){box.innerHTML='<div class="empty"><div class="empty-ico">—</div>Renseignez 2 performances pour calculer</div>';return;}
+  if(d1===d2){box.innerHTML='<div class="empty">Les deux distances doivent être différentes</div>';return;}
+  const csMs=(d2-d1)/(t2-t1);
+  if(csMs<=0||csMs>12){box.innerHTML='<div class="empty">Vérifiez vos valeurs</div>';return;}
+  const csKmh=csMs*3.6,aCS=fAll(1000/csMs),dP=d1-csMs*t1,vmaE=csKmh/0.92;
+  const s1lo=csKmh*.75,s1hi=csKmh*.80;
+  const vz=[
+    {z:1,n:'Récupération',  lo:55,hi:65, cls:'z1',col:'#1a7cb8',txt:'Tu peux chanter'},
+    {z:2,n:'Endurance Fond',lo:65,hi:75, cls:'z2',col:'#0d7a52',txt:'Conversation facile'},
+    {z:3,n:'Seuil Aérobie', lo:75,hi:80, cls:'z3',col:'#8a6800',txt:'Phrases courtes'},
+    {z:4,n:'Seuil Lactique',lo:80,hi:95, cls:'z4',col:'#b84400',txt:'Quelques mots'},
+    {z:5,n:'CS / VMA',      lo:95,hi:105,cls:'z5',col:'#a01818',txt:'Impossible de parler'},
+  ];
+  const rows=vz.map(z=>{
+    const vlo=vmaE*z.lo/100,vhi=vmaE*z.hi/100,isCS=csKmh>=vlo&&csKmh<=vhi;
+    const csL=isCS?`<tr><td colspan="5" style="padding:0;background:transparent;border:none"><div style="height:3px;background:var(--orange);position:relative"><span style="position:absolute;left:130px;top:50%;transform:translateY(-50%);font-family:var(--cond);font-weight:800;font-size:10px;color:#fff;background:var(--orange);padding:2px 8px;border-radius:10px;white-space:nowrap">CS · ${aCS}/km</span></div></td></tr>`:'';
+    return `<tr${isCS?' style="background:#fff8f5"':''}><td><span class="zb ${z.cls}">Z${z.z} · ${z.lo}–${z.hi}%</span></td><td style="font-weight:700">${z.n}</td><td style="font-weight:600">${vlo.toFixed(1)}–${vhi.toFixed(1)} km/h</td><td style="color:${z.col};font-weight:700">${fAll(3600/vlo)} – ${fAll(3600/vhi)}</td><td style="color:var(--muted)">${z.txt}</td></tr>${csL}`;
+  }).join('');
+  box.innerHTML=`
+    <div class="g2" style="margin-bottom:0">
+      <div class="sc" style="border-top-color:var(--orange)">
+        <div class="sc-lbl">Vitesse Critique</div>
+        <div style="font-family:var(--cond);font-weight:900;font-size:28px;color:var(--orange);line-height:1">${csKmh.toFixed(2)} <span style="font-size:13px;font-weight:600;color:var(--muted)">km/h</span></div>
+        <div style="font-family:var(--cond);font-weight:700;font-size:18px;color:var(--text);margin-top:2px">${aCS} <span style="font-size:12px;font-weight:600;color:var(--muted)">/km</span></div>
+      </div>
+      <div class="g2" style="gap:10px">
+        <div class="sc"><div class="sc-lbl">VMA estimée</div><div class="sc-val">${vmaE.toFixed(1)}</div><div class="sc-sub">km/h</div></div>
+        <div class="sc"><div class="sc-lbl">Réserve D'</div><div class="sc-val">${Math.round(dP)}</div><div class="sc-sub">mètres</div></div>
+      </div>
+    </div>
+    <div class="slabel">Seuils estimés</div>
+    <div class="seuil-row">
+      <div class="seuil-c" style="border-top:3px solid #0d7a52">
+        <div class="seuil-c-ttl" style="color:#0d7a52">Seuil Aérobie (S1)</div>
+        <div class="seuil-c-val" style="color:#0d7a52">${s1lo.toFixed(1)}–${s1hi.toFixed(1)}</div>
+        <div class="seuil-c-sub">km/h · ${fAll(3600/s1hi)} – ${fAll(3600/s1lo)} /km</div>
+        <div class="seuil-c-desc">≈ 75–80% CS · Phrases courtes</div>
+      </div>
+      <div class="seuil-c" style="border-top:3px solid #b84400">
+        <div class="seuil-c-ttl" style="color:#b84400">Seuil Lactique (S2)</div>
+        <div class="seuil-c-val" style="color:#b84400">${csKmh.toFixed(1)}</div>
+        <div class="seuil-c-sub">km/h · ${aCS} /km · ≈ CS</div>
+        <div class="seuil-c-desc">CS ≈ MLSS · Quelques mots</div>
+      </div>
+    </div>
+    <div class="slabel">Zones d'entraînement</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Zone</th><th>Type</th><th>Vitesse</th><th>Allure /km</th><th>Talk test</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>`;
+  setTimeout(()=>bldPred(csKmh,dP),50);
+}
+function bldPred(csKmh,dP){
+  const csMs=csKmh/3.6;
+  const pred=document.getElementById('vc-pred');
+  pred.style.display='block';
+  const races=[
+    {nm:'5K',   d:5000,   plo:95, phi:102,lbl:'5 km'},
+    {nm:'10K',  d:10000,  plo:90, phi:97, lbl:'10 km'},
+    {nm:'Semi', d:21097.5,plo:85, phi:92, lbl:'21,1 km'},
+    {nm:'Mara', d:42195,  plo:78, phi:90, lbl:'42,2 km'},
+  ];
+  const cards=races.map(r=>{
+    const spd=csMs*((r.plo+r.phi)/2/100),sec=r.d/spd;
+    return `<div class="pred-c"><div class="pred-name">${r.nm}</div><div class="pred-dist">${r.lbl}</div><div class="pred-time">${fHMS(sec)}</div><div class="pred-allure">${fAll(1000/spd)}/km</div><div class="pred-pct">${r.plo}–${r.phi}% CS</div></div>`;
+  }).join('');
+  pred.innerHTML=`
+    <div class="slabel">Prédicteur de performance</div>
+    <div class="card" style="padding:18px 20px">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:4px">Corrélation VC ↔ perf (Follador et al., 2022 · r=0.90–0.91)</div>
+      <div class="pred-grid">${cards}</div>
+    </div>
+    <div class="slabel">Ce que dit la science</div>
+    <div class="sci-c">
+      <div class="sci-badge" style="background:#fef9e7;border-color:#fbd38d;color:#8a6800">VC vs VMA</div>
+      <div class="sci-title">Pourquoi la VC est plus pertinente</div>
+      <div class="sci-body">La VMA représente la vitesse au VO2max, mais ne dit pas combien de temps vous pouvez maintenir une haute fraction de cette vitesse. La VC intègre directement la relation vitesse ↔ endurance.<br><br>
+      <strong>Limites :</strong> La VC n'est pas "l'allure infinie". Le protocole (distances, tapis vs piste) influence la valeur. D' est un indicateur global, pas un réservoir unique.</div>
+    </div>`;
+}
+
+/* ══════════════════════════════════════════
+   FC KARVONEN
+══════════════════════════════════════════ */
+function updFC(){
+  const age=+document.getElementById('fc-age').value,est=document.getElementById('fc-est');
+  if(age>0&&!document.getElementById('fc-max').value)
+    est.innerHTML=`<div style="font-size:13px;color:var(--muted);margin-top:4px">FCmax estimée : <span style="color:var(--orange);font-weight:700">${220-age} bpm</span></div>`;
+  else est.innerHTML='';
+  calcFC();
+}
+function calcFC(){
+  const age=+document.getElementById('fc-age').value,fmx=+document.getElementById('fc-max').value,frs=+document.getElementById('fc-rest').value;
+  const box=document.getElementById('fc-res');
+  if(!age||!frs||age<=0||frs<=0){box.innerHTML='<div class="empty"><div class="empty-ico">—</div>Renseignez votre âge et FC de repos</div>';return;}
+  const fcMax=fmx||(220-age),fcRes=fcMax-frs,src=fmx?'mesurée':`estimée (220−${age})`;
+  const zones=[
+    {l:'Z1 — Récup',       lo:50,hi:60,cls:'fz1',d:'Tu peux chanter'},
+    {l:'Z2 — Fond',        lo:60,hi:70,cls:'fz2',d:'Conversation facile'},
+    {l:'Z3 — Seuil Aér.',  lo:70,hi:80,cls:'fz3',d:'Phrases courtes'},
+    {l:'Z4 — Seuil Lact.', lo:80,hi:90,cls:'fz4',d:'Quelques mots'},
+    {l:'Z5 — VO2max',      lo:90,hi:100,cls:'fz5',d:'Impossible de parler'},
+  ];
+  const cards=zones.map(z=>{
+    const mn=Math.round(frs+(z.lo/100)*fcRes),mx=Math.round(frs+(z.hi/100)*fcRes);
+    return `<div class="fz ${z.cls}"><div class="fz-lbl">${z.l}</div><div class="fz-val">${mn}–${mx}</div><div class="fz-bpm">bpm · ${z.lo}–${z.hi}% RCM</div><div class="fz-desc">${z.d}</div></div>`;
+  }).join('');
+  box.innerHTML=`
+    <div class="stats-row">
+      <div class="sc"><div class="sc-lbl">FC Max (${src})</div><div class="sc-val">${fcMax}</div><div class="sc-sub">bpm</div></div>
+      <div class="sc"><div class="sc-lbl">FC Repos</div><div class="sc-val">${frs}</div><div class="sc-sub">bpm</div></div>
+      <div class="sc"><div class="sc-lbl">Réserve (RCM)</div><div class="sc-val">${fcRes}</div><div class="sc-sub">bpm</div></div>
+    </div>
+    <div class="slabel">Zones cardiaques</div>
+    <div class="fc-grid">${cards}</div>`;
+}
+
+/* ══════════════════════════════════════════
+   ALLURES
+══════════════════════════════════════════ */
+function onDist(){
+  const v=document.getElementById('al-dist').value;
+  document.getElementById('al-custom-wrap').style.display=v==='custom'?'block':'none';
+  calcAl();
+}
+function getDist(){const v=document.getElementById('al-dist').value;return v==='custom'?+document.getElementById('al-custom').value:+v;}
+function calcAl(){
+  const dist=getDist(),t=ptH(document.getElementById('al-time').value);
+  const box=document.getElementById('al-res');
+  if(!dist||!t||dist<=0||t<=0){box.innerHTML='<div class="empty"><div class="empty-ico">—</div>Entrez une distance et un chrono</div>';return;}
+  const spk=t/dist,kmh=3600/spk,all=fAll(spk);
+  const PRED=[
+    {nm:'5K',   d:5,       lbl:'5 km'},
+    {nm:'10K',  d:10,      lbl:'10 km'},
+    {nm:'21K',  d:21.0975, lbl:'21,1 km'},
+    {nm:'42K',  d:42.195,  lbl:'42,2 km'},
+  ];
+  const pCards=PRED.map(r=>{
+    const ps=t*Math.pow(r.d/dist,1.06),pa=fAll(ps/r.d);
+    return `<div class="sc" style="text-align:center;border-top-color:#1a7cb8"><div class="sc-lbl">${r.nm}</div><div style="font-family:var(--cond);font-weight:900;font-size:24px;color:var(--orange);line-height:1">${fHMS(ps)}</div><div style="font-size:11px;color:var(--muted);margin-top:3px">${pa}/km</div></div>`;
+  }).join('');
+  box.innerHTML=`
+    <div class="rhero">
+      <div><div class="rh-lbl">Allure</div><div class="rh-val">${all}</div><div class="rh-sub">min/km</div></div>
+      <div class="rh-tags"><div class="rh-tag">${kmh.toFixed(2)} km/h</div><div class="rh-tag">${fHMS(t)} sur ${dist} km</div></div>
+    </div>
+    <div class="slabel">Équivalences (Riegel)</div>
+    <div class="stats-row" style="grid-template-columns:repeat(4,1fr)">${pCards}</div>`;
+  bldRaces();
+}
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('vma-inp').value=14; genVMA();
+  document.getElementById('al-time').value='0:45:00'; calcAl();
+  document.getElementById('vc-d1').value=3600; document.getElementById('vc-t1').value='14:30';
+  document.getElementById('vc-d2').value=1200; document.getElementById('vc-t2').value='4:30'; calcVC();
+  document.getElementById('fc-age').value=35; document.getElementById('fc-rest').value=55; updFC();
+  bldRaces();
+});
+</script>
+</body>
+</html>
