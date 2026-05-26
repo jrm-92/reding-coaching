@@ -3654,6 +3654,49 @@
     .fade-in-delay-2 { transition-delay: 0.2s; }
     .fade-in-delay-3 { transition-delay: 0.3s; }
 
+    /* ===== OUTILS OVERLAY ===== */
+    #outils-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      background: #111827;
+      flex-direction: column;
+    }
+    #outils-overlay.active {
+      display: flex;
+    }
+    #outils-close-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      z-index: 10001;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+      line-height: 1;
+    }
+    #outils-close-btn:hover {
+      background: rgba(255,107,26,0.6);
+    }
+    #outils-iframe {
+      width: 100%;
+      flex: 1;
+      border: none;
+    }
+    .nav-outils-link {
+      cursor: pointer;
+    }
+
     /* ===== STICKY CTA MOBILE ===== */
     .sticky-cta-mobile {
       display: none;
@@ -3748,6 +3791,7 @@
       <div class="nav-left">
         <a href="#top">Accueil</a>
         <a href="#apropos">À propos</a>
+        <a href="#" class="nav-outils-link" onclick="openOutils(); return false;">Outils</a>
       </div>
       <div class="nav-center">
         <a href="#suivi-personnalise">Suivi à distance</a>
@@ -3784,7 +3828,7 @@
         <p class="hero-subtitle-line">La progression n'est jamais un hasard.</p>
 
         <p class="hero-body-text">
-          Progresser, c'est trouver le bon équilibre entre:<br> <strong style="color:#ffffff;">La performance</strong>, <strong style="color:#ffffff;">la santé</strong> et <strong style="color:#ffffff;"> le plaisir de courir</strong>.
+          Progresser, c'est trouver le bon équilibre entre: <strong style="color:#ffffff;">La performance</strong>, <strong style="color:#ffffff;">la santé</strong> et <strong style="color:#ffffff;"> le plaisir de courir</strong>.
         </p>
 
         <p class="hero-body-text">
@@ -3885,10 +3929,10 @@
         <h2 class="suivi-distance-title">Suivi à distance</h2>
         <span class="suivi-distance-divider" aria-hidden="true"></span>
         <p class="suivi-distance-lead">
-          Tu prépares une course, tu souhaites un accompagnement structuré, pensé entièrement pour toi ?
+          Je t'accompagne pas à pas pour te mettre dans les meilleures conditions.
         </p>
         <p class="suivi-distance-sub">
-          À partir de ton profil, de tes contraintes et de tes ambitions, je construis un plan d'entraînement sur mesure — ajusté semaine après semaine pour suivre précisément ton évolution et te faire progresser durablement.
+          À partir de ton profil, de tes contraintes, je t'aide à définir un objectif et je construis un plan d'entraînement sur mesure — ajusté semaine après semaine pour s'adapter précisément à ton évolution et te faire progresser durablement.
         </p>
         <ul class="suivi-distance-meta" aria-label="Engagements clés">
           <li><span class="dot" aria-hidden="true"></span>Plan 100 % personnalisé</li>
@@ -4458,6 +4502,23 @@
       }
     });
     
+    // Outils overlay
+    function openOutils() {
+      document.querySelector('.main-nav').classList.remove('active');
+      document.getElementById('outils-overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeOutils() {
+      document.getElementById('outils-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeOutils();
+    });
+    window.addEventListener('message', function(e) {
+      if (e.data === 'closeOutils') closeOutils();
+    });
+
     // Mobile menu toggle
     function toggleMenu() {
       const nav = document.querySelector('.main-nav');
@@ -4504,6 +4565,12 @@
       });
     });
   </script>
+
+  <!-- OUTILS OVERLAY -->
+  <div id="outils-overlay">
+    <button id="outils-close-btn" onclick="closeOutils()" title="Fermer les outils">✕</button>
+    <iframe id="outils-iframe" src="redlab.html" title="Outils RedLab – Reding Running"></iframe>
+  </div>
 
   <!-- FOOTER RGPD -->
   <footer class="site-footer">

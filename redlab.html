@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RedLab – Profil Athlète Running</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080D1A; --bg2:#0F1824; --bg3:#1A2535; --card:#111C2E;
+  --border:rgba(255,255,255,0.07); --border2:rgba(255,255,255,0.13);
+  --orange:#FF6B1A; --orange2:#E55A0C; --og:rgba(255,107,26,0.18);
+  --blue:#3B82F6; --green:#10B981; --red:#EF4444;
+  --text:#F1F5F9; --text2:#CBD5E1; --muted:#94A3B8; --muted2:#64748B;
+  --font:'Manrope','Inter',sans-serif;
+  --r:16px; --rs:12px; --sidebar:248px;
+  --input-bg:rgba(255,255,255,0.05); --input-border:rgba(255,255,255,0.1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased;line-height:1.6}
+
+/* ── SHELL ── */
+.app{display:flex;height:100vh}
+.mobile-header{display:none}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+.sidebar::before{
+  content:'';position:absolute;top:-80px;left:-60px;
+  width:220px;height:220px;border-radius:50%;
+  background:var(--og);filter:blur(60px);pointer-events:none;
+}
+.sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid var(--border)}
+.logo{font-size:22px;font-weight:900;color:var(--text);letter-spacing:-0.5px;line-height:1}
+.logo span{color:var(--orange)}
+.logo-sub{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted2);margin-top:4px}
+.sidebar-nav{padding:16px 12px;flex:1;overflow-y:auto}
+.nav-section{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted2);padding:0 10px;margin:20px 0 8px}
+.nav-section:first-child{margin-top:0}
+.nav-btn{
+  display:flex;align-items:center;gap:10px;width:100%;
+  padding:10px 12px;border:none;background:transparent;
+  cursor:pointer;color:var(--muted);font-family:var(--font);
+  font-size:13px;font-weight:600;border-radius:10px;
+  transition:all .18s;text-align:left;
+}
+.nav-btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.nav-btn:hover{background:rgba(255,255,255,0.05);color:var(--text2)}
+.nav-btn.active{background:rgba(255,107,26,0.12);color:var(--orange);border:1px solid rgba(255,107,26,0.2)}
+.sidebar-footer{padding:16px;border-top:1px solid var(--border)}
+.sf-brand{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
+.sf-sub{font-size:11px;color:var(--muted2);line-height:1.5;margin-bottom:12px}
+.back-btn{
+  display:flex;align-items:center;gap:6px;width:100%;
+  padding:9px 12px;border:1px solid var(--border2);
+  background:transparent;cursor:pointer;color:var(--muted);
+  font-family:var(--font);font-size:11px;font-weight:600;
+  border-radius:8px;transition:all .18s;text-decoration:none;
+}
+.back-btn:hover{border-color:var(--orange);color:var(--orange)}
+.back-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;background:var(--bg)}
+.topbar{
+  height:54px;background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:0 28px;display:flex;align-items:center;
+  justify-content:space-between;flex-shrink:0;
+}
+.topbar-title{font-size:13px;font-weight:700;color:var(--text);letter-spacing:0.3px}
+.topbar-badge{
+  background:rgba(255,107,26,0.12);border:1px solid rgba(255,107,26,0.25);
+  color:var(--orange);font-size:10px;font-weight:700;
+  padding:3px 10px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;
+}
+.scroll{flex:1;overflow-y:auto;scroll-behavior:smooth}
+.panel{display:none}
+.panel.active{display:block}
+
+/* ── FIELDS ── */
+.field{margin-bottom:18px}
+.field:last-child{margin-bottom:0}
+label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:8px}
+.iw{
+  display:flex;align-items:center;
+  background:var(--input-bg);border:1.5px solid var(--input-border);
+  border-radius:10px;overflow:hidden;transition:border-color .18s,box-shadow .18s;
+}
+.iw:focus-within{border-color:rgba(255,107,26,0.5);box-shadow:0 0 0 3px rgba(255,107,26,0.08);background:rgba(255,107,26,0.03)}
+.ii{padding:0 12px;color:var(--muted2);flex-shrink:0}
+.ii svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+.iw input,.iw select{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--text);font-family:var(--font);font-size:20px;
+  font-weight:700;padding:13px 14px 13px 0;
+  -moz-appearance:textfield;-webkit-appearance:none;
+}
+.iw select{cursor:pointer}
+.iw select option{background:var(--bg3)}
+.iw input::-webkit-inner-spin-button,.iw input::-webkit-outer-spin-button{-webkit-appearance:none}
+.iu{padding-right:14px;font-size:12px;font-weight:600;color:var(--muted2);white-space:nowrap}
+.fhint{font-size:11px;color:var(--muted2);margin-top:6px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* ── CARDS ── */
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:28px;margin-bottom:16px;
+}
+.card:last-child{margin-bottom:0}
+.card-hd{
+  display:flex;align-items:center;gap:10px;
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:24px;
+}
+.card-hd-icon{
+  width:28px;height:28px;background:rgba(255,107,26,0.1);
+  border:1px solid rgba(255,107,26,0.2);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.card-hd-icon svg{width:13px;height:13px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── BUTTONS ── */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--orange);color:#fff;
+  padding:13px 24px;border-radius:10px;
+  font-size:14px;font-weight:700;border:none;cursor:pointer;
+  font-family:var(--font);transition:all .18s;text-decoration:none;
+  box-shadow:0 4px 20px rgba(255,107,26,0.35);
+}
+.btn-primary:hover{background:var(--orange2);transform:translateY(-1px);box-shadow:0 6px 28px rgba(255,107,26,0.45)}
+.btn-generate{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:17px 28px;border-radius:14px;
+  background:var(--orange);color:#fff;border:none;cursor:pointer;
+  font-family:var(--font);font-size:16px;font-weight:800;letter-spacing:-0.2px;
+  transition:all .18s;box-shadow:0 4px 24px rgba(255,107,26,0.35);margin-top:8px;
+}
+.btn-generate:hover{background:var(--orange2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,107,26,0.45)}
+.btn-generate svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.btn-modify{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 14px;border:1px solid var(--border2);border-radius:8px;
+  background:transparent;color:var(--muted);cursor:pointer;
+  font-family:var(--font);font-size:11px;font-weight:700;
+  transition:all .18s;
+}
+.btn-modify:hover{border-color:var(--orange);color:var(--orange)}
+.btn-modify svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── SECTION LABEL ── */
+.slabel{
+  font-size:9px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--orange);
+  margin-top:32px;margin-bottom:16px;
+  display:flex;align-items:center;gap:6px;
+}
+.slabel::before{content:'';display:block;width:10px;height:2px;background:var(--orange);flex-shrink:0}
+
+/* ── INFO BOX ── */
+.info-box{
+  background:rgba(255,107,26,0.06);border:1px solid rgba(255,107,26,0.18);
+  border-left:3px solid var(--orange);border-radius:10px;
+  padding:16px 18px;font-size:13px;color:var(--text2);line-height:1.7;
+  margin-bottom:0;
+}
+.info-box strong{color:var(--orange);font-weight:700}
+.info-box.error{background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.25);border-left-color:var(--red)}
+.info-box.error strong{color:var(--red)}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-family:var(--font)}
+thead th{
+  text-align:left;padding:12px 16px;font-size:9px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);
+  background:rgba(255,255,255,0.02);border-bottom:1px solid var(--border);white-space:nowrap;
+}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:rgba(255,255,255,0.02)}
+tbody td{padding:13px 16px;font-size:13px;vertical-align:middle;color:var(--text2)}
+.zb{
+  display:inline-block;padding:3px 9px;border-radius:20px;
+  font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;
+}
+.z1{background:rgba(59,130,246,0.15);color:#60A5FA}
+.z2{background:rgba(16,185,129,0.15);color:#34D399}
+.z3{background:rgba(234,179,8,0.15);color:#FCD34D}
+.z4{background:rgba(249,115,22,0.15);color:#FB923C}
+.z5{background:rgba(239,68,68,0.15);color:#F87171}
+
+/* ── STAT CARDS ── */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.sc{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:18px 16px;border-top:2px solid var(--orange);
+}
+.sc-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:6px}
+.sc-val{font-size:30px;font-weight:900;color:var(--orange);line-height:1;letter-spacing:-0.5px}
+.sc-sub{font-size:11px;color:var(--muted2);margin-top:3px}
+
+/* ── RESULT HERO ── */
+.rhero{
+  background:linear-gradient(135deg,rgba(255,107,26,0.08),rgba(255,107,26,0.02));
+  border:1px solid rgba(255,107,26,0.2);border-left:3px solid var(--orange);
+  border-radius:14px;padding:24px 28px;
+  display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+}
+.rh-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:3px}
+.rh-val{font-size:52px;font-weight:900;color:var(--orange);line-height:1;letter-spacing:-2px}
+.rh-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.rh-tags{display:flex;gap:8px;flex-wrap:wrap}
+.rh-tag{
+  background:rgba(255,107,26,0.1);border:1px solid rgba(255,107,26,0.2);
+  border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--orange);
+}
+
+/* ── SLIDER ── */
+.sl-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px}
+.sl-hd{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.sl-out{font-size:22px;font-weight:900;color:var(--text);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.sl-sep{color:var(--muted);font-size:14px;font-weight:400}
+.sl-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.adj{
+  width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border2);
+  background:transparent;color:var(--text2);font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .14s;line-height:1;padding:0;font-family:var(--font);
+}
+.adj:hover{border-color:var(--orange);color:var(--orange);background:rgba(255,107,26,0.08)}
+.adj:active{transform:scale(.9)}
+input[type=range].sl{-webkit-appearance:none;appearance:none;flex:1;height:6px;border-radius:3px;background:var(--border);outline:none;cursor:pointer;border:none;padding:0}
+input[type=range].sl::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--orange);cursor:pointer;border:2px solid var(--bg);box-shadow:0 0 0 2px var(--orange)}
+input[type=range].sl::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--orange);cursor:pointer;border:2px solid var(--bg)}
+.sl-bnds{display:flex;justify-content:space-between;font-size:10px;font-weight:600;color:var(--muted2);margin-top:2px;margin-bottom:8px}
+.zbar{position:relative;height:16px;border-radius:4px;overflow:hidden;background:rgba(255,255,255,0.04)}
+
+/* ── RACE CARDS ── */
+.race-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.race-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:22px;position:relative;overflow:hidden;
+}
+.race-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),transparent)}
+.rc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.rc-name{font-size:20px;font-weight:900;color:var(--text);text-transform:uppercase;line-height:1}
+.rc-dist{font-size:11px;font-weight:600;color:var(--muted2);margin-top:2px}
+.rc-allure-lbl{font-size:9px;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;text-align:right;margin-bottom:2px}
+.rc-allure{font-size:14px;font-weight:800;color:var(--orange);text-align:right}
+.rc-time{font-size:34px;font-weight:900;color:var(--orange);line-height:1;letter-spacing:-1px;margin-bottom:14px}
+.rc-sl-row{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+input[type=range].rsl{-webkit-appearance:none;appearance:none;flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,0.06);outline:none;cursor:pointer;border:none;padding:0}
+input[type=range].rsl::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--orange);cursor:pointer;border:2px solid var(--bg);box-shadow:0 0 0 2px var(--orange)}
+input[type=range].rsl::-moz-range-thumb{width:17px;height:17px;border-radius:50%;background:var(--orange);cursor:pointer;border:2px solid var(--bg)}
+.rc-sl-bnds{display:flex;justify-content:space-between;font-size:9px;font-weight:600;color:var(--muted2);margin-bottom:12px}
+.rc-splits{border-top:1px solid var(--border);padding-top:10px}
+.spl-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.spl-row:last-child{border-bottom:none}
+.spl-lbl{font-size:11px;font-weight:600;color:var(--muted2);text-transform:uppercase;letter-spacing:.5px}
+.spl-t{font-size:13px;font-weight:700;color:var(--text2)}
+
+/* ── PREDICTOR ── */
+.pred-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px}
+.pred-c{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:20px 16px 16px;display:flex;flex-direction:column;
+  transition:transform .15s,box-shadow .15s;
+}
+.pred-c:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.3)}
+.pred-c-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.pred-name{font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:-0.3px;line-height:1}
+.pred-dist{font-size:10px;color:var(--muted2);margin-top:3px;font-weight:600;letter-spacing:.5px}
+.pred-pct-badge{padding:3px 9px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:.5px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.pred-time{font-size:28px;font-weight:900;line-height:1;letter-spacing:-1px;text-align:center;margin:4px 0 6px}
+.pred-pace{font-size:13px;font-weight:700;color:var(--text2);text-align:center}
+.pred-kmh{font-size:10px;color:var(--muted2);text-align:center;margin-top:2px;margin-bottom:14px}
+.pred-range{margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06)}
+.pred-range-bar{position:relative;height:4px;border-radius:2px;margin-bottom:7px;overflow:visible}
+.pred-range-dot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:10px;height:10px;border-radius:50%;border:2px solid var(--bg2)}
+.pred-range-lbl{display:flex;justify-content:space-between;font-size:9px;font-weight:600;color:var(--muted2)}
+.pred-pct{font-size:9px;color:var(--muted2);margin-top:2px}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:48px 20px;color:var(--muted2);font-size:14px}
+.empty-ico{font-size:28px;margin-bottom:12px;opacity:0.2}
+
+/* ══ MODE TOGGLE (INPUT) ══ */
+.mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.mode-card{
+  padding:20px 18px;border:2px solid var(--border);border-radius:16px;
+  cursor:pointer;background:var(--card);transition:all .2s;text-align:left;
+  font-family:var(--font);width:100%;position:relative;
+}
+.mode-card:hover{border-color:rgba(255,107,26,0.4);background:rgba(255,107,26,0.03)}
+.mode-card.active{border-color:var(--orange);background:rgba(255,107,26,0.07)}
+.mode-card-ico{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;margin-bottom:12px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border);transition:all .2s;
+}
+.mode-card.active .mode-card-ico{background:rgba(255,107,26,0.15);border-color:rgba(255,107,26,0.3)}
+.mode-card-ico svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s}
+.mode-card.active .mode-card-ico svg{stroke:var(--orange)}
+.mode-card-title{font-size:14px;font-weight:800;color:var(--text2);margin-bottom:4px;letter-spacing:-0.2px;transition:color .2s}
+.mode-card.active .mode-card-title{color:var(--text)}
+.mode-card-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.mode-check{
+  position:absolute;top:14px;right:14px;
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid var(--border);transition:all .2s;
+}
+.mode-card.active .mode-check{background:var(--orange);border-color:var(--orange)}
+.mode-card.active .mode-check::after{
+  content:'';display:block;width:6px;height:4px;
+  border-left:2px solid #fff;border-bottom:2px solid #fff;
+  transform:rotate(-45deg);margin:3px 0 0 3px;
+}
+
+/* ══ OPTIONAL FC SECTION ══ */
+.opt-toggle{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;padding:15px 20px;border:1.5px solid var(--border);
+  border-radius:12px;background:transparent;cursor:pointer;
+  font-family:var(--font);font-size:13px;font-weight:700;color:var(--muted);
+  transition:all .18s;margin-bottom:0;
+}
+.opt-toggle:hover{border-color:rgba(255,107,26,0.35);color:var(--text2)}
+.opt-toggle.open{border-color:rgba(255,107,26,0.3);color:var(--orange);background:rgba(255,107,26,0.04);border-radius:12px 12px 0 0}
+.opt-body{
+  display:none;padding:20px;
+  border:1.5px solid rgba(255,107,26,0.2);border-top:none;
+  border-radius:0 0 12px 12px;background:rgba(255,107,26,0.03);
+  margin-bottom:24px;
+}
+.opt-body.open{display:block}
+.opt-icon{width:22px;height:22px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;transition:transform .2s;flex-shrink:0}
+.opt-icon svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.opt-toggle.open .opt-icon{transform:rotate(180deg);border-color:rgba(255,107,26,0.3)}
+
+/* ══ INPUT PANEL ══ */
+.input-wrap{padding:36px 28px 80px}
+.btn-road-apply{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;padding:11px 14px;
+  border:1.5px solid rgba(255,107,26,0.4);border-radius:10px;
+  background:rgba(255,107,26,0.08);color:var(--orange);
+  font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;
+  transition:all .18s;
+}
+.btn-road-apply:hover{background:rgba(255,107,26,0.18);border-color:rgba(255,107,26,0.6)}
+.btn-road-apply svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.input-hero{margin-bottom:36px}
+.tool-eyebrow{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.tool-eyebrow::before{content:'';width:12px;height:2px;background:var(--orange)}
+.input-hero-title{font-size:28px;font-weight:900;color:var(--text);letter-spacing:-0.7px;margin-bottom:8px}
+.input-hero-sub{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* ══ TEST ROWS ══ */
+.test-row{display:grid;grid-template-columns:48px 1fr 90px;gap:12px;align-items:center;margin-bottom:14px}
+.test-row:last-child{margin-bottom:0}
+.test-badge{
+  width:48px;height:48px;border-radius:12px;flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:16px;font-weight:900;color:#fff;
+}
+.test-live{font-size:12px;color:var(--muted);text-align:right;font-weight:600}
+
+/* ══ PROFILE HERO (DASHBOARD) ══ */
+.profile-hero{
+  background:linear-gradient(135deg,rgba(255,107,26,0.09),rgba(255,107,26,0.02));
+  border:1px solid rgba(255,107,26,0.22);border-left:4px solid var(--orange);
+  border-radius:18px;padding:28px 32px;
+  display:flex;align-items:flex-start;gap:32px;flex-wrap:wrap;
+  margin-bottom:28px;
+}
+.ph-main{min-width:120px}
+.ph-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);margin-bottom:4px}
+.ph-val{font-size:56px;font-weight:900;color:var(--orange);line-height:1;letter-spacing:-2px}
+.ph-unit{font-size:13px;color:var(--muted);font-weight:500;margin-top:6px}
+.ph-metrics{display:flex;gap:14px;flex-wrap:wrap;flex:1;align-items:flex-start}
+.ph-metric{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:12px;padding:16px 18px;min-width:110px;
+}
+.ph-m-lbl{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:6px}
+.ph-m-val{font-size:22px;font-weight:900;color:var(--text);line-height:1;letter-spacing:-0.5px}
+.ph-m-sub{font-size:11px;color:var(--muted2);margin-top:4px;line-height:1.4}
+.ph-badge{
+  display:inline-flex;align-items:center;
+  padding:4px 10px;border-radius:20px;
+  font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  margin-top:10px;
+}
+
+/* ══ CS THRESHOLD ROW ══ */
+tr.cs-row{background:rgba(255,107,26,0.06)}
+.cs-row td{
+  border-top:1.5px solid rgba(255,107,26,0.28)!important;
+  border-bottom:1.5px solid rgba(255,107,26,0.28)!important;
+  padding-top:10px!important;padding-bottom:10px!important;
+}
+.cs-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,107,26,0.14);border:1px solid rgba(255,107,26,0.3);
+  border-radius:8px;padding:4px 12px;
+  font-size:10px;font-weight:800;letter-spacing:1px;
+  color:var(--orange);white-space:nowrap;
+}
+.cs-badge svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* ══ DASHBOARD SECTION HEADERS ══ */
+.db-section{margin-bottom:40px}
+.db-section-hd{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:18px;padding-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+.db-section-ico{
+  width:28px;height:28px;border-radius:8px;
+  background:rgba(255,107,26,0.1);border:1px solid rgba(255,107,26,0.2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.db-section-ico svg{width:13px;height:13px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.db-section-title{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);flex:1}
+.db-section-badge{
+  font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 9px;border-radius:20px;
+  background:rgba(255,107,26,0.08);border:1px solid rgba(255,107,26,0.18);
+  color:var(--orange);
+}
+
+/* ══ TOOL LAYOUT / DASHBOARD GRID ══ */
+.tool-layout{padding:36px 0 80px}
+#db-profile{padding-left:20px;padding-right:20px}
+.db-section-hd{padding-left:20px;padding-right:20px}
+.db-grid{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:1200px){.db-grid{grid-template-columns:1fr 1fr;gap:0 44px;align-items:start}}
+
+/* ══ HIDE ON MOBILE ══ */
+.hide-mob{display:table-cell}
+
+/* ══ MOBILE ══ */
+@media(max-width:860px){
+  html,body{height:auto!important;overflow:auto!important}
+  .app{flex-direction:column;height:auto}
+  .sidebar{display:none}
+  .main{overflow:visible;display:block}
+  .topbar{display:none!important}
+  .scroll{overflow:visible;padding:0}
+
+  .mobile-header{
+    display:block;background:var(--bg2);
+    padding:14px 18px 12px;border-bottom:2px solid var(--orange);
+    position:sticky;top:0;z-index:100;
+  }
+  .mh-inner{display:flex;align-items:center;justify-content:space-between}
+  .mh-logo{font-size:20px;font-weight:900;color:var(--text)}
+  .mh-logo span{color:var(--orange)}
+  .mh-menu{
+    display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;
+    border-top:1px solid var(--border);padding-top:10px;
+  }
+  .mh-btn{
+    flex:1;padding:9px 10px;border:1px solid var(--border);
+    background:transparent;color:var(--muted);font-family:var(--font);
+    font-size:12px;font-weight:700;border-radius:8px;cursor:pointer;text-align:center;
+    transition:all .18s;
+  }
+  .mh-btn.active{background:rgba(255,107,26,0.12);color:var(--orange);border-color:rgba(255,107,26,0.3)}
+
+  .input-wrap{padding:20px 16px 80px}
+  .tool-layout{padding:20px 0 80px}
+  #db-profile{padding-left:16px;padding-right:16px}
+  .db-section-hd{padding-left:16px;padding-right:16px}
+  .mode-toggle{gap:10px}
+  .mode-card{padding:16px 14px}
+  .profile-hero{padding:20px;gap:16px;border-radius:14px}
+  .ph-val{font-size:44px}
+  .ph-metrics{gap:10px}
+  .ph-metric{padding:12px 14px;min-width:90px}
+.test-row{grid-template-columns:48px 1fr;gap:10px}
+  .test-live{display:none}
+  .hide-mob{display:none}
+  .pred-grid{grid-template-columns:1fr 1fr}
+  .stats-row{gap:10px}
+  .sc{padding:14px 12px}.sc-val{font-size:24px}
+  .race-grid{grid-template-columns:1fr 1fr;gap:10px}
+  .race-card{padding:14px}.rc-time{font-size:26px}
+  thead th{padding:10px 12px;font-size:8px}
+  tbody td{padding:10px 12px;font-size:12px}
+  .slabel{margin-top:24px}
+  .db-section{margin-bottom:28px}
+}
+@media(max-width:480px){
+  .g2{grid-template-columns:1fr}
+  .race-grid{grid-template-columns:1fr}
+  .pred-grid{grid-template-columns:1fr 1fr}
+}
+
+/* ══ LARGE SCREENS ══ */
+@media(min-width:1400px){
+  :root{--sidebar:268px}
+  .input-wrap{padding:44px 32px 100px}
+  .tool-layout{padding:44px 0 100px}
+  #db-profile{padding-left:28px;padding-right:28px}
+  .db-section-hd{padding-left:28px;padding-right:28px}
+  .input-hero-title{font-size:34px}
+  .card{padding:34px}
+  .iw input,.iw select{font-size:22px;padding:15px 16px 15px 0}
+  .profile-hero{padding:36px 40px;gap:40px}
+  .ph-val{font-size:68px}
+  .ph-m-val{font-size:26px}
+  .rh-val{font-size:68px}
+  .pred-time{font-size:32px}
+  .pred-grid{gap:18px}
+  thead th{padding:14px 20px;font-size:10px;letter-spacing:2px}
+  tbody td{padding:14px 20px;font-size:14px}
+  .sl-card{padding:30px 36px}
+  .sl-out{font-size:28px}
+  .race-grid,.pred-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+  .race-card{padding:26px 24px}.rc-time{font-size:42px}
+  .sc-val{font-size:36px}
+  .stats-row{gap:14px}
+  .db-section{margin-bottom:48px}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE HEADER -->
+<header class="mobile-header">
+  <div class="mh-inner">
+    <div class="mh-logo">Red<span>Lab</span></div>
+  </div>
+  <div class="mh-menu">
+    <button class="mh-btn active" id="mbn-input" onclick="go('input')">Saisie</button>
+    <button class="mh-btn" id="mbn-dashboard" onclick="go('dashboard')">Dashboard</button>
+  </div>
+</header>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo">Red<span>Lab</span></div>
+      <div class="logo-sub">Performance Science</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Mon profil</div>
+      <button class="nav-btn active" id="sbn-input" onclick="go('input')">
+        <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Saisie
+      </button>
+      <button class="nav-btn" id="sbn-dashboard" onclick="go('dashboard')">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sf-brand">Reding Running</div>
+      <div class="sf-sub">Coach certifié FFA<br>Île-de-France</div>
+      <button class="back-btn" onclick="window.parent.postMessage('closeOutils','*')">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Retour au site
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar" id="main-topbar" style="display:none">
+      <div class="topbar-title" id="tb-title">Dashboard</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="btn-modify" onclick="go('input')">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Modifier
+        </button>
+        <div class="topbar-badge">RedLab</div>
+      </div>
+    </div>
+
+    <div class="scroll">
+
+      <!-- ══════════ PANEL SAISIE ══════════ -->
+      <div id="p-input" class="panel active">
+        <div class="input-wrap">
+
+          <div class="input-hero">
+            <div class="tool-eyebrow">RedLab · Science de la Performance</div>
+            <div class="input-hero-title">Définir votre profil athlète</div>
+            <div class="input-hero-sub">Choisissez votre mode de saisie. En quelques valeurs, obtenez vos zones d'entraînement personnalisées, vos prédictions de performance et vos temps de passage.</div>
+          </div>
+
+          <!-- Mode Toggle -->
+          <div class="slabel" style="margin-top:0;margin-bottom:14px">Mode de saisie</div>
+          <div class="mode-toggle">
+            <button class="mode-card active" onclick="setMode('vma')" id="mode-vma">
+              <div class="mode-card-ico">
+                <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div class="mode-card-title">VMA seule</div>
+              <div class="mode-card-desc">J'ai déjà ma VMA mesurée sur le terrain</div>
+              <div class="mode-check"></div>
+            </button>
+            <button class="mode-card" onclick="setMode('tests')" id="mode-tests">
+              <div class="mode-card-ico">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="mode-card-title">Tests terrain</div>
+              <div class="mode-card-desc">Tests 3' / 6' / 12' — VMA <em style="font-style:normal;color:var(--orange)">et</em> Vitesse Critique</div>
+              <div class="mode-check"></div>
+            </button>
+          </div>
+
+          <!-- Form VMA seule -->
+          <div id="form-vma" class="card">
+            <div class="card-hd">
+              <div class="card-hd-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+              Votre VMA
+            </div>
+            <!-- Sous-mode VMA -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px">
+              <button class="mode-card active" id="vma-sub-direct" onclick="setVmaSubMode('direct')" style="padding:14px 16px">
+                <div class="mode-card-title" style="font-size:13px">Saisie directe</div>
+                <div class="mode-card-desc">J'ai déjà ma VMA mesurée</div>
+                <div class="mode-check"></div>
+              </button>
+              <button class="mode-card" id="vma-sub-perf" onclick="setVmaSubMode('perf')" style="padding:14px 16px">
+                <div class="mode-card-title" style="font-size:13px">Depuis une performance</div>
+                <div class="mode-card-desc">Calculer via un chrono de course</div>
+                <div class="mode-check"></div>
+              </button>
+            </div>
+            <!-- Saisie directe -->
+            <div id="vma-direct-form">
+              <div class="field" style="margin-bottom:0">
+                <label>VMA (km/h)</label>
+                <div class="iw">
+                  <div class="ii"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                  <input type="number" id="vma-inp" placeholder="14.5" step="0.5" min="6" max="35">
+                  <span class="iu">km/h</span>
+                </div>
+                <div class="fhint">Obtenue via Vameval, demi-Cooper, test 6 minutes, ou autre test terrain validé.</div>
+              </div>
+            </div>
+            <!-- Calcul depuis une performance -->
+            <div id="vma-perf-form" style="display:none">
+              <div class="field">
+                <label>Distance</label>
+                <div class="iw">
+                  <div class="ii"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M3 6h18"/><path d="M3 18h18"/></svg></div>
+                  <select id="road-dist" onchange="toggleRoadDist()">
+                    <option value="5000">5 km</option>
+                    <option value="10000">10 km</option>
+                    <option value="21097.5">Semi-marathon</option>
+                    <option value="42195">Marathon</option>
+                    <option value="custom">Autre distance…</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field" id="road-custom-wrap" style="display:none">
+                <label>Distance personnalisée</label>
+                <div class="iw">
+                  <input type="number" id="road-custom" placeholder="3000" min="500" max="200000" step="100" oninput="calcRoad()" style="padding-left:14px">
+                  <span class="iu">m</span>
+                </div>
+              </div>
+              <div class="field" style="margin-bottom:0">
+                <label>Temps réalisé</label>
+                <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px">
+                  <div class="iw">
+                    <input type="number" id="road-mm" placeholder="19" min="0" max="9999" step="1" oninput="calcRoad()" style="padding-left:14px">
+                    <span class="iu">min</span>
+                  </div>
+                  <span style="color:var(--muted2);font-weight:900;font-size:22px;flex-shrink:0">:</span>
+                  <div class="iw">
+                    <input type="number" id="road-ss" placeholder="30" min="0" max="59" step="1" oninput="calcRoad()" style="padding-left:14px">
+                    <span class="iu">sec</span>
+                  </div>
+                </div>
+                <div class="fhint">Ex : 5K en 19'30" → 19 min 30 sec · Marathon en 4h00 → 240 min 00 sec</div>
+              </div>
+              <div id="road-result" style="margin-top:16px;display:none"></div>
+            </div>
+          </div>
+
+          <!-- Form Tests terrain -->
+          <div id="form-tests" class="card" style="display:none">
+            <div class="card-hd">
+              <div class="card-hd-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              Tests terrain chronométrés
+            </div>
+            <div class="info-box" style="margin-bottom:20px">
+              Courez le <strong>plus loin possible</strong> à allure maximale soutenue, en maintenant une <strong>allure régulière du début à la fin</strong> — sans accélérations. Récupérez <strong>24 h minimum</strong> entre chaque test.
+            </div>
+            <div id="tests-rows"></div>
+            <div id="tests-preview" style="display:none;margin-top:16px"></div>
+          </div>
+
+          <!-- Données cardiaques (optionnel) -->
+          <div style="margin-bottom:4px">
+            <button class="opt-toggle" id="fc-toggle" onclick="toggleOptFC()">
+              <div style="display:flex;align-items:center;gap:10px">
+                <svg viewBox="0 0 24 24" width="16" height="16" style="stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                <span>Données cardiaques</span>
+                <span style="font-size:10px;font-weight:600;color:var(--muted2);letter-spacing:1px;text-transform:uppercase">(optionnel)</span>
+              </div>
+              <div class="opt-icon"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+            </button>
+          </div>
+          <div id="fc-opt-body" class="opt-body" style="margin-bottom:24px">
+            <div class="g2" style="gap:14px">
+              <div class="field" style="margin-bottom:0">
+                <label>FC Max mesurée (bpm)</label>
+                <div class="iw">
+                  <input type="number" id="fc-max" placeholder="185" min="100" max="230" style="padding-left:14px">
+                  <span class="iu">bpm</span>
+                </div>
+                <div class="fhint">Test terrain ou montre GPS. Laissez vide si inconnue.</div>
+              </div>
+              <div class="field" style="margin-bottom:0">
+                <label>FC Repos (bpm)</label>
+                <div class="iw">
+                  <input type="number" id="fc-rest" placeholder="55" min="25" max="100" style="padding-left:14px">
+                  <span class="iu">bpm</span>
+                </div>
+                <div class="fhint">Au réveil, avant de se lever. Moyenne sur 3 jours.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error -->
+          <div id="input-error" style="display:none;margin-bottom:16px" class="info-box error"></div>
+
+          <!-- CTA -->
+          <button class="btn-generate" onclick="generate()">
+            Générer mon profil
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- ══════════ PANEL DASHBOARD ══════════ -->
+      <div id="p-dashboard" class="panel">
+        <div class="tool-layout">
+
+          <!-- Profil -->
+          <div id="db-profile" class="db-section"></div>
+
+          <!-- Zones d'entraînement -->
+          <div class="db-section">
+            <div class="db-section-hd">
+              <div class="db-section-ico">
+                <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <div class="db-section-title">Zones d'entraînement</div>
+              <div class="db-section-badge">Z1 → Z5</div>
+            </div>
+            <div id="db-zones"></div>
+          </div>
+
+          <!-- Calculateur VMA -->
+          <div class="db-section">
+            <div class="db-section-hd">
+              <div class="db-section-ico">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="12" x2="15.2" y2="13.8"/></svg>
+              </div>
+              <div class="db-section-title">Calculateur d'allure VMA</div>
+            </div>
+            <div id="db-slider"></div>
+          </div>
+
+          <!-- Prédiction de performance · VC -->
+          <div class="db-section" id="db-cs-section">
+            <div class="db-section-hd">
+              <div class="db-section-ico">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="db-section-title">Prédiction de performance · VC</div>
+              <div class="db-section-badge">Follador 2022</div>
+            </div>
+            <div id="db-cs"></div>
+          </div>
+
+          <!-- Temps de passage -->
+          <div class="db-section">
+            <div class="db-section-hd">
+              <div class="db-section-ico">
+                <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div class="db-section-title">Temps de passage</div>
+            </div>
+            <div class="race-grid" id="db-races"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /scroll -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+/* ══ UTILS ══ */
+function pt(s){if(!s)return null;s=s.trim();const p=s.split(':');if(p.length===2){const m=+p[0],sc=+p[1];return isNaN(m)||isNaN(sc)?null:m*60+sc;}return null;}
+function ptH(s){if(!s)return null;s=s.trim();const p=s.split(':');if(p.length===3){const h=+p[0],m=+p[1],sc=+p[2];return isNaN(h)||isNaN(m)||isNaN(sc)?null:h*3600+m*60+sc;}if(p.length===2){const m=+p[0],sc=+p[1];return isNaN(m)||isNaN(sc)?null:m*60+sc;}return null;}
+function fAll(s){const m=Math.floor(s/60),sc=Math.round(s%60);return m+':'+String(sc).padStart(2,'0');}
+function fHMS(s){s=Math.round(s);const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;if(h>0)return h+"h"+String(m).padStart(2,'0')+"'"+String(sc).padStart(2,'0')+'"';return m+"'"+String(sc).padStart(2,'0')+'"';}
+
+/* ══ NAV ══ */
+function go(id){
+  if(id==='dashboard'&&!S.vma){id='input';}
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.mh-btn').forEach(b=>b.classList.remove('active'));
+  const sb=document.getElementById('sbn-'+id);if(sb)sb.classList.add('active');
+  const mb=document.getElementById('mbn-'+id);if(mb)mb.classList.add('active');
+  document.getElementById('main-topbar').style.display=id==='input'?'none':'flex';
+  const sc=document.querySelector('.scroll');if(sc)sc.scrollTop=0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ══ STATE ══ */
+const S={mode:'vma',vma:null,csKmh:null,dp:null,fcMax:null,fcRest:null,fcReserve:null,d3:0,d6:0,d12:0};
+
+/* ══ MODE ══ */
+function setMode(m){
+  S.mode=m;
+  document.getElementById('mode-vma').classList.toggle('active',m==='vma');
+  document.getElementById('mode-tests').classList.toggle('active',m==='tests');
+  document.getElementById('form-vma').style.display=m==='vma'?'block':'none';
+  document.getElementById('form-tests').style.display=m==='tests'?'block':'none';
+}
+function setVmaSubMode(m){
+  document.getElementById('vma-sub-direct').classList.toggle('active',m==='direct');
+  document.getElementById('vma-sub-perf').classList.toggle('active',m==='perf');
+  document.getElementById('vma-direct-form').style.display=m==='direct'?'block':'none';
+  document.getElementById('vma-perf-form').style.display=m==='perf'?'block':'none';
+  if(m==='perf') calcRoad();
+}
+
+/* ══ FC TOGGLE ══ */
+function toggleOptFC(){
+  const btn=document.getElementById('fc-toggle'),body=document.getElementById('fc-opt-body');
+  btn.classList.toggle('open');body.classList.toggle('open');
+}
+
+/* ══ TESTS FORM ══ */
+const TEST_CFG=[
+  {dur:3,sec:180,col:'#3B82F6',hint:'~700 m'},
+  {dur:6,sec:360,col:'#FF6B1A',hint:'~1200 m'},
+  {dur:12,sec:720,col:'#10B981',hint:'~2100 m'},
+];
+function buildTestsForm(){
+  const el=document.getElementById('tests-rows');
+  el.innerHTML=TEST_CFG.map(t=>`
+    <div class="test-row">
+      <div class="test-badge" style="background:${t.col}">
+        <span>${t.dur}'</span>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Distance couverte en ${t.dur} min</label>
+        <div class="iw">
+          <input type="number" id="t${t.dur}" placeholder="${t.hint}" min="100" step="5" oninput="liveTests()">
+          <span class="iu">m</span>
+        </div>
+      </div>
+      <div class="test-live" id="tl${t.dur}">—</div>
+    </div>`).join('');
+}
+
+function liveTests(){
+  TEST_CFG.forEach(t=>{
+    const d=+document.getElementById('t'+t.dur).value;
+    const el=document.getElementById('tl'+t.dur);
+    if(el) el.textContent=d>0?fAll(1000/d*t.sec)+'/km':'—';
+  });
+  const d6=+document.getElementById('t6').value||0;
+  const d3=+document.getElementById('t3').value||0;
+  const d12=+document.getElementById('t12').value||0;
+  const nFilled=(d3>=200?1:0)+(d6>=300?1:0)+(d12>=600?1:0);
+  const prev=document.getElementById('tests-preview');
+  if(nFilled>=1){
+    const vmaEst=estimateVMA(d3,d6,d12);
+    let txt=`<div class="info-box">`;
+    if(vmaEst) txt+=`<strong>VMA</strong> : ${vmaEst.toFixed(1)} km/h`;
+    if(nFilled>=2){
+      const pts2=[];
+      if(d3>=200) pts2.push({d:d3,t:180});
+      if(d6>=300) pts2.push({d:d6,t:360});
+      if(d12>=600) pts2.push({d:d12,t:720});
+      const cs=computeCS(pts2);
+      if(cs) txt+=` &nbsp;·&nbsp; <strong>VC</strong> : ${cs.csKmh.toFixed(2)} km/h &nbsp;·&nbsp; D' : ${Math.round(cs.dp)} m`;
+    } else {
+      txt+=`<br><span style="font-size:11px;color:var(--muted2)">Renseignez un 2ᵉ test pour calculer la Vitesse Critique</span>`;
+    }
+    txt+='</div>';
+    prev.style.display='block';
+    prev.innerHTML=txt;
+  } else {
+    prev.style.display='none';
+  }
+}
+
+/* ══ VMA ESTIMATION ══ */
+function estimateVMA(d3,d6,d12){
+  if(d6>=300) return (d6/360)*3.6; // priority: direct 6' measurement
+  const ests=[];
+  if(d3>=200) ests.push((d3/180)*3.6/1.10);
+  if(d12>=600) ests.push((d12/720)*3.6/0.965);
+  if(!ests.length) return null;
+  return ests.reduce((a,v)=>a+v,0)/ests.length;
+}
+
+/* ══ COHERENCE CHECK ══ */
+function checkCoherence(vma,csKmh,dp){
+  const w=[];
+  if(csKmh){
+    const r=csKmh/vma;
+    if(r<0.82) w.push(`La Vitesse Critique (${csKmh.toFixed(2)} km/h) ne représente que ${(r*100).toFixed(0)}% de la VMA — valeur anormalement basse. Vérifiez la qualité d'exécution des tests (effort vraiment maximal ?).`);
+    else if(r>0.97) w.push(`La Vitesse Critique (${csKmh.toFixed(2)} km/h) est très proche de la VMA (${(r*100).toFixed(0)}%) — profil inhabituel. Vérifiez les données saisies.`);
+    if(dp>800) w.push(`La réserve D' (${Math.round(dp)} m) est très élevée (normale : 100–400 m). Résultat à interpréter avec prudence.`);
+    if(dp<20) w.push(`La réserve D' (${Math.round(dp)} m) est anormalement faible — les tests manquent peut-être de variété de durée.`);
+  }
+  return w;
+}
+
+/* ══ CRITICAL SPEED (2-point formula, widest pair) ══ */
+function computeCS(pts){
+  if(pts.length<2) return null;
+  const s=[...pts].sort((a,b)=>a.t-b.t);
+  const p1=s[0],p2=s[s.length-1];
+  const dt=p2.t-p1.t;
+  if(!dt) return null;
+  const csMs=(p2.d-p1.d)/dt;
+  if(csMs<=0||csMs>10) return null;
+  const dp=p1.d-csMs*p1.t;
+  if(dp<0) return null;
+  return{csMs,csKmh:csMs*3.6,dp,nPts:pts.length};
+}
+
+/* ══ GENERATE ══ */
+function generate(){
+  const err=document.getElementById('input-error');
+  err.style.display='none';
+
+  if(S.mode==='vma'){
+    const v=parseFloat(document.getElementById('vma-inp').value);
+    if(!v||v<6||v>35){
+      err.innerHTML='<strong>Erreur :</strong> Entrez une VMA valide entre 6 et 35 km/h.';
+      err.style.display='block';return;
+    }
+    S.vma=v;S.csKmh=null;S.dp=null;
+  } else {
+    const d6=+document.getElementById('t6').value||0;
+    const d3=+document.getElementById('t3').value||0;
+    const d12=+document.getElementById('t12').value||0;
+    const nFilled=(d3>=200?1:0)+(d6>=300?1:0)+(d12>=600?1:0);
+    if(nFilled<2){
+      err.innerHTML='<strong>Erreur :</strong> Renseignez au moins <strong>deux tests</strong> pour calculer la Vitesse Critique. Si vous n\'avez que la VMA, utilisez le mode <em>VMA seule</em>.';
+      err.style.display='block';return;
+    }
+    const vmaEst=estimateVMA(d3,d6,d12);
+    if(!vmaEst||vmaEst<6||vmaEst>35){
+      err.innerHTML='<strong>Erreur :</strong> Les distances semblent invalides. Vérifiez les valeurs saisies.';
+      err.style.display='block';return;
+    }
+    S.vma=vmaEst;
+    S.d3=d3;S.d6=d6;S.d12=d12;
+    S.csKmh=null;S.dp=null;
+    const pts=[];
+    if(d3>=200) pts.push({d:d3,t:180});
+    if(d6>=300) pts.push({d:d6,t:360});
+    if(d12>=600) pts.push({d:d12,t:720});
+    const cs=computeCS(pts);
+    if(cs){S.csKmh=cs.csKmh;S.dp=cs.dp;}
+  }
+
+  // FC
+  const fmx=+document.getElementById('fc-max').value||0;
+  const frs=+document.getElementById('fc-rest').value||0;
+  if(fmx>=100&&frs>=25&&frs<fmx){
+    S.fcMax=fmx;S.fcRest=frs;S.fcReserve=fmx-frs;
+  } else {
+    S.fcMax=null;S.fcRest=null;S.fcReserve=null;
+  }
+
+  renderDashboard();
+  saveLS();
+  go('dashboard');
+}
+
+/* ══ LOCAL STORAGE ══ */
+const LS_KEY='redlab_v1';
+function saveLS(){
+  try{
+    localStorage.setItem(LS_KEY,JSON.stringify({
+      S:{...S},
+      inputs:{
+        vma:document.getElementById('vma-inp').value,
+        t3:document.getElementById('t3')?document.getElementById('t3').value:'',
+        t6:document.getElementById('t6')?document.getElementById('t6').value:'',
+        t12:document.getElementById('t12')?document.getElementById('t12').value:'',
+        fcMax:document.getElementById('fc-max').value,
+        fcRest:document.getElementById('fc-rest').value,
+      },
+      testDists:{d3:S.d3||0,d6:S.d6||0,d12:S.d12||0}
+    }));
+  }catch(e){}
+}
+function loadLS(){
+  try{
+    const raw=localStorage.getItem(LS_KEY);
+    if(!raw)return;
+    const d=JSON.parse(raw);
+    if(!d.S||!d.S.vma)return;
+    Object.assign(S,d.S);
+    if(d.testDists){S.d3=d.testDists.d3||0;S.d6=d.testDists.d6||0;S.d12=d.testDists.d12||0;}
+    setMode(S.mode||'vma');
+    const i=d.inputs||{};
+    if(i.vma)document.getElementById('vma-inp').value=i.vma;
+    if(i.t3)document.getElementById('t3').value=i.t3;
+    if(i.t6)document.getElementById('t6').value=i.t6;
+    if(i.t12)document.getElementById('t12').value=i.t12;
+    if(i.fcMax){document.getElementById('fc-max').value=i.fcMax;}
+    if(i.fcRest){document.getElementById('fc-rest').value=i.fcRest;}
+    if(i.fcMax&&i.fcRest){
+      document.getElementById('fc-toggle').classList.add('open');
+      document.getElementById('fc-opt-body').classList.add('open');
+    }
+    renderDashboard();
+    go('dashboard');
+  }catch(e){}
+}
+
+/* ══ ZONES ══ */
+const ZONES=[
+  {z:1,n:'Récupération',          vLo:55,vHi:65, fcLo:50,fcHi:60, cls:'z1',col:'#60A5FA', talk:'Chantonner'},
+  {z:2,n:'Endurance Fondamentale',vLo:65,vHi:75, fcLo:60,fcHi:70, cls:'z2',col:'#34D399', talk:'Conversation facile'},
+  {z:3,n:'Seuil Aérobie',         vLo:75,vHi:85, fcLo:70,fcHi:80, cls:'z3',col:'#FCD34D', talk:'Phrases courtes'},
+  {z:4,n:'Seuil Lactique',        vLo:85,vHi:95, fcLo:80,fcHi:90, cls:'z4',col:'#FB923C', talk:'Quelques mots'},
+  {z:5,n:'VMA / VO2max',          vLo:95,vHi:105,fcLo:90,fcHi:100,cls:'z5',col:'#F87171', talk:'Impossible de parler'},
+];
+
+/* ══ RENDER DASHBOARD ══ */
+function renderDashboard(){
+  renderProfile();
+  renderZones();
+  renderSlider();
+  renderCSPredictions();
+  buildRaces();
+}
+
+/* ── Profile ── */
+function renderProfile(){
+  const {vma,csKmh,dp,fcMax,fcRest,fcReserve}=S;
+  let profileType='',profileStyle='';
+  if(csKmh){
+    const r=csKmh/vma;
+    if(r>0.92){profileType='Profil Endurance';profileStyle='background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);color:#34D399';}
+    else if(r>0.87){profileType='Profil Équilibré';profileStyle='background:rgba(255,107,26,0.12);border:1px solid rgba(255,107,26,0.25);color:var(--orange)';}
+    else{profileType='Profil Vitesse';profileStyle='background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);color:#60A5FA';}
+  }
+
+  let metrics='';
+  if(csKmh){
+    const pct=(csKmh/vma*100).toFixed(1);
+    metrics+=`<div class="ph-metric">
+      <div class="ph-m-lbl">Vitesse Critique</div>
+      <div class="ph-m-val" style="color:var(--orange)">${csKmh.toFixed(2)}</div>
+      <div class="ph-m-sub">km/h · ${fAll(3600/csKmh)}/km</div>
+      <div class="ph-m-sub">${pct}% VMA</div>
+      ${profileType?`<div class="ph-badge" style="${profileStyle}">${profileType}</div>`:''}
+    </div>`;
+    if(dp){
+      metrics+=`<div class="ph-metric">
+        <div class="ph-m-lbl">Réserve D'</div>
+        <div class="ph-m-val">${Math.round(dp)}</div>
+        <div class="ph-m-sub">mètres</div>
+        <div class="ph-m-sub">capacité anaérobie</div>
+      </div>`;
+    }
+  }
+  if(fcMax){
+    metrics+=`<div class="ph-metric">
+      <div class="ph-m-lbl">FC Max</div>
+      <div class="ph-m-val" style="color:#F87171">${fcMax}</div>
+      <div class="ph-m-sub">bpm</div>
+    </div>
+    <div class="ph-metric">
+      <div class="ph-m-lbl">Réserve Card.</div>
+      <div class="ph-m-val">${fcReserve}</div>
+      <div class="ph-m-sub">bpm</div>
+      <div class="ph-m-sub">FC repos : ${fcRest} bpm</div>
+    </div>`;
+  }
+
+  // Coherence warnings (tests mode only)
+  let warnHtml='';
+  if(S.mode==='tests'&&(S.d6||0)>=300){
+    const warns=checkCoherence(vma,csKmh,dp);
+    if(warns.length){
+      warnHtml=`<div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">`
+        +warns.map(w=>`<div style="background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.28);border-left:3px solid #FCD34D;border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:#FCD34D">⚠ Attention :</strong> ${w}</div>`).join('')
+        +`</div>`;
+    }
+    // Individual test speeds
+    const tsrcs=[];
+    if((S.d3||0)>=200) tsrcs.push(`Test 3' : ${((S.d3/180)*3.6).toFixed(1)} km/h (VMA estimée ${((S.d3/180)*3.6/1.10).toFixed(1)})`);
+    if((S.d6||0)>=300) tsrcs.push(`Test 6' : ${((S.d6/360)*3.6).toFixed(1)} km/h (VMA estimée ${((S.d6/360)*3.6/1.01).toFixed(1)})`);
+    if((S.d12||0)>=600) tsrcs.push(`Test 12' : ${((S.d12/720)*3.6).toFixed(1)} km/h (VMA estimée ${((S.d12/720)*3.6/0.965).toFixed(1)})`);
+    if(tsrcs.length>1){
+      warnHtml+=`<div style="margin-top:12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:11px;color:var(--muted2);line-height:1.9">`
+        +tsrcs.join('<br>')
+        +`${csKmh?`<br><span style="color:var(--muted)">VC = ${csKmh.toFixed(2)} km/h (asymptote → D' = ${Math.round(dp)} m ; la VC est naturellement inférieure à la vitesse moyenne des tests courts)</span>`:''}`
+        +`</div>`;
+    }
+  }
+
+  document.getElementById('db-profile').innerHTML=`
+    <div class="profile-hero">
+      <div class="ph-main">
+        <div class="ph-lbl">VMA</div>
+        <div class="ph-val">${vma.toFixed(1)}</div>
+        <div class="ph-unit">km/h · ${fAll(3600/vma)} /km</div>
+      </div>
+      ${metrics?`<div class="ph-metrics">${metrics}</div>`:''}
+    </div>
+    ${warnHtml}`;
+}
+
+/* ── Zones Table (hybrid VC-anchored model) ── */
+function renderZones(){
+  const {vma,csKmh,fcMax,fcRest,fcReserve}=S;
+  const hasFc=!!(fcMax&&fcRest);
+  const vc=csKmh||(vma*0.85);
+  const isReal=!!csKmh;
+  const fcH=hasFc?'<th class="hide-mob">% FC Rés.</th><th>FC bpm</th>':'';
+
+  function fcC(loP,hiP,col){
+    if(!hasFc) return '';
+    const flo=Math.round(fcRest+loP/100*fcReserve);
+    const fhi=Math.round(fcRest+hiP/100*fcReserve);
+    return `<td class="hide-mob" style="color:var(--muted2)">${loP}–${hiP}%</td><td><span style="font-weight:700;color:${col}">${flo}–${fhi}</span> <span style="font-size:10px;color:var(--muted2)">bpm</span></td>`;
+  }
+
+  let rows='';
+
+  // Z1 – Recovery : < 70% VC
+  const z1hi=vc*0.70;
+  rows+=`<tr>
+    <td><span class="zb z1">Z1</span></td>
+    <td style="font-weight:700;color:var(--text)">Récupération</td>
+    <td style="color:var(--muted2)">< 70% VC</td>
+    <td style="font-weight:600;color:#60A5FA">< ${z1hi.toFixed(1)} km/h</td>
+    <td style="color:var(--text2)">≥ ${fAll(3600/z1hi)} /km</td>
+    ${fcC(60,70,'#60A5FA')}
+  </tr>`;
+
+  // Z2 – Aerobic base : 70–85% VC
+  const z2lo=vc*0.70,z2hi=vc*0.85;
+  rows+=`<tr>
+    <td><span class="zb z2">Z2</span></td>
+    <td style="font-weight:700;color:var(--text)">Endurance Fondamentale</td>
+    <td style="color:var(--muted2)">70–85% VC</td>
+    <td style="font-weight:600;color:#34D399">${z2lo.toFixed(1)}–${z2hi.toFixed(1)} km/h</td>
+    <td style="color:var(--text2)">${fAll(3600/z2hi)}–${fAll(3600/z2lo)} /km</td>
+    ${fcC(70,80,'#34D399')}
+  </tr>`;
+
+  // Z3 – Aerobic threshold : 85–100% VC
+  const z3lo=vc*0.85,z3hi=vc;
+  rows+=`<tr>
+    <td><span class="zb z3">Z3</span></td>
+    <td style="font-weight:700;color:var(--text)">Seuil Aérobie</td>
+    <td style="color:var(--muted2)">85–100% VC</td>
+    <td style="font-weight:600;color:#FCD34D">${z3lo.toFixed(1)}–${z3hi.toFixed(1)} km/h</td>
+    <td style="color:var(--text2)">${fAll(3600/z3hi)}–${fAll(3600/z3lo)} /km</td>
+    ${fcC(80,90,'#FCD34D')}
+  </tr>`;
+
+  // CS separator row
+  const vcPct=(vc/vma*100).toFixed(1);
+  const csLabel=isReal?'Vitesse Critique':'VC estimée (85% VMA)';
+  let fcCS='';
+  if(hasFc){
+    const fcVal=Math.round(fcRest+90/100*fcReserve);
+    fcCS=`<td class="hide-mob" style="color:var(--muted2);font-size:12px">~90% RCM</td><td style="color:var(--orange);font-weight:700">~${fcVal} bpm</td>`;
+  }
+  rows+=`<tr class="cs-row">
+    <td colspan="2"><div class="cs-badge"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>${csLabel}</div></td>
+    <td style="color:var(--muted2);font-size:12px">${vcPct}% VMA</td>
+    <td style="font-weight:800;color:var(--orange)">${vc.toFixed(2)} km/h</td>
+    <td style="font-weight:700;color:var(--orange)">${fAll(3600/vc)} /km</td>
+    ${fcCS}
+  </tr>`;
+
+  // Z4 – Anaerobic : VC → 95% VMA (only if gap exists)
+  if(vc<vma*0.95){
+    const z4lo=vc,z4hi=vma*0.95;
+    rows+=`<tr>
+      <td><span class="zb z4">Z4</span></td>
+      <td style="font-weight:700;color:var(--text)">Seuil Anaérobie</td>
+      <td style="color:var(--muted2)">VC → 95% VMA</td>
+      <td style="font-weight:600;color:#FB923C">${z4lo.toFixed(1)}–${z4hi.toFixed(1)} km/h</td>
+      <td style="color:var(--text2)">${fAll(3600/z4hi)}–${fAll(3600/z4lo)} /km</td>
+      ${fcC(90,95,'#FB923C')}
+    </tr>`;
+  }
+
+  // Z5 – VMA : 95–105% VMA
+  const z5lo=vma*0.95,z5hi=vma*1.05;
+  rows+=`<tr>
+    <td><span class="zb z5">Z5</span></td>
+    <td style="font-weight:700;color:var(--text)">VMA / VO2max</td>
+    <td style="color:var(--muted2)">95–105% VMA</td>
+    <td style="font-weight:600;color:#F87171">${z5lo.toFixed(1)}–${z5hi.toFixed(1)} km/h</td>
+    <td style="color:var(--text2)">${fAll(3600/z5hi)}–${fAll(3600/z5lo)} /km</td>
+    ${fcC(95,100,'#F87171')}
+  </tr>`;
+
+  document.getElementById('db-zones').innerHTML=`
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th>Zone</th><th>Type</th><th>Référence</th><th>Vitesse</th><th>Allure /km</th>
+        ${fcH}
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>`;
+}
+
+/* ── VMA Slider ── */
+function renderSlider(){
+  const {vma}=S;
+  const slo=Math.round(vma*.5*10),shi=Math.round(vma*1.2*10),sdf=Math.round(vma*10);
+  document.getElementById('db-slider').innerHTML=`
+    <div class="sl-card">
+      <div class="sl-hd">
+        <div style="font-size:11px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:1px">Vitesse → Allure</div>
+        <div class="sl-out">
+          <span id="sl-v" style="color:var(--orange)">${vma.toFixed(1)}</span>
+          <span class="sl-sep">km/h →</span>
+          <span id="sl-a">${fAll(3600/vma)}</span>
+          <span id="sl-p" style="font-size:13px;color:var(--muted);font-weight:500"> (100% VMA)</span>
+        </div>
+      </div>
+      <div class="sl-row">
+        <button class="adj" onclick="adjV(-1)">−</button>
+        <input type="range" class="sl" id="vsl" min="${slo}" max="${shi}" value="${sdf}" step="1" oninput="updSl(this.value)">
+        <button class="adj" onclick="adjV(+1)">+</button>
+      </div>
+      <div class="sl-bnds"><span>${(vma*.5).toFixed(1)} km/h · 50%</span><span>120% · ${(vma*1.2).toFixed(1)} km/h</span></div>
+      <div class="zbar" id="zbar"></div>
+    </div>`;
+  bldZbar(slo,shi);updSl(sdf);
+}
+function updSl(val){
+  const {vma}=S;if(!vma)return;
+  const vc=S.csKmh||(vma*0.85);
+  const kmh=+val/10,pct=Math.round(kmh/vma*100);
+  let col='var(--orange)',zn='';
+  if(kmh<vc*0.70){col='#60A5FA';zn='Z1';}
+  else if(kmh<vc*0.85){col='#34D399';zn='Z2';}
+  else if(kmh<=vc){col='#FCD34D';zn='Z3';}
+  else if(kmh<vma*0.95){col='#FB923C';zn='Z4';}
+  else{col='#F87171';zn='Z5';}
+  const sv=document.getElementById('sl-v');if(!sv)return;
+  sv.textContent=kmh.toFixed(1);sv.style.color=col;
+  document.getElementById('sl-a').textContent=fAll(3600/kmh);
+  document.getElementById('sl-p').textContent=` (${pct}% VMA · ${zn})`;
+  const sl=document.getElementById('vsl'),p=((val-sl.min)/(sl.max-sl.min))*100;
+  sl.style.background=`linear-gradient(to right,${col} 0%,${col} ${p}%,rgba(255,255,255,0.06) ${p}%,rgba(255,255,255,0.06) 100%)`;
+}
+function adjV(d){const sl=document.getElementById('vsl');if(!sl)return;const v=Math.min(Math.max(+sl.value+d,+sl.min),+sl.max);sl.value=v;updSl(v);}
+function bldZbar(slo,shi){
+  const bar=document.getElementById('zbar');if(!bar)return;
+  const {vma}=S;const vc=S.csKmh||(vma*0.85);const rng=shi-slo;let html='';
+  const slZ=[
+    {lo:0,        hi:vc*0.70,  col:'#60A5FA',z:1},
+    {lo:vc*0.70,  hi:vc*0.85,  col:'#34D399',z:2},
+    {lo:vc*0.85,  hi:vc,       col:'#FCD34D',z:3},
+    {lo:vc,       hi:vma*0.95, col:'#FB923C',z:4},
+    {lo:vma*0.95, hi:vma*1.05, col:'#F87171',z:5},
+  ];
+  slZ.forEach(z=>{
+    const zs=Math.max(z.lo*10,slo),ze=Math.min(z.hi*10,shi);
+    if(ze<=slo||zs>=shi)return;
+    const l=((zs-slo)/rng)*100,w=((ze-zs)/rng)*100;
+    html+=`<div style="position:absolute;left:${l}%;width:${w}%;height:100%;background:${z.col};opacity:0.22"></div>`;
+    html+=`<div style="position:absolute;left:${l+w/2}%;transform:translateX(-50%);top:50%;margin-top:-6px;font-size:9px;font-weight:800;color:${z.col}">Z${z.z}</div>`;
+  });
+  bar.innerHTML=html;
+}
+
+/* ── CS Predictions ── */
+function renderCSPredictions(){
+  const {csKmh,dp,vma}=S;
+  const box=document.getElementById('db-cs');
+  const RC=[
+    {nm:'5K',  d:5000,   lbl:'5 km',   col:'#3B82F6',rgb:'59,130,246', model:'cs'},
+    {nm:'10K', d:10000,  lbl:'10 km',  col:'#FF6B1A',rgb:'255,107,26', model:'cs'},
+    {nm:'Semi',d:21097.5,lbl:'21,1 km',col:'#10B981',rgb:'16,185,129', model:0.95},
+    {nm:'Mara',d:42195,  lbl:'42,2 km',col:'#8B5CF6',rgb:'139,92,246', model:0.88},
+  ];
+
+  function getT(r,csMs,dpM){
+    if(r.model==='cs'){
+      const t=(r.d-(dpM||0))/csMs;
+      return t>60?t:r.d/csMs;
+    }
+    return r.d/(csMs*r.model);
+  }
+
+  function makeCard(r,t,dim){
+    const spd=r.d/t;
+    const pace=fAll(1000/spd);
+    const kmh=(spd*3.6).toFixed(1);
+    const tLo=t*0.97,tHi=t*1.03;
+    const op=dim?';opacity:0.82':'';
+    const badge=r.model==='cs'?'Modèle CS':r.model===0.95?'95% VC':'88% VC';
+    return `<div class="pred-c" style="border-top:3px solid ${r.col}${op}">
+      <div class="pred-c-top">
+        <div>
+          <div class="pred-name" style="color:${r.col}">${r.nm}</div>
+          <div class="pred-dist">${r.lbl}</div>
+        </div>
+        <div class="pred-pct-badge" style="background:rgba(${r.rgb},0.12);border:1px solid rgba(${r.rgb},0.25);color:${r.col}">${badge}</div>
+      </div>
+      <div class="pred-time" style="color:${r.col}">${fHMS(t)}</div>
+      <div class="pred-pace">${pace}<span style="font-weight:400;color:var(--muted2)">/km</span></div>
+      <div class="pred-kmh">${kmh} km/h</div>
+      <div class="pred-range">
+        <div class="pred-range-bar" style="background:rgba(${r.rgb},0.18)">
+          <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(${r.rgb},0.2),rgba(${r.rgb},0.55),rgba(${r.rgb},0.2));border-radius:2px"></div>
+          <div class="pred-range-dot" style="background:${r.col}"></div>
+        </div>
+        <div class="pred-range-lbl"><span>${fHMS(tLo)}</span><span>${fHMS(tHi)}</span></div>
+      </div>
+    </div>`;
+  }
+
+  if(!csKmh){
+    // VMA only: Riegel from 6' at VMA (d_ref = VMA * 100 m, t_ref = 360 s)
+    const dRef=vma*100;
+    const cards=RC.map(r=>{
+      const t=360*Math.pow(r.d/dRef,1.06);
+      return makeCard(r,t,true);
+    }).join('');
+    box.innerHTML=`
+      <div style="background:rgba(255,107,26,0.05);border:1px solid rgba(255,107,26,0.18);border-left:3px solid var(--orange);border-radius:12px;padding:15px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+        <div style="font-size:12px;color:var(--text2);line-height:1.6">Prédiction par <strong>formule de Riegel</strong> (VMA seule) — utilisez le <strong>mode Tests terrain</strong> pour le modèle Vitesse Critique.</div>
+        <button onclick="go('input')" style="padding:7px 14px;border:1px solid rgba(255,107,26,0.35);border-radius:8px;background:transparent;color:var(--orange);font-family:var(--font);font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">Tests terrain →</button>
+      </div>
+      <div class="pred-grid">${cards}</div>`;
+    return;
+  }
+
+  const csMs=csKmh/3.6;
+  const cards=RC.map(r=>makeCard(r,getT(r,csMs,dp),false)).join('');
+  box.innerHTML=`<div class="pred-grid">${cards}</div>`;
+}
+
+/* ── Race Splits ── */
+const RACES=[
+  {id:'5k',  nm:'5K',      d:5000,   spl:[{d:1000,l:'1 km'},{d:2000,l:'2 km'},{d:3000,l:'3 km'},{d:4000,l:'4 km'},{d:5000,l:'Arrivée'}],   def:300,lo:155,hi:600},
+  {id:'10k', nm:'10K',     d:10000,  spl:[{d:2000,l:'2 km'},{d:5000,l:'5 km'},{d:8000,l:'8 km'},{d:10000,l:'Arrivée'}],                     def:330,lo:160,hi:660},
+  {id:'semi',nm:'Semi',    d:21097.5,spl:[{d:5000,l:'5 km'},{d:10000,l:'10 km'},{d:15000,l:'15 km'},{d:21097.5,l:'Arrivée'}],               def:360,lo:165,hi:720},
+  {id:'mara',nm:'Marathon',d:42195,  spl:[{d:10000,l:'10 km'},{d:21097.5,l:'21 km'},{d:30000,l:'30 km'},{d:42195,l:'Arrivée'}],             def:390,lo:172,hi:780},
+];
+function buildRaces(){
+  const g=document.getElementById('db-races');if(!g)return;
+  const {csKmh,dp,vma}=S;
+  const csMs=csKmh?csKmh/3.6:null;
+  const dRef=vma*100;
+  function defPace(r){
+    let tSec;
+    if(csMs){
+      if(r.id==='5k'||r.id==='10k'){
+        tSec=(r.d-(dp||0))/csMs;
+        if(tSec<=0) tSec=r.d/csMs;
+      } else if(r.id==='semi'){tSec=r.d/(csMs*0.95);}
+      else{tSec=r.d/(csMs*0.88);}
+    } else {
+      tSec=360*Math.pow(r.d/dRef,1.06);
+    }
+    return Math.min(Math.max(Math.round(tSec/r.d*1000),r.lo),r.hi);
+  }
+  g.innerHTML=RACES.map(r=>{const def=defPace(r);return`
+    <div class="race-card">
+      <div class="rc-top">
+        <div><div class="rc-name">${r.nm}</div></div>
+        <div><div class="rc-allure-lbl">Allure</div><div class="rc-allure" id="ra-${r.id}">${fAll(def)}/km</div></div>
+      </div>
+      <div class="rc-time" id="rt-${r.id}">${fHMS(r.d/1000*def)}</div>
+      <div class="rc-sl-row">
+        <button class="adj" onclick="adjR('${r.id}',-1)">−</button>
+        <input type="range" class="rsl" id="rs-${r.id}" min="${r.lo}" max="${r.hi}" value="${def}" step="1" oninput="updR('${r.id}',this.value)">
+        <button class="adj" onclick="adjR('${r.id}',+1)">+</button>
+      </div>
+      <div class="rc-sl-bnds"><span>${fAll(r.lo)}</span><span>${fAll(r.hi)}</span></div>
+      <div class="rc-splits" id="rspl-${r.id}"></div>
+    </div>`}).join('');
+  RACES.forEach(r=>updR(r.id,defPace(r)));
+}
+function adjR(id,d){const sl=document.getElementById('rs-'+id);if(!sl)return;const v=Math.min(Math.max(+sl.value+d,+sl.min),+sl.max);sl.value=v;updR(id,v);}
+function updR(id,val){
+  const r=RACES.find(x=>x.id===id);if(!r)return;const s=+val;
+  document.getElementById('rt-'+id).textContent=fHMS(r.d/1000*s);
+  document.getElementById('ra-'+id).textContent=fAll(s)+'/km';
+  const sl=document.getElementById('rs-'+id),p=((s-sl.min)/(sl.max-sl.min))*100;
+  sl.style.background=`linear-gradient(to right,var(--orange) 0%,var(--orange) ${p}%,rgba(255,255,255,0.06) ${p}%,rgba(255,255,255,0.06) 100%)`;
+  document.getElementById('rspl-'+id).innerHTML=r.spl.map(sp=>`
+    <div class="spl-row">
+      <span class="spl-lbl">${sp.l}</span>
+      <span class="spl-t">${fHMS(sp.d/1000*s)}</span>
+    </div>`).join('');
+}
+
+/* ══ ROAD PERFORMANCE CALCULATOR ══ */
+function toggleRoadDist(){
+  const sel=document.getElementById('road-dist');
+  document.getElementById('road-custom-wrap').style.display=sel.value==='custom'?'block':'none';
+  calcRoad();
+}
+function calcRoad(){
+  const sel=document.getElementById('road-dist');if(!sel)return;
+  const D=sel.value==='custom'?(+document.getElementById('road-custom').value||0):parseFloat(sel.value);
+  const mm=+(document.getElementById('road-mm').value)||0;
+  const ss=+(document.getElementById('road-ss').value)||0;
+  const T=(mm>0||ss>0)?mm*60+ss:null;
+  const res=document.getElementById('road-result');if(!res)return;
+  if(!D||D<500||!T||T<30){res.style.display='none';return;}
+  const spd=D/T;
+  const kmh=spd*3.6;
+  const pace=fAll(1000/spd);
+  // Riegel inverse: T=360*(D/(VMA*100))^1.06 → VMA=D/(100*(T/360)^(1/1.06))
+  const vmaEst=D/(100*Math.pow(T/360,1/1.06));
+  if(vmaEst<4||vmaEst>40){res.style.display='none';return;}
+  const vcLo=(vmaEst*0.82).toFixed(1);
+  const vcHi=(vmaEst*0.92).toFixed(1);
+  res.style.display='block';
+  res.innerHTML=`
+    <div style="border-top:1px solid var(--border);padding-top:16px;margin-top:4px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:4px">Vitesse</div>
+          <div style="font-size:22px;font-weight:900;color:var(--orange);line-height:1">${kmh.toFixed(1)}</div>
+          <div style="font-size:11px;color:var(--muted2);margin-top:2px">km/h · ${pace}/km</div>
+        </div>
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:4px">VMA estimée</div>
+          <div style="font-size:22px;font-weight:900;color:var(--text);line-height:1">${vmaEst.toFixed(1)}</div>
+          <div style="font-size:11px;color:var(--muted2);margin-top:2px">km/h · Riegel</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--muted2);margin-bottom:14px">VC estimée (82–92% VMA) : <span style="color:var(--text2);font-weight:600">${vcLo}–${vcHi} km/h</span></div>
+      <button class="btn-road-apply" onclick="applyRoadVMA(${vmaEst.toFixed(2)})">
+        Utiliser ${vmaEst.toFixed(1)} km/h comme VMA
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>`;
+}
+function applyRoadVMA(v){
+  document.getElementById('vma-inp').value=v.toFixed(1);
+  setVmaSubMode('direct');
+}
+
+/* ══ INIT ══ */
+document.addEventListener('DOMContentLoaded',()=>{
+  buildTestsForm();
+  loadLS();
+});
+</script>
+</body>
+</html>
