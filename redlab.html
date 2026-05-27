@@ -193,9 +193,9 @@ tbody td{padding:13px 16px;font-size:13px;vertical-align:middle;color:var(--text
   display:inline-block;padding:3px 9px;border-radius:20px;
   font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;
 }
-.z1{background:rgba(59,130,246,0.15);color:#60A5FA}
-.z2{background:rgba(16,185,129,0.15);color:#34D399}
-.z3{background:rgba(234,179,8,0.15);color:#FCD34D}
+.z1{background:rgba(148,163,184,0.15);color:#94A3B8}
+.z2{background:rgba(59,130,246,0.15);color:#60A5FA}
+.z3{background:rgba(16,185,129,0.15);color:#34D399}
 .z4{background:rgba(249,115,22,0.15);color:#FB923C}
 .z5{background:rgba(239,68,68,0.15);color:#F87171}
 
@@ -617,7 +617,7 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
               <div class="mode-card-ico">
                 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
               </div>
-              <div class="mode-card-title">Tests terrain</div>
+              <div class="mode-card-title">Vitesse Critique</div>
               <div class="mode-card-desc">Tests 3' / 6' / 12' — VMA <em style="font-style:normal;color:var(--orange)">et</em> Vitesse Critique</div>
               <div class="mode-check"></div>
             </button>
@@ -695,11 +695,11 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
             </div>
           </div>
 
-          <!-- Form Tests terrain -->
+          <!-- Form Vitesse Critique -->
           <div id="form-tests" class="card" style="display:none">
             <div class="card-hd">
               <div class="card-hd-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-              Tests terrain chronométrés
+              Vitesse Critique — tests chronométrés
             </div>
             <div class="info-box" style="margin-bottom:20px">
               Courez le <strong>plus loin possible</strong> à allure maximale soutenue, en maintenant une <strong>allure régulière du début à la fin</strong> — sans accélérations. Récupérez <strong>24 h minimum</strong> entre chaque test.
@@ -777,7 +777,7 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
               <div class="db-section-ico">
                 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="12" x2="15.2" y2="13.8"/></svg>
               </div>
-              <div class="db-section-title">Calculateur d'allure VMA</div>
+              <div class="db-section-title">Calculateur d'allure VC</div>
             </div>
             <div id="db-slider"></div>
           </div>
@@ -1047,12 +1047,12 @@ function loadLS(){
 }
 
 /* ══ ZONES ══ */
-const ZONES=[
-  {z:1,n:'Récupération',          vLo:55,vHi:65, fcLo:50,fcHi:60, cls:'z1',col:'#60A5FA', talk:'Chantonner'},
-  {z:2,n:'Endurance Fondamentale',vLo:65,vHi:75, fcLo:60,fcHi:70, cls:'z2',col:'#34D399', talk:'Conversation facile'},
-  {z:3,n:'Seuil Aérobie',         vLo:75,vHi:85, fcLo:70,fcHi:80, cls:'z3',col:'#FCD34D', talk:'Phrases courtes'},
-  {z:4,n:'Seuil Lactique',        vLo:85,vHi:95, fcLo:80,fcHi:90, cls:'z4',col:'#FB923C', talk:'Quelques mots'},
-  {z:5,n:'VMA / VO2max',          vLo:95,vHi:105,fcLo:90,fcHi:100,cls:'z5',col:'#F87171', talk:'Impossible de parler'},
+const ZONES_VC=[
+  {z:1,n:'Modéré',             pct:'60–80%',  lo:0.60,hi:0.80, fcLo:50, fcHi:68,  cls:'z1',col:'#94A3B8', talk:'Conversation fluide'},
+  {z:2,n:'Intermédiaire (SV1)',pct:'81–94%',  lo:0.81,hi:0.94, fcLo:68, fcHi:82,  cls:'z2',col:'#60A5FA', talk:'Phrases courtes'},
+  {z:3,n:'Élevé / Seuil (SV2)',pct:'95–99%',  lo:0.95,hi:0.99, fcLo:82, fcHi:89,  cls:'z3',col:'#34D399', talk:'Quelques mots'},
+  {z:4,n:'Sévère / VO₂max',   pct:'100–106%',lo:1.00,hi:1.06, fcLo:89, fcHi:96,  cls:'z4',col:'#FB923C', talk:'Parole impossible'},
+  {z:5,n:'Maximal / Anaérobie',pct:'≥ 107%',  lo:1.07,hi:1.30, fcLo:96, fcHi:100, cls:'z5',col:'#F87171', talk:'Effort maximal'},
 ];
 
 /* ══ RENDER DASHBOARD ══ */
@@ -1067,32 +1067,21 @@ function renderDashboard(){
 /* ── Profile ── */
 function renderProfile(){
   const {vma,csKmh,dp,fcMax,fcRest,fcReserve}=S;
-  let profileType='',profileStyle='';
-  if(csKmh){
-    const r=csKmh/vma;
-    if(r>0.92){profileType='Profil Endurance';profileStyle='background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);color:#34D399';}
-    else if(r>0.87){profileType='Profil Équilibré';profileStyle='background:rgba(255,107,26,0.12);border:1px solid rgba(255,107,26,0.25);color:var(--orange)';}
-    else{profileType='Profil Vitesse';profileStyle='background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.25);color:#60A5FA';}
-  }
+  const vcMode=S.mode==='tests'&&!!csKmh;
+
+  // Main metric: VC (tests mode) ou VMA (vma mode)
+  const mainLbl=vcMode?'Vitesse Critique':'VMA';
+  const mainVal=vcMode?csKmh.toFixed(2):vma.toFixed(1);
+  const mainRef=vcMode?csKmh:vma;
+  const mainUnit=`km/h · ${fAll(3600/mainRef)} /km`;
 
   let metrics='';
-  if(csKmh){
-    const pct=(csKmh/vma*100).toFixed(1);
+  if(vcMode&&dp){
     metrics+=`<div class="ph-metric">
-      <div class="ph-m-lbl">Vitesse Critique</div>
-      <div class="ph-m-val" style="color:var(--orange)">${csKmh.toFixed(2)}</div>
-      <div class="ph-m-sub">km/h · ${fAll(3600/csKmh)}/km</div>
-      <div class="ph-m-sub">${pct}% VMA</div>
-      ${profileType?`<div class="ph-badge" style="${profileStyle}">${profileType}</div>`:''}
+      <div class="ph-m-lbl">Réserve D'</div>
+      <div class="ph-m-val">${Math.round(dp)}</div>
+      <div class="ph-m-sub">mètres · capacité anaérobie</div>
     </div>`;
-    if(dp){
-      metrics+=`<div class="ph-metric">
-        <div class="ph-m-lbl">Réserve D'</div>
-        <div class="ph-m-val">${Math.round(dp)}</div>
-        <div class="ph-m-sub">mètres</div>
-        <div class="ph-m-sub">capacité anaérobie</div>
-      </div>`;
-    }
   }
   if(fcMax){
     metrics+=`<div class="ph-metric">
@@ -1103,29 +1092,28 @@ function renderProfile(){
     <div class="ph-metric">
       <div class="ph-m-lbl">Réserve Card.</div>
       <div class="ph-m-val">${fcReserve}</div>
-      <div class="ph-m-sub">bpm</div>
-      <div class="ph-m-sub">FC repos : ${fcRest} bpm</div>
+      <div class="ph-m-sub">bpm · repos ${fcRest} bpm</div>
     </div>`;
   }
 
-  // Coherence warnings (tests mode only)
+  // Alertes qualité (mode tests)
   let warnHtml='';
-  if(S.mode==='tests'&&(S.d6||0)>=300){
+  if(vcMode){
     const warns=checkCoherence(vma,csKmh,dp);
     if(warns.length){
       warnHtml=`<div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">`
         +warns.map(w=>`<div style="background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.28);border-left:3px solid #FCD34D;border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:#FCD34D">⚠ Attention :</strong> ${w}</div>`).join('')
         +`</div>`;
     }
-    // Individual test speeds
+    // Détail des tests
     const tsrcs=[];
-    if((S.d3||0)>=200) tsrcs.push(`Test 3' : ${((S.d3/180)*3.6).toFixed(1)} km/h (VMA estimée ${((S.d3/180)*3.6/1.10).toFixed(1)})`);
-    if((S.d6||0)>=300) tsrcs.push(`Test 6' : ${((S.d6/360)*3.6).toFixed(1)} km/h (VMA estimée ${((S.d6/360)*3.6/1.01).toFixed(1)})`);
-    if((S.d12||0)>=600) tsrcs.push(`Test 12' : ${((S.d12/720)*3.6).toFixed(1)} km/h (VMA estimée ${((S.d12/720)*3.6/0.965).toFixed(1)})`);
-    if(tsrcs.length>1){
+    if((S.d3||0)>=200) tsrcs.push(`Test 3' : ${((S.d3/180)*3.6).toFixed(2)} km/h`);
+    if((S.d6||0)>=300) tsrcs.push(`Test 6' : ${((S.d6/360)*3.6).toFixed(2)} km/h`);
+    if((S.d12||0)>=600) tsrcs.push(`Test 12' : ${((S.d12/720)*3.6).toFixed(2)} km/h`);
+    if(tsrcs.length){
       warnHtml+=`<div style="margin-top:12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:11px;color:var(--muted2);line-height:1.9">`
-        +tsrcs.join('<br>')
-        +`${csKmh?`<br><span style="color:var(--muted)">VC = ${csKmh.toFixed(2)} km/h (asymptote → D' = ${Math.round(dp)} m ; la VC est naturellement inférieure à la vitesse moyenne des tests courts)</span>`:''}`
+        +tsrcs.join(' &nbsp;·&nbsp; ')
+        +`${dp?` &nbsp;·&nbsp; <span style="color:var(--muted)">D' = ${Math.round(dp)} m</span>`:''}`
         +`</div>`;
     }
   }
@@ -1133,20 +1121,20 @@ function renderProfile(){
   document.getElementById('db-profile').innerHTML=`
     <div class="profile-hero">
       <div class="ph-main">
-        <div class="ph-lbl">VMA</div>
-        <div class="ph-val">${vma.toFixed(1)}</div>
-        <div class="ph-unit">km/h · ${fAll(3600/vma)} /km</div>
+        <div class="ph-lbl">${mainLbl}</div>
+        <div class="ph-val">${mainVal}</div>
+        <div class="ph-unit">${mainUnit}</div>
       </div>
       ${metrics?`<div class="ph-metrics">${metrics}</div>`:''}
     </div>
     ${warnHtml}`;
 }
 
-/* ── Zones Table (hybrid VC-anchored model) ── */
+/* ── Zones Table ── */
 function renderZones(){
-  const {vma,csKmh,fcMax,fcRest,fcReserve}=S;
+  const {csKmh,vma,fcMax,fcRest,fcReserve}=S;
   const hasFc=!!(fcMax&&fcRest);
-  const vc=csKmh||(vma*0.85);
+  const vc=csKmh||(vma*0.87);
   const isReal=!!csKmh;
   const fcH=hasFc?'<th class="hide-mob">% FC Rés.</th><th>FC bpm</th>':'';
 
@@ -1158,103 +1146,51 @@ function renderZones(){
   }
 
   let rows='';
-
-  // Z1 – Recovery : < 70% VC
-  const z1hi=vc*0.70;
-  rows+=`<tr>
-    <td><span class="zb z1">Z1</span></td>
-    <td style="font-weight:700;color:var(--text)">Récupération</td>
-    <td style="color:var(--muted2)">< 70% VC</td>
-    <td style="font-weight:600;color:#60A5FA">< ${z1hi.toFixed(1)} km/h</td>
-    <td style="color:var(--text2)">≥ ${fAll(3600/z1hi)} /km</td>
-    ${fcC(60,70,'#60A5FA')}
-  </tr>`;
-
-  // Z2 – Aerobic base : 70–85% VC
-  const z2lo=vc*0.70,z2hi=vc*0.85;
-  rows+=`<tr>
-    <td><span class="zb z2">Z2</span></td>
-    <td style="font-weight:700;color:var(--text)">Endurance Fondamentale</td>
-    <td style="color:var(--muted2)">70–85% VC</td>
-    <td style="font-weight:600;color:#34D399">${z2lo.toFixed(1)}–${z2hi.toFixed(1)} km/h</td>
-    <td style="color:var(--text2)">${fAll(3600/z2hi)}–${fAll(3600/z2lo)} /km</td>
-    ${fcC(70,80,'#34D399')}
-  </tr>`;
-
-  // Z3 – Aerobic threshold : 85–100% VC
-  const z3lo=vc*0.85,z3hi=vc;
-  rows+=`<tr>
-    <td><span class="zb z3">Z3</span></td>
-    <td style="font-weight:700;color:var(--text)">Seuil Aérobie</td>
-    <td style="color:var(--muted2)">85–100% VC</td>
-    <td style="font-weight:600;color:#FCD34D">${z3lo.toFixed(1)}–${z3hi.toFixed(1)} km/h</td>
-    <td style="color:var(--text2)">${fAll(3600/z3hi)}–${fAll(3600/z3lo)} /km</td>
-    ${fcC(80,90,'#FCD34D')}
-  </tr>`;
-
-  // CS separator row
-  const vcPct=(vc/vma*100).toFixed(1);
-  const csLabel=isReal?'Vitesse Critique':'VC estimée (85% VMA)';
-  let fcCS='';
-  if(hasFc){
-    const fcVal=Math.round(fcRest+90/100*fcReserve);
-    fcCS=`<td class="hide-mob" style="color:var(--muted2);font-size:12px">~90% RCM</td><td style="color:var(--orange);font-weight:700">~${fcVal} bpm</td>`;
-  }
-  rows+=`<tr class="cs-row">
-    <td colspan="2"><div class="cs-badge"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>${csLabel}</div></td>
-    <td style="color:var(--muted2);font-size:12px">${vcPct}% VMA</td>
-    <td style="font-weight:800;color:var(--orange)">${vc.toFixed(2)} km/h</td>
-    <td style="font-weight:700;color:var(--orange)">${fAll(3600/vc)} /km</td>
-    ${fcCS}
-  </tr>`;
-
-  // Z4 – Anaerobic : VC → 95% VMA (only if gap exists)
-  if(vc<vma*0.95){
-    const z4lo=vc,z4hi=vma*0.95;
+  ZONES_VC.forEach(z=>{
+    const vlo=vc*z.lo, vhi=vc*z.hi;
+    const vStr=z.z===5?`≥ ${vlo.toFixed(1)} km/h`:`${vlo.toFixed(1)}–${vhi.toFixed(1)} km/h`;
+    const aStr=z.z===5?`≤ ${fAll(3600/vlo)} /km`:`${fAll(3600/vhi)}–${fAll(3600/vlo)} /km`;
     rows+=`<tr>
-      <td><span class="zb z4">Z4</span></td>
-      <td style="font-weight:700;color:var(--text)">Seuil Anaérobie</td>
-      <td style="color:var(--muted2)">VC → 95% VMA</td>
-      <td style="font-weight:600;color:#FB923C">${z4lo.toFixed(1)}–${z4hi.toFixed(1)} km/h</td>
-      <td style="color:var(--text2)">${fAll(3600/z4hi)}–${fAll(3600/z4lo)} /km</td>
-      ${fcC(90,95,'#FB923C')}
+      <td><span class="zb ${z.cls}">Z${z.z}</span></td>
+      <td style="font-weight:700;color:var(--text)">${z.n}</td>
+      <td style="color:var(--muted2)">${z.pct} VC</td>
+      <td style="font-weight:600;color:${z.col}">${vStr}</td>
+      <td style="color:var(--text2)">${aStr}</td>
+      <td class="hide-mob" style="color:var(--muted2);font-size:11px">${z.talk}</td>
+      ${fcC(z.fcLo,z.fcHi,z.col)}
     </tr>`;
-  }
+  });
 
-  // Z5 – VMA : 95–105% VMA
-  const z5lo=vma*0.95,z5hi=vma*1.05;
-  rows+=`<tr>
-    <td><span class="zb z5">Z5</span></td>
-    <td style="font-weight:700;color:var(--text)">VMA / VO2max</td>
-    <td style="color:var(--muted2)">95–105% VMA</td>
-    <td style="font-weight:600;color:#F87171">${z5lo.toFixed(1)}–${z5hi.toFixed(1)} km/h</td>
-    <td style="color:var(--text2)">${fAll(3600/z5hi)}–${fAll(3600/z5lo)} /km</td>
-    ${fcC(95,100,'#F87171')}
-  </tr>`;
+  const vcNote=isReal
+    ?`<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,107,26,0.08);border:1px solid rgba(255,107,26,0.2);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:600;color:var(--orange);margin-bottom:14px">VC = ${vc.toFixed(2)} km/h · ${fAll(3600/vc)}/km</div>`
+    :`<div style="background:rgba(255,107,26,0.05);border:1px solid rgba(255,107,26,0.15);border-left:3px solid var(--orange);border-radius:10px;padding:11px 16px;font-size:12px;color:var(--text2);margin-bottom:14px">Zones calculées depuis une <strong>VC estimée</strong> (87% VMA = ${vc.toFixed(2)} km/h). Utilisez le mode <strong>Vitesse Critique</strong> pour des zones précises.</div>`;
 
   document.getElementById('db-zones').innerHTML=`
+    ${vcNote}
     <div class="tbl-wrap"><table>
       <thead><tr>
-        <th>Zone</th><th>Type</th><th>Référence</th><th>Vitesse</th><th>Allure /km</th>
+        <th>Zone</th><th>Nom</th><th>% VC</th><th>Vitesse</th><th>Allure /km</th>
+        <th class="hide-mob">Talk test</th>
         ${fcH}
       </tr></thead>
       <tbody>${rows}</tbody>
     </table></div>`;
 }
 
-/* ── VMA Slider ── */
+/* ── VC Slider ── */
 function renderSlider(){
-  const {vma}=S;
-  const slo=Math.round(vma*.5*10),shi=Math.round(vma*1.2*10),sdf=Math.round(vma*10);
+  const {csKmh,vma}=S;
+  const vc=csKmh||(vma*0.87);
+  const slo=Math.round(vc*0.5*10),shi=Math.round(vc*1.35*10),sdf=Math.round(vc*10);
   document.getElementById('db-slider').innerHTML=`
     <div class="sl-card">
       <div class="sl-hd">
         <div style="font-size:11px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:1px">Vitesse → Allure</div>
         <div class="sl-out">
-          <span id="sl-v" style="color:var(--orange)">${vma.toFixed(1)}</span>
+          <span id="sl-v" style="color:var(--orange)">${vc.toFixed(1)}</span>
           <span class="sl-sep">km/h →</span>
-          <span id="sl-a">${fAll(3600/vma)}</span>
-          <span id="sl-p" style="font-size:13px;color:var(--muted);font-weight:500"> (100% VMA)</span>
+          <span id="sl-a">${fAll(3600/vc)}</span>
+          <span id="sl-p" style="font-size:13px;color:var(--muted);font-weight:500"> (100% VC)</span>
         </div>
       </div>
       <div class="sl-row">
@@ -1262,38 +1198,39 @@ function renderSlider(){
         <input type="range" class="sl" id="vsl" min="${slo}" max="${shi}" value="${sdf}" step="1" oninput="updSl(this.value)">
         <button class="adj" onclick="adjV(+1)">+</button>
       </div>
-      <div class="sl-bnds"><span>${(vma*.5).toFixed(1)} km/h · 50%</span><span>120% · ${(vma*1.2).toFixed(1)} km/h</span></div>
+      <div class="sl-bnds"><span>${(vc*0.5).toFixed(1)} km/h · 50%</span><span>135% · ${(vc*1.35).toFixed(1)} km/h</span></div>
       <div class="zbar" id="zbar"></div>
     </div>`;
   bldZbar(slo,shi);updSl(sdf);
 }
 function updSl(val){
-  const {vma}=S;if(!vma)return;
-  const vc=S.csKmh||(vma*0.85);
-  const kmh=+val/10,pct=Math.round(kmh/vma*100);
-  let col='var(--orange)',zn='';
-  if(kmh<vc*0.70){col='#60A5FA';zn='Z1';}
-  else if(kmh<vc*0.85){col='#34D399';zn='Z2';}
-  else if(kmh<=vc){col='#FCD34D';zn='Z3';}
-  else if(kmh<vma*0.95){col='#FB923C';zn='Z4';}
+  const {csKmh,vma}=S;if(!csKmh&&!vma)return;
+  const vc=csKmh||(vma*0.87);
+  const kmh=+val/10,pct=Math.round(kmh/vc*100);
+  let col='#94A3B8',zn='Z1';
+  if(kmh<vc*0.60){col='var(--muted2)';zn='< Z1';}
+  else if(kmh<=vc*0.80){col='#94A3B8';zn='Z1';}
+  else if(kmh<=vc*0.94){col='#60A5FA';zn='Z2';}
+  else if(kmh<=vc*0.99){col='#34D399';zn='Z3';}
+  else if(kmh<=vc*1.06){col='#FB923C';zn='Z4';}
   else{col='#F87171';zn='Z5';}
   const sv=document.getElementById('sl-v');if(!sv)return;
   sv.textContent=kmh.toFixed(1);sv.style.color=col;
   document.getElementById('sl-a').textContent=fAll(3600/kmh);
-  document.getElementById('sl-p').textContent=` (${pct}% VMA · ${zn})`;
+  document.getElementById('sl-p').textContent=` (${pct}% VC · ${zn})`;
   const sl=document.getElementById('vsl'),p=((val-sl.min)/(sl.max-sl.min))*100;
   sl.style.background=`linear-gradient(to right,${col} 0%,${col} ${p}%,rgba(255,255,255,0.06) ${p}%,rgba(255,255,255,0.06) 100%)`;
 }
 function adjV(d){const sl=document.getElementById('vsl');if(!sl)return;const v=Math.min(Math.max(+sl.value+d,+sl.min),+sl.max);sl.value=v;updSl(v);}
 function bldZbar(slo,shi){
   const bar=document.getElementById('zbar');if(!bar)return;
-  const {vma}=S;const vc=S.csKmh||(vma*0.85);const rng=shi-slo;let html='';
+  const {csKmh,vma}=S;const vc=csKmh||(vma*0.87);const rng=shi-slo;let html='';
   const slZ=[
-    {lo:0,        hi:vc*0.70,  col:'#60A5FA',z:1},
-    {lo:vc*0.70,  hi:vc*0.85,  col:'#34D399',z:2},
-    {lo:vc*0.85,  hi:vc,       col:'#FCD34D',z:3},
-    {lo:vc,       hi:vma*0.95, col:'#FB923C',z:4},
-    {lo:vma*0.95, hi:vma*1.05, col:'#F87171',z:5},
+    {lo:vc*0.60, hi:vc*0.80, col:'#94A3B8',z:1},
+    {lo:vc*0.80, hi:vc*0.94, col:'#60A5FA',z:2},
+    {lo:vc*0.94, hi:vc*0.99, col:'#34D399',z:3},
+    {lo:vc*0.99, hi:vc*1.06, col:'#FB923C',z:4},
+    {lo:vc*1.06, hi:vc*1.35, col:'#F87171',z:5},
   ];
   slZ.forEach(z=>{
     const zs=Math.max(z.lo*10,slo),ze=Math.min(z.hi*10,shi);
@@ -1330,7 +1267,9 @@ function renderCSPredictions(){
     const kmh=(spd*3.6).toFixed(1);
     const tLo=t*0.97,tHi=t*1.03;
     const op=dim?';opacity:0.82':'';
-    const badge=r.model==='cs'?'Modèle CS':r.model===0.95?'95% VC':'88% VC';
+    const badge=r.model==='cs'
+      ?(csKmh?`${Math.round(spd*3.6/csKmh*100)}% VC`:'Riegel')
+      :`${Math.round(r.model*100)}% VC`;
     return `<div class="pred-c" style="border-top:3px solid ${r.col}${op}">
       <div class="pred-c-top">
         <div>
@@ -1361,8 +1300,8 @@ function renderCSPredictions(){
     }).join('');
     box.innerHTML=`
       <div style="background:rgba(255,107,26,0.05);border:1px solid rgba(255,107,26,0.18);border-left:3px solid var(--orange);border-radius:12px;padding:15px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-        <div style="font-size:12px;color:var(--text2);line-height:1.6">Prédiction par <strong>formule de Riegel</strong> (VMA seule) — utilisez le <strong>mode Tests terrain</strong> pour le modèle Vitesse Critique.</div>
-        <button onclick="go('input')" style="padding:7px 14px;border:1px solid rgba(255,107,26,0.35);border-radius:8px;background:transparent;color:var(--orange);font-family:var(--font);font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">Tests terrain →</button>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6">Prédiction par <strong>formule de Riegel</strong> (VMA seule) — utilisez le <strong>mode Vitesse Critique</strong> pour le modèle Vitesse Critique.</div>
+        <button onclick="go('input')" style="padding:7px 14px;border:1px solid rgba(255,107,26,0.35);border-radius:8px;background:transparent;color:var(--orange);font-family:var(--font);font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap">Vitesse Critique →</button>
       </div>
       <div class="pred-grid">${cards}</div>`;
     return;
