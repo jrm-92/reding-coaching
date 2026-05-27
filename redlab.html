@@ -530,6 +530,9 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
   .g2{grid-template-columns:1fr}
   .race-grid{grid-template-columns:1fr}
   .pred-grid{grid-template-columns:1fr 1fr}
+  .ph-b-val{font-size:20px}
+  .ph-b-sub{font-size:11px}
+  .ph-b-lbl{font-size:8px}
 }
 
 /* ══ LARGE SCREENS ══ */
@@ -592,10 +595,6 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
       </button>
     </nav>
     <div class="sidebar-footer">
-      <button class="btn-install" id="btn-install" onclick="installPWA()">
-        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Installer l'application
-      </button>
       <div class="sf-brand">Reding Running</div>
       <div class="sf-sub">Coach certifié FFA<br>Île-de-France</div>
     </div>
@@ -720,7 +719,7 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
                   </div>
                   <span style="color:var(--muted2);font-weight:900;font-size:22px;flex-shrink:0">:</span>
                   <div class="iw">
-                    <input type="number" id="road-ss" placeholder="30" min="0" max="59" step="1" oninput="calcRoad()" style="padding-left:14px">
+                    <input type="number" id="road-ss" placeholder="0" min="0" max="59" step="1" value="0" oninput="calcRoad()" style="padding-left:14px">
                     <span class="iu">sec</span>
                   </div>
                 </div>
@@ -918,7 +917,7 @@ function setMode(m){
   const tmi=document.getElementById('tmi-card');
   if(tmi){
     if(m!=='vma') tmi.style.display='none';
-    else updTMICard();
+    else{tmi.style.display='block';updTMICard();}
   }
 }
 function setVmaSubMode(m){
