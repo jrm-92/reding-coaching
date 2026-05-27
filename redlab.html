@@ -513,6 +513,8 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
   .profile-hero{padding:20px;border-radius:14px;grid-template-columns:1fr}
   .ph-block{border-right:none;margin-right:0;padding-right:0;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:16px}
   .ph-block:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
+  .ph-b-val{font-size:20px}
+  .ph-b-sub{font-size:12px}
 .test-row{grid-template-columns:48px 1fr;gap:10px}
   .test-live{display:none}
   .hide-mob{display:none}
@@ -1327,8 +1329,8 @@ function renderZones(){
       <td style="color:var(--muted2)">${pctStr}</td>
       <td style="font-weight:600;color:${z.col}">${vStr}</td>
       <td style="color:var(--text2)">${aStr}</td>
-      <td class="hide-mob" style="color:var(--muted2);font-size:11px">${z.talk}</td>
-      <td class="hide-mob" style="color:var(--muted2);font-size:11px;font-weight:600">${z.rpe}</td>
+      <td style="color:var(--muted2);font-size:11px">${z.talk}</td>
+      <td style="color:var(--muted2);font-size:11px;font-weight:600">${z.rpe}</td>
       ${fcC(z.fcLo,z.fcHi,z.col)}
     </tr>`;
   });
@@ -1340,7 +1342,7 @@ function renderZones(){
     <div class="tbl-wrap"><table>
       <thead><tr>
         <th>Zone</th><th>Domaine d'intensité</th><th>${pctCol}</th><th>Vitesse</th><th>Allure /km</th>
-        <th class="hide-mob">Talk test</th><th class="hide-mob">RPE</th>
+        <th>Talk test</th><th>RPE</th>
         ${fcH}
       </tr></thead>
       <tbody>${rows}</tbody>
