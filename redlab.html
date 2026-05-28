@@ -70,12 +70,40 @@ body{color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiase
 /* ── MAIN ── */
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;background:var(--bg)}
 .topbar{
-  height:54px;background:var(--bg2);
+  height:90px;background:var(--bg2);
   border-bottom:1px solid var(--border);
-  padding:0 28px;display:flex;align-items:center;
+  padding:0 36px;display:flex;align-items:center;
   justify-content:space-between;flex-shrink:0;
 }
-.topbar-title{font-size:18px;font-weight:700;color:var(--text);letter-spacing:0.3px}
+.tb-profile{display:flex;flex-direction:column;justify-content:center;gap:5px}
+.tb-top{display:flex;align-items:center;gap:14px}
+.tb-results{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-left:2px}
+.tb-res-item{font-size:15px;font-weight:600;color:var(--muted2)}
+.tb-res-item strong{color:var(--text);font-weight:700}
+.tb-res-sep{font-size:12px;color:var(--muted2);opacity:0.4;user-select:none}
+.tb-res-method{font-size:14px;font-weight:700;color:var(--orange);letter-spacing:0.3px;border-left:1px solid var(--border2);padding-left:10px;margin-left:2px}
+.tb-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,107,26,0.12);border:1px solid rgba(255,107,26,0.25);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.tb-avatar svg{width:20px;height:20px;stroke:var(--orange);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tb-pname{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.3px}
+.tb-sep{font-size:13px;color:var(--muted2);line-height:1;user-select:none}
+.tb-cal{display:flex;align-items:center;gap:8px}
+.tb-cal svg{width:16px;height:16px;stroke:var(--muted2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.tb-date{font-size:18px;font-weight:500;color:var(--muted2)}
+.tb-actions{display:flex;align-items:center;gap:6px}
+.tb-icon-btn{
+  width:32px;height:32px;border-radius:8px;
+  border:1px solid var(--border2);background:transparent;
+  color:var(--muted2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .18s,color .18s;
+}
+.tb-icon-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tb-icon-btn:hover{border-color:var(--orange);color:var(--orange)}
+.tb-icon-btn.tb-danger:hover{border-color:#F87171;color:#F87171}
 .topbar-badge{
   background:rgba(255,107,26,0.12);border:1px solid rgba(255,107,26,0.25);
   color:var(--orange);font-size:10px;font-weight:700;
@@ -147,24 +175,7 @@ label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-tra
 }
 .btn-generate:hover{background:var(--orange2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,107,26,0.45)}
 .btn-generate svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.btn-modify{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:8px 14px;border:1px solid var(--border2);border-radius:8px;
-  background:transparent;color:var(--muted);cursor:pointer;
-  font-family:var(--font);font-size:11px;font-weight:700;
-  transition:all .18s;
-}
-.btn-modify:hover{border-color:var(--orange);color:var(--orange)}
-.btn-modify svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.btn-reset{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:8px 14px;border:1px solid var(--border2);border-radius:8px;
-  background:transparent;color:var(--muted);cursor:pointer;
-  font-family:var(--font);font-size:11px;font-weight:700;
-  transition:all .18s;
-}
-.btn-reset:hover{border-color:#F87171;color:#F87171}
-.btn-reset svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn-modify,.btn-reset{display:none}
 
 /* ── SECTION LABEL ── */
 .slabel{
@@ -375,7 +386,7 @@ input[type=range].rsl::-moz-range-thumb{width:17px;height:17px;border-radius:50%
 .input-hero-sub{font-size:14px;color:var(--muted);line-height:1.6}
 
 /* ══ TEST ROWS ══ */
-.test-row{display:grid;grid-template-columns:48px 1fr 90px;gap:12px;align-items:center;margin-bottom:14px}
+.test-row{display:grid;grid-template-columns:48px 1fr 120px 90px;gap:12px;align-items:center;margin-bottom:14px}
 .test-row:last-child{margin-bottom:0}
 .test-badge{
   width:48px;height:48px;border-radius:12px;flex-shrink:0;
@@ -499,9 +510,10 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
   .ph-block:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
   .ph-b-val{font-size:16px}
   .ph-b-sub{font-size:11px}
-.test-row{grid-template-columns:48px 1fr;gap:10px}
+.test-row{grid-template-columns:48px 1fr 1fr;gap:10px}
   .test-live{display:none}
   .hide-mob{display:none}
+  .show-mob{display:inline}
   .pred-grid{grid-template-columns:1fr 1fr}
   .stats-row{gap:10px}
   .sc{padding:14px 12px}.sc-val{font-size:24px}
@@ -554,7 +566,7 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
 <!-- MOBILE HEADER -->
 <header class="mobile-header">
   <div class="mh-inner">
-    <div class="mh-logo">Red<span>Lab</span></div>
+    <div class="mh-logo"><img src="logo_running_orange.png" alt="RedLab" style="max-width:100px;height:auto;display:block"></div>
   </div>
   <div class="mh-menu">
     <button class="mh-btn active" id="mbn-input" onclick="go('input')">Saisie</button>
@@ -581,25 +593,17 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
       </button>
     </nav>
     <div class="sidebar-footer">
-      <div class="sf-brand">Reding Running</div>
-      <div class="sf-sub">Coach certifié FFA<br>Île-de-France</div>
+      <button class="nav-btn" onclick="resetAll()" style="width:100%;color:#F87171;border-color:rgba(248,113,113,0.2)" onmouseover="this.style.color='#F87171';this.style.borderColor='#F87171'" onmouseout="this.style.color='#F87171';this.style.borderColor='rgba(248,113,113,0.2)'">
+        <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+        Réinitialiser
+      </button>
     </div>
   </aside>
 
   <!-- MAIN -->
   <div class="main">
     <div class="topbar" id="main-topbar" style="display:none">
-      <div class="topbar-title" id="tb-title">Dashboard</div>
-      <div style="display:flex;align-items:center;gap:10px;margin-right:44px">
-        <button class="btn-reset" onclick="resetAll()">
-          <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
-          Réinitialiser
-        </button>
-        <button class="btn-modify" onclick="go('input')">
-          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          Modifier
-        </button>
-      </div>
+      <div class="tb-profile" id="tb-title"></div>
     </div>
 
     <div class="scroll">
@@ -610,7 +614,7 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
 
           <div class="input-hero">
             <div class="input-hero-title">Définir votre profil athlète</div>
-            <div class="input-hero-sub">Choisissez votre mode de saisie. En quelques valeurs, obtenez vos zones d'entraînement personnalisées, vos prédictions de performance et vos temps de passage.</div>
+            <div class="input-hero-sub">Choisissez votre outil de travail. À partir de tests terrain, obtenez vos zones d'entraînement personnalisées ainsi que vos projections de performance et vos temps de passage.</div>
           </div>
 
           <!-- Pseudo -->
@@ -618,7 +622,7 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
             <label>Votre prénom / pseudo</label>
             <div class="iw">
               <div class="ii"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
-              <input type="text" id="pseudo-inp" placeholder="Jean" maxlength="30" style="padding-left:14px" oninput="updPseudo()">
+              <input type="text" id="pseudo-inp" placeholder="Jean" maxlength="30" required style="padding-left:14px" oninput="updPseudo()">
             </div>
           </div>
 
@@ -891,7 +895,7 @@ function go(id){
 }
 
 /* ══ STATE ══ */
-const S={mode:'vma',vma:null,csKmh:null,dp:null,csMethod:null,csR2:null,fcMax:null,fcRest:null,fcReserve:null,d3:0,d6:0,d12:0,pseudo:''};
+const S={mode:'vma',vma:null,csKmh:null,dp:null,csMethod:null,csR2:null,fcMax:null,fcRest:null,fcReserve:null,d3:0,d6:0,d12:0,fc3:null,fc6:null,fc12:null,pseudo:'',testDate:null};
 
 /* ══ MODE ══ */
 function setMode(m){
@@ -929,10 +933,17 @@ function buildTestsForm(){
         <span>${t.dur}'</span>
       </div>
       <div class="field" style="margin-bottom:0">
-        <label>Distance couverte en ${t.dur} min</label>
+        <label>Distance — ${t.dur} min</label>
         <div class="iw">
           <input type="number" id="t${t.dur}" placeholder="${t.hint}" min="100" step="5" oninput="liveTests()">
           <span class="iu">m</span>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>FC fin de test</label>
+        <div class="iw">
+          <input type="number" id="fc${t.dur}" placeholder="170" min="100" max="230" step="1" style="padding-left:14px">
+          <span class="iu">bpm</span>
         </div>
       </div>
       <div class="test-live" id="tl${t.dur}">—</div>
@@ -1060,6 +1071,12 @@ function generate(){
   const err=document.getElementById('input-error');
   err.style.display='none';
   S.pseudo=(document.getElementById('pseudo-inp').value||'').trim();
+  if(!S.pseudo){
+    err.innerHTML='<strong>Erreur :</strong> Veuillez renseigner votre prénom ou pseudo.';
+    err.style.display='block';
+    document.getElementById('pseudo-inp').focus();
+    return;
+  }
   updPseudo();
 
   if(S.mode==='vma'){
@@ -1085,6 +1102,9 @@ function generate(){
     }
     S.vma=vmaEst;
     S.d3=d3;S.d6=d6;S.d12=d12;
+    S.fc3=+document.getElementById('fc3').value||null;
+    S.fc6=+document.getElementById('fc6').value||null;
+    S.fc12=+document.getElementById('fc12').value||null;
     S.csKmh=null;S.dp=null;S.csMethod=null;S.csR2=null;
     const pts=[];
     pts.push({d:d3,t:180});
@@ -1103,6 +1123,8 @@ function generate(){
     S.fcMax=null;S.fcRest=null;S.fcReserve=null;
   }
 
+  S.testDate=new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  updPseudo();
   renderDashboard();
   saveLS();
   go('dashboard');
@@ -1122,6 +1144,9 @@ function saveLS(){
         t3:document.getElementById('t3')?document.getElementById('t3').value:'',
         t6:document.getElementById('t6')?document.getElementById('t6').value:'',
         t12:document.getElementById('t12')?document.getElementById('t12').value:'',
+        fc3:document.getElementById('fc3')?document.getElementById('fc3').value:'',
+        fc6:document.getElementById('fc6')?document.getElementById('fc6').value:'',
+        fc12:document.getElementById('fc12')?document.getElementById('fc12').value:'',
         fcMax:document.getElementById('fc-max').value,
         fcRest:document.getElementById('fc-rest').value,
       },
@@ -1134,7 +1159,7 @@ function loadLS(){
     const raw=localStorage.getItem(LS_KEY);
     if(!raw)return;
     const d=JSON.parse(raw);
-    if(!d.S||!d.S.vma)return;
+    if(!d.S||!d.S.vma||!d.S.pseudo)return;
     Object.assign(S,d.S);
     if(d.testDists){S.d3=d.testDists.d3||0;S.d6=d.testDists.d6||0;S.d12=d.testDists.d12||0;}
     setMode(S.mode||'vma');
@@ -1144,20 +1169,24 @@ function loadLS(){
     if(i.t3)document.getElementById('t3').value=i.t3;
     if(i.t6)document.getElementById('t6').value=i.t6;
     if(i.t12)document.getElementById('t12').value=i.t12;
+    if(i.fc3){const e=document.getElementById('fc3');if(e)e.value=i.fc3;}
+    if(i.fc6){const e=document.getElementById('fc6');if(e)e.value=i.fc6;}
+    if(i.fc12){const e=document.getElementById('fc12');if(e)e.value=i.fc12;}
     if(i.fcMax){document.getElementById('fc-max').value=i.fcMax;}
     if(i.fcRest){document.getElementById('fc-rest').value=i.fcRest;}
     if(i.fcMax&&i.fcRest){toggleOpt('fc-opt-body','fc-chev');}
+    updPseudo();
     renderDashboard();
     go('dashboard');
   }catch(e){}
 }
 function resetAll(){
   try{localStorage.removeItem(LS_KEY);}catch(e){}
-  Object.assign(S,{mode:'vma',vma:null,csKmh:null,dp:null,csMethod:null,csR2:null,fcMax:null,fcRest:null,fcReserve:null,d3:0,d6:0,d12:0,pseudo:''});
+  Object.assign(S,{mode:'vma',vma:null,csKmh:null,dp:null,csMethod:null,csR2:null,fcMax:null,fcRest:null,fcReserve:null,d3:0,d6:0,d12:0,fc3:null,fc6:null,fc12:null,pseudo:'',testDate:null});
   tmiSec=null;
   const ids=['pseudo-inp','vma-inp','fc-max','fc-rest'];
   ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['t3','t6','t12'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['t3','t6','t12','fc3','fc6','fc12'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   updPseudo();
   setMode('vma');
   setVmaSubMode('direct');
@@ -1167,17 +1196,17 @@ function resetAll(){
 /* ══ ZONES ══ */
 const ZONES_VC=[
   {z:1,n:'Modéré',             pct:'60–80%',  lo:0.60,hi:0.80, fcLo:50, fcHi:68,  cls:'z1',col:'#94A3B8', talk:'Capable de chanter',   rpe:'2–4'},
-  {z:2,n:'Intermédiaire (SV1)',pct:'81–94%',  lo:0.81,hi:0.94, fcLo:68, fcHi:82,  cls:'z2',col:'#60A5FA', talk:'Conversation possible', rpe:'4–6'},
-  {z:3,n:'Élevé / Seuil (SV2)',pct:'95–99%',  lo:0.95,hi:0.99, fcLo:82, fcHi:89,  cls:'z3',col:'#34D399', talk:'Quelques mots',         rpe:'6–7'},
-  {z:4,n:'Sévère / VO₂max',   pct:'100–106%',lo:1.00,hi:1.06, fcLo:89, fcHi:96,  cls:'z4',col:'#FB923C', talk:'Parole impossible',     rpe:'7–8'},
+  {z:2,n:'Intermédiaire (SV1)',pct:'80–95%',  lo:0.80,hi:0.95, fcLo:68, fcHi:82,  cls:'z2',col:'#60A5FA', talk:'Conversation possible', rpe:'4–6'},
+  {z:3,n:'Élevé / Seuil (SV2)',pct:'95–100%', lo:0.95,hi:1.00, fcLo:82, fcHi:89,  cls:'z3',col:'#34D399', talk:'Quelques mots',         rpe:'6–7'},
+  {z:4,n:'Sévère / VO₂max',   pct:'100–107%',lo:1.00,hi:1.07, fcLo:89, fcHi:96,  cls:'z4',col:'#FB923C', talk:'Parole impossible',     rpe:'7–8'},
   {z:5,n:'Maximal / Anaérobie',pct:'≥ 107%',  lo:1.07,hi:1.30, fcLo:96, fcHi:100, cls:'z5',col:'#F87171', talk:'À bout de souffle',     rpe:'9–10'},
 ];
 const ZONES_VMA=[
-  {z:1,n:'Endurance fondamentale', pct:'60–65%',  lo:0.60,hi:0.65, fcLo:50, fcHi:65,  cls:'z1',col:'#94A3B8', talk:'Capable de chanter',   rpe:'3–4'},
-  {z:2,n:'Endurance active',       pct:'70–75%',  lo:0.70,hi:0.75, fcLo:65, fcHi:75,  cls:'z2',col:'#60A5FA', talk:'Conversation possible', rpe:'4–5'},
-  {z:3,n:'Seuil aérobie',          pct:'80–85%',  lo:0.80,hi:0.85, fcLo:75, fcHi:85,  cls:'z3',col:'#34D399', talk:'Quelques mots',         rpe:'5–6'},
-  {z:4,n:'Seuil anaérobie / VMA',  pct:'90–100%', lo:0.90,hi:1.00, fcLo:85, fcHi:96,  cls:'z4',col:'#FB923C', talk:'Parole impossible',     rpe:'7–8'},
-  {z:5,n:'Puissance maximale',     pct:'> 100%',  lo:1.00,hi:1.30, fcLo:96, fcHi:100, cls:'z5',col:'#F87171', talk:'À bout de souffle',     rpe:'9–10'},
+  {z:1,n:'Endurance fondamentale', pct:'< 60%',   lo:0.00,hi:0.60, fcLo:50, fcHi:60,  cls:'z1',col:'#94A3B8', talk:'Capable de chanter',   rpe:'2–3'},
+  {z:2,n:'Endurance active',       pct:'60–70%',  lo:0.60,hi:0.70, fcLo:60, fcHi:72,  cls:'z2',col:'#60A5FA', talk:'Conversation possible', rpe:'3–5'},
+  {z:3,n:'Tempo',                  pct:'70–80%',  lo:0.70,hi:0.80, fcLo:72, fcHi:83,  cls:'z3',col:'#34D399', talk:'Quelques mots',         rpe:'5–6'},
+  {z:4,n:'Seuil anaérobie',        pct:'80–90%',  lo:0.80,hi:0.90, fcLo:83, fcHi:92,  cls:'z4',col:'#FB923C', talk:'Parole impossible',     rpe:'7–8'},
+  {z:5,n:'Travail à VMA',          pct:'≥ 90%',   lo:0.90,hi:1.30, fcLo:92, fcHi:100, cls:'z5',col:'#F87171', talk:'À bout de souffle',     rpe:'9–10'},
 ];
 
 /* ══ RENDER DASHBOARD ══ */
@@ -1220,11 +1249,12 @@ function renderProfile(){
     </div>`;
 
   // Bloc 2 — VC / allure / D'
+  const b2val=vcMode?csKmh:vma;
   const b2=`
     <div class="ph-block">
       <div class="ph-b-lbl">${vcMode?'Vitesse Critique':'VMA'}</div>
-      <div class="ph-b-val" style="color:var(--orange)">${ref.toFixed(2)} <span style="font-size:14px;font-weight:500">km/h</span></div>
-      <div class="ph-b-sub">${fAll(3600/ref)} /km${(vcMode&&dp)?` <span style="color:var(--muted2);margin-left:8px">· D' = ${Math.round(dp)} m</span>`:''}</div>
+      <div class="ph-b-val" style="color:var(--orange)">${b2val.toFixed(2)} <span style="font-size:14px;font-weight:500">km/h</span></div>
+      <div class="ph-b-sub">${fAll(3600/b2val)} /km${(vcMode&&dp)?` <span style="color:var(--muted2);margin-left:8px">· D' = ${Math.round(dp)} m</span>`:''}</div>
     </div>`;
 
   // Bloc 3 — VMA estimée (mode VC uniquement)
@@ -1258,21 +1288,9 @@ function renderProfile(){
         +warns.map(w=>`<div style="background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.28);border-left:3px solid #FCD34D;border-radius:10px;padding:12px 16px;font-size:12px;color:var(--text2);line-height:1.6"><strong style="color:#FCD34D">⚠ Attention :</strong> ${w}</div>`).join('')
         +`</div>`;
     }
-    const tsrcs=[];
-    if((S.d3||0)>=200) tsrcs.push(`Test 3' · ${((S.d3/180)*3.6).toFixed(2)} km/h`);
-    if((S.d6||0)>=300) tsrcs.push(`Test 6' · ${((S.d6/360)*3.6).toFixed(2)} km/h`);
-    if((S.d12||0)>=600) tsrcs.push(`Test 12' · ${((S.d12/720)*3.6).toFixed(2)} km/h`);
-    if(tsrcs.length){
-      let infoLine=tsrcs.join(' &nbsp;·&nbsp; ');
-      if(dp) infoLine+=` &nbsp;·&nbsp; <span style="color:var(--muted)">D' = ${Math.round(dp)} m</span>`;
-      if(S.csMethod) infoLine+=`<br><span style="color:var(--orange);font-weight:700">${S.csMethod}</span>`;
-      if(S.csR2!==null&&S.csR2!==undefined) infoLine+=` &nbsp;·&nbsp; R² = ${S.csR2.toFixed(3)}${S.csR2<0.95?' <span style="color:#F87171">⚠</span>':'<span style="color:#34D399"> ✓</span>'}`;
-      warnHtml+=`<div style="margin-top:12px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:11px;color:var(--muted2);line-height:1.9">${infoLine}</div>`;
-    }
   }
 
   document.getElementById('db-profile').innerHTML=`
-    ${S.pseudo?`<div style="font-size:11px;font-weight:700;color:var(--muted2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px">${S.pseudo}</div>`:''}
     <div class="profile-hero">
       ${b1}${b2}${b3vma}${b3}
     </div>
@@ -1296,17 +1314,17 @@ function renderZones(){
     return `<td class="hide-mob" style="color:var(--muted2)">${loP}–${hiP}%</td><td><span style="font-weight:700;color:${col}">${flo}–${fhi}</span> <span style="font-size:10px;color:var(--muted2)">bpm</span></td>`;
   }
 
-  const vcBadge=`<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,107,26,0.08);border:1px solid rgba(255,107,26,0.2);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--orange)">VC${isReal?'':' est.'} = ${vc.toFixed(2)} km/h · ${fAll(3600/vc)}/km</span>`;
+  const vcBadge=`<span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,107,26,0.08);border:1px solid rgba(255,107,26,0.2);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--orange)"><span class="hide-mob">VC${isReal?'':' est.'} = ${vc.toFixed(2)} km/h · ${fAll(3600/vc)}/km</span><span class="show-mob" style="display:none">VC ${fAll(3600/vc)}/km</span></span>`;
 
   const pctCol=isReal?'% VC':'% VMA';
 
   let rows='';
   zones.forEach(z=>{
     const vlo=ref*z.lo, vhi=ref*z.hi;
-    const vStr=z.z===5?`≥ ${vlo.toFixed(1)} km/h`:`${vlo.toFixed(1)}–${vhi.toFixed(1)} km/h`;
-    const aStr=z.z===5?`≤ ${fAll(3600/vlo)} /km`:`${fAll(3600/vhi)}–${fAll(3600/vlo)} /km`;
+    const vStr=z.z===5?`≥ ${vlo.toFixed(1)} km/h`:z.lo===0?`< ${vhi.toFixed(1)} km/h`:`${vlo.toFixed(1)}–${vhi.toFixed(1)} km/h`;
+    const aStr=z.z===5?`≤ ${fAll(3600/vlo)} /km`:z.lo===0?`≥ ${fAll(3600/vhi)} /km`:`${fAll(3600/vhi)}–${fAll(3600/vlo)} /km`;
     const isZ4=z.z===4;
-    const pctStr=isReal?(z.z===5?`≥ 107% VC`:z.pct+' VC'):z.pct+' VMA';
+    const pctStr=isReal?z.pct+' VC':z.pct+' VMA';
     rows+=`<tr>
       <td><span class="zb ${z.cls}">Z${z.z}</span></td>
       <td style="font-weight:700;color:var(--text)">${z.n}${isZ4&&isReal?` <span style="margin-left:6px">${vcBadge}</span>`:''}</td>
@@ -1389,15 +1407,8 @@ function bldZbar(slo,shi){
   const ref=isReal?csKmh:vma;
   const zones=isReal?ZONES_VC:ZONES_VMA;
   const rng=shi-slo;let html='';
-  // Build contiguous boundaries: each zone starts at previous zone's end
-  const bounds=zones.map((z,i)=>{
-    const next=zones[i+1];
-    const lo=z.lo;
-    const hi=next?next.lo:z.hi;
-    return{...z,bLo:lo,bHi:hi};
-  });
-  bounds.forEach(z=>{
-    const zs=Math.max(ref*z.bLo*10,slo),ze=Math.min(ref*z.bHi*10,shi);
+  zones.forEach(z=>{
+    const zs=Math.max(ref*z.lo*10,slo),ze=Math.min(ref*z.hi*10,shi);
     if(ze<=slo||zs>=shi)return;
     const l=((zs-slo)/rng)*100,w=((ze-zs)/rng)*100;
     html+=`<div style="position:absolute;left:${l}%;width:${w}%;height:100%;background:${z.col};opacity:0.22"></div>`;
@@ -1601,7 +1612,27 @@ function openOpt(bodyId,chevId){
 function updPseudo(){
   const v=(document.getElementById('pseudo-inp').value||'').trim();
   const tb=document.getElementById('tb-title');
-  if(tb) tb.textContent=v?`Dashboard · ${v}`:'Dashboard';
+  if(!tb) return;
+  const calIco=`<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`;
+  const dateHtml=S.testDate?`<span class="tb-sep">•</span><span class="tb-cal">${calIco}<span class="tb-date">${S.testDate}</span></span>`:'';
+  const userIco=`<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+
+  // Ligne résultats tests
+  let resHtml='';
+  if(S.mode==='tests'&&S.csKmh){
+    const items=[];
+    if(S.d3>=200) items.push(`<span class="tb-res-item">Test 3' · <strong>${((S.d3/180)*3.6).toFixed(2)} km/h</strong>${S.fc3?` · <strong style="color:#F87171">${S.fc3} bpm</strong>`:''}</span>`);
+    if(S.d6>=300) items.push(`<span class="tb-res-item">Test 6' · <strong>${((S.d6/360)*3.6).toFixed(2)} km/h</strong>${S.fc6?` · <strong style="color:#F87171">${S.fc6} bpm</strong>`:''}</span>`);
+    if(S.d12>=600) items.push(`<span class="tb-res-item">Test 12' · <strong>${((S.d12/720)*3.6).toFixed(2)} km/h</strong>${S.fc12?` · <strong style="color:#F87171">${S.fc12} bpm</strong>`:''}</span>`);
+    if(S.dp) items.push(`<span class="tb-res-item">D' = <strong>${Math.round(S.dp)} m</strong></span>`);
+    const sep='<span class="tb-res-sep">·</span>';
+    const methodHtml=S.csMethod?`<span class="tb-res-method">${S.csMethod}</span>`:'';
+    resHtml=`<div class="tb-results">${items.join(sep)}${methodHtml}</div>`;
+  }
+
+  tb.innerHTML=v
+    ?`<div class="tb-top"><span class="tb-avatar">${userIco}</span><span class="tb-pname">${v}</span>${dateHtml}</div>${resHtml}`
+    :'';
 }
 
 function updTMICard(){
