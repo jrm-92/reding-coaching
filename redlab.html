@@ -209,7 +209,7 @@ tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
 tbody tr:last-child{border-bottom:none}
 tbody tr:hover{background:rgba(255,255,255,0.02)}
 tbody td{padding:13px 16px;font-size:13px;vertical-align:middle;color:var(--text2)}
-.col-num{width:1%;padding-left:6px!important;padding-right:6px!important;white-space:nowrap}
+.col-num{width:1%;padding-left:4px!important;padding-right:4px!important;white-space:nowrap}
 .zb{
   display:inline-block;padding:3px 9px;border-radius:20px;
   font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;
@@ -1346,10 +1346,10 @@ function renderZones(){
   let rows='';
   zones.forEach(z=>{
     const vlo=ref*z.lo, vhi=ref*z.hi;
-    const vStr=z.z===5?`≥ ${vlo.toFixed(1)} km/h`:z.lo===0?`< ${vhi.toFixed(1)} km/h`:`${vlo.toFixed(1)}–${vhi.toFixed(1)} km/h`;
+    const vStr=z.z===5?`≥ ${vlo.toFixed(1)}`:z.lo===0?`< ${vhi.toFixed(1)}`:`${vlo.toFixed(1)}–${vhi.toFixed(1)}`;
     const aStr=z.z===5?`≤ ${fAll(3600/vlo)} /km`:z.lo===0?`≥ ${fAll(3600/vhi)} /km`:`${fAll(3600/vlo)}–${fAll(3600/vhi)} /km`;
     const isZ4=z.z===4;
-    const pctStr=isReal?z.pct+' VC':z.pct+' VMA';
+    const pctStr=z.pct;
     rows+=`<tr>
       <td><span class="zb ${z.cls}">Z${z.z}</span></td>
       <td style="font-weight:700;color:var(--text)">${z.n}${isZ4&&isReal?` <span style="margin-left:6px">${vcBadge}</span>`:''}</td>
