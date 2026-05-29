@@ -380,6 +380,7 @@ input[type=range].rsl::-moz-range-thumb{width:17px;height:17px;border-radius:50%
 .btn-road-apply:hover{background:rgba(255,107,26,0.18);border-color:rgba(255,107,26,0.6)}
 .btn-road-apply svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .input-hero{margin-bottom:36px}
+.input-desc-mob{display:none}
 .tool-eyebrow{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--orange);margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .tool-eyebrow::before{content:'';width:12px;height:2px;background:var(--orange)}
 .input-hero-title{font-size:28px;font-weight:900;color:var(--text);letter-spacing:-0.7px;margin-bottom:8px}
@@ -508,6 +509,8 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
   .mh-ctx-tests span{display:block}
   .mh-ctx-model{font-size:8.5px;color:rgba(255,107,26,0.65);font-weight:700;margin-top:1px;letter-spacing:0.5px}
 
+  .input-hero{display:none}
+  .input-desc-mob{display:block}
   .input-wrap{padding:20px 16px 80px}
   .tool-layout{padding:20px 0 80px}
   #db-profile{padding-left:16px;padding-right:16px}
@@ -626,8 +629,13 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
       <div id="p-input" class="panel active">
         <div class="input-wrap">
 
+          <div class="input-hero">
+            <div class="input-hero-title">Définir votre profil athlète</div>
+            <div class="input-hero-sub">Choisissez votre outil de travail. À partir de tests terrain, obtenez vos zones d'entraînement personnalisées ainsi que vos projections de performance et vos temps de passage.</div>
+          </div>
+
           <!-- Pseudo -->
-          <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px">Choisissez votre outil de travail. À partir de tests terrain, obtenez vos zones d'entraînement personnalisées ainsi que vos projections de performance et vos temps de passage.</p>
+          <p class="input-desc-mob" style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px">Choisissez votre outil de travail. À partir de tests terrain, obtenez vos zones d'entraînement personnalisées ainsi que vos projections de performance et vos temps de passage.</p>
           <div class="field" style="margin-bottom:28px">
             <label>Votre prénom / pseudo</label>
             <div class="iw">
