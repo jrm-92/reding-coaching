@@ -3839,15 +3839,19 @@
         </div>
         
         <div style="margin-top:16px">
-          <div style="width:100%;box-sizing:border-box;background:rgba(255,107,53,0.08);border:1px solid rgba(255,107,53,0.28);border-left:3px solid #FF6B35;border-radius:12px;padding:18px 22px">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-              <a href="https://www.strava.com/athletes/Jérémy_reding" target="_blank" class="apropos-strava-link" style="font-size:10px">Jérémy REDING</a>
-              <span style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#FF6B35">Prochain objectif</span>
+          <div style="width:100%;box-sizing:border-box;background:rgba(255,107,53,0.08);border:1px solid rgba(255,107,53,0.28);border-left:3px solid #FF6B35;border-radius:12px;padding:18px 22px;display:flex;align-items:stretch;justify-content:space-between;gap:20px">
+            <!-- Gauche : badge + record -->
+            <div style="display:flex;flex-direction:column;justify-content:space-between;gap:14px">
+              <a href="https://www.strava.com/athletes/Jérémy_reding" target="_blank" class="apropos-strava-link" style="font-size:11px;align-self:flex-start">Jérémy REDING</a>
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45)">Record personnel</span>
+                <span style="font-size:24px;font-weight:900;color:#FF6B35;letter-spacing:-0.5px">35'20</span>
+              </div>
             </div>
-            <div style="font-size:19px;font-weight:900;color:#fff;letter-spacing:-0.3px;margin-bottom:14px;line-height:1.2">10K Pont Audemer</div>
-            <div style="display:flex;align-items:baseline;gap:8px">
-              <span style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.45)">Record personnel</span>
-              <span style="font-size:22px;font-weight:900;color:#FF6B35;letter-spacing:-0.5px">35'20</span>
+            <!-- Droite : label + course -->
+            <div style="display:flex;flex-direction:column;justify-content:space-between;gap:14px;text-align:right">
+              <span style="font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#FF6B35">Prochain objectif</span>
+              <div style="font-size:19px;font-weight:900;color:#fff;letter-spacing:-0.3px;line-height:1.2">10K Pont Audemer</div>
             </div>
           </div>
         </div>
