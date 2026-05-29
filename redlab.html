@@ -513,11 +513,15 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
   .db-section-hd{padding-left:16px;padding-right:16px}
   .mode-toggle{gap:10px}
   .mode-card{padding:16px 14px}
-  .profile-hero{padding:20px;border-radius:14px;grid-template-columns:1fr}
-  .ph-block{border-right:none;margin-right:0;padding-right:0;border-bottom:1px solid var(--border);padding-bottom:16px;margin-bottom:16px}
-  .ph-block:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
-  .ph-b-val{font-size:16px}
+  .profile-hero{padding:16px;border-radius:14px;grid-template-columns:1fr 1fr;gap:0}
+  .ph-block{border-right:1px solid var(--border);border-bottom:none;margin-right:0;padding:12px 14px 10px;margin-bottom:0}
+  .ph-block:last-child{border-right:none;border-bottom:none;padding-bottom:6px;margin-bottom:0}
+  .ph-r{border-right:none!important}
+  .ph-full{grid-column:1/-1!important;border-right:none!important;border-bottom:1px solid var(--border)!important;padding-bottom:14px!important;margin-bottom:0!important}
+  .ph-full:last-child{border-bottom:none!important;padding-bottom:6px!important}
+  .ph-b-val{font-size:20px}
   .ph-b-sub{font-size:11px}
+  .ph-b-desc{max-width:none}
 .test-row{grid-template-columns:48px 1fr 1fr;gap:10px}
   .test-live{display:none}
   .hide-mob{display:none}
@@ -1247,12 +1251,12 @@ function renderProfile(){
     else{profileName='VMA sous-estimée';profileDesc='Temps de maintien > 7 min — votre VMA réelle est probablement supérieure';profileCol='#60A5FA';}
   }
   const b1=profileName?`
-    <div class="ph-block">
+    <div class="ph-block ph-full">
       <div class="ph-b-lbl">Profil</div>
       <div class="ph-b-val" style="color:${profileCol}">${profileName}</div>
       <div class="ph-b-desc">${profileDesc}</div>
     </div>`:
-    `<div class="ph-block">
+    `<div class="ph-block ph-full">
       <div class="ph-b-lbl">Profil</div>
       <div class="ph-b-val" style="color:var(--muted2);font-size:14px">—</div>
       <div class="ph-b-desc">${!vcMode&&vma?`<span onclick="go('input');openOpt('tmi-body','tmi-chev')" style="cursor:pointer;color:var(--orange);text-decoration:underline;text-underline-offset:3px">Effectuez le test TMI pour définir votre profil →</span>`:'Renseignez votre VMA pour obtenir votre profil'}</div>
@@ -1269,7 +1273,7 @@ function renderProfile(){
 
   // Bloc 3 — VMA estimée (mode VC uniquement)
   const b3vma=vcMode&&vma?`
-    <div class="ph-block">
+    <div class="ph-block ph-r">
       <div class="ph-b-lbl">VMA estimée</div>
       <div class="ph-b-val" style="color:var(--orange)">${vma.toFixed(1)} <span style="font-size:14px;font-weight:500">km/h</span></div>
       <div class="ph-b-sub">${fAll(3600/vma)} /km</div>
@@ -1277,13 +1281,13 @@ function renderProfile(){
 
   // Bloc 4 — FC
   const b3=fcMax?`
-    <div class="ph-block">
+    <div class="ph-block${(vcMode&&vma)?' ph-full':''}">
       <div class="ph-b-lbl">Fréquence Cardiaque</div>
       <div class="ph-b-fc-row"><span class="ph-b-fc-val" style="color:#F87171">${fcMax}</span><span class="ph-b-fc-lbl">bpm max</span></div>
       <div class="ph-b-fc-row"><span class="ph-b-fc-val" style="color:var(--muted)">${fcRest}</span><span class="ph-b-fc-lbl">bpm repos</span></div>
       <div class="ph-b-fc-row"><span class="ph-b-fc-val">${fcReserve}</span><span class="ph-b-fc-lbl">bpm réserve</span></div>
     </div>`:
-    `<div class="ph-block">
+    `<div class="ph-block${(vcMode&&vma)?' ph-full':''}">
       <div class="ph-b-lbl">Fréquence Cardiaque</div>
       <div class="ph-b-val" style="color:var(--muted2);font-size:14px">—</div>
       <div class="ph-b-desc"><span onclick="go('input');openOpt('fc-opt-body','fc-chev')" style="cursor:pointer;color:var(--orange);text-decoration:underline;text-underline-offset:3px">Renseignez vos données cardiaques →</span></div>
