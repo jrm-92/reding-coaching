@@ -499,6 +499,14 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
   }
   .mh-btn.active{background:rgba(255,107,26,0.12);color:var(--orange);border-color:rgba(255,107,26,0.3)}
 
+  .mh-ctx{flex:1;min-width:0;text-align:right;padding-left:10px}
+  .mh-ctx-title{font-weight:800;font-size:10.5px;color:rgba(241,245,249,0.82);text-transform:uppercase;letter-spacing:0.5px;line-height:1.2;margin-bottom:3px}
+  .mh-ctx-desc{font-size:9px;color:rgba(241,245,249,0.3);line-height:1.45;text-wrap:balance}
+  .mh-ctx-name{font-weight:800;font-size:13px;color:var(--orange);text-transform:uppercase;letter-spacing:0.5px;line-height:1;margin-bottom:4px}
+  .mh-ctx-tests{font-size:9px;color:rgba(241,245,249,0.42);line-height:1.75}
+  .mh-ctx-tests span{display:block}
+  .mh-ctx-model{font-size:8.5px;color:rgba(255,107,26,0.65);font-weight:700;margin-top:1px;letter-spacing:0.5px}
+
   .input-wrap{padding:20px 16px 80px}
   .tool-layout{padding:20px 0 80px}
   #db-profile{padding-left:16px;padding-right:16px}
@@ -567,6 +575,7 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
 <header class="mobile-header">
   <div class="mh-inner">
     <div class="mh-logo"><img src="logo_running_orange.png" alt="RedLab" style="max-width:100px;height:auto;display:block"></div>
+    <div class="mh-ctx" id="mh-ctx"></div>
   </div>
   <div class="mh-menu">
     <button class="mh-btn active" id="mbn-input" onclick="go('input')">Saisie</button>
@@ -890,6 +899,7 @@ function go(id){
   const sb=document.getElementById('sbn-'+id);if(sb)sb.classList.add('active');
   const mb=document.getElementById('mbn-'+id);if(mb)mb.classList.add('active');
   document.getElementById('main-topbar').style.display=id==='input'?'none':'flex';
+  updMhCtx(id);
   const sc=document.querySelector('.scroll');if(sc)sc.scrollTop=0;
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1635,6 +1645,27 @@ function updPseudo(){
     :'';
 }
 
+/* ══ MOBILE HEADER CONTEXT ══ */
+const SAISIE_CTX='<div class="mh-ctx-title">Définir votre profil athlète</div><div class="mh-ctx-desc">Choisissez votre outil de travail. À partir de tests terrain, obtenez vos zones d\'entraînement personnalisées ainsi que vos projections de performance et vos temps de passage.</div>';
+
+function updMhCtx(id){
+  const el=document.getElementById('mh-ctx');
+  if(!el)return;
+  el.innerHTML=(id==='input')?SAISIE_CTX:mhDashCtx();
+}
+
+function mhDashCtx(){
+  if(!S.pseudo)return SAISIE_CTX;
+  const name=`<div class="mh-ctx-name">${S.pseudo}</div>`;
+  const items=[];
+  if(S.d3>=200)items.push(`<span>Test 3' · ${((S.d3/180)*3.6).toFixed(2)} km/h${S.fc3?' · '+S.fc3+' bpm':''}</span>`);
+  if(S.d6>=300)items.push(`<span>Test 6' · ${((S.d6/360)*3.6).toFixed(2)} km/h${S.fc6?' · '+S.fc6+' bpm':''}</span>`);
+  if(S.d12>=600)items.push(`<span>Test 12' · ${((S.d12/720)*3.6).toFixed(2)} km/h${S.fc12?' · '+S.fc12+' bpm':''}</span>`);
+  const testsHtml=items.length?`<div class="mh-ctx-tests">${items.join('')}</div>`:'';
+  const modelHtml=(S.dp&&S.csMethod)?`<div class="mh-ctx-model">D' = ${Math.round(S.dp)} m · ${S.csMethod}</div>`:'';
+  return name+testsHtml+modelHtml;
+}
+
 function updTMICard(){
   const v=parseFloat(document.getElementById('vma-inp').value);
   const spd=document.getElementById('tmi-speed');if(!spd)return;
@@ -1681,6 +1712,7 @@ function calcTMI(){
 document.addEventListener('DOMContentLoaded',()=>{
   buildTestsForm();
   loadLS();
+  updMhCtx(S.vma?'dashboard':'input');
 });
 
 
