@@ -3289,6 +3289,17 @@
       }
     }
 
+    /* Navigation intermédiaire */
+    nav.main-nav a { white-space: nowrap; }
+
+    @media (max-width: 1100px) and (min-width: 769px) {
+      .nav-left { gap: 24px; }
+      .nav-center { gap: 24px; }
+      .nav-right { gap: 20px; }
+      nav.main-nav a { font-size: 11px; }
+      .nav-cta { padding: 8px 16px !important; font-size: 11px !important; }
+    }
+
     /* Navigation mobile - amélioration */
     @media (max-width: 768px) {
       .nav-left,
