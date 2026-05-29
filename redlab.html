@@ -1341,7 +1341,7 @@ function renderZones(){
   zones.forEach(z=>{
     const vlo=ref*z.lo, vhi=ref*z.hi;
     const vStr=z.z===5?`≥ ${vlo.toFixed(1)} km/h`:z.lo===0?`< ${vhi.toFixed(1)} km/h`:`${vlo.toFixed(1)}–${vhi.toFixed(1)} km/h`;
-    const aStr=z.z===5?`≤ ${fAll(3600/vlo)} /km`:z.lo===0?`≥ ${fAll(3600/vhi)} /km`:`${fAll(3600/vhi)}–${fAll(3600/vlo)} /km`;
+    const aStr=z.z===5?`≤ ${fAll(3600/vlo)} /km`:z.lo===0?`≥ ${fAll(3600/vhi)} /km`:`${fAll(3600/vlo)}–${fAll(3600/vhi)} /km`;
     const isZ4=z.z===4;
     const pctStr=isReal?z.pct+' VC':z.pct+' VMA';
     rows+=`<tr>
