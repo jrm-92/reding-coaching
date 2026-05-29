@@ -500,9 +500,7 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
   .mh-btn.active{background:rgba(255,107,26,0.12);color:var(--orange);border-color:rgba(255,107,26,0.3)}
 
   .mh-ctx{flex:1;min-width:0;text-align:right;padding-left:10px}
-  .mh-brand{text-align:right;line-height:1.25}
-  .mh-b-name{display:block;font-size:20px;font-weight:900;letter-spacing:-0.5px;color:var(--text)}
-  .mh-b-sub{display:block;font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-top:1px}
+  .mh-ctx:empty{display:none}
   .mh-ctx-name{font-weight:800;font-size:13px;color:var(--orange);text-transform:uppercase;letter-spacing:0.5px;line-height:1;margin-bottom:4px}
   .mh-ctx-tests{font-size:9px;color:rgba(241,245,249,0.42);line-height:1.75}
   .mh-ctx-tests span{display:block}
@@ -1651,7 +1649,7 @@ function updPseudo(){
 }
 
 /* ══ MOBILE HEADER CONTEXT ══ */
-const SAISIE_CTX='<div class="mh-brand"><span class="mh-b-name">Reding</span><span class="mh-b-sub">Running</span></div>';
+const SAISIE_CTX='';
 
 function updMhCtx(id){
   const el=document.getElementById('mh-ctx');
