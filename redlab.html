@@ -501,6 +501,8 @@ tr.cs-row{background:rgba(255,107,26,0.06)}
 
   .mh-ctx{flex:1;min-width:0;text-align:right;padding-left:10px}
   .mh-ctx:empty{display:none}
+  .mh-ctx-title{font-weight:800;font-size:10.5px;color:rgba(241,245,249,0.82);text-transform:uppercase;letter-spacing:0.5px;line-height:1.2;margin-bottom:3px}
+  .mh-ctx-desc{font-size:9px;color:rgba(241,245,249,0.3);line-height:1.45;text-wrap:balance}
   .mh-ctx-name{font-weight:800;font-size:13px;color:var(--orange);text-transform:uppercase;letter-spacing:0.5px;line-height:1;margin-bottom:4px}
   .mh-ctx-tests{font-size:9px;color:rgba(241,245,249,0.42);line-height:1.75}
   .mh-ctx-tests span{display:block}
@@ -1649,7 +1651,7 @@ function updPseudo(){
 }
 
 /* ══ MOBILE HEADER CONTEXT ══ */
-const SAISIE_CTX='';
+const SAISIE_CTX='<div class="mh-ctx-title">Définir votre profil athlète</div><div class="mh-ctx-desc">Choisissez votre outil de travail. À partir de tests terrain, obtenez vos zones d\'entraînement personnalisées ainsi que vos projections de performance et vos temps de passage.</div>';
 
 function updMhCtx(id){
   const el=document.getElementById('mh-ctx');
