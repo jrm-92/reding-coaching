@@ -1160,6 +1160,114 @@ function generate(){
 
 let tmiSec=null; // null = pas encore fait
 
+/* ── Correction prédictions selon profil TMI ── */
+function getTMICorr(){
+  if(tmiSec===null||S.mode!=='vma') return null;
+  if(tmiSec<=240){
+    // VMA surestimée : facteur réduit (0.93 à 0s → 0.97 à 4min)
+    const f=0.93+(tmiSec/240)*0.04;
+    return{factor:f,label:'VMA surestimée',short:'surestimée',col:'#F87171'};
+  }
+  if(tmiSec<=420){
+    // VMA correcte : pas de correction
+    return{factor:1.0,label:'VMA correcte',short:'correcte',col:'#34D399'};
+  }
+  // VMA sous-estimée : facteur augmenté (1.00 → max 1.05 au-delà de 7min)
+  const f=Math.min(1.0+((tmiSec-420)/300)*0.05,1.05);
+  return{factor:f,label:'VMA sous-estimée',short:'sous-estimée',col:'#60A5FA'};
+}
+
+/* ── Référence course pour prédictions ── */
+const PRED_RC=[
+  {id:'5k',  nm:'5K',      d:5000,    lbl:'5 km',    col:'#3B82F6',rgb:'59,130,246', model:'cs', tmiW:0.25, vmaP:97},
+  {id:'10k', nm:'10K',     d:10000,   lbl:'10 km',   col:'#FF6B1A',rgb:'255,107,26', model:'cs', tmiW:0.55, vmaP:92},
+  {id:'semi',nm:'Semi',    d:21097.5, lbl:'21,1 km', col:'#10B981',rgb:'16,185,129', model:0.95, tmiW:0.80, vmaP:88},
+  {id:'mara',nm:'Marathon',d:42195,   lbl:'42,2 km', col:'#8B5CF6',rgb:'139,92,246', model:0.88, tmiW:1.00, vmaP:83},
+];
+let raceRef={id:'',mm:'',ss:''};
+
+function updRefRace(){
+  raceRef={
+    id:document.getElementById('ref-race-id')?.value||'',
+    mm:document.getElementById('ref-mm')?.value||'',
+    ss:document.getElementById('ref-ss')?.value||''
+  };
+  renderPredCards();
+}
+
+function renderPredCards(){
+  const el=document.getElementById('pred-cards');
+  if(!el) return;
+  const {csKmh,dp,vma}=S;
+  const isReal=!!csKmh;
+  const tmiCorr=getTMICorr();
+
+  const refR=PRED_RC.find(r=>r.id===raceRef.id);
+  const refMm=parseInt(raceRef.mm)||0;
+  const refSs=parseInt(raceRef.ss)||0;
+  const refSec=refR&&(refMm>0||refSs>0)?refMm*60+refSs:null;
+  const useRef=!!(refR&&refSec&&refSec>30);
+
+  const badgeEl=document.getElementById('db-pred-badge');
+  if(badgeEl) badgeEl.textContent=useRef?'Riegel':isReal?'Follador 2022':'Riegel';
+
+  function makeCard(r,t,isRef){
+    const spd=r.d/t;
+    const pace=fAll(1000/spd);
+    const kmh=(spd*3.6).toFixed(1);
+    const tLo=t*0.97,tHi=t*1.03;
+    let badge;
+    if(isRef) badge=vma?`Référence · ${Math.round(spd/(vma/3.6)*100)}% VMA`:'Référence';
+    else if(isReal&&!useRef) badge=r.model==='cs'?`${Math.round(spd*3.6/csKmh*100)}% VC`:`${Math.round(r.model*100)}% VC`;
+    else badge=vma?`${Math.round(spd/(vma/3.6)*100)}% VMA`:'';
+    return `<div class="pred-c" style="border-top:3px solid ${r.col}${isRef?`;box-shadow:0 0 0 1.5px ${r.col}`:''}">
+      <div class="pred-c-top">
+        <div>
+          <div class="pred-name" style="color:${r.col}">${r.nm}</div>
+          <div class="pred-dist">${r.lbl}</div>
+        </div>
+        <div class="pred-pct-badge" style="background:rgba(${r.rgb},0.12);border:1px solid rgba(${r.rgb},0.25);color:${r.col}">${badge}</div>
+      </div>
+      <div class="pred-time" style="color:${r.col}">${fHMS(t)}</div>
+      <div class="pred-pace">${pace}<span style="font-weight:400;color:var(--muted2)">/km</span></div>
+      <div class="pred-kmh">${kmh} km/h</div>
+      ${isRef
+        ?`<div style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);font-size:11px;color:var(--muted2)">Performance de référence</div>`
+        :`<div class="pred-range">
+          <div class="pred-range-bar" style="background:rgba(${r.rgb},0.18)">
+            <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(${r.rgb},0.2),rgba(${r.rgb},0.55),rgba(${r.rgb},0.2));border-radius:2px"></div>
+            <div class="pred-range-dot" style="background:${r.col}"></div>
+          </div>
+          <div class="pred-range-lbl"><span>${fHMS(tLo)}</span><span>${fHMS(tHi)}</span></div>
+        </div>`}
+    </div>`;
+  }
+
+  let cards;
+  if(useRef){
+    cards=PRED_RC.map(r=>{
+      const isRef=r.id===refR.id;
+      const t=isRef?refSec:refSec*Math.pow(r.d/refR.d,1.06);
+      return makeCard(r,t,isRef);
+    }).join('');
+  } else if(isReal){
+    const csMs=csKmh/3.6;
+    cards=PRED_RC.map(r=>{
+      let t;
+      if(r.model==='cs'){const tmp=(r.d-(dp||0))/csMs;t=tmp>60?tmp:r.d/csMs;}
+      else t=r.d/(csMs*r.model);
+      return makeCard(r,t,false);
+    }).join('');
+  } else {
+    cards=PRED_RC.map(r=>{
+      const f=tmiCorr?1.0+(tmiCorr.factor-1.0)*r.tmiW:1.0;
+      const t=360*Math.pow(r.d/(vma*f*100),1.06);
+      return makeCard(r,t,false);
+    }).join('');
+  }
+  el.innerHTML=`<div class="pred-grid">${cards}</div>`;
+}
+
 /* ══ LOCAL STORAGE ══ */
 const LS_KEY='redlab_v1';
 function saveLS(){
@@ -1212,6 +1320,7 @@ function resetAll(){
   try{localStorage.removeItem(LS_KEY);}catch(e){}
   Object.assign(S,{mode:'vma',vma:null,csKmh:null,dp:null,csMethod:null,csR2:null,fcMax:null,fcRest:null,fcReserve:null,d3:0,d6:0,d12:0,fc3:null,fc6:null,fc12:null,pseudo:'',testDate:null});
   tmiSec=null;
+  raceRef={id:'',mm:'',ss:''};
   const ids=['pseudo-inp','vma-inp','fc-max','fc-rest'];
   ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   ['t3','t6','t12','fc3','fc6','fc12'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
@@ -1385,7 +1494,7 @@ function renderSlider(){
   const isReal=!!csKmh;
   const ref=isReal?csKmh:vma;
   const lbl=isReal?'VC':'VMA';
-  const slo=Math.round(ref*0.5*10),shi=Math.round(ref*1.35*10),sdf=Math.round(ref*10);
+  const slo=Math.round(ref*0.5*20),shi=Math.round(ref*1.35*20),sdf=Math.round(ref*20);
   const t=document.getElementById('db-slider-title');
   if(t) t.textContent=`Calculateur d'allure ${lbl}`;
   document.getElementById('db-slider').innerHTML=`
@@ -1400,9 +1509,9 @@ function renderSlider(){
         </div>
       </div>
       <div class="sl-row">
-        <button class="adj" onclick="adjV(-1)">−</button>
+        <button class="adj" onclick="adjV(-2)">−</button>
         <input type="range" class="sl" id="vsl" min="${slo}" max="${shi}" value="${sdf}" step="1" oninput="updSl(this.value)">
-        <button class="adj" onclick="adjV(+1)">+</button>
+        <button class="adj" onclick="adjV(+2)">+</button>
       </div>
       <div class="sl-bnds"><span>${(ref*0.5).toFixed(1)} km/h · 50%</span><span>135% · ${(ref*1.35).toFixed(1)} km/h</span></div>
       <div class="zbar" id="zbar"></div>
@@ -1415,7 +1524,7 @@ function updSl(val){
   const ref=isReal?csKmh:vma;
   const lbl=isReal?'VC':'VMA';
   const zones=isReal?ZONES_VC:ZONES_VMA;
-  const kmh=+val/10,pct=Math.round(kmh/ref*100);
+  const kmh=+val/20,pct=Math.round(kmh/ref*100);
   let col='var(--muted2)',zn='< Z1';
   for(const z of zones){
     if(kmh>=ref*z.lo&&(z.z===5||kmh<ref*z.hi)){col=z.col;zn=`Z${z.z}`;break;}
@@ -1436,7 +1545,7 @@ function bldZbar(slo,shi){
   const zones=isReal?ZONES_VC:ZONES_VMA;
   const rng=shi-slo;let html='';
   zones.forEach(z=>{
-    const zs=Math.max(ref*z.lo*10,slo),ze=Math.min(ref*z.hi*10,shi);
+    const zs=Math.max(ref*z.lo*20,slo),ze=Math.min(ref*z.hi*20,shi);
     if(ze<=slo||zs>=shi)return;
     const l=((zs-slo)/rng)*100,w=((ze-zs)/rng)*100;
     html+=`<div style="position:absolute;left:${l}%;width:${w}%;height:100%;background:${z.col};opacity:0.22"></div>`;
@@ -1447,74 +1556,46 @@ function bldZbar(slo,shi){
 
 /* ── CS Predictions ── */
 function renderCSPredictions(){
-  const {csKmh,dp,vma}=S;
   const box=document.getElementById('db-cs');
-  const isReal=!!csKmh;
-  const RC=[
-    {nm:'5K',  d:5000,   lbl:'5 km',   col:'#3B82F6',rgb:'59,130,246', model:'cs'},
-    {nm:'10K', d:10000,  lbl:'10 km',  col:'#FF6B1A',rgb:'255,107,26', model:'cs'},
-    {nm:'Semi',d:21097.5,lbl:'21,1 km',col:'#10B981',rgb:'16,185,129', model:0.95},
-    {nm:'Marathon',d:42195,  lbl:'42,2 km',col:'#8B5CF6',rgb:'139,92,246', model:0.88},
-  ];
-
   const titleEl=document.getElementById('db-pred-title');
-  const badgeEl=document.getElementById('db-pred-badge');
   if(titleEl) titleEl.textContent='Prédiction de performance';
-  if(badgeEl) badgeEl.textContent=isReal?'Follador 2022':'Riegel';
 
-  function getT(r,csMs,dpM){
-    if(r.model==='cs'){
-      const t=(r.d-(dpM||0))/csMs;
-      return t>60?t:r.d/csMs;
-    }
-    return r.d/(csMs*r.model);
-  }
-
-  function makeCard(r,t){
-    const spd=r.d/t;
-    const pace=fAll(1000/spd);
-    const kmh=(spd*3.6).toFixed(1);
-    const tLo=t*0.97,tHi=t*1.03;
-    let badge;
-    if(isReal){
-      badge=r.model==='cs'?`${Math.round(spd*3.6/csKmh*100)}% VC`:`${Math.round(r.model*100)}% VC`;
-    } else {
-      badge=`${Math.round(spd/(vma/3.6)*100)}% VMA`;
-    }
-    return `<div class="pred-c" style="border-top:3px solid ${r.col}">
-      <div class="pred-c-top">
-        <div>
-          <div class="pred-name" style="color:${r.col}">${r.nm}</div>
-          <div class="pred-dist">${r.lbl}</div>
+  box.innerHTML=`
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin-bottom:16px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:end">
+        <div class="field" style="margin-bottom:0">
+          <label>Course de référence</label>
+          <div class="iw">
+            <div class="ii"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <select id="ref-race-id" onchange="updRefRace()">
+              <option value="">Renseigner une performance</option>
+              <option value="5k">5 km</option>
+              <option value="10k">10 km</option>
+              <option value="semi">Semi-marathon</option>
+              <option value="mara">Marathon</option>
+            </select>
+          </div>
         </div>
-        <div class="pred-pct-badge" style="background:rgba(${r.rgb},0.12);border:1px solid rgba(${r.rgb},0.25);color:${r.col}">${badge}</div>
-      </div>
-      <div class="pred-time" style="color:${r.col}">${fHMS(t)}</div>
-      <div class="pred-pace">${pace}<span style="font-weight:400;color:var(--muted2)">/km</span></div>
-      <div class="pred-kmh">${kmh} km/h</div>
-      <div class="pred-range">
-        <div class="pred-range-bar" style="background:rgba(${r.rgb},0.18)">
-          <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(${r.rgb},0.2),rgba(${r.rgb},0.55),rgba(${r.rgb},0.2));border-radius:2px"></div>
-          <div class="pred-range-dot" style="background:${r.col}"></div>
+        <div class="field" style="margin-bottom:0">
+          <label>Temps réalisé</label>
+          <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px">
+            <div class="iw"><input type="number" id="ref-mm" placeholder="19" min="0" max="9999" step="1" oninput="updRefRace()" style="padding-left:12px"><span class="iu">min</span></div>
+            <span style="color:var(--muted2);font-weight:900;font-size:20px;padding-bottom:2px">:</span>
+            <div class="iw"><input type="number" id="ref-ss" placeholder="30" min="0" max="59" step="1" value="0" oninput="updRefRace()" style="padding-left:12px"><span class="iu">sec</span></div>
+          </div>
         </div>
-        <div class="pred-range-lbl"><span>${fHMS(tLo)}</span><span>${fHMS(tHi)}</span></div>
       </div>
-    </div>`;
-  }
+    </div>
+    <div id="pred-cards"></div>`;
 
-  if(!isReal){
-    const dRef=vma*100;
-    const cards=RC.map(r=>{
-      const t=360*Math.pow(r.d/dRef,1.06);
-      return makeCard(r,t);
-    }).join('');
-    box.innerHTML=`<div class="pred-grid">${cards}</div>`;
-    return;
-  }
+  const sel=document.getElementById('ref-race-id');
+  if(sel&&raceRef.id) sel.value=raceRef.id;
+  const mm=document.getElementById('ref-mm');
+  if(mm&&raceRef.mm) mm.value=raceRef.mm;
+  const ss=document.getElementById('ref-ss');
+  if(ss&&raceRef.ss) ss.value=raceRef.ss;
 
-  const csMs=csKmh/3.6;
-  const cards=RC.map(r=>makeCard(r,getT(r,csMs,dp))).join('');
-  box.innerHTML=`<div class="pred-grid">${cards}</div>`;
+  renderPredCards();
 }
 
 /* ── Race Splits ── */
