@@ -3,16 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
-  <title>Coach Running Certifié FFA – Reding Running | Île-de-France</title>
-  <meta name="description" content="Coach running certifié FFA basé en Île-de-France. Suivi personnalisé à distance ou en présentiel (30 min de La Défense). Plan d'entraînement individualisé, technique de course, préparation compétition." />
-  <meta name="keywords" content="coach running, coaching course à pied, entraîneur running Île-de-France, plan entraînement running, coach FFA, suivi personnalisé running" />
+  <title>Jérémy Reding – Coach Running certifié FFA | Île-de-France</title>
+  <meta name="description" content="Coach running certifié FFA en Île-de-France. Suivi personnalisé à distance (70€/mois) ou en présentiel (30 min de La Défense). Plan d'entraînement individualisé, technique de course, préparation compétition." />
+  <meta name="keywords" content="coach running, coaching course à pied, entraîneur running Île-de-France, plan entraînement running, coach FFA, suivi personnalisé running, coach running La Défense, Jérémy Reding" />
   <meta name="author" content="Jérémy Reding" />
-  <link rel="canonical" href="https://redingrunnning.fr/" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://reding-running.fr/" />
   <!-- Open Graph -->
-  <meta property="og:title" content="Coach Running Certifié FFA – Reding Running" />
-  <meta property="og:description" content="Suivi personnalisé à distance ou en présentiel. Plan d'entraînement individualisé, technique de course, préparation compétition." />
+  <meta property="og:title" content="Jérémy Reding – Coach Running certifié FFA | Île-de-France" />
+  <meta property="og:description" content="Suivi personnalisé à distance ou en présentiel. Plan d'entraînement individualisé, technique de course, préparation compétition. Coach certifié FFA." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://reding-running.fr/" />
   <meta property="og:locale" content="fr_FR" />
+  <meta property="og:site_name" content="Reding Running" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Jérémy Reding – Coach Running certifié FFA" />
+  <meta name="twitter:description" content="Suivi personnalisé à distance ou en présentiel en Île-de-France. Coach certifié FFA." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -951,12 +958,12 @@
 }
 
 .apropos-container {
-  max-width: 1600px;
+  max-width: 1300px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: min-content 1.3fr;
-  gap: 80px; /* Écart entre photo et texte */
-  align-items: start;
+  grid-template-columns: auto 1fr;
+  gap: 90px;
+  align-items: center;
 }
 
 .apropos-image-wrapper {
@@ -976,19 +983,21 @@
 .apropos-image {
   position: relative;
   border-radius: 20px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  width: 450px; /* Réduit de 600px */
-  min-width: 300px;
+  width: 380px;
+  min-width: 180px;
   max-width: none;
-  margin-bottom: 60px;
+  max-height: none;
+  margin-bottom: 0;
 }
 
 .apropos-image img {
   width: 100%;
-  min-width: 300px;
   height: auto;
+  max-height: none;
   display: block;
+  border-radius: 20px;
 }
 
 .apropos-records-title {
@@ -1649,7 +1658,7 @@
         height: 20px !important;
       }
 
-      /* Bloc "Option : Ajouter des séances terrains" — empile prix + bullets */
+      /* Bloc "Option : Ajouter des coaching terrains" — empile prix + bullets */
       #suivi-personnalise .service-card.distance > div[style*="border-top"] {
         padding: 16px 14px !important;
       }
@@ -1907,6 +1916,8 @@
       position: relative;
       overflow: hidden;
       backdrop-filter: blur(6px);
+      display: flex;
+      flex-direction: column;
     }
 
     .seances-price-card--individuel {
@@ -2014,6 +2025,7 @@
       display: inline-flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       border-radius: 50px;
       padding: 9px 18px;
       font-size: 17px;
@@ -2022,6 +2034,7 @@
       white-space: nowrap;
       width: fit-content;
       margin: 12px auto 0;
+      min-height: 64px;
     }
 
     .seances-price-card--individuel .seances-price-badge {
@@ -2210,7 +2223,7 @@
       border-radius: 20px;
     }
 
-    /* Responsive Séances terrains */
+    /* Responsive Coaching terrains */
     @media (max-width: 992px) {
       .solo-duo-section {
         padding: 80px 30px;
@@ -2290,6 +2303,77 @@
       }
       .seances-price-card {
         flex: 1 1 240px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .seances-cards-col {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      .seances-price-card h3 {
+        font-size: 13px;
+        padding: 14px 8px 0;
+      }
+      .seances-price-badge {
+        font-size: 15px;
+        padding: 6px 12px;
+        min-height: 52px;
+        margin: 8px auto 0;
+      }
+      .seances-price-badge-sub {
+        font-size: 10px;
+      }
+      .seances-features {
+        padding: 0 8px 10px;
+        margin: 8px 0 0;
+      }
+      .seances-features li {
+        font-size: 10.5px;
+        gap: 5px;
+        padding: 4px 0;
+      }
+      .seances-features li svg {
+        width: 11px;
+        height: 11px;
+      }
+      .seances-card-cta {
+        font-size: 10px;
+        padding: 7px 10px;
+        letter-spacing: 0.5px;
+        white-space: normal;
+        line-height: 1.3;
+        width: calc(100% - 16px);
+        margin: 0 auto 12px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .seances-cards-col {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .seances-price-card h3 {
+        font-size: 15px;
+        padding: 16px 14px 0;
+      }
+      .seances-price-badge {
+        font-size: 18px;
+        min-height: auto;
+        padding: 8px 20px;
+        margin: 10px auto 0;
+      }
+      .seances-price-badge-sub {
+        font-size: 12px;
+      }
+      .seances-features li {
+        font-size: 12px;
+      }
+      .seances-card-cta {
+        font-size: 12px;
+        padding: 9px 20px;
+        white-space: nowrap;
+        width: fit-content;
       }
     }
 
@@ -3418,17 +3502,254 @@
       }
     }
 
+    /* ===== TÉMOIGNAGES SECTION ===== */
+    .temoignages-section {
+      padding: 100px 60px;
+      background: #0f0f0f;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .temoignages-section::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255, 107, 53, 0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .temoignages-header {
+      text-align: center;
+      margin-bottom: 70px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .temoignages-header h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      color: #FF6B35;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin: 0 0 14px;
+    }
+
+    .temoignages-header h2::after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #FF6B35, transparent);
+      margin: 14px auto 0;
+      border-radius: 2px;
+    }
+
+    .temoignages-header p {
+      font-size: clamp(15px, 1.5vw, 18px);
+      color: rgba(255, 255, 255, 0.55);
+      margin: 0;
+    }
+
+    .temoignages-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .temoignage-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .temoignage-card:hover {
+      border-color: rgba(255, 107, 53, 0.3);
+      transform: translateY(-4px);
+    }
+
+    .temoignage-stars {
+      display: flex;
+      gap: 4px;
+    }
+
+    .temoignage-stars span {
+      color: #FF6B35;
+      font-size: 16px;
+    }
+
+    .temoignage-quote {
+      font-size: 15px;
+      line-height: 1.75;
+      color: rgba(255, 255, 255, 0.78);
+      font-style: italic;
+      flex: 1;
+    }
+
+    .temoignage-result {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 107, 53, 0.1);
+      border: 1px solid rgba(255, 107, 53, 0.25);
+      border-radius: 30px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #FF6B35;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      width: fit-content;
+    }
+
+    .temoignage-author {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      padding-top: 20px;
+    }
+
+    .temoignage-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(255,107,53,0.3), rgba(18,130,162,0.3));
+      border: 2px solid rgba(255, 107, 53, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+      color: #FF6B35;
+      flex-shrink: 0;
+    }
+
+    .temoignage-info-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .temoignage-info-detail {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.45);
+      margin-top: 2px;
+    }
+
+    @media (max-width: 992px) {
+      .temoignages-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .temoignages-section {
+        padding: 70px 20px;
+      }
+      .temoignages-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .temoignages-header {
+        margin-bottom: 48px;
+      }
+    }
+
+    .temoignages-rating-global {
+      text-align: center;
+      margin-bottom: 56px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .temoignages-rating-score {
+      font-size: 64px;
+      font-weight: 900;
+      font-style: italic;
+      color: #ffffff;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .temoignages-rating-stars {
+      font-size: 28px;
+      color: #FF6B35;
+      letter-spacing: 4px;
+      margin-bottom: 8px;
+    }
+
+    .temoignages-rating-count {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+
+    .temoignages-placeholder {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.25);
+      font-size: 15px;
+      font-style: italic;
+      padding: 50px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .temoignages-cta {
+      text-align: center;
+      margin-top: 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .temoignages-btn-avis {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      color: #1a1a1a;
+      padding: 18px 42px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+    }
+
+    .temoignages-btn-avis:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .temoignages-btn-avis svg {
+      flex-shrink: 0;
+    }
+
     /* ===== FORMULAIRE SECTION ===== */
     .form-section {
       background: linear-gradient(135deg, #0A1128 0%, #001F54 25%, #034078 50%, #1282A2 75%, #0091B8 100%);
       padding: 80px 60px;
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-    }
-
-    .form-section-inner {
-      width: 100%;
-      max-width: 640px;
     }
 
     .form-section .section-title {
@@ -3437,10 +3758,12 @@
       font-style: italic;
       text-transform: uppercase;
       color: #FF6B35;
-      margin: 40px 0 30px 0;
+      margin: 0 0 60px 0;
       line-height: 1.2;
       letter-spacing: -0.02em;
       text-align: center;
+      align-self: center;
+      width: 100%;
     }
 
     .form-section .section-title::after {
@@ -3452,9 +3775,82 @@
       margin: 12px auto 0;
     }
 
+    .form-section-inner {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .form-section-inner > form {
+      width: 100%;
+    }
+
+    .form-section-info {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 40px 30px;
+      background: rgba(255, 107, 53, 0.08);
+      border-left: 4px solid #FF6B35;
+      border-radius: 8px;
+    }
+
+    .form-section-info p {
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 18px;
+      line-height: 2;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .form-section-info a {
+      color: #FFE766;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .form-section-info a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 992px) {
+      .form-section {
+        padding: 60px 40px;
+      }
+
+      .form-section-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .form-section-inner > form {
+        grid-column: 1;
+      }
+
+      .form-section-info {
+        grid-column: 1;
+      }
+    }
+
     @media (max-width: 768px) {
       .form-section {
-        padding: 60px 20px;
+        padding: 50px 20px;
+      }
+
+      .form-section .section-title {
+        margin-bottom: 40px;
+      }
+
+      .form-section-inner > form {
+        padding: 30px 20px;
+      }
+
+      .form-section-info p {
+        font-size: 14px;
       }
     }
 
@@ -3793,36 +4189,54 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SportsOrganization",
-    "name": "Reding Running",
-    "description": "Coach running. Suivi personnalisé à distance ou en présentiel, plan d'entraînement individualisé.",
-    "url": "https://reding-runnning.fr",
-    "founder": {
-      "@type": "Person",
-      "name": "Jérémy Reding",
-      "jobTitle": "Coach Running Certifié FFA",
-      "email": "jeremy.reding@outlook.fr",
-      "sameAs": "https://www.athle.fr/athletes/861859"
-    },
-    "areaServed": {
-      "@type": "AdministrativeArea",
-      "name": "Île-de-France"
-    },
-    "serviceType": ["Coaching running", "Suivi personnalisé", "Plan d'entraînement"],
-    "offers": [
+    "@graph": [
       {
-        "@type": "Offer",
-        "name": "Suivi à distance",
-        "price": "70",
-        "priceCurrency": "EUR",
-        "description": "Suivi personnalisé à distance via Nolio, sans engagement"
+        "@type": "LocalBusiness",
+        "@id": "https://reding-running.fr/#business",
+        "name": "Reding Running",
+        "description": "Coach running certifié FFA. Suivi personnalisé à distance ou en présentiel en Île-de-France. Plan d'entraînement individualisé, technique de course, préparation compétition.",
+        "url": "https://reding-running.fr",
+        "email": "jeremy.reding@outlook.fr",
+        "areaServed": {
+          "@type": "AdministrativeArea",
+          "name": "Île-de-France"
+        },
+        "priceRange": "€€",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Services de coaching running",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "name": "Suivi à distance",
+              "price": "70",
+              "priceCurrency": "EUR",
+              "description": "Suivi personnalisé à distance via Nolio, sans engagement. Plan d'entraînement individualisé, analyse des séances, communication WhatsApp."
+            },
+            {
+              "@type": "Offer",
+              "name": "Séance terrain individuelle",
+              "price": "50",
+              "priceCurrency": "EUR",
+              "description": "Coaching en présentiel jusqu'à 30 min de La Défense. Technique de course, évaluation, préparation physique."
+            }
+          ]
+        }
       },
       {
-        "@type": "Offer",
-        "name": "Séance individuelle terrain",
-        "price": "50",
-        "priceCurrency": "EUR",
-        "description": "Coaching en présentiel, 1h minimum"
+        "@type": "Person",
+        "@id": "https://reding-running.fr/#person",
+        "name": "Jérémy Reding",
+        "jobTitle": "Coach Running certifié FFA",
+        "description": "Athlète et coach running certifié par la Fédération Française d'Athlétisme. 15+ ans de pratique, spécialisé en endurance.",
+        "email": "jeremy.reding@outlook.fr",
+        "url": "https://reding-running.fr",
+        "sameAs": [
+          "https://www.athle.fr/athletes/861859"
+        ],
+        "worksFor": {
+          "@id": "https://reding-running.fr/#business"
+        }
       }
     ]
   }
@@ -3833,22 +4247,21 @@
   <!-- HEADER -->
   <header class="site-header">
     <a href="#top" class="brand">
-      <img src="logo_raccourci_blanc.png" alt="Reding Running" class="logo-img" />
+      <img src="logo_running_orange.png" alt="Reding Running" class="logo-img" />
     </a>
 
     <nav class="main-nav">
       <div class="nav-left">
         <a href="#top">Accueil</a>
         <a href="#apropos">À propos</a>
-        <a href="redlab.html" target="_blank" class="nav-outils-link">Outils</a>
       </div>
       <div class="nav-center">
         <a href="#suivi-personnalise">Suivi à distance</a>
-        <a href="#solo-duo-trio">Séances terrain</a>
+        <a href="#solo-duo-trio">Coaching terrain</a>
       </div>
       <div class="nav-right">
-        <a href="#contact">Contact</a>
-        <a href="#contactForm" class="nav-cta">Commencer →</a>
+        <a href="#temoignages">Témoignages</a>
+        <a href="#contactForm" class="nav-cta">Me contacter →</a>
       </div>
     </nav>
 
@@ -3867,9 +4280,9 @@
       <!-- GAUCHE : Texte -->
       <div class="hero-left">
         <h1 class="hero-main-title">
-          <span class="line-orange">Courir vite</span>
-          <span class="line-white">Courir longtemps</span>
-          <span class="line-outline">Aimer courir</span>
+          <span class="line-orange">Coach running</span>
+          <span class="line-white">tous niveaux</span>
+          <span class="line-outline">Du 5k au Marathon</span>
         </h1>
 
         <div class="hero-accent-line"></div>
@@ -3910,55 +4323,45 @@
 
   <!-- À PROPOS SECTION -->
   <section class="apropos-section" id="apropos">
-    <div class="apropos-container">
-      <div class="apropos-image-wrapper">
-        <div class="apropos-image" style="margin-top: 40px; margin-bottom: 20px;">
-          <img src="photo_10k_jo.jpg" alt="Jérémy - Coach Running" />
-        </div>
-        
-        <div style="margin-top:16px">
-          <div style="width:100%;box-sizing:border-box;background:rgba(255,107,53,0.13);border:1px solid rgba(255,107,53,0.35);border-left:3px solid #FF6B35;border-radius:12px;padding:18px 22px;display:flex;flex-direction:column;gap:14px;box-shadow:0 4px 24px rgba(255,107,53,0.14)">
-            <!-- Ligne 1 : badge gauche + ligne décorative -->
-            <div style="display:flex;align-items:center;gap:14px">
-              <a href="https://www.athle.fr/athletes/861859" target="_blank" class="apropos-strava-link" style="font-size:11px">Jérémy REDING</a>
-            </div>
-            <!-- Ligne 2 : course gauche + record droite -->
-            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
-              <div style="display:flex;flex-direction:column;gap:4px">
-                <span style="font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#FF6B35">Prochain objectif</span>
-                <span style="font-size:22px;font-weight:900;color:#fff;letter-spacing:-0.3px;line-height:1.1">10K Pont Audemer</span>
-              </div>
-              <div style="display:flex;flex-direction:column;gap:4px;text-align:right;flex-shrink:0">
-                <span style="font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45)">Record personnel</span>
-                <span style="font-size:36px;font-weight:900;color:#FF6B35;letter-spacing:-1px;line-height:1">35'20</span>
-              </div>
-            </div>
-          </div>
+
+    <!-- Titre -->
+    <div class="hero-title-section" style="text-align: center; margin-bottom: 48px;">
+      <h2 class="hero-title" style="font-size: clamp(32px, 4vw, 48px); font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.02em; color: #FF6B35; margin: 0; line-height: 1.2; text-align: center;">
+        À propos
+      </h2>
+    </div>
+
+    <!-- Grille : photo+card gauche | texte droite -->
+    <div class="apropos-container" style="align-items: center;">
+
+      <!-- Colonne gauche : photo uniquement -->
+      <div class="apropos-image-wrapper" style="display: flex; flex-direction: column; margin-top: 0;">
+        <div class="apropos-image" style="height: auto; margin: 0; max-height: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,107,53,0.18);">
+          <img src="jerem_ratp.jpeg" alt="Jérémy - Coach Running" style="width: 100%; height: auto; display: block;" />
         </div>
       </div>
-      
-      <div class="about-content">
-        <div class="hero-middle">
-        <div class="hero-title-section" style="margin-bottom: 0px; margin-top: 0px; text-align: center;">
-          <h1 class="hero-title" style="font-size: clamp(32px, 4vw, 48px); font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.02em; color: #FF6B35; margin: 0 0 30px 0; line-height: 1.2; white-space: nowrap;">
-            À propos 
-          </h1>
-        </div>
-                <div style="max-width: 1200px; margin: 80px auto 0; padding: 0 20px; text-align: center; color: rgba(255, 255, 255, 0.78); line-height: 1.8;">
-          <p style="margin-bottom: 20px;">
-            <strong style="color: rgba(255, 255, 255, 0.95);">Passionné par l’athlétisme, je pratique ce sport depuis plusieurs années</strong>. J’ai d’abord commencé par le sprint sur 200 et 400m, puis maintenant <strong style="color: rgba(255, 255, 255, 0.95);">les épreuves d’endurance</strong>, désormais mon objectif principal.
+
+      <!-- Colonne droite : texte + card + lien FFA -->
+      <div class="about-content" style="display: flex; flex-direction: column; justify-content: center; gap: 0;">
+
+        <div style="color: rgba(255,255,255,0.78); line-height: 1.9; text-align: left;">
+          <p style="margin-bottom: 32px; font-size: clamp(17px, 1.6vw, 20px);">
+            Je m’appelle Jérémy, <strong style="color:#fff;">je pratique l’athlétisme depuis plus de 15 ans</strong> — j’ai commencé par le sprint avant de basculer vers les épreuves d’endurance.
           </p>
-          <p style="margin-bottom: 20px;">
-            Par l’intermédiaire de la Fédération Française d’Athlétisme, <strong style="color: rgba(255, 255, 255, 0.95);">j’ai obtenu une certification qui me permet d’accompagner les coureurs dans leur préparation</strong> avec une approche structurée, adaptée à leur rythme et à leurs besoins.
+          <p style="margin-bottom: 32px; font-size: clamp(17px, 1.6vw, 20px);">
+            Formé et <strong style="color:#fff;">certifié par la Fédération Française d’Athlétisme</strong>, j’accompagne les coureurs de tous niveaux avec une approche basée sur l’analyse, l’écoute et l’adaptation.
           </p>
-          <p style="margin-bottom: 20px;">
-            Mon rôle est d’être <strong style="color: rgba(255, 255, 255, 0.95);">la personne de confiance</strong> qui t’accompagne vers <strong style="color: rgba(255, 255, 255, 0.95);">l’accomplissement de tes objectifs</strong>, en associant performance, plaisir et préservation des blessures.
-          </p>
-          <p style="margin-bottom: 20px;">
-            À mes côtés, tu bénéficies d’<strong style="color: rgba(255, 255, 255, 0.95);">un coach passionné, impliqué et disponible</strong>.
+          <p style="margin-bottom: 36px; font-size: clamp(17px, 1.6vw, 20px);">
+            Mon objectif : t’aider à <strong style="color:#fff;">atteindre tes objectifs en combinant performance, plaisir et progression durable.</strong>
           </p>
         </div>
+
+        <!-- Signature centrée -->
+        <a href="https://www.athle.fr/athletes/861859" target="_blank" style="display:block;text-align:center;font-size:22px;font-style:italic;font-weight:700;color:rgba(255,255,255,0.5);text-decoration:none;letter-spacing:0.5px;transition:color 0.2s;font-family:’Barlow’,sans-serif;margin-bottom:16px;" onmouseover="this.style.color=’#FF6B35’" onmouseout="this.style.color=’rgba(255,255,255,0.5)’">
+          Jérémy R.
+        </a>
       </div>
+
     </div>
   </section>
 
@@ -3970,7 +4373,7 @@
       <header class="suivi-distance-header">
         <h2 class="suivi-distance-title">Suivi à distance</h2>
         <span class="suivi-distance-divider" aria-hidden="true"></span>
-        <p class="suivi-distance-lead" style="white-space: nowrap;">Accompagnement adapté aux coureurs de tous niveaux, du coureur loisir au compétiteur.</p>
+        <p class="suivi-distance-lead" style="white-space: nowrap;">Accompagnement adapté à tous les niveaux, du loisir au compétiteur.</p>
         <ul class="suivi-distance-meta" aria-label="Engagements clés">
           <li><span class="dot" aria-hidden="true"></span>Plan 100 % personnalisé</li>
           <li><span class="dot" aria-hidden="true"></span>Suivi hebdomadaire</li>
@@ -3993,7 +4396,7 @@
               <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
               <path d="m9 14 2 2 4-4"/>
             </svg>
-           <strong style="color:#FF6B35;">Évaluation du profil d'endurance (en présence du coach)</strong>
+            Évaluation du profil d'endurance
           </li>
           <li class="has-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
@@ -4027,7 +4430,7 @@
               <line x1="6" x2="6" y1="20" y2="14"/>
               <line x1="2" x2="22" y1="20" y2="20"/>
             </svg>
-            Analyse et retour des séances
+            Analyse et retour des séances spécifiques
           </li>
           <li class="has-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
@@ -4048,7 +4451,7 @@
         <div style="margin-top: 8px; padding: 20px 15px; border-top: 1px solid rgba(74, 184, 216, 0.25); background: rgba(74, 184, 216, 0.08);">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
             <span style="font-size: 20px;">➕</span>
-            <h4 style="font-size: 20px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 1px; color: #4AB8D8; margin: 0;">Option : Ajouter des séances terrain</h4>
+            <h4 style="font-size: 20px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 1px; color: #4AB8D8; margin: 0;">Option : Ajouter des coaching terrain</h4>
           </div>
           <div style="display: flex; align-items: stretch; gap: 24px; flex-wrap: wrap;">
             <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0;">
@@ -4060,13 +4463,11 @@
                 📍 Je me déplace jusqu'à<br>30 min de La Défense
               </a>
             </div>
-            <ul style="list-style: none; padding: 0; margin: 0; color: rgba(255, 255, 255, 0.82); font-size: 13px; font-weight: 500;">
-              <li style="display: flex; align-items: center; gap: 8px; padding: 4px 0;"><span style="color: #FF6B35; font-weight: 900; flex-shrink: 0;">→</span> Remise en forme grâce à des circuits training adaptés</li>
-              <li style="display: flex; align-items: center; gap: 8px; padding: 4px 0;"><span style="color: #FF6B35; font-weight: 900; flex-shrink: 0;">→</span> Évaluation du niveau à travers des tests de terrain</li>
-              <li style="display: flex; align-items: center; gap: 8px; padding: 4px 0;"><span style="color: #FF6B35; font-weight: 900; flex-shrink: 0;">→</span> Développement des capacités de vitesse et d'endurance</li>
-              <li style="display: flex; align-items: center; gap: 8px; padding: 4px 0;"><span style="color: #FF6B35; font-weight: 900; flex-shrink: 0;">→</span> Amélioration de la technique de course</li>
-              <li style="display: flex; align-items: center; gap: 8px; padding: 4px 0;"><span style="color: #FF6B35; font-weight: 900; flex-shrink: 0;">→</span> Renforcement musculaire avec des exercices spécifiques</li>
-            </ul>
+            <p style="margin: 0; flex: 1; min-width: 180px; color: rgba(255, 255, 255, 0.85); font-size: 13px; font-weight: 500; line-height: 1.65;">
+              Tu veux aller plus loin dans ta progression ?<br>
+              Je me déplace pour t'observer, t'analyser et t'aider à franchir un cap :<br>
+              évaluation du profil d'endurance · technique de course · préparation physique · accompagnement sur séance clé · renforcement musculaire.
+            </p>
           </div>
         </div>
       </div>
@@ -4081,7 +4482,8 @@
               <span class="step-number">01</span>
               <h4 class="step-title">Prise de contact</h4>
             </div>
-            <p class="step-text">Renseigne le formulaire <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">« Parlons de ton objectif »</a> ou écris-moi à <a href="mailto:jeremy.reding@outlook.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">jeremy.reding@outlook.fr</a>.
+            <p class="step-text">Renseigne le formulaire <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">« Parlons de ton objectif »</a> ou écris-moi à <a href="mailto:jeremy.reding@outlook.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">jeremy.reding@outlook.fr</a>.</p>
+          </li>
           <li class="step-item">
             <div class="step-header">
               <span class="step-number">02</span>
@@ -4135,6 +4537,17 @@
             </button>
             <div class="faq-answer">
               <p>Pour démarrer, il te suffit de remplir le <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">formulaire "Parlons de ton objectif"</a> ou de m'envoyer un mail à <a href="mailto:jeremy.reding@outlook.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">jeremy.reding@outlook.fr</a>. Nous convenons ensuite d'un appel pour discuter de tes objectifs, contraintes et attentes. Suite à cet échange et après ton "feu vert", je te prépare les premières séances de ton plan d'entraînement.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Y a-t-il une évaluation au démarrage ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Oui, une évaluation du profil d'endurance (en présence du coach) est réalisée au démarrage de l'accompagnement. Elle permet d'établir un point de départ précis et de construire un plan d'entraînement vraiment adapté à ton niveau.</p>
+              <p style="margin-top:10px;font-size:13px;font-style:italic;color:#555;"><a href="#note-lieux" style="color:#FF6B35;font-weight:700;text-decoration:none;">*</a> Je me déplace jusqu'à 30 min de <a href="#note-lieux" style="color:#555;text-decoration:underline;">La Défense</a>.</p>
             </div>
           </div>
 
@@ -4237,7 +4650,7 @@
   <section class="solo-duo-section" id="solo-duo-trio">
     <div class="solo-duo-container">
       <div class="solo-duo-content">
-        <h2>Séances terrain</h2>
+        <h2>Coaching terrain</h2>
         <p>
           Des séances de coaching en face à face, pour un accompagnement précis et entièrement personnalisé.
         </p>
@@ -4451,15 +4864,124 @@
     </div>
   </section>
 
+  <!-- TÉMOIGNAGES SECTION -->
+  <section class="temoignages-section" id="temoignages">
+    <div class="temoignages-header">
+      <h2>Témoignages</h2>
+      <p>Ce qu'ils disent de leur progression</p>
+    </div>
+
+    <!-- Note globale Google -->
+    <div class="temoignages-rating-global" id="temoignages-rating" style="display:none;">
+      <div class="temoignages-rating-score" id="rating-score"></div>
+      <div class="temoignages-rating-stars" id="rating-stars"></div>
+      <div class="temoignages-rating-count" id="rating-count"></div>
+    </div>
+
+    <!-- Grille des avis Google (remplie par JS) -->
+    <div class="temoignages-grid" id="temoignages-grid"></div>
+
+    <!-- Message affiché avant configuration -->
+    <p class="temoignages-placeholder" id="temoignages-placeholder">
+      Les avis Google apparaîtront ici une fois la fiche configurée.
+    </p>
+
+    <!-- Attribution obligatoire Google Places API -->
+    <div id="places-attribution" style="display:none;"></div>
+
+    <!-- Bouton laisser un avis -->
+    <div class="temoignages-cta">
+      <a id="temoignages-btn-avis" href="#" target="_blank" rel="noopener" class="temoignages-btn-avis">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Laisser un avis Google
+      </a>
+    </div>
+  </section>
+
+  <script>
+    // ============================================================
+    // CONFIGURATION GOOGLE REVIEWS — À remplir quand tu as ta fiche
+    // ============================================================
+    const GOOGLE_API_KEY   = 'VOTRE_CLE_API';      // Clé API Google Cloud
+    const GOOGLE_PLACE_ID  = 'VOTRE_PLACE_ID';     // Place ID de ta fiche Google Business
+    const GOOGLE_REVIEW_URL = 'VOTRE_LIEN_AVIS';   // Lien direct vers l'espace "Laisser un avis"
+    // ============================================================
+
+    (function() {
+      const isConfigured = GOOGLE_API_KEY !== 'VOTRE_CLE_API' && GOOGLE_PLACE_ID !== 'VOTRE_PLACE_ID';
+
+      // Met à jour le bouton "Laisser un avis" dès que l'URL est fournie
+      if (GOOGLE_REVIEW_URL !== 'VOTRE_LIEN_AVIS') {
+        document.getElementById('temoignages-btn-avis').href = GOOGLE_REVIEW_URL;
+      }
+
+      if (!isConfigured) return; // Rien d'autre à faire tant que ce n'est pas configuré
+
+      // Charge la librairie Google Maps + Places
+      var script = document.createElement('script');
+      script.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_API_KEY + '&libraries=places&callback=initGoogleReviews';
+      script.async = true;
+      document.head.appendChild(script);
+    })();
+
+    function initGoogleReviews() {
+      var service = new google.maps.places.PlacesService(document.getElementById('places-attribution'));
+      service.getDetails({
+        placeId: GOOGLE_PLACE_ID,
+        fields: ['name', 'rating', 'user_ratings_total', 'reviews']
+      }, function(place, status) {
+        if (status !== google.maps.places.PlacesServiceStatus.OK || !place.reviews) return;
+
+        // Masque le placeholder
+        document.getElementById('temoignages-placeholder').style.display = 'none';
+
+        // Affiche la note globale
+        var ratingEl = document.getElementById('temoignages-rating');
+        ratingEl.style.display = 'block';
+        document.getElementById('rating-score').textContent = place.rating.toFixed(1);
+        document.getElementById('rating-stars').textContent = '★'.repeat(Math.round(place.rating)) + '☆'.repeat(5 - Math.round(place.rating));
+        document.getElementById('rating-count').textContent = place.user_ratings_total + ' avis Google';
+
+        // Affiche les avis (max 5, triés par pertinence par défaut par Google)
+        var grid = document.getElementById('temoignages-grid');
+        place.reviews.forEach(function(review) {
+          var stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+          var initial = review.author_name ? review.author_name.charAt(0).toUpperCase() : '?';
+          var card = document.createElement('div');
+          card.className = 'temoignage-card';
+          card.innerHTML =
+            '<div class="temoignage-stars"><span>' + stars + '</span></div>' +
+            '<p class="temoignage-quote">« ' + review.text + ' »</p>' +
+            '<div class="temoignage-author">' +
+              '<div class="temoignage-avatar">' + initial + '</div>' +
+              '<div>' +
+                '<div class="temoignage-info-name">' + review.author_name + '</div>' +
+                '<div class="temoignage-info-detail">' + review.relative_time_description + '</div>' +
+              '</div>' +
+            '</div>';
+          grid.appendChild(card);
+        });
+      });
+    }
+  </script>
+
   <!-- FORMULAIRE SECTION -->
   <section class="form-section" id="contactForm">
+    <h2 class="section-title">Formulaire</h2>
     <div class="form-section-inner">
-      <h2 class="section-title">Formulaire</h2>
+      <div class="form-section-info">
+        <p>Ce formulaire te permet de me contacter <strong>pour une demande de suivi à distance ou pour du coaching terrain</strong>. Remplis les informations et décris ton besoin en détail dans le message. Je reviendrai vers toi dans les 24h. Si le formulaire ne fonctionne pas, tu peux également m'envoyer un mail à <a href="mailto:jeremy.reding@outlook.fr">jeremy.reding@outlook.fr</a>.</p>
+      </div>
       <form class="hero-form" action="https://api.web3forms.com/submit" method="POST">
         <!-- Web3Forms Configuration -->
         <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
         <input type="hidden" name="subject" value="Nouvelle demande de coaching">
-        <input type="hidden" name="from_name" value="Site logo_running">
+        <input type="hidden" name="from_name" value="Reding Running">
         <input type="checkbox" name="botcheck" style="display: none;">
 
         <h3>Parlons de ton objectif.</h3>
@@ -4491,7 +5013,7 @@
           <select id="type_coaching" name="Type de coaching" required>
             <option value="">-- Sélectionne une option --</option>
             <option value="Suivi personnalisé">Suivi à distance</option>
-            <option value="Coaching Solo/Duo-Trio">Séances terrain</option>
+            <option value="Coaching Solo/Duo-Trio">Coaching terrain</option>
           </select>
         </div>
 
@@ -4513,32 +5035,15 @@
     </div>
   </section>
 
-  <!-- CONTACT SECTION -->
-  <section class="contact-section" id="contact">
-    <div class="section-header">
-      <h2 class="section-title">Contact</h2>
-      <p class="section-subtitle">
-        Une question ? N'hésite pas à me contacter
-      </p>
-    </div>
-    <div class="contact-info">
-      <div class="contact-item">
-        Email : <a href="mailto:tonmail@mail.com">tonmail@mail.com</a>
-      </div>
-      <div class="contact-item">
-        Téléphone : <a href="tel:+33612345678">06 12 34 56 78</a>
-      </div>
-    </div>
-  </section>
 
   <script>
     // Variable for form submission
     var submitted = false;
     
     // Web3Forms submission handler
-    const form = document.getElementById('contactForm');
+    const form = document.querySelector('#contactForm form');
     const formMessage = document.getElementById('form-message');
-    
+
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
       
@@ -4631,7 +5136,7 @@
     <div class="footer-content">
       <div class="footer-brand">
         <span class="footer-logo-text">REDING RUNNING</span>
-        <p class="footer-tagline">Coach Running Certifié FFA · Île-de-France</p>
+        <p class="footer-tagline">Coach Running · Île-de-France</p>
       </div>
       <div class="footer-links">
         <a href="mentions-legales.html">Mentions légales</a>
@@ -4647,4 +5152,5 @@
 
 </body>
 </html>
+
 

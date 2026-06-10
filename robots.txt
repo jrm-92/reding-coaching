@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://reding-running.fr/sitemap.xml
