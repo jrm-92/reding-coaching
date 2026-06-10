@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -4867,112 +4867,6 @@
     </div>
   </section>
 
-  <!-- TÉMOIGNAGES SECTION -->
-  <section class="temoignages-section" id="temoignages">
-    <div class="temoignages-header">
-      <h2>Témoignages</h2>
-      <p>Ce qu'ils disent de leur progression</p>
-    </div>
-
-    <!-- Note globale Google -->
-    <div class="temoignages-rating-global" id="temoignages-rating" style="display:none;">
-      <div class="temoignages-rating-score" id="rating-score"></div>
-      <div class="temoignages-rating-stars" id="rating-stars"></div>
-      <div class="temoignages-rating-count" id="rating-count"></div>
-    </div>
-
-    <!-- Grille des avis Google (remplie par JS) -->
-    <div class="temoignages-grid" id="temoignages-grid"></div>
-
-    <!-- Message affiché avant configuration -->
-    <p class="temoignages-placeholder" id="temoignages-placeholder">
-      Les avis Google apparaîtront ici une fois la fiche configurée.
-    </p>
-
-    <!-- Attribution obligatoire Google Places API -->
-    <div id="places-attribution" style="display:none;"></div>
-
-    <!-- Bouton laisser un avis -->
-    <div class="temoignages-cta">
-      <a id="temoignages-btn-avis" href="#" target="_blank" rel="noopener" class="temoignages-btn-avis">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-        Laisser un avis Google
-      </a>
-    </div>
-  </section>
-
-  <script>
-    // ============================================================
-    // CONFIGURATION GOOGLE REVIEWS — À remplir quand tu as ta fiche
-    // ============================================================
-    const GOOGLE_API_KEY   = 'VOTRE_CLE_API';      // Clé API Google Cloud
-    const GOOGLE_PLACE_ID  = 'VOTRE_PLACE_ID';     // Place ID de ta fiche Google Business
-    const GOOGLE_REVIEW_URL = 'VOTRE_LIEN_AVIS';   // Lien direct vers l'espace "Laisser un avis"
-    // ============================================================
-
-    (function() {
-      const isConfigured = GOOGLE_API_KEY !== 'VOTRE_CLE_API' && GOOGLE_PLACE_ID !== 'VOTRE_PLACE_ID';
-
-      // Met à jour le bouton "Laisser un avis" dès que l'URL est fournie
-      if (GOOGLE_REVIEW_URL !== 'VOTRE_LIEN_AVIS') {
-        document.getElementById('temoignages-btn-avis').href = GOOGLE_REVIEW_URL;
-      }
-
-      if (!isConfigured) return; // Rien d'autre à faire tant que ce n'est pas configuré
-
-      // Charge la librairie Google Maps + Places
-      var script = document.createElement('script');
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_API_KEY + '&libraries=places&callback=initGoogleReviews';
-      script.async = true;
-      document.head.appendChild(script);
-    })();
-
-    function initGoogleReviews() {
-      var service = new google.maps.places.PlacesService(document.getElementById('places-attribution'));
-      service.getDetails({
-        placeId: GOOGLE_PLACE_ID,
-        fields: ['name', 'rating', 'user_ratings_total', 'reviews']
-      }, function(place, status) {
-        if (status !== google.maps.places.PlacesServiceStatus.OK || !place.reviews) return;
-
-        // Masque le placeholder
-        document.getElementById('temoignages-placeholder').style.display = 'none';
-
-        // Affiche la note globale
-        var ratingEl = document.getElementById('temoignages-rating');
-        ratingEl.style.display = 'block';
-        document.getElementById('rating-score').textContent = place.rating.toFixed(1);
-        document.getElementById('rating-stars').textContent = '★'.repeat(Math.round(place.rating)) + '☆'.repeat(5 - Math.round(place.rating));
-        document.getElementById('rating-count').textContent = place.user_ratings_total + ' avis Google';
-
-        // Affiche les avis (max 5, triés par pertinence par défaut par Google)
-        var grid = document.getElementById('temoignages-grid');
-        place.reviews.forEach(function(review) {
-          var stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-          var initial = review.author_name ? review.author_name.charAt(0).toUpperCase() : '?';
-          var card = document.createElement('div');
-          card.className = 'temoignage-card';
-          card.innerHTML =
-            '<div class="temoignage-stars"><span>' + stars + '</span></div>' +
-            '<p class="temoignage-quote">« ' + review.text + ' »</p>' +
-            '<div class="temoignage-author">' +
-              '<div class="temoignage-avatar">' + initial + '</div>' +
-              '<div>' +
-                '<div class="temoignage-info-name">' + review.author_name + '</div>' +
-                '<div class="temoignage-info-detail">' + review.relative_time_description + '</div>' +
-              '</div>' +
-            '</div>';
-          grid.appendChild(card);
-        });
-      });
-    }
-  </script>
-
   <!-- FORMULAIRE SECTION -->
   <section class="form-section" id="contactForm">
     <h2 class="section-title">Formulaire</h2>
@@ -5109,6 +5003,112 @@
         document.querySelector('.main-nav').classList.remove('active');
       });
     });
+  </script>
+
+  <!-- TÉMOIGNAGES SECTION -->
+  <section class="temoignages-section" id="temoignages">
+    <div class="temoignages-header">
+      <h2>Témoignages</h2>
+      <p>Ce qu'ils disent de leur progression</p>
+    </div>
+
+    <!-- Note globale Google -->
+    <div class="temoignages-rating-global" id="temoignages-rating" style="display:none;">
+      <div class="temoignages-rating-score" id="rating-score"></div>
+      <div class="temoignages-rating-stars" id="rating-stars"></div>
+      <div class="temoignages-rating-count" id="rating-count"></div>
+    </div>
+
+    <!-- Grille des avis Google (remplie par JS) -->
+    <div class="temoignages-grid" id="temoignages-grid"></div>
+
+    <!-- Message affiché avant configuration -->
+    <p class="temoignages-placeholder" id="temoignages-placeholder">
+      Les avis Google apparaîtront ici une fois la fiche configurée.
+    </p>
+
+    <!-- Attribution obligatoire Google Places API -->
+    <div id="places-attribution" style="display:none;"></div>
+
+    <!-- Bouton laisser un avis -->
+    <div class="temoignages-cta">
+      <a id="temoignages-btn-avis" href="#" target="_blank" rel="noopener" class="temoignages-btn-avis">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        Laisser un avis Google
+      </a>
+    </div>
+  </section>
+
+  <script>
+    // ============================================================
+    // CONFIGURATION GOOGLE REVIEWS — À remplir quand tu as ta fiche
+    // ============================================================
+    const GOOGLE_API_KEY   = 'VOTRE_CLE_API';      // Clé API Google Cloud
+    const GOOGLE_PLACE_ID  = 'VOTRE_PLACE_ID';     // Place ID de ta fiche Google Business
+    const GOOGLE_REVIEW_URL = 'VOTRE_LIEN_AVIS';   // Lien direct vers l'espace "Laisser un avis"
+    // ============================================================
+
+    (function() {
+      const isConfigured = GOOGLE_API_KEY !== 'VOTRE_CLE_API' && GOOGLE_PLACE_ID !== 'VOTRE_PLACE_ID';
+
+      // Met à jour le bouton "Laisser un avis" dès que l'URL est fournie
+      if (GOOGLE_REVIEW_URL !== 'VOTRE_LIEN_AVIS') {
+        document.getElementById('temoignages-btn-avis').href = GOOGLE_REVIEW_URL;
+      }
+
+      if (!isConfigured) return; // Rien d'autre à faire tant que ce n'est pas configuré
+
+      // Charge la librairie Google Maps + Places
+      var script = document.createElement('script');
+      script.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_API_KEY + '&libraries=places&callback=initGoogleReviews';
+      script.async = true;
+      document.head.appendChild(script);
+    })();
+
+    function initGoogleReviews() {
+      var service = new google.maps.places.PlacesService(document.getElementById('places-attribution'));
+      service.getDetails({
+        placeId: GOOGLE_PLACE_ID,
+        fields: ['name', 'rating', 'user_ratings_total', 'reviews']
+      }, function(place, status) {
+        if (status !== google.maps.places.PlacesServiceStatus.OK || !place.reviews) return;
+
+        // Masque le placeholder
+        document.getElementById('temoignages-placeholder').style.display = 'none';
+
+        // Affiche la note globale
+        var ratingEl = document.getElementById('temoignages-rating');
+        ratingEl.style.display = 'block';
+        document.getElementById('rating-score').textContent = place.rating.toFixed(1);
+        document.getElementById('rating-stars').textContent = '★'.repeat(Math.round(place.rating)) + '☆'.repeat(5 - Math.round(place.rating));
+        document.getElementById('rating-count').textContent = place.user_ratings_total + ' avis Google';
+
+        // Affiche les avis (max 5, triés par pertinence par défaut par Google)
+        var grid = document.getElementById('temoignages-grid');
+        place.reviews.forEach(function(review) {
+          var stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+          var initial = review.author_name ? review.author_name.charAt(0).toUpperCase() : '?';
+          var card = document.createElement('div');
+          card.className = 'temoignage-card';
+          card.innerHTML =
+            '<div class="temoignage-stars"><span>' + stars + '</span></div>' +
+            '<p class="temoignage-quote">« ' + review.text + ' »</p>' +
+            '<div class="temoignage-author">' +
+              '<div class="temoignage-avatar">' + initial + '</div>' +
+              '<div>' +
+                '<div class="temoignage-info-name">' + review.author_name + '</div>' +
+                '<div class="temoignage-info-detail">' + review.relative_time_description + '</div>' +
+              '</div>' +
+            '</div>';
+          grid.appendChild(card);
+        });
+      });
+    }
   </script>
 
   <!-- FAQ Accordion Script -->
