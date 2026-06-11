@@ -5362,10 +5362,20 @@
 
               <!-- Sous-questions : Battre mon record -->
               <div class="qf-subfields" id="qf-obj-record">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="record-course">Quelle course ?</label>
+                    <input type="text" id="record-course" name="Course record" placeholder="Ex : 10K Boulogne, Semi de Paris…">
+                  </div>
+                  <div class="form-group">
+                    <label for="record-date">Date prévue</label>
+                    <input type="date" id="record-date" name="Date de la course (record)">
+                  </div>
+                </div>
                 <div class="form-row" style="margin-bottom:0;">
                   <div class="form-group" style="margin-bottom:0;">
-                    <label for="record-course">Quelle course ?</label>
-                    <input type="text" id="record-course" name="Course record" placeholder="Ex : 10K, Semi-marathon…">
+                    <label for="record-actuel">Record actuel sur la distance <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(si référence)</span></label>
+                    <input type="text" id="record-actuel" name="Record actuel" placeholder="Ex : 42'30, 1h52…">
                   </div>
                   <div class="form-group" style="margin-bottom:0;">
                     <label for="record-chrono">Chrono envisagé</label>
