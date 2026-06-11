@@ -4333,6 +4333,19 @@
       padding: 10px 20px;
       font-size: 14px;
     }
+    /* Sous-questions conditionnelles */
+    .qf-subfields {
+      display: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      border-left: 2px solid rgba(222, 255, 154, 0.3);
+      padding: 14px 16px 4px 18px;
+      border-radius: 0 10px 10px 0;
+      background: rgba(222, 255, 154, 0.04);
+      margin-top: 14px;
+    }
+    .qf-subfields.qf-active { opacity: 1; transform: translateY(0); }
 
     /* =====================================================
        AMÉLIORATIONS RESPONSIVES GLOBALES
@@ -5299,8 +5312,28 @@
             <div class="qform-block-header">
               <span class="qform-block-num">03</span>
               <div>
-                <div class="qform-block-title">Ton projet de course</div>
-                <div class="qform-block-sub">Pour construire ton plan autour de toi</div>
+                <div class="qform-block-title">Ton profil de coureur</div>
+                <div class="qform-block-sub">Pour calibrer le plan dès le départ</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <span class="qform-field-label">Ton niveau actuel</span>
+              <div class="pill-group">
+                <div class="pill-option"><input type="radio" id="niv1" name="Niveau" value="Débutant (moins d'1 an)"><label for="niv1">Je débute (- d'1 an)</label></div>
+                <div class="pill-option"><input type="radio" id="niv2" name="Niveau" value="Coureur régulier"><label for="niv2">Je cours régulièrement</label></div>
+                <div class="pill-option"><input type="radio" id="niv3" name="Niveau" value="Compétiteur"><label for="niv3">Je cours en compétition</label></div>
+                <div class="pill-option"><input type="radio" id="niv4" name="Niveau" value="Reprise après pause"><label for="niv4">Je reprends</label></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <span class="qform-field-label">Volume d'entraînement actuel</span>
+              <div class="pill-group">
+                <div class="pill-option"><input type="radio" id="vol1" name="Volume hebdomadaire" value="Irrégulier"><label for="vol1">Irrégulier</label></div>
+                <div class="pill-option"><input type="radio" id="vol2" name="Volume hebdomadaire" value="1–2 séances/sem"><label for="vol2">1–2 séances/sem</label></div>
+                <div class="pill-option"><input type="radio" id="vol3" name="Volume hebdomadaire" value="3–4 séances/sem"><label for="vol3">3–4 séances/sem</label></div>
+                <div class="pill-option"><input type="radio" id="vol4" name="Volume hebdomadaire" value="5 séances+/sem"><label for="vol4">5 et +</label></div>
               </div>
             </div>
 
@@ -5311,6 +5344,34 @@
                 <div class="pill-option pill-lg"><input type="radio" id="obj2" name="Objectif principal" value="Battre mon record — performance"><label for="obj2">⚡ Battre mon record<br><small style="font-weight:500;opacity:.7;">Améliorer mes chrono</small></label></div>
                 <div class="pill-option pill-lg"><input type="radio" id="obj3" name="Objectif principal" value="Gagner en endurance — courir plus longtemps"><label for="obj3">🌱 Gagner en endurance<br><small style="font-weight:500;opacity:.7;">Courir plus longtemps</small></label></div>
                 <div class="pill-option pill-lg"><input type="radio" id="obj4" name="Objectif principal" value="M'entretenir — santé et bien-être"><label for="obj4">💚 M'entretenir<br><small style="font-weight:500;opacity:.7;">Santé & bien-être</small></label></div>
+              </div>
+
+              <!-- Sous-questions : Relever un défi -->
+              <div class="qf-subfields" id="qf-obj-defi">
+                <div class="form-row" style="margin-bottom:0;">
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label for="defi-course">Quelle course ?</label>
+                    <input type="text" id="defi-course" name="Course cible" placeholder="Ex : Semi de Paris, 10K Boulogne…">
+                  </div>
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label for="defi-date">Date prévue</label>
+                    <input type="date" id="defi-date" name="Date de la course">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sous-questions : Battre mon record -->
+              <div class="qf-subfields" id="qf-obj-record">
+                <div class="form-row" style="margin-bottom:0;">
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label for="record-course">Quelle course ?</label>
+                    <input type="text" id="record-course" name="Course record" placeholder="Ex : 10K, Semi-marathon…">
+                  </div>
+                  <div class="form-group" style="margin-bottom:0;">
+                    <label for="record-chrono">Chrono envisagé</label>
+                    <input type="text" id="record-chrono" name="Chrono envisagé" placeholder="Ex : sub-40min, 1h45…">
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -5452,6 +5513,29 @@
         if (!qfFinal.classList.contains('qf-active')) showEl(qfFinal);
       });
 
+      // Sous-questions selon l'objectif
+      var subDefi   = document.getElementById('qf-obj-defi');
+      var subRecord = document.getElementById('qf-obj-record');
+
+      document.querySelectorAll('input[name="Objectif principal"]').forEach(function (r) {
+        r.addEventListener('change', function () {
+          [subDefi, subRecord].forEach(function (el) {
+            el.classList.remove('qf-active');
+            el.addEventListener('transitionend', function h() {
+              if (!el.classList.contains('qf-active')) el.style.display = 'none';
+              el.removeEventListener('transitionend', h);
+            });
+          });
+          var target = this.id === 'obj1' ? subDefi : this.id === 'obj2' ? subRecord : null;
+          if (target) {
+            target.style.display = 'block';
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () { target.classList.add('qf-active'); });
+            });
+          }
+        });
+      });
+
       // Alerte GPS montre
       document.querySelectorAll('input[name="Montre GPS"]').forEach(function (r) {
         r.addEventListener('change', function () {
@@ -5503,7 +5587,7 @@
           formMessage.textContent = '✅ Reçu ! Je reviens vers toi sous 24h.';
           form.reset();
           // Masquer les branches et l'alerte après envoi
-          ['qf-branch-a','qf-branch-b','qf-final','qf-gps-alert'].forEach(function(id) {
+          ['qf-branch-a','qf-branch-b','qf-final','qf-gps-alert','qf-obj-defi','qf-obj-record'].forEach(function(id) {
             var el = document.getElementById(id);
             if (el) { el.classList.remove('qf-active'); el.style.display = 'none'; }
           });
