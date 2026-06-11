@@ -5243,7 +5243,7 @@
 
         <!-- Web3Forms — champs cachés -->
         <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
-        <input type="hidden" name="subject" value="Nouvelle demande de coaching — Reding Running">
+        <input type="hidden" id="form-subject" name="subject" value="Nouvelle demande de coaching — Reding Running">
         <input type="hidden" name="from_name" value="Reding Running">
         <input type="checkbox" name="botcheck" style="display:none;">
 
@@ -5511,15 +5511,18 @@
       var today = new Date().toISOString().split('T')[0];
       document.querySelectorAll('input[type="date"]').forEach(function (d) { d.min = today; });
 
-      // Cartes de choix → branches
+      // Cartes de choix → branches + subject Web3Forms
+      var subjectField = document.getElementById('form-subject');
       document.querySelectorAll('input[name="Type de coaching"]').forEach(function (r) {
         r.addEventListener('change', function () {
           if (this.value === 'Suivi à distance') {
             hideEl(branchB);
             showEl(branchA);
+            subjectField.value = '📱 Suivi à distance — Reding Running';
           } else if (this.value === 'Coaching terrain') {
             hideEl(branchA);
             showEl(branchB);
+            subjectField.value = '🏃 Coaching terrain — Reding Running';
           }
           if (!qfFinal.classList.contains('qf-active')) showEl(qfFinal);
         });
