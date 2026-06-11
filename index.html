@@ -5553,7 +5553,7 @@
           <polyline points="26,44 38,56 62,32"/>
         </svg>
         <h3>Demande envoyée !</h3>
-        <p>Je reviens vers toi sous 24h.<br>À très vite sur les sentiers.</p>
+        <p>Je reviens vers toi sous 24h.</p>
       </div>
 
     </div>
@@ -5673,9 +5673,9 @@
             var el = document.getElementById(id);
             if (el) { el.classList.remove('qf-active'); el.style.display = 'none'; }
           });
+          document.getElementById('contactForm').scrollIntoView({ behavior: 'instant', block: 'start' });
           form.style.display = 'none';
           qfSuccess.style.display = 'block';
-          document.getElementById('contactForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
           requestAnimationFrame(function() {
             requestAnimationFrame(function() {
               qfSuccess.classList.add('qf-active');
