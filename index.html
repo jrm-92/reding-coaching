@@ -5675,6 +5675,7 @@
           });
           form.style.display = 'none';
           qfSuccess.style.display = 'block';
+          document.getElementById('contactForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
           requestAnimationFrame(function() {
             requestAnimationFrame(function() {
               qfSuccess.classList.add('qf-active');
