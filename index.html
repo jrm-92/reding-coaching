@@ -4347,6 +4347,70 @@
     }
     .qf-subfields.qf-active { opacity: 1; transform: translateY(0); }
 
+    /* ── Overlay succès formulaire ─────────────────────── */
+    #qf-success {
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      text-align: center;
+      padding: 60px 24px 72px;
+    }
+    #qf-success.qf-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #qf-success .qf-check-circle {
+      width: 88px;
+      height: 88px;
+      margin: 0 auto 28px;
+    }
+    #qf-success .qf-check-circle circle {
+      fill: none;
+      stroke: #deff9a;
+      stroke-width: 3;
+      stroke-dasharray: 251.2;
+      stroke-dashoffset: 251.2;
+      animation: none;
+    }
+    #qf-success.qf-active .qf-check-circle circle {
+      animation: qf-circle-draw 0.55s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
+    }
+    #qf-success .qf-check-circle polyline {
+      fill: none;
+      stroke: #deff9a;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: none;
+    }
+    #qf-success.qf-active .qf-check-circle polyline {
+      animation: qf-check-draw 0.35s cubic-bezier(0.4,0,0.2,1) 0.55s forwards;
+    }
+    @keyframes qf-circle-draw {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes qf-check-draw {
+      to { stroke-dashoffset: 0; }
+    }
+    #qf-success h3 {
+      font-family: 'Barlow', sans-serif;
+      font-size: clamp(22px, 2.4vw, 28px);
+      font-weight: 800;
+      color: #deff9a;
+      margin: 0 0 12px;
+      letter-spacing: -0.3px;
+    }
+    #qf-success p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
     /* =====================================================
        AMÉLIORATIONS RESPONSIVES GLOBALES
        — applique des règles génériques sur tous les écrans
@@ -4847,7 +4911,7 @@
               <span class="step-number">01</span>
               <h4 class="step-title">Prise de contact</h4>
             </div>
-            <p class="step-text">Renseigne le formulaire <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">« Parlons de ton objectif »</a> ou écris-moi à <a href="mailto:jeremy.reding@outlook.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">jeremy.reding@outlook.fr</a>.</p>
+            <p class="step-text">Renseigne le <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">«formulaire»</a> ou écris-moi à <a href="mailto:jeremy.reding@outlook.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">jeremy.reding@outlook.fr</a>.</p>
           </li>
           <li class="step-item">
             <div class="step-header">
@@ -5234,7 +5298,7 @@
 
     <div style="text-align:center;margin-bottom:48px;">
       <span style="display:inline-block;font-size:11px;font-weight:700;color:#deff9a;text-transform:uppercase;letter-spacing:2.5px;margin-bottom:12px;">Première étape</span>
-      <h2 class="section-title" style="color:#deff9a;margin-bottom:0;">Demande de coaching</h2>
+      <h2 class="section-title" style="color:#deff9a;margin-bottom:0;">Formulaire</h2>
       <p style="font-size:clamp(14px,1.3vw,16px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Sélectionne ton besoin — le formulaire s'adapte instantanément.</p>
     </div>
 
@@ -5243,7 +5307,7 @@
 
         <!-- Web3Forms — champs cachés -->
         <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
-        <input type="hidden" id="form-subject" name="subject" value="Nouvelle demande de coaching — Reding Running">
+        <input type="hidden" name="subject" value="Nouvelle demande de coaching — Reding Running">
         <input type="hidden" name="from_name" value="Reding Running">
         <input type="checkbox" name="botcheck" style="display:none;">
 
@@ -5481,6 +5545,17 @@
         </div>
 
       </form>
+
+      <!-- Overlay succès -->
+      <div id="qf-success">
+        <svg class="qf-check-circle" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="44" cy="44" r="40"/>
+          <polyline points="26,44 38,56 62,32"/>
+        </svg>
+        <h3>Demande envoyée !</h3>
+        <p>Je reviens vers toi sous 24h.<br>À très vite sur les sentiers.</p>
+      </div>
+
     </div>
   </section>
 
@@ -5511,18 +5586,15 @@
       var today = new Date().toISOString().split('T')[0];
       document.querySelectorAll('input[type="date"]').forEach(function (d) { d.min = today; });
 
-      // Cartes de choix → branches + subject Web3Forms
-      var subjectField = document.getElementById('form-subject');
+      // Cartes de choix → branches
       document.querySelectorAll('input[name="Type de coaching"]').forEach(function (r) {
         r.addEventListener('change', function () {
           if (this.value === 'Suivi à distance') {
             hideEl(branchB);
             showEl(branchA);
-            subjectField.value = '📱 Suivi à distance — Reding Running';
           } else if (this.value === 'Coaching terrain') {
             hideEl(branchA);
             showEl(branchB);
-            subjectField.value = '🏃 Coaching terrain — Reding Running';
           }
           if (!qfFinal.classList.contains('qf-active')) showEl(qfFinal);
         });
@@ -5575,6 +5647,7 @@
 
     const form = document.querySelector('#contactForm form');
     const formMessage = document.getElementById('form-message');
+    const qfSuccess = document.getElementById('qf-success');
 
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -5595,18 +5668,18 @@
         const data = await response.json();
 
         if (data.success) {
-          formMessage.style.display = 'block';
-          formMessage.style.backgroundColor = 'rgba(222,255,154,0.12)';
-          formMessage.style.color = '#deff9a';
-          formMessage.style.border = '1px solid rgba(222,255,154,0.3)';
-          formMessage.textContent = '✅ Reçu ! Je reviens vers toi sous 24h.';
           form.reset();
-          // Masquer les branches et l'alerte après envoi
           ['qf-branch-a','qf-branch-b','qf-final','qf-gps-alert','qf-obj-defi','qf-obj-record'].forEach(function(id) {
             var el = document.getElementById(id);
             if (el) { el.classList.remove('qf-active'); el.style.display = 'none'; }
           });
-          document.getElementById('coaching-type').value = '';
+          form.style.display = 'none';
+          qfSuccess.style.display = 'block';
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              qfSuccess.classList.add('qf-active');
+            });
+          });
         } else {
           throw new Error('Erreur lors de l\'envoi');
         }
@@ -5616,7 +5689,6 @@
         formMessage.style.color = '#721c24';
         formMessage.style.border = '1px solid #f5c6cb';
         formMessage.textContent = '❌ Une erreur est survenue. Réessaie ou écris-moi à jeremy.reding@outlook.fr';
-      } finally {
         button.textContent = originalText;
         button.disabled = false;
       }
