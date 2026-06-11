@@ -4113,6 +4113,152 @@
       .pill-option label { font-size: 13px; padding: 7px 13px; }
     }
 
+    /* ===== FORMULAIRE BRANCHÉ — THÈME LIME ===== */
+    .qf-form::before {
+      background: linear-gradient(90deg, #deff9a, #7ecb35, #1282A2) !important;
+    }
+    .qf-form .qform-block-num {
+      background: linear-gradient(135deg, #deff9a, #9ed940);
+      color: #0A1128;
+      box-shadow: 0 4px 14px rgba(222,255,154,0.4);
+    }
+    .qf-form .qform-field-label { color: #deff9a; }
+    .qf-form .form-group label { color: #deff9a !important; }
+    .qf-form .form-group input:focus,
+    .qf-form .form-group textarea:focus {
+      border-color: #deff9a;
+      box-shadow: 0 0 0 4px rgba(222,255,154,0.14), 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .qf-form .qform-divider {
+      background: linear-gradient(to right, transparent, rgba(222,255,154,0.28), transparent);
+    }
+    .qf-form .pill-option input:checked + label {
+      background: #deff9a;
+      border-color: #deff9a;
+      color: #0A1128 !important;
+      box-shadow: 0 4px 14px rgba(222,255,154,0.3);
+    }
+    .qf-form .pill-option label:hover {
+      border-color: rgba(222,255,154,0.45);
+      color: rgba(255,255,255,0.9) !important;
+      background: rgba(222,255,154,0.07);
+    }
+    .qf-form .form-submit-btn {
+      background: linear-gradient(135deg, #deff9a 0%, #9ed940 100%);
+      color: #0A1128 !important;
+      text-shadow: none;
+      box-shadow: 0 8px 32px rgba(222,255,154,0.35);
+    }
+    .qf-form .form-submit-btn:hover {
+      background: linear-gradient(135deg, #f0ffcc 0%, #deff9a 100%) !important;
+      color: #0A1128 !important;
+      box-shadow: 0 18px 50px rgba(222,255,154,0.5);
+    }
+    /* Cartes choix A/B */
+    .qf-choice-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #deff9a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+    .qf-choice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .qf-choice-card {
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 24px 16px 20px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      transition: all 0.25s ease;
+      text-align: center;
+      user-select: none;
+    }
+    .qf-choice-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .qf-choice-card:hover {
+      border-color: rgba(222,255,154,0.35);
+      background: rgba(222,255,154,0.04);
+    }
+    .qf-choice-card:has(input:checked) {
+      border-color: #deff9a;
+      background: rgba(222,255,154,0.08);
+      box-shadow: 0 0 30px rgba(222,255,154,0.16);
+    }
+    .qf-choice-dot {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.18);
+      transition: all 0.2s ease;
+      background: transparent;
+    }
+    .qf-choice-card:has(input:checked) .qf-choice-dot {
+      background: #deff9a;
+      border-color: #deff9a;
+      box-shadow: 0 0 10px rgba(222,255,154,0.5);
+    }
+    .qf-choice-icon {
+      font-size: 28px;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+    .qf-choice-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
+    }
+    .qf-choice-desc {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+      font-weight: 500;
+      line-height: 1.4;
+    }
+    /* Branches conditionnelles */
+    .qf-branch {
+      display: none;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .qf-branch.qf-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (max-width: 580px) {
+      .qf-choice-grid { grid-template-columns: 1fr; }
+      .qf-choice-card {
+        flex-direction: row;
+        text-align: left;
+        padding: 16px 44px 16px 16px;
+        gap: 12px;
+      }
+      .qf-choice-icon { font-size: 22px; flex-shrink: 0; margin-bottom: 0; }
+      .qf-choice-dot { top: 50%; transform: translateY(-50%); right: 14px; }
+      .qf-choice-card:has(input:checked) .qf-choice-dot { transform: translateY(-50%); }
+    }
+
     /* =====================================================
        AMÉLIORATIONS RESPONSIVES GLOBALES
        — applique des règles génériques sur tous les écrans
@@ -4998,28 +5144,30 @@
   <!-- FORMULAIRE SECTION -->
   <section class="form-section" id="contactForm">
 
-    <div class="qform-intro">
-      <span class="qform-eyebrow">Première étape</span>
-      <h2 class="section-title" style="margin-bottom:0;">Parlons de ton projet</h2>
-      <p class="qform-lead">3 minutes pour répondre à ces questions.<br>Elles me permettent de t'adresser un premier retour vraiment personnalisé.</p>
+    <div style="text-align:center;margin-bottom:48px;">
+      <span style="display:inline-block;font-size:11px;font-weight:700;color:#deff9a;text-transform:uppercase;letter-spacing:2.5px;margin-bottom:12px;">Première étape</span>
+      <h2 class="section-title" style="color:#deff9a;margin-bottom:0;">Demande de coaching</h2>
+      <p style="font-size:clamp(14px,1.3vw,16px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Choisis ton type d'accompagnement — le formulaire s'adapte à ton projet.</p>
     </div>
 
     <div class="form-section-inner">
-      <form class="hero-form" action="https://api.web3forms.com/submit" method="POST">
+      <form class="hero-form qf-form" action="https://api.web3forms.com/submit" method="POST">
 
-        <!-- Web3Forms — champs techniques -->
+        <!-- Web3Forms — champs cachés -->
         <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
         <input type="hidden" name="subject" value="Nouvelle demande de coaching — Reding Running">
         <input type="hidden" name="from_name" value="Reding Running">
         <input type="checkbox" name="botcheck" style="display:none;">
 
-        <!-- ═══════════ BLOC 01 — PROFIL ═══════════ -->
+        <!-- ══════════════════════════════════════
+             SECTION COMMUNE
+        ══════════════════════════════════════ -->
         <div class="qform-block">
           <div class="qform-block-header">
             <span class="qform-block-num">01</span>
             <div>
-              <div class="qform-block-title">Ton profil de coureur</div>
-              <div class="qform-block-sub">Pour savoir à qui je m'adresse</div>
+              <div class="qform-block-title">Tes coordonnées</div>
+              <div class="qform-block-sub">Pour que je puisse te répondre</div>
             </div>
           </div>
 
@@ -5033,7 +5181,6 @@
               <input type="text" id="nom" name="Nom" required placeholder="Ton nom">
             </div>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label for="email">Email *</label>
@@ -5044,136 +5191,171 @@
               <input type="tel" id="telephone" name="Téléphone" placeholder="06 12 34 56 78">
             </div>
           </div>
-
-          <div class="form-group">
-            <span class="qform-field-label">Ton niveau actuel *</span>
-            <div class="pill-group">
-              <div class="pill-option"><input type="radio" id="niv1" name="Niveau" value="Débutant (moins d'1 an)" required><label for="niv1">Je débute (- d'1 an)</label></div>
-              <div class="pill-option"><input type="radio" id="niv2" name="Niveau" value="Coureur régulier"><label for="niv2">Je cours régulièrement</label></div>
-              <div class="pill-option"><input type="radio" id="niv3" name="Niveau" value="Compétiteur"><label for="niv3">Je cours en compétition</label></div>
-              <div class="pill-option"><input type="radio" id="niv4" name="Niveau" value="Reprise après pause"><label for="niv4">Je reprends après une pause</label></div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <span class="qform-field-label">Volume d'entraînement actuel</span>
-            <div class="pill-group">
-              <div class="pill-option"><input type="radio" id="vol1" name="Volume hebdomadaire" value="Irrégulier"><label for="vol1">Irrégulier</label></div>
-              <div class="pill-option"><input type="radio" id="vol2" name="Volume hebdomadaire" value="1 à 2 séances/sem"><label for="vol2">1–2 séances/sem</label></div>
-              <div class="pill-option"><input type="radio" id="vol3" name="Volume hebdomadaire" value="3 à 4 séances/sem"><label for="vol3">3–4 séances/sem</label></div>
-              <div class="pill-option"><input type="radio" id="vol4" name="Volume hebdomadaire" value="5 séances+/sem"><label for="vol4">5 séances et +</label></div>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom:0;">
-            <span class="qform-field-label">Type de suivi souhaité *</span>
-            <div class="pill-group" style="margin-bottom:0;">
-              <div class="pill-option"><input type="radio" id="type1" name="Type de coaching" value="Suivi à distance" required><label for="type1">Suivi à distance</label></div>
-              <div class="pill-option"><input type="radio" id="type2" name="Type de coaching" value="Coaching terrain"><label for="type2">Coaching terrain</label></div>
-              <div class="pill-option"><input type="radio" id="type3" name="Type de coaching" value="Les deux — à définir ensemble"><label for="type3">Les deux — à définir</label></div>
-            </div>
-          </div>
         </div>
 
         <div class="qform-divider"></div>
 
-        <!-- ═══════════ BLOC 02 — OBJECTIFS ═══════════ -->
-        <div class="qform-block">
+        <!-- QUESTION DÉCISIVE -->
+        <div class="qform-block" style="margin-bottom:0;">
           <div class="qform-block-header">
             <span class="qform-block-num">02</span>
             <div>
-              <div class="qform-block-title">Ton objectif</div>
-              <div class="qform-block-sub">Pour que le plan soit construit autour de toi</div>
+              <div class="qform-block-title">Quel accompagnement recherches-tu ?</div>
+              <div class="qform-block-sub">Le formulaire s'adapte instantanément à ton choix</div>
             </div>
           </div>
 
-          <div class="form-group">
-            <span class="qform-field-label">Prochaine distance cible</span>
-            <div class="pill-group">
-              <div class="pill-option"><input type="radio" id="dist1" name="Distance cible" value="5 km"><label for="dist1">5 km</label></div>
-              <div class="pill-option"><input type="radio" id="dist2" name="Distance cible" value="10 km"><label for="dist2">10 km</label></div>
-              <div class="pill-option"><input type="radio" id="dist3" name="Distance cible" value="Semi-marathon"><label for="dist3">Semi-marathon</label></div>
-              <div class="pill-option"><input type="radio" id="dist4" name="Distance cible" value="Marathon"><label for="dist4">Marathon</label></div>
-              <div class="pill-option"><input type="radio" id="dist5" name="Distance cible" value="Trail"><label for="dist5">Trail</label></div>
-              <div class="pill-option"><input type="radio" id="dist6" name="Distance cible" value="Pas de compétition prévue"><label for="dist6">Pas de compétition</label></div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <span class="qform-field-label">Objectif principal *</span>
-            <div class="pill-group">
-              <div class="pill-option"><input type="radio" id="obj1" name="Objectif principal" value="Finir une course" required><label for="obj1">Finir une course</label></div>
-              <div class="pill-option"><input type="radio" id="obj2" name="Objectif principal" value="Améliorer mon chrono"><label for="obj2">Améliorer mon chrono</label></div>
-              <div class="pill-option"><input type="radio" id="obj3" name="Objectif principal" value="Reprendre progressivement"><label for="obj3">Reprendre progressivement</label></div>
-              <div class="pill-option"><input type="radio" id="obj4" name="Objectif principal" value="Préparer une compétition"><label for="obj4">Préparer une compétition</label></div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <span class="qform-field-label">Horizon de temps</span>
-            <div class="pill-group">
-              <div class="pill-option"><input type="radio" id="hor1" name="Horizon" value="Moins de 3 mois"><label for="hor1">Moins de 3 mois</label></div>
-              <div class="pill-option"><input type="radio" id="hor2" name="Horizon" value="3 à 6 mois"><label for="hor2">3 à 6 mois</label></div>
-              <div class="pill-option"><input type="radio" id="hor3" name="Horizon" value="6 à 12 mois"><label for="hor3">6 à 12 mois</label></div>
-              <div class="pill-option"><input type="radio" id="hor4" name="Horizon" value="Pas de date précise"><label for="hor4">Pas de date précise</label></div>
-            </div>
-          </div>
-
-          <div class="form-group" style="margin-bottom:0;">
-            <label for="message" class="qform-field-label">Ce qui te freine aujourd'hui *</label>
-            <textarea id="message" name="Message" required rows="3" placeholder="Blessures récurrentes, manque de temps, plateau de progression, motivation... Dis-moi tout."></textarea>
+          <div class="qf-choice-grid">
+            <label class="qf-choice-card" for="type-a">
+              <input type="radio" id="type-a" name="Type de coaching" value="Suivi à distance" required>
+              <span class="qf-choice-dot"></span>
+              <span class="qf-choice-icon">📱</span>
+              <span class="qf-choice-title">Suivi à distance</span>
+              <span class="qf-choice-desc">Plan personnalisé · Objectif 5K / 10K / Marathon</span>
+            </label>
+            <label class="qf-choice-card" for="type-b">
+              <input type="radio" id="type-b" name="Type de coaching" value="Coaching terrain">
+              <span class="qf-choice-dot"></span>
+              <span class="qf-choice-icon">🏃</span>
+              <span class="qf-choice-title">Coaching terrain</span>
+              <span class="qf-choice-desc">Séance individuelle ou groupe · La Défense</span>
+            </label>
           </div>
         </div>
 
-        <div class="qform-divider"></div>
+        <!-- ══════════════════════════════════════
+             BRANCHE A — SUIVI À DISTANCE
+        ══════════════════════════════════════ -->
+        <div class="qf-branch" id="qf-branch-a">
+          <div class="qform-divider"></div>
 
-        <!-- ═══════════ BLOC 03 — DISPONIBILITÉS ═══════════ -->
-        <div class="qform-block">
-          <div class="qform-block-header">
-            <span class="qform-block-num">03</span>
-            <div>
-              <div class="qform-block-title">Tes disponibilités</div>
-              <div class="qform-block-sub">Pour qu'on trouve le bon rythme ensemble</div>
+          <div class="qform-block">
+            <div class="qform-block-header">
+              <span class="qform-block-num">03</span>
+              <div>
+                <div class="qform-block-title">Ton projet de course</div>
+                <div class="qform-block-sub">Pour construire ton plan autour de toi</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <span class="qform-field-label">Prochaine distance cible</span>
+              <div class="pill-group">
+                <div class="pill-option"><input type="radio" id="da-dist1" name="Distance cible" value="5 km"><label for="da-dist1">5 km</label></div>
+                <div class="pill-option"><input type="radio" id="da-dist2" name="Distance cible" value="10 km"><label for="da-dist2">10 km</label></div>
+                <div class="pill-option"><input type="radio" id="da-dist3" name="Distance cible" value="Semi-marathon"><label for="da-dist3">Semi-marathon</label></div>
+                <div class="pill-option"><input type="radio" id="da-dist4" name="Distance cible" value="Marathon"><label for="da-dist4">Marathon</label></div>
+                <div class="pill-option"><input type="radio" id="da-dist5" name="Distance cible" value="Trail"><label for="da-dist5">Trail</label></div>
+                <div class="pill-option"><input type="radio" id="da-dist6" name="Distance cible" value="Pas de compétition"><label for="da-dist6">Pas de compétition</label></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <span class="qform-field-label">Ton objectif principal</span>
+              <div class="pill-group">
+                <div class="pill-option"><input type="radio" id="da-obj1" name="Objectif" value="Finir une course"><label for="da-obj1">Finir une course</label></div>
+                <div class="pill-option"><input type="radio" id="da-obj2" name="Objectif" value="Améliorer mon chrono"><label for="da-obj2">Améliorer mon chrono</label></div>
+                <div class="pill-option"><input type="radio" id="da-obj3" name="Objectif" value="Reprendre progressivement"><label for="da-obj3">Reprendre progressivement</label></div>
+                <div class="pill-option"><input type="radio" id="da-obj4" name="Objectif" value="Préparer une compétition"><label for="da-obj4">Préparer une compétition</label></div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <span class="qform-field-label">Montre GPS ?</span>
+                <div class="pill-group" style="margin-bottom:0;">
+                  <div class="pill-option"><input type="radio" id="da-gps1" name="Montre GPS" value="Oui, j'ai une montre GPS"><label for="da-gps1">Oui</label></div>
+                  <div class="pill-option"><input type="radio" id="da-gps2" name="Montre GPS" value="Non, pas de montre GPS"><label for="da-gps2">Non</label></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <span class="qform-field-label">Tu utilises Nolio ?</span>
+                <div class="pill-group" style="margin-bottom:0;">
+                  <div class="pill-option"><input type="radio" id="da-nolio1" name="Nolio" value="Oui, j'utilise Nolio"><label for="da-nolio1">Oui</label></div>
+                  <div class="pill-option"><input type="radio" id="da-nolio2" name="Nolio" value="Non, pas Nolio"><label for="da-nolio2">Non</label></div>
+                  <div class="pill-option"><input type="radio" id="da-nolio3" name="Nolio" value="Je ne connais pas Nolio"><label for="da-nolio3">Je ne connais pas</label></div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="form-group">
-            <span class="qform-field-label">Créneaux disponibles (plusieurs choix possibles)</span>
-            <div class="pill-group">
-              <div class="pill-option"><input type="checkbox" id="cr1" name="Créneaux" value="En semaine le matin (avant 9h)"><label for="cr1">En semaine — matin</label></div>
-              <div class="pill-option"><input type="checkbox" id="cr2" name="Créneaux" value="En semaine le midi (12h–14h)"><label for="cr2">En semaine — midi</label></div>
-              <div class="pill-option"><input type="checkbox" id="cr3" name="Créneaux" value="En semaine le soir (après 18h)"><label for="cr3">En semaine — soir</label></div>
-              <div class="pill-option"><input type="checkbox" id="cr4" name="Créneaux" value="Samedi matin"><label for="cr4">Samedi matin</label></div>
-              <div class="pill-option"><input type="checkbox" id="cr5" name="Créneaux" value="Samedi après-midi"><label for="cr5">Samedi après-midi</label></div>
-              <div class="pill-option"><input type="checkbox" id="cr6" name="Créneaux" value="Dimanche"><label for="cr6">Dimanche</label></div>
-            </div>
-          </div>
+          <div class="qform-divider"></div>
 
-          <div class="form-group" style="margin-bottom:0;">
-            <span class="qform-field-label">Nombre de séances visé par semaine</span>
-            <div class="pill-group" style="margin-bottom:0;">
-              <div class="pill-option"><input type="radio" id="nb1" name="Séances par semaine" value="2 séances/sem"><label for="nb1">2 séances</label></div>
-              <div class="pill-option"><input type="radio" id="nb2" name="Séances par semaine" value="3 séances/sem"><label for="nb2">3 séances</label></div>
-              <div class="pill-option"><input type="radio" id="nb3" name="Séances par semaine" value="4 séances/sem"><label for="nb3">4 séances</label></div>
-              <div class="pill-option"><input type="radio" id="nb4" name="Séances par semaine" value="5 séances+/sem"><label for="nb4">5 et +</label></div>
-              <div class="pill-option"><input type="radio" id="nb5" name="Séances par semaine" value="À définir ensemble"><label for="nb5">À définir ensemble</label></div>
+          <div class="qform-block" style="margin-bottom:0;">
+            <div class="qform-block-header">
+              <span class="qform-block-num">04</span>
+              <div>
+                <div class="qform-block-title">Appel de découverte</div>
+                <div class="qform-block-sub">Tes créneaux préférés pour un appel de 20 min</div>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <span class="qform-field-label">Créneaux qui t'arrangent (plusieurs choix)</span>
+              <div class="pill-group" style="margin-bottom:0;">
+                <div class="pill-option"><input type="checkbox" id="da-cr1" name="Créneaux appel" value="En semaine le midi (12h–14h)"><label for="da-cr1">En semaine — midi</label></div>
+                <div class="pill-option"><input type="checkbox" id="da-cr2" name="Créneaux appel" value="En semaine après 18h"><label for="da-cr2">En semaine — soir</label></div>
+                <div class="pill-option"><input type="checkbox" id="da-cr3" name="Créneaux appel" value="Samedi matin"><label for="da-cr3">Samedi matin</label></div>
+                <div class="pill-option"><input type="checkbox" id="da-cr4" name="Créneaux appel" value="Samedi après-midi"><label for="da-cr4">Samedi après-midi</label></div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="qform-divider"></div>
+        <!-- ══════════════════════════════════════
+             BRANCHE B — COACHING TERRAIN
+        ══════════════════════════════════════ -->
+        <div class="qf-branch" id="qf-branch-b">
+          <div class="qform-divider"></div>
 
-        <!-- RGPD + Envoi -->
-        <div class="form-checkbox-group" style="margin-bottom:24px;">
-          <input type="checkbox" id="rgpd_consent" name="RGPD_Consent" required>
-          <label for="rgpd_consent" style="color:rgba(255,255,255,0.9);">
-            J'accepte que mes données soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" style="color:#FFE766;">politique de confidentialité</a> *
-          </label>
+          <div class="qform-block">
+            <div class="qform-block-header">
+              <span class="qform-block-num">03</span>
+              <div>
+                <div class="qform-block-title">Ta séance</div>
+                <div class="qform-block-sub">Pour que je prépare la bonne formule</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <span class="qform-field-label">Format souhaité</span>
+              <div class="pill-group">
+                <div class="pill-option"><input type="radio" id="db-fmt1" name="Format séance" value="Individuel (Solo)"><label for="db-fmt1">Individuel</label></div>
+                <div class="pill-option"><input type="radio" id="db-fmt2" name="Format séance" value="Duo (2 personnes)"><label for="db-fmt2">Duo</label></div>
+                <div class="pill-option"><input type="radio" id="db-fmt3" name="Format séance" value="Trio (3 personnes)"><label for="db-fmt3">Trio</label></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <span class="qform-field-label">As-tu déjà un créneau en tête ?</span>
+              <div class="pill-group">
+                <div class="pill-option"><input type="radio" id="db-cren1" name="Créneau en tête" value="Oui, j'ai une idée de créneau"><label for="db-cren1">Oui, j'ai une idée</label></div>
+                <div class="pill-option"><input type="radio" id="db-cren2" name="Créneau en tête" value="Non, je suis flexible"><label for="db-cren2">Non, je suis flexible</label></div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+              <label for="db-creneaux" class="qform-field-label">Indique-moi 2 ou 3 créneaux qui t'arrangent *</label>
+              <textarea id="db-creneaux" name="Créneaux terrain" rows="3" placeholder="Ex : Mardi 12h15, Jeudi 18h30, Samedi matin...&#10;Je validerai la compatibilité avec mon agenda et te confirmerai sous 24h."></textarea>
+            </div>
+          </div>
         </div>
 
-        <button type="submit" class="form-submit-btn">Envoyer mon profil →</button>
-        <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.35);">Je réponds sous 24h — pas de spam, jamais.</p>
-        <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
+        <!-- ══════════════════════════════════════
+             FOOTER — RGPD + ENVOI
+             (apparaît après le choix de branche)
+        ══════════════════════════════════════ -->
+        <div class="qf-branch" id="qf-footer">
+          <div class="qform-divider"></div>
+          <div class="form-checkbox-group" style="margin-bottom:24px;">
+            <input type="checkbox" id="rgpd_consent" name="RGPD_Consent" required>
+            <label for="rgpd_consent" style="color:rgba(255,255,255,0.85);">
+              J'accepte que mes données soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" style="color:#deff9a;">politique de confidentialité</a> *
+            </label>
+          </div>
+          <button type="submit" class="form-submit-btn">Demander mon coaching →</button>
+          <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds sous 24h — pas de spam, jamais.</p>
+          <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
+        </div>
 
       </form>
     </div>
@@ -5181,38 +5363,78 @@
 
 
   <script>
-    // Variable for form submission
+    // ── Branches conditionnelles ──────────────────────────────
+    (function () {
+      var branchA  = document.getElementById('qf-branch-a');
+      var branchB  = document.getElementById('qf-branch-b');
+      var qfFooter = document.getElementById('qf-footer');
+
+      function showEl(el) {
+        el.style.display = 'block';
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () { el.classList.add('qf-active'); });
+        });
+      }
+
+      function hideEl(el) {
+        el.classList.remove('qf-active');
+        el.addEventListener('transitionend', function handler() {
+          if (!el.classList.contains('qf-active')) el.style.display = 'none';
+          el.removeEventListener('transitionend', handler);
+        });
+      }
+
+      document.querySelectorAll('input[name="Type de coaching"]').forEach(function (input) {
+        input.addEventListener('change', function () {
+          if (this.value === 'Suivi à distance') {
+            hideEl(branchB);
+            showEl(branchA);
+          } else {
+            hideEl(branchA);
+            showEl(branchB);
+          }
+          if (!qfFooter.classList.contains('qf-active')) showEl(qfFooter);
+        });
+      });
+    })();
+
+    // ── Web3Forms — envoi ─────────────────────────────────────
     var submitted = false;
-    
-    // Web3Forms submission handler
+
     const form = document.querySelector('#contactForm form');
     const formMessage = document.getElementById('form-message');
 
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
-      
+
       const formData = new FormData(form);
       const button = form.querySelector('button[type="submit"]');
       const originalText = button.textContent;
-      
+
       button.textContent = 'Envoi en cours...';
       button.disabled = true;
-      
+
       try {
         const response = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           body: formData
         });
-        
+
         const data = await response.json();
-        
+
         if (data.success) {
           formMessage.style.display = 'block';
-          formMessage.style.backgroundColor = '#d4edda';
-          formMessage.style.color = '#155724';
-          formMessage.style.border = '1px solid #c3e6cb';
-          formMessage.textContent = '✅ Merci ! Votre message a été envoyé avec succès. Réponse sous 24h.';
+          formMessage.style.backgroundColor = 'rgba(222,255,154,0.12)';
+          formMessage.style.color = '#deff9a';
+          formMessage.style.border = '1px solid rgba(222,255,154,0.3)';
+          formMessage.textContent = '✅ Reçu ! Je reviens vers toi sous 24h.';
           form.reset();
+          // Masquer les branches après envoi
+          ['qf-branch-a','qf-branch-b','qf-footer'].forEach(function(id) {
+            var el = document.getElementById(id);
+            el.classList.remove('qf-active');
+            el.style.display = 'none';
+          });
         } else {
           throw new Error('Erreur lors de l\'envoi');
         }
@@ -5221,7 +5443,7 @@
         formMessage.style.backgroundColor = '#f8d7da';
         formMessage.style.color = '#721c24';
         formMessage.style.border = '1px solid #f5c6cb';
-        formMessage.textContent = '❌ Une erreur est survenue. Veuillez réessayer ou m\'envoyer un email directement.';
+        formMessage.textContent = '❌ Une erreur est survenue. Réessaie ou écris-moi à jeremy.reding@outlook.fr';
       } finally {
         button.textContent = originalText;
         button.disabled = false;
