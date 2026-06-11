@@ -5283,7 +5283,7 @@
 
         <div class="qform-divider"></div>
 
-        <!-- MENU DÉROULANT DÉCISIF -->
+        <!-- CHOIX DÉCISIF — CARTES -->
         <div class="qform-block" style="margin-bottom:0;">
           <div class="qform-block-header">
             <span class="qform-block-num">02</span>
@@ -5292,13 +5292,21 @@
               <div class="qform-block-sub">Le formulaire s'adapte à ton choix</div>
             </div>
           </div>
-          <div class="form-group" style="margin-bottom:0;">
-            <label for="coaching-type">Quel type d'accompagnement recherches-tu ? *</label>
-            <select id="coaching-type" name="Type de coaching" required>
-              <option value="" disabled selected>— Sélectionne une option —</option>
-              <option value="Suivi à distance">Suivi personnalisé à distance (Objectif 5K / 10K / Marathon)</option>
-              <option value="Coaching terrain">Coaching terrain à La Défense</option>
-            </select>
+          <div class="qf-choice-grid">
+            <label class="qf-choice-card" for="type-a">
+              <input type="radio" id="type-a" name="Type de coaching" value="Suivi à distance" required>
+              <span class="qf-choice-dot"></span>
+              <span class="qf-choice-icon">📱</span>
+              <span class="qf-choice-title">Suivi à distance</span>
+              <span class="qf-choice-desc">Plan personnalisé · Objectif 5K / 10K / Marathon</span>
+            </label>
+            <label class="qf-choice-card" for="type-b">
+              <input type="radio" id="type-b" name="Type de coaching" value="Coaching terrain">
+              <span class="qf-choice-dot"></span>
+              <span class="qf-choice-icon">🏃</span>
+              <span class="qf-choice-title">Coaching terrain</span>
+              <span class="qf-choice-desc">Séance individuelle ou groupe · La Défense</span>
+            </label>
           </div>
         </div>
 
@@ -5501,16 +5509,18 @@
       var today = new Date().toISOString().split('T')[0];
       document.querySelectorAll('input[type="date"]').forEach(function (d) { d.min = today; });
 
-      // Sélection du type → branches
-      document.getElementById('coaching-type').addEventListener('change', function () {
-        if (this.value === 'Suivi à distance') {
-          hideEl(branchB);
-          showEl(branchA);
-        } else if (this.value === 'Coaching terrain') {
-          hideEl(branchA);
-          showEl(branchB);
-        }
-        if (!qfFinal.classList.contains('qf-active')) showEl(qfFinal);
+      // Cartes de choix → branches
+      document.querySelectorAll('input[name="Type de coaching"]').forEach(function (r) {
+        r.addEventListener('change', function () {
+          if (this.value === 'Suivi à distance') {
+            hideEl(branchB);
+            showEl(branchA);
+          } else if (this.value === 'Coaching terrain') {
+            hideEl(branchA);
+            showEl(branchB);
+          }
+          if (!qfFinal.classList.contains('qf-active')) showEl(qfFinal);
+        });
       });
 
       // Sous-questions selon l'objectif
