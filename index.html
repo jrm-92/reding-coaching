@@ -3990,6 +3990,129 @@
       color: #ffd700;
     }
 
+    /* ===== FORMULAIRE QUALIFIANT ===== */
+    .qform-intro {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .qform-eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #FF6B35;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      margin-bottom: 12px;
+    }
+    .qform-lead {
+      font-size: clamp(15px, 1.4vw, 17px);
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      margin-top: 10px;
+    }
+    .qform-block {
+      margin-bottom: 0;
+    }
+    .qform-block-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .qform-block-num {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF6B35, #ff8856);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(255,107,53,0.4);
+    }
+    .qform-block-title {
+      font-size: 17px;
+      font-weight: 800;
+      font-style: italic;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+    .qform-block-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+    .qform-divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,107,53,0.35), transparent);
+      margin: 32px 0;
+    }
+    .qform-field-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #FFE766;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .pill-option {
+      position: relative;
+    }
+    .pill-option input[type="radio"],
+    .pill-option input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .pill-option label {
+      display: inline-block;
+      padding: 8px 16px;
+      border: 1.5px solid rgba(255,255,255,0.18);
+      border-radius: 30px;
+      color: rgba(255,255,255,0.6) !important;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(255,255,255,0.04);
+      text-transform: none !important;
+      letter-spacing: 0.2px !important;
+      margin-bottom: 0 !important;
+      user-select: none;
+    }
+    .pill-option input:checked + label {
+      background: #FF6B35;
+      border-color: #FF6B35;
+      color: #fff !important;
+      box-shadow: 0 4px 14px rgba(255,107,53,0.35);
+    }
+    .pill-option label:hover {
+      border-color: rgba(255,107,53,0.55);
+      color: rgba(255,255,255,0.9) !important;
+      background: rgba(255,107,53,0.1);
+    }
+    @media (max-width: 600px) {
+      .qform-block-header { gap: 12px; }
+      .qform-block-num { width: 34px; height: 34px; font-size: 12px; }
+      .qform-block-title { font-size: 15px; }
+      .pill-option label { font-size: 13px; padding: 7px 13px; }
+    }
+
     /* =====================================================
        AMÉLIORATIONS RESPONSIVES GLOBALES
        — applique des règles génériques sur tous les écrans
@@ -4349,7 +4472,7 @@
 
         <div style="color: rgba(255,255,255,0.78); line-height: 1.9; text-align: left;">
           <p style="margin-bottom: 32px; font-size: clamp(17px, 1.6vw, 20px);">
-            Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlétisme depuis plus de 15 ans</strong> — j'ai commencé par le sprint avant de basculer vers les épreuves d'endurance.
+            Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlétisme depuis plus de 15 ans</strong> — j'ai commencé par le sprint avant de basculer vers les épreuves d'endurance avec un record personnel de 35'20" au 10K.
           </p>
           <p style="margin-bottom: 32px; font-size: clamp(17px, 1.6vw, 20px);">
             Formé et <strong style="color:#fff;">certifié par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux avec une approche basée sur l'analyse, l'écoute et l'adaptation.
@@ -4874,65 +4997,184 @@
 
   <!-- FORMULAIRE SECTION -->
   <section class="form-section" id="contactForm">
-    <h2 class="section-title">Formulaire</h2>
+
+    <div class="qform-intro">
+      <span class="qform-eyebrow">Première étape</span>
+      <h2 class="section-title" style="margin-bottom:0;">Parlons de ton projet</h2>
+      <p class="qform-lead">3 minutes pour répondre à ces questions.<br>Elles me permettent de t'adresser un premier retour vraiment personnalisé.</p>
+    </div>
+
     <div class="form-section-inner">
-      <div class="form-section-info">
-        <p>Ce formulaire te permet de me contacter <strong>pour une demande de suivi à distance ou pour du coaching terrain</strong>. Remplis les informations et décris ton besoin en détail dans le message. Je reviendrai vers toi dans les 24h. Si le formulaire ne fonctionne pas, tu peux également m'envoyer un mail à <a href="mailto:jeremy.reding@outlook.fr">jeremy.reding@outlook.fr</a>.</p>
-      </div>
       <form class="hero-form" action="https://api.web3forms.com/submit" method="POST">
-        <!-- Web3Forms Configuration -->
+
+        <!-- Web3Forms — champs techniques -->
         <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
-        <input type="hidden" name="subject" value="Nouvelle demande de coaching">
+        <input type="hidden" name="subject" value="Nouvelle demande de coaching — Reding Running">
         <input type="hidden" name="from_name" value="Reding Running">
-        <input type="checkbox" name="botcheck" style="display: none;">
+        <input type="checkbox" name="botcheck" style="display:none;">
 
-        <h3>Parlons de ton objectif.</h3>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="prenom">Prénom *</label>
-            <input type="text" id="prenom" name="Prénom" required placeholder="Ton prénom">
+        <!-- ═══════════ BLOC 01 — PROFIL ═══════════ -->
+        <div class="qform-block">
+          <div class="qform-block-header">
+            <span class="qform-block-num">01</span>
+            <div>
+              <div class="qform-block-title">Ton profil de coureur</div>
+              <div class="qform-block-sub">Pour savoir à qui je m'adresse</div>
+            </div>
           </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prenom">Prénom *</label>
+              <input type="text" id="prenom" name="Prénom" required placeholder="Ton prénom">
+            </div>
+            <div class="form-group">
+              <label for="nom">Nom *</label>
+              <input type="text" id="nom" name="Nom" required placeholder="Ton nom">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="Email" required placeholder="ton@email.com">
+            </div>
+            <div class="form-group">
+              <label for="telephone">Téléphone</label>
+              <input type="tel" id="telephone" name="Téléphone" placeholder="06 12 34 56 78">
+            </div>
+          </div>
+
           <div class="form-group">
-            <label for="nom">Nom *</label>
-            <input type="text" id="nom" name="Nom" required placeholder="Ton nom">
+            <span class="qform-field-label">Ton niveau actuel *</span>
+            <div class="pill-group">
+              <div class="pill-option"><input type="radio" id="niv1" name="Niveau" value="Débutant (moins d'1 an)" required><label for="niv1">Je débute (- d'1 an)</label></div>
+              <div class="pill-option"><input type="radio" id="niv2" name="Niveau" value="Coureur régulier"><label for="niv2">Je cours régulièrement</label></div>
+              <div class="pill-option"><input type="radio" id="niv3" name="Niveau" value="Compétiteur"><label for="niv3">Je cours en compétition</label></div>
+              <div class="pill-option"><input type="radio" id="niv4" name="Niveau" value="Reprise après pause"><label for="niv4">Je reprends après une pause</label></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <span class="qform-field-label">Volume d'entraînement actuel</span>
+            <div class="pill-group">
+              <div class="pill-option"><input type="radio" id="vol1" name="Volume hebdomadaire" value="Irrégulier"><label for="vol1">Irrégulier</label></div>
+              <div class="pill-option"><input type="radio" id="vol2" name="Volume hebdomadaire" value="1 à 2 séances/sem"><label for="vol2">1–2 séances/sem</label></div>
+              <div class="pill-option"><input type="radio" id="vol3" name="Volume hebdomadaire" value="3 à 4 séances/sem"><label for="vol3">3–4 séances/sem</label></div>
+              <div class="pill-option"><input type="radio" id="vol4" name="Volume hebdomadaire" value="5 séances+/sem"><label for="vol4">5 séances et +</label></div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <span class="qform-field-label">Type de suivi souhaité *</span>
+            <div class="pill-group" style="margin-bottom:0;">
+              <div class="pill-option"><input type="radio" id="type1" name="Type de coaching" value="Suivi à distance" required><label for="type1">Suivi à distance</label></div>
+              <div class="pill-option"><input type="radio" id="type2" name="Type de coaching" value="Coaching terrain"><label for="type2">Coaching terrain</label></div>
+              <div class="pill-option"><input type="radio" id="type3" name="Type de coaching" value="Les deux — à définir ensemble"><label for="type3">Les deux — à définir</label></div>
+            </div>
           </div>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="telephone">Téléphone *</label>
-            <input type="tel" id="telephone" name="Téléphone" required placeholder="06 12 34 56 78">
+        <div class="qform-divider"></div>
+
+        <!-- ═══════════ BLOC 02 — OBJECTIFS ═══════════ -->
+        <div class="qform-block">
+          <div class="qform-block-header">
+            <span class="qform-block-num">02</span>
+            <div>
+              <div class="qform-block-title">Ton objectif</div>
+              <div class="qform-block-sub">Pour que le plan soit construit autour de toi</div>
+            </div>
           </div>
+
           <div class="form-group">
-            <label for="email">Mail *</label>
-            <input type="email" id="email" name="Email" required placeholder="ton@email.com">
+            <span class="qform-field-label">Prochaine distance cible</span>
+            <div class="pill-group">
+              <div class="pill-option"><input type="radio" id="dist1" name="Distance cible" value="5 km"><label for="dist1">5 km</label></div>
+              <div class="pill-option"><input type="radio" id="dist2" name="Distance cible" value="10 km"><label for="dist2">10 km</label></div>
+              <div class="pill-option"><input type="radio" id="dist3" name="Distance cible" value="Semi-marathon"><label for="dist3">Semi-marathon</label></div>
+              <div class="pill-option"><input type="radio" id="dist4" name="Distance cible" value="Marathon"><label for="dist4">Marathon</label></div>
+              <div class="pill-option"><input type="radio" id="dist5" name="Distance cible" value="Trail"><label for="dist5">Trail</label></div>
+              <div class="pill-option"><input type="radio" id="dist6" name="Distance cible" value="Pas de compétition prévue"><label for="dist6">Pas de compétition</label></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <span class="qform-field-label">Objectif principal *</span>
+            <div class="pill-group">
+              <div class="pill-option"><input type="radio" id="obj1" name="Objectif principal" value="Finir une course" required><label for="obj1">Finir une course</label></div>
+              <div class="pill-option"><input type="radio" id="obj2" name="Objectif principal" value="Améliorer mon chrono"><label for="obj2">Améliorer mon chrono</label></div>
+              <div class="pill-option"><input type="radio" id="obj3" name="Objectif principal" value="Reprendre progressivement"><label for="obj3">Reprendre progressivement</label></div>
+              <div class="pill-option"><input type="radio" id="obj4" name="Objectif principal" value="Préparer une compétition"><label for="obj4">Préparer une compétition</label></div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <span class="qform-field-label">Horizon de temps</span>
+            <div class="pill-group">
+              <div class="pill-option"><input type="radio" id="hor1" name="Horizon" value="Moins de 3 mois"><label for="hor1">Moins de 3 mois</label></div>
+              <div class="pill-option"><input type="radio" id="hor2" name="Horizon" value="3 à 6 mois"><label for="hor2">3 à 6 mois</label></div>
+              <div class="pill-option"><input type="radio" id="hor3" name="Horizon" value="6 à 12 mois"><label for="hor3">6 à 12 mois</label></div>
+              <div class="pill-option"><input type="radio" id="hor4" name="Horizon" value="Pas de date précise"><label for="hor4">Pas de date précise</label></div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="message" class="qform-field-label">Ce qui te freine aujourd'hui *</label>
+            <textarea id="message" name="Message" required rows="3" placeholder="Blessures récurrentes, manque de temps, plateau de progression, motivation... Dis-moi tout."></textarea>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="type_coaching">Type de coaching *</label>
-          <select id="type_coaching" name="Type de coaching" required>
-            <option value="">-- Sélectionne une option --</option>
-            <option value="Suivi personnalisé">Suivi à distance</option>
-            <option value="Coaching Solo/Duo-Trio">Coaching terrain</option>
-          </select>
+        <div class="qform-divider"></div>
+
+        <!-- ═══════════ BLOC 03 — DISPONIBILITÉS ═══════════ -->
+        <div class="qform-block">
+          <div class="qform-block-header">
+            <span class="qform-block-num">03</span>
+            <div>
+              <div class="qform-block-title">Tes disponibilités</div>
+              <div class="qform-block-sub">Pour qu'on trouve le bon rythme ensemble</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <span class="qform-field-label">Créneaux disponibles (plusieurs choix possibles)</span>
+            <div class="pill-group">
+              <div class="pill-option"><input type="checkbox" id="cr1" name="Créneaux" value="En semaine le matin (avant 9h)"><label for="cr1">En semaine — matin</label></div>
+              <div class="pill-option"><input type="checkbox" id="cr2" name="Créneaux" value="En semaine le midi (12h–14h)"><label for="cr2">En semaine — midi</label></div>
+              <div class="pill-option"><input type="checkbox" id="cr3" name="Créneaux" value="En semaine le soir (après 18h)"><label for="cr3">En semaine — soir</label></div>
+              <div class="pill-option"><input type="checkbox" id="cr4" name="Créneaux" value="Samedi matin"><label for="cr4">Samedi matin</label></div>
+              <div class="pill-option"><input type="checkbox" id="cr5" name="Créneaux" value="Samedi après-midi"><label for="cr5">Samedi après-midi</label></div>
+              <div class="pill-option"><input type="checkbox" id="cr6" name="Créneaux" value="Dimanche"><label for="cr6">Dimanche</label></div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <span class="qform-field-label">Nombre de séances visé par semaine</span>
+            <div class="pill-group" style="margin-bottom:0;">
+              <div class="pill-option"><input type="radio" id="nb1" name="Séances par semaine" value="2 séances/sem"><label for="nb1">2 séances</label></div>
+              <div class="pill-option"><input type="radio" id="nb2" name="Séances par semaine" value="3 séances/sem"><label for="nb2">3 séances</label></div>
+              <div class="pill-option"><input type="radio" id="nb3" name="Séances par semaine" value="4 séances/sem"><label for="nb3">4 séances</label></div>
+              <div class="pill-option"><input type="radio" id="nb4" name="Séances par semaine" value="5 séances+/sem"><label for="nb4">5 et +</label></div>
+              <div class="pill-option"><input type="radio" id="nb5" name="Séances par semaine" value="À définir ensemble"><label for="nb5">À définir ensemble</label></div>
+            </div>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="objectifs">Ton message *</label>
-          <textarea id="objectifs" name="Message" required placeholder="Écris ton message..." rows="3"></textarea>
-        </div>
+        <div class="qform-divider"></div>
 
-        <div class="form-checkbox-group">
+        <!-- RGPD + Envoi -->
+        <div class="form-checkbox-group" style="margin-bottom:24px;">
           <input type="checkbox" id="rgpd_consent" name="RGPD_Consent" required>
-          <label for="rgpd_consent" style="color: rgba(255, 255, 255, 0.9);">
-            J'accepte que mes données personnelles soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" style="color: #ffffff;">politique de confidentialité</a> *
+          <label for="rgpd_consent" style="color:rgba(255,255,255,0.9);">
+            J'accepte que mes données soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" style="color:#FFE766;">politique de confidentialité</a> *
           </label>
         </div>
 
-        <button type="submit" class="form-submit-btn">Envoyer ma demande</button>
-        <p id="form-message" style="display: none; margin-top: 15px; padding: 12px; border-radius: 8px; text-align: center; font-weight: 600;"></p>
+        <button type="submit" class="form-submit-btn">Envoyer mon profil →</button>
+        <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.35);">Je réponds sous 24h — pas de spam, jamais.</p>
+        <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
+
       </form>
     </div>
   </section>
