@@ -4259,6 +4259,81 @@
       .qf-choice-card:has(input:checked) .qf-choice-dot { transform: translateY(-50%); }
     }
 
+    /* ===== FORMULAIRE DUAL-PATH — OVERRIDES DARK ===== */
+    /* Inputs sombres */
+    .qf-form .form-group input,
+    .qf-form .form-group textarea,
+    .qf-form .form-group select {
+      background: rgba(255, 255, 255, 0.055);
+      color: rgba(255, 255, 255, 0.88);
+      border: 1.5px solid rgba(255, 255, 255, 0.13);
+      color-scheme: dark;
+    }
+    .qf-form .form-group input::placeholder,
+    .qf-form .form-group textarea::placeholder {
+      color: rgba(255, 255, 255, 0.25);
+      font-weight: 400;
+    }
+    .qf-form .form-group input:focus,
+    .qf-form .form-group textarea:focus,
+    .qf-form .form-group select:focus {
+      background: rgba(222, 255, 154, 0.07);
+    }
+    /* Select sombre avec flèche lime */
+    .qf-form .form-group select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23deff9a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 12px;
+      padding-right: 38px;
+      cursor: pointer;
+    }
+    .qf-form .form-group select option {
+      background: #0d1630;
+      color: rgba(255, 255, 255, 0.88);
+    }
+    /* Alerte GPS */
+    .qf-alert {
+      display: none;
+      padding: 13px 16px;
+      border-radius: 10px;
+      background: rgba(255, 107, 53, 0.1);
+      border: 1px solid rgba(255, 107, 53, 0.4);
+      color: #ff8c5a;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.6;
+      margin-top: 12px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .qf-alert.qf-active { opacity: 1; transform: translateY(0); }
+    /* Blocs créneaux */
+    .qf-slot-block {
+      background: rgba(222, 255, 154, 0.04);
+      border: 1px solid rgba(222, 255, 154, 0.1);
+      border-radius: 12px;
+      padding: 16px 16px 8px;
+      margin-bottom: 12px;
+    }
+    .qf-slot-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.38);
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      margin-bottom: 10px;
+    }
+    /* Objective pills — légèrement plus grandes */
+    .qf-form .pill-option.pill-lg label {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+
     /* =====================================================
        AMÉLIORATIONS RESPONSIVES GLOBALES
        — applique des règles génériques sur tous les écrans
@@ -5147,7 +5222,7 @@
     <div style="text-align:center;margin-bottom:48px;">
       <span style="display:inline-block;font-size:11px;font-weight:700;color:#deff9a;text-transform:uppercase;letter-spacing:2.5px;margin-bottom:12px;">Première étape</span>
       <h2 class="section-title" style="color:#deff9a;margin-bottom:0;">Demande de coaching</h2>
-      <p style="font-size:clamp(14px,1.3vw,16px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Choisis ton type d'accompagnement — le formulaire s'adapte à ton projet.</p>
+      <p style="font-size:clamp(14px,1.3vw,16px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Sélectionne ton besoin — le formulaire s'adapte instantanément.</p>
     </div>
 
     <div class="form-section-inner">
@@ -5181,7 +5256,7 @@
               <input type="text" id="nom" name="Nom" required placeholder="Ton nom">
             </div>
           </div>
-          <div class="form-row">
+          <div class="form-row" style="margin-bottom:0;">
             <div class="form-group">
               <label for="email">Email *</label>
               <input type="email" id="email" name="Email" required placeholder="ton@email.com">
@@ -5195,31 +5270,22 @@
 
         <div class="qform-divider"></div>
 
-        <!-- QUESTION DÉCISIVE -->
+        <!-- MENU DÉROULANT DÉCISIF -->
         <div class="qform-block" style="margin-bottom:0;">
           <div class="qform-block-header">
             <span class="qform-block-num">02</span>
             <div>
-              <div class="qform-block-title">Quel accompagnement recherches-tu ?</div>
-              <div class="qform-block-sub">Le formulaire s'adapte instantanément à ton choix</div>
+              <div class="qform-block-title">Ton besoin</div>
+              <div class="qform-block-sub">Le formulaire s'adapte à ton choix</div>
             </div>
           </div>
-
-          <div class="qf-choice-grid">
-            <label class="qf-choice-card" for="type-a">
-              <input type="radio" id="type-a" name="Type de coaching" value="Suivi à distance" required>
-              <span class="qf-choice-dot"></span>
-              <span class="qf-choice-icon">📱</span>
-              <span class="qf-choice-title">Suivi à distance</span>
-              <span class="qf-choice-desc">Plan personnalisé · Objectif 5K / 10K / Marathon</span>
-            </label>
-            <label class="qf-choice-card" for="type-b">
-              <input type="radio" id="type-b" name="Type de coaching" value="Coaching terrain">
-              <span class="qf-choice-dot"></span>
-              <span class="qf-choice-icon">🏃</span>
-              <span class="qf-choice-title">Coaching terrain</span>
-              <span class="qf-choice-desc">Séance individuelle ou groupe · La Défense</span>
-            </label>
+          <div class="form-group" style="margin-bottom:0;">
+            <label for="coaching-type">Quel type d'accompagnement recherches-tu ? *</label>
+            <select id="coaching-type" name="Type de coaching" required>
+              <option value="" disabled selected>— Sélectionne une option —</option>
+              <option value="Suivi à distance">Suivi personnalisé à distance (Objectif 5K / 10K / Marathon)</option>
+              <option value="Coaching terrain">Coaching terrain à La Défense</option>
+            </select>
           </div>
         </div>
 
@@ -5229,7 +5295,7 @@
         <div class="qf-branch" id="qf-branch-a">
           <div class="qform-divider"></div>
 
-          <div class="qform-block">
+          <div class="qform-block" style="margin-bottom:0;">
             <div class="qform-block-header">
               <span class="qform-block-num">03</span>
               <div>
@@ -5239,63 +5305,23 @@
             </div>
 
             <div class="form-group">
-              <span class="qform-field-label">Prochaine distance cible</span>
+              <span class="qform-field-label">Ton objectif principal *</span>
               <div class="pill-group">
-                <div class="pill-option"><input type="radio" id="da-dist1" name="Distance cible" value="5 km"><label for="da-dist1">5 km</label></div>
-                <div class="pill-option"><input type="radio" id="da-dist2" name="Distance cible" value="10 km"><label for="da-dist2">10 km</label></div>
-                <div class="pill-option"><input type="radio" id="da-dist3" name="Distance cible" value="Semi-marathon"><label for="da-dist3">Semi-marathon</label></div>
-                <div class="pill-option"><input type="radio" id="da-dist4" name="Distance cible" value="Marathon"><label for="da-dist4">Marathon</label></div>
-                <div class="pill-option"><input type="radio" id="da-dist5" name="Distance cible" value="Trail"><label for="da-dist5">Trail</label></div>
-                <div class="pill-option"><input type="radio" id="da-dist6" name="Distance cible" value="Pas de compétition"><label for="da-dist6">Pas de compétition</label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="obj1" name="Objectif principal" value="Relever un défi — finir ma première course"><label for="obj1">🏁 Relever un défi<br><small style="font-weight:500;opacity:.7;">Finir ma première course</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="obj2" name="Objectif principal" value="Battre mon record — performance"><label for="obj2">⚡ Battre mon record<br><small style="font-weight:500;opacity:.7;">Améliorer mes chrono</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="obj3" name="Objectif principal" value="Gagner en endurance — courir plus longtemps"><label for="obj3">🌱 Gagner en endurance<br><small style="font-weight:500;opacity:.7;">Courir plus longtemps</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="obj4" name="Objectif principal" value="M'entretenir — santé et bien-être"><label for="obj4">💚 M'entretenir<br><small style="font-weight:500;opacity:.7;">Santé & bien-être</small></label></div>
               </div>
             </div>
 
-            <div class="form-group">
-              <span class="qform-field-label">Ton objectif principal</span>
-              <div class="pill-group">
-                <div class="pill-option"><input type="radio" id="da-obj1" name="Objectif" value="Finir une course"><label for="da-obj1">Finir une course</label></div>
-                <div class="pill-option"><input type="radio" id="da-obj2" name="Objectif" value="Améliorer mon chrono"><label for="da-obj2">Améliorer mon chrono</label></div>
-                <div class="pill-option"><input type="radio" id="da-obj3" name="Objectif" value="Reprendre progressivement"><label for="da-obj3">Reprendre progressivement</label></div>
-                <div class="pill-option"><input type="radio" id="da-obj4" name="Objectif" value="Préparer une compétition"><label for="da-obj4">Préparer une compétition</label></div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <span class="qform-field-label">Montre GPS ?</span>
-                <div class="pill-group" style="margin-bottom:0;">
-                  <div class="pill-option"><input type="radio" id="da-gps1" name="Montre GPS" value="Oui, j'ai une montre GPS"><label for="da-gps1">Oui</label></div>
-                  <div class="pill-option"><input type="radio" id="da-gps2" name="Montre GPS" value="Non, pas de montre GPS"><label for="da-gps2">Non</label></div>
-                </div>
-              </div>
-              <div class="form-group">
-                <span class="qform-field-label">Tu utilises Nolio ?</span>
-                <div class="pill-group" style="margin-bottom:0;">
-                  <div class="pill-option"><input type="radio" id="da-nolio1" name="Nolio" value="Oui, j'utilise Nolio"><label for="da-nolio1">Oui</label></div>
-                  <div class="pill-option"><input type="radio" id="da-nolio2" name="Nolio" value="Non, pas Nolio"><label for="da-nolio2">Non</label></div>
-                  <div class="pill-option"><input type="radio" id="da-nolio3" name="Nolio" value="Je ne connais pas Nolio"><label for="da-nolio3">Je ne connais pas</label></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="qform-divider"></div>
-
-          <div class="qform-block" style="margin-bottom:0;">
-            <div class="qform-block-header">
-              <span class="qform-block-num">04</span>
-              <div>
-                <div class="qform-block-title">Appel de découverte</div>
-                <div class="qform-block-sub">Tes créneaux préférés pour un appel de 20 min</div>
-              </div>
-            </div>
             <div class="form-group" style="margin-bottom:0;">
-              <span class="qform-field-label">Créneaux qui t'arrangent (plusieurs choix)</span>
+              <span class="qform-field-label">Possèdes-tu une montre GPS ?</span>
               <div class="pill-group" style="margin-bottom:0;">
-                <div class="pill-option"><input type="checkbox" id="da-cr1" name="Créneaux appel" value="En semaine le midi (12h–14h)"><label for="da-cr1">En semaine — midi</label></div>
-                <div class="pill-option"><input type="checkbox" id="da-cr2" name="Créneaux appel" value="En semaine après 18h"><label for="da-cr2">En semaine — soir</label></div>
-                <div class="pill-option"><input type="checkbox" id="da-cr3" name="Créneaux appel" value="Samedi matin"><label for="da-cr3">Samedi matin</label></div>
-                <div class="pill-option"><input type="checkbox" id="da-cr4" name="Créneaux appel" value="Samedi après-midi"><label for="da-cr4">Samedi après-midi</label></div>
+                <div class="pill-option"><input type="radio" id="gps-oui" name="Montre GPS" value="Oui"><label for="gps-oui">Oui</label></div>
+                <div class="pill-option"><input type="radio" id="gps-non" name="Montre GPS" value="Non"><label for="gps-non">Non</label></div>
+              </div>
+              <div class="qf-alert" id="qf-gps-alert">
+                ⚠️ <strong>Attention :</strong> une montre GPS est indispensable pour permettre l'analyse de tes données via Nolio dans le cadre du suivi à distance.
               </div>
             </div>
           </div>
@@ -5307,52 +5333,78 @@
         <div class="qf-branch" id="qf-branch-b">
           <div class="qform-divider"></div>
 
-          <div class="qform-block">
+          <div class="qform-block" style="margin-bottom:0;">
             <div class="qform-block-header">
               <span class="qform-block-num">03</span>
               <div>
-                <div class="qform-block-title">Ta séance</div>
-                <div class="qform-block-sub">Pour que je prépare la bonne formule</div>
+                <div class="qform-block-title">Ta séance terrain</div>
+                <div class="qform-block-sub">Format et créneaux — je valide la compatibilité</div>
               </div>
             </div>
 
             <div class="form-group">
               <span class="qform-field-label">Format souhaité</span>
               <div class="pill-group">
-                <div class="pill-option"><input type="radio" id="db-fmt1" name="Format séance" value="Individuel (Solo)"><label for="db-fmt1">Individuel</label></div>
-                <div class="pill-option"><input type="radio" id="db-fmt2" name="Format séance" value="Duo (2 personnes)"><label for="db-fmt2">Duo</label></div>
-                <div class="pill-option"><input type="radio" id="db-fmt3" name="Format séance" value="Trio (3 personnes)"><label for="db-fmt3">Trio</label></div>
+                <div class="pill-option"><input type="radio" id="fmt1" name="Format séance" value="Individuel"><label for="fmt1">Individuel</label></div>
+                <div class="pill-option"><input type="radio" id="fmt2" name="Format séance" value="Duo (2 pers.)"><label for="fmt2">Duo</label></div>
+                <div class="pill-option"><input type="radio" id="fmt3" name="Format séance" value="Trio (3 pers.)"><label for="fmt3">Trio</label></div>
               </div>
             </div>
 
-            <div class="form-group">
-              <span class="qform-field-label">As-tu déjà un créneau en tête ?</span>
-              <div class="pill-group">
-                <div class="pill-option"><input type="radio" id="db-cren1" name="Créneau en tête" value="Oui, j'ai une idée de créneau"><label for="db-cren1">Oui, j'ai une idée</label></div>
-                <div class="pill-option"><input type="radio" id="db-cren2" name="Créneau en tête" value="Non, je suis flexible"><label for="db-cren2">Non, je suis flexible</label></div>
+            <span class="qform-field-label" style="display:block;margin-bottom:12px;">Propose-moi 2 créneaux — je confirme sous 24h</span>
+
+            <div class="qf-slot-block">
+              <span class="qf-slot-label">Créneau 1 — Préféré</span>
+              <div class="form-row" style="margin-bottom:0;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="slot1-date">Date</label>
+                  <input type="date" id="slot1-date" name="Créneau 1 — Date">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="slot1-time">Heure</label>
+                  <input type="time" id="slot1-time" name="Créneau 1 — Heure" min="07:00" max="21:00">
+                </div>
               </div>
             </div>
 
-            <div class="form-group" style="margin-bottom:0;">
-              <label for="db-creneaux" class="qform-field-label">Indique-moi 2 ou 3 créneaux qui t'arrangent *</label>
-              <textarea id="db-creneaux" name="Créneaux terrain" rows="3" placeholder="Ex : Mardi 12h15, Jeudi 18h30, Samedi matin...&#10;Je validerai la compatibilité avec mon agenda et te confirmerai sous 24h."></textarea>
+            <div class="qf-slot-block" style="margin-bottom:0;">
+              <span class="qf-slot-label">Créneau 2 — Alternatif</span>
+              <div class="form-row" style="margin-bottom:0;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="slot2-date">Date</label>
+                  <input type="date" id="slot2-date" name="Créneau 2 — Date">
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="slot2-time">Heure</label>
+                  <input type="time" id="slot2-time" name="Créneau 2 — Heure" min="07:00" max="21:00">
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- ══════════════════════════════════════
-             FOOTER — RGPD + ENVOI
-             (apparaît après le choix de branche)
+             SECTION FINALE — COMMUNE
         ══════════════════════════════════════ -->
-        <div class="qf-branch" id="qf-footer">
+        <div class="qf-branch" id="qf-final">
           <div class="qform-divider"></div>
+
+          <div class="qform-block" style="margin-bottom:0;">
+            <div class="form-group">
+              <label for="message">Message ou précisions <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(optionnel)</span></label>
+              <textarea id="message" name="Message" rows="3" placeholder="Blessure récente, contrainte particulière, question... tout est utile."></textarea>
+            </div>
+          </div>
+
+          <div class="qform-divider"></div>
+
           <div class="form-checkbox-group" style="margin-bottom:24px;">
             <input type="checkbox" id="rgpd_consent" name="RGPD_Consent" required>
-            <label for="rgpd_consent" style="color:rgba(255,255,255,0.85);">
+            <label for="rgpd_consent" style="color:rgba(255,255,255,0.8);">
               J'accepte que mes données soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" style="color:#deff9a;">politique de confidentialité</a> *
             </label>
           </div>
-          <button type="submit" class="form-submit-btn">Demander mon coaching →</button>
+          <button type="submit" class="form-submit-btn">Envoyer ma demande →</button>
           <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds sous 24h — pas de spam, jamais.</p>
           <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
         </div>
@@ -5363,11 +5415,12 @@
 
 
   <script>
-    // ── Branches conditionnelles ──────────────────────────────
+    // ── Formulaire Dual-Path ──────────────────────────────────
     (function () {
       var branchA  = document.getElementById('qf-branch-a');
       var branchB  = document.getElementById('qf-branch-b');
-      var qfFooter = document.getElementById('qf-footer');
+      var qfFinal  = document.getElementById('qf-final');
+      var gpsAlert = document.getElementById('qf-gps-alert');
 
       function showEl(el) {
         el.style.display = 'block';
@@ -5375,25 +5428,45 @@
           requestAnimationFrame(function () { el.classList.add('qf-active'); });
         });
       }
-
       function hideEl(el) {
         el.classList.remove('qf-active');
-        el.addEventListener('transitionend', function handler() {
+        el.addEventListener('transitionend', function h() {
           if (!el.classList.contains('qf-active')) el.style.display = 'none';
-          el.removeEventListener('transitionend', handler);
+          el.removeEventListener('transitionend', h);
         });
       }
 
-      document.querySelectorAll('input[name="Type de coaching"]').forEach(function (input) {
-        input.addEventListener('change', function () {
-          if (this.value === 'Suivi à distance') {
-            hideEl(branchB);
-            showEl(branchA);
+      // Initialise les date min = aujourd'hui
+      var today = new Date().toISOString().split('T')[0];
+      document.querySelectorAll('input[type="date"]').forEach(function (d) { d.min = today; });
+
+      // Sélection du type → branches
+      document.getElementById('coaching-type').addEventListener('change', function () {
+        if (this.value === 'Suivi à distance') {
+          hideEl(branchB);
+          showEl(branchA);
+        } else if (this.value === 'Coaching terrain') {
+          hideEl(branchA);
+          showEl(branchB);
+        }
+        if (!qfFinal.classList.contains('qf-active')) showEl(qfFinal);
+      });
+
+      // Alerte GPS montre
+      document.querySelectorAll('input[name="Montre GPS"]').forEach(function (r) {
+        r.addEventListener('change', function () {
+          if (this.value === 'Non') {
+            gpsAlert.style.display = 'block';
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () { gpsAlert.classList.add('qf-active'); });
+            });
           } else {
-            hideEl(branchA);
-            showEl(branchB);
+            gpsAlert.classList.remove('qf-active');
+            gpsAlert.addEventListener('transitionend', function h() {
+              if (!gpsAlert.classList.contains('qf-active')) gpsAlert.style.display = 'none';
+              gpsAlert.removeEventListener('transitionend', h);
+            });
           }
-          if (!qfFooter.classList.contains('qf-active')) showEl(qfFooter);
         });
       });
     })();
@@ -5429,12 +5502,12 @@
           formMessage.style.border = '1px solid rgba(222,255,154,0.3)';
           formMessage.textContent = '✅ Reçu ! Je reviens vers toi sous 24h.';
           form.reset();
-          // Masquer les branches après envoi
-          ['qf-branch-a','qf-branch-b','qf-footer'].forEach(function(id) {
+          // Masquer les branches et l'alerte après envoi
+          ['qf-branch-a','qf-branch-b','qf-final','qf-gps-alert'].forEach(function(id) {
             var el = document.getElementById(id);
-            el.classList.remove('qf-active');
-            el.style.display = 'none';
+            if (el) { el.classList.remove('qf-active'); el.style.display = 'none'; }
           });
+          document.getElementById('coaching-type').value = '';
         } else {
           throw new Error('Erreur lors de l\'envoi');
         }
