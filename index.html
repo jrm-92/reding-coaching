@@ -1850,20 +1850,10 @@
     }
 
     /* ===== SÉANCES TERRAINS — STRUCTURE RESPONSIVE ===== */
-    .seances-layout {
-      display: flex;
-      align-items: center;
-      gap: 50px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
     .seances-text-col {
-      flex: 1 1 360px;
-      min-width: 0;
-      max-width: 480px;
       text-align: left;
+      max-width: 700px;
+      margin: 10px auto 36px;
     }
 
     .seances-intro {
@@ -1883,7 +1873,7 @@
 
     .seances-list li {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 12px;
       padding: 11px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1900,13 +1890,14 @@
       font-weight: 900;
       font-size: 18px;
       flex-shrink: 0;
+      padding-top: 1px;
+      line-height: 1.55;
     }
 
     .seances-cards-col {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
-      flex-shrink: 0;
       margin-bottom: 60px;
     }
 
@@ -2231,28 +2222,16 @@
       .solo-duo-section {
         padding: 80px 30px;
       }
-      .seances-layout {
-        gap: 40px;
-      }
       .seances-cards-col {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         margin-bottom: 20px;
-        align-self: center;
       }
     }
 
     @media (max-width: 768px) {
-      .seances-layout {
-        gap: 32px;
-      }
-      .seances-text-col {
-        flex: 1 1 100%;
-        max-width: 100%;
-      }
       .seances-cards-col {
         grid-template-columns: repeat(2, 1fr);
         width: 100%;
-        justify-content: center;
         margin-bottom: 0;
       }
       .seances-price-card {
@@ -4606,6 +4585,200 @@
         background: #ff7a47;
       }
     }
+
+    /* ===== COACHING TERRAIN — REDESIGN ===== */
+    .ct-hero { text-align: center; padding-bottom: 72px; }
+
+    .ct-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.25);
+      color: #FF6B35; font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 2.5px;
+      padding: 7px 18px; border-radius: 99px; margin-bottom: 20px;
+    }
+    .ct-eyebrow::before {
+      content: ''; width: 6px; height: 6px; background: #FF6B35;
+      border-radius: 50%; animation: pulse-badge 2s ease-in-out infinite;
+    }
+
+    .ct-title {
+      font-size: clamp(40px, 5.5vw, 68px); font-weight: 900; font-style: italic;
+      text-transform: uppercase; letter-spacing: -0.02em;
+      color: #ffffff; line-height: 1; margin-bottom: 16px;
+    }
+
+    .ct-subtitle {
+      font-size: clamp(16px, 1.6vw, 19px); color: rgba(255,255,255,0.6);
+      font-weight: 400; line-height: 1.65; margin-bottom: 60px;
+      max-width: 540px; margin-left: auto; margin-right: auto;
+    }
+
+    .ct-cards-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 20px; max-width: 1160px; margin: 0 auto;
+    }
+
+    .ct-card {
+      position: relative; border-radius: 20px; padding: 28px 22px 24px;
+      display: flex; flex-direction: column; overflow: hidden;
+      transition: transform 0.35s cubic-bezier(.2,.8,.4,1), box-shadow 0.35s ease;
+    }
+    .ct-card:hover { transform: translateY(-10px); }
+    .ct-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .ct-card--individuel {
+      background: rgba(255,107,53,0.09); border: 1px solid rgba(255,107,53,0.22);
+    }
+    .ct-card--individuel:hover { box-shadow: 0 32px 64px rgba(255,107,53,0.25); }
+    .ct-card--individuel::before { background: linear-gradient(90deg,#FF6B35,#ff8856); }
+
+    .ct-card--duo {
+      background: rgba(255,231,102,0.07); border: 1px solid rgba(255,231,102,0.2);
+    }
+    .ct-card--duo:hover { box-shadow: 0 32px 64px rgba(255,231,102,0.2); }
+    .ct-card--duo::before { background: linear-gradient(90deg,#FFE766,#ffd700); }
+
+    .ct-card--trio {
+      background: rgba(52,211,153,0.07); border: 1px solid rgba(52,211,153,0.2);
+    }
+    .ct-card--trio:hover { box-shadow: 0 32px 64px rgba(52,211,153,0.2); }
+    .ct-card--trio::before { background: linear-gradient(90deg,#34D399,#10b981); }
+
+    .ct-card--groupe {
+      background: rgba(18,130,162,0.09); border: 1px solid rgba(18,130,162,0.25);
+    }
+    .ct-card--groupe:hover { box-shadow: 0 32px 64px rgba(74,184,216,0.2); }
+    .ct-card--groupe::before { background: linear-gradient(90deg,#4AB8D8,#0091B8); }
+
+    .ct-card-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; margin-bottom: 18px;
+    }
+    .ct-card--individuel .ct-card-label { color: #FF6B35; }
+    .ct-card--duo .ct-card-label { color: #FFE766; }
+    .ct-card--trio .ct-card-label { color: #34D399; }
+    .ct-card--groupe .ct-card-label { color: #4AB8D8; }
+
+    .ct-price {
+      font-size: clamp(52px, 5vw, 70px); font-weight: 900; font-style: italic;
+      line-height: 1; margin-bottom: 4px;
+    }
+    .ct-card--individuel .ct-price { color: #FF6B35; }
+    .ct-card--duo .ct-price { color: #FFE766; }
+    .ct-card--trio .ct-price { color: #34D399; }
+    .ct-card--groupe .ct-price { color: #4AB8D8; }
+
+    .ct-price-unit {
+      font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.45);
+      margin-bottom: 26px; letter-spacing: 0.3px;
+    }
+
+    .ct-divider {
+      height: 1px; background: rgba(255,255,255,0.07);
+      margin-bottom: 20px; border: none;
+    }
+
+    .ct-features {
+      list-style: none; padding: 0; margin: 0 0 26px; flex: 1;
+      display: flex; flex-direction: column; gap: 9px;
+    }
+    .ct-features li {
+      display: flex; align-items: flex-start; gap: 9px;
+      font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.5;
+      text-align: left;
+    }
+    .ct-check {
+      flex-shrink: 0; width: 16px; height: 16px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 900; margin-top: 1px;
+    }
+    .ct-card--individuel .ct-check { background: rgba(255,107,53,0.2); color: #FF6B35; }
+    .ct-card--duo .ct-check { background: rgba(255,231,102,0.2); color: #FFE766; }
+    .ct-card--trio .ct-check { background: rgba(52,211,153,0.2); color: #34D399; }
+    .ct-card--groupe .ct-check { background: rgba(74,184,216,0.2); color: #4AB8D8; }
+
+    .ct-card-cta {
+      display: block; text-align: center; padding: 13px 18px;
+      border-radius: 12px; text-decoration: none; font-weight: 700;
+      font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
+      transition: all 0.3s ease; margin-top: auto;
+    }
+    .ct-card--individuel .ct-card-cta { background: #FF6B35; color: #fff; box-shadow: 0 4px 18px rgba(255,107,53,0.35); }
+    .ct-card--individuel .ct-card-cta:hover { background: #ff7a47; box-shadow: 0 8px 28px rgba(255,107,53,0.55); }
+    .ct-card--duo .ct-card-cta { background: rgba(255,231,102,0.12); color: #FFE766; border: 1px solid rgba(255,231,102,0.3); }
+    .ct-card--duo .ct-card-cta:hover { background: rgba(255,231,102,0.22); }
+    .ct-card--trio .ct-card-cta { background: rgba(52,211,153,0.12); color: #34D399; border: 1px solid rgba(52,211,153,0.3); }
+    .ct-card--trio .ct-card-cta:hover { background: rgba(52,211,153,0.22); }
+    .ct-card--groupe .ct-card-cta { background: rgba(74,184,216,0.12); color: #4AB8D8; border: 1px solid rgba(74,184,216,0.3); }
+    .ct-card--groupe .ct-card-cta:hover { background: rgba(74,184,216,0.22); }
+
+    /* Section 2 — Ce qui est inclus */
+    .ct-includes {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 80px; margin-top: 80px; text-align: center;
+    }
+    .ct-section-title {
+      font-size: clamp(26px, 3vw, 38px); font-weight: 900; font-style: italic;
+      text-transform: uppercase; letter-spacing: -0.01em;
+      color: #FF6B35; margin-bottom: 48px;
+    }
+    .ct-section-title::after {
+      content: ''; display: block; width: 48px; height: 3px;
+      background: linear-gradient(90deg, transparent, #FF6B35, transparent);
+      margin: 10px auto 0; border-radius: 2px;
+    }
+    .ct-includes-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 16px; max-width: 1100px; margin: 0 auto;
+    }
+    .ct-include-item {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px; padding: 28px 14px;
+      transition: all 0.3s ease;
+    }
+    .ct-include-item:hover {
+      background: rgba(255,107,53,0.07); border-color: rgba(255,107,53,0.2);
+      transform: translateY(-4px);
+    }
+    .ct-include-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+    .ct-include-label {
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,0.8); line-height: 1.4;
+    }
+
+    /* Section 3 — Zone d'intervention */
+    .ct-zone {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 80px; margin-top: 80px; text-align: center;
+    }
+    .ct-zone-text {
+      font-size: clamp(15px, 1.4vw, 17px); color: rgba(255,255,255,0.6);
+      margin-bottom: 32px; line-height: 1.6;
+    }
+    .ct-zone-text strong { color: rgba(255,255,255,0.9); }
+
+    #seances-map {
+      width: 100%; height: 380px; border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(255,107,53,0.2);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+
+    /* Responsive CT */
+    @media (max-width: 1024px) {
+      .ct-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .ct-includes-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .ct-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .ct-price { font-size: 48px; }
+      .ct-includes-grid { grid-template-columns: repeat(2, 1fr); }
+      .ct-includes, .ct-zone { padding-top: 60px; margin-top: 60px; }
+    }
+    @media (max-width: 480px) {
+      .ct-cards-grid { grid-template-columns: 1fr; }
+      .ct-includes-grid { grid-template-columns: repeat(2, 1fr); }
+    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 
@@ -4737,7 +4910,7 @@
           <img src="photo_10k_jo.jpg" alt="Jérémy Reding - 10K JO · 35'20&quot;">
           <div class="hero-img-badge">
             <div class="hero-img-badge-dot"></div>
-            <span class="hero-img-badge-text">Coach Running</span>
+            <span class="hero-img-badge-text">10k pour tous - JO 2024</span>
           </div>
         </div>
       </div>
@@ -4773,7 +4946,7 @@
             Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlétisme depuis plus de 15 ans</strong> — j'ai commencé par le sprint avant de basculer vers les épreuves d'endurance avec un record personnel de 35'20" au 10K.
           </p>
           <p style="margin-bottom: 32px; font-size: clamp(17px, 1.6vw, 20px);">
-            Formé et <strong style="color:#fff;">certifié par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux avec une approche basée sur l'analyse, l'écoute et l'adaptation.
+             <strong style="color:#fff;">Formé et certifié par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux avec une approche basée sur l'analyse, l'écoute et l'adaptation.
           </p>
           <p style="margin-bottom: 36px; font-size: clamp(17px, 1.6vw, 20px);">
             Mon objectif : t'aider à <strong style="color:#fff;">atteindre tes objectifs en combinant performance, plaisir et progression durable.</strong>
@@ -5079,124 +5252,74 @@
   <section class="solo-duo-section" id="solo-duo-trio">
     <div class="solo-duo-container">
       <div class="solo-duo-content">
-        <h2>Coaching terrain</h2>
-        <p>
-          Des séances de coaching en face à face, pour un accompagnement précis et entièrement personnalisé.
-        </p>
-        <!-- Layout : texte gauche + cards droite -->
-        <div class="seances-layout">
+        <!-- SECTION 1 : Hero + Cartes tarifaires -->
+        <div class="ct-hero">
+          <span class="ct-eyebrow">Coaching Terrain</span>
+          <h2 class="ct-title">Coaching Terrain</h2>
+          <p class="ct-subtitle">Séances individuelles ou en petit groupe en région parisienne</p>
 
-          <!-- Colonne texte -->
-          <div class="seances-text-col">
-            <p class="seances-intro">
-              Différents formats de séances sont proposés afin de s'adapter au mieux à tes besoins et à tes objectifs :
-            </p>
-            <ul class="seances-list">
-              <li><span class="seances-arrow">→</span> Remise en forme grâce à des circuits training adaptés</li>
-              <li><span class="seances-arrow">→</span> Évaluation du niveau à travers des tests de terrain</li>
-              <li><span class="seances-arrow">→</span> Développement des capacités de vitesse et d'endurance</li>
-              <li><span class="seances-arrow">→</span> Amélioration de la technique de course</li>
-              <li><span class="seances-arrow">→</span> Renforcement musculaire avec des exercices spécifiques</li>
-            </ul>
-          </div>
+          <div class="ct-cards-grid">
 
-          <!-- Colonne cards côte à côte -->
-          <div class="seances-cards-col">
-
-            <!-- Carte Individuel -->
-            <div class="seances-price-card seances-price-card--individuel">
-              <h3>Individuel</h3>
-              <span class="seances-price-badge">50€</span>
-              <ul class="seances-features">
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
-                  Coaching solo
-                </li>
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-                  1h de séance minimum
-                </li>
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  Lieu à définir <a href="#note-lieux" class="seances-footnote-link">*</a>
-                </li>
+            <!-- Individuel -->
+            <div class="ct-card ct-card--individuel">
+              <span class="ct-card-label">Individuel</span>
+              <div class="ct-price">50€</div>
+              <div class="ct-price-unit">par séance</div>
+              <hr class="ct-divider">
+              <ul class="ct-features">
+                <li><span class="ct-check">✓</span>Coaching 100% solo</li>
+                <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
+                <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="#contactForm" class="seances-card-cta">Réserver une séance →</a>
+              <a href="#contactForm" class="ct-card-cta">Réserver →</a>
             </div>
 
-            <!-- Carte Duo -->
-            <div class="seances-price-card seances-price-card--duo">
-              <h3>Duo</h3>
-              <span class="seances-price-badge">35€<span class="seances-price-badge-sub">/ pers.</span></span>
-              <ul class="seances-features">
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><circle cx="19" cy="7" r="2"/><path d="M23 21v-2a4 4 0 0 0-2-3.5"/></svg>
-                  Coaching à 2
-                </li>
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-                  1h de séance minimum
-                </li>
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  Lieu à définir <a href="#note-lieux" class="seances-footnote-link">*</a>
-                </li>
+            <!-- Duo -->
+            <div class="ct-card ct-card--duo">
+              <span class="ct-card-label">Duo</span>
+              <div class="ct-price">35€</div>
+              <div class="ct-price-unit">par pers. / séance</div>
+              <hr class="ct-divider">
+              <ul class="ct-features">
+                <li><span class="ct-check">✓</span>Coaching à 2</li>
+                <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
+                <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="#contactForm" class="seances-card-cta">Réserver une séance →</a>
+              <a href="#contactForm" class="ct-card-cta">Réserver →</a>
             </div>
 
-            <!-- Carte Trio -->
-            <div class="seances-price-card seances-price-card--trio">
-              <h3>Trio</h3>
-              <span class="seances-price-badge">30€<span class="seances-price-badge-sub">/ pers.</span></span>
-              <ul class="seances-features">
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                  Coaching à 3
-                </li>
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-                  1h de séance minimum
-                </li>
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  Lieu à définir <a href="#note-lieux" class="seances-footnote-link">*</a>
-                </li>
+            <!-- Trio -->
+            <div class="ct-card ct-card--trio">
+              <span class="ct-card-label">Trio</span>
+              <div class="ct-price">30€</div>
+              <div class="ct-price-unit">par pers. / séance</div>
+              <hr class="ct-divider">
+              <ul class="ct-features">
+                <li><span class="ct-check">✓</span>Coaching à 3</li>
+                <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
+                <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="#contactForm" class="seances-card-cta">Réserver une séance →</a>
+              <a href="#contactForm" class="ct-card-cta">Réserver →</a>
             </div>
 
-            <!-- Carte Groupe -->
-            <div class="seances-price-card seances-price-card--groupe">
-              <h3>Groupe</h3>
-              <span class="seances-price-badge">Sur devis<span class="seances-price-badge-sub">4 coureurs et +</span></span>
-              <ul class="seances-features">
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                  Coaching groupe 4 et +
-                </li>
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-                  1h de séance minimum
-                </li>
-                <li>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  Lieu à définir <a href="#note-lieux" class="seances-footnote-link">*</a>
-                </li>
+            <!-- Groupe -->
+            <div class="ct-card ct-card--groupe">
+              <span class="ct-card-label">Groupe</span>
+              <div class="ct-price" style="font-size:clamp(30px,3vw,42px);line-height:1.15;">Sur devis</div>
+              <div class="ct-price-unit">4 coureurs et +</div>
+              <hr class="ct-divider">
+              <ul class="ct-features">
+                <li><span class="ct-check">✓</span>Coaching groupe 4+</li>
+                <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
+                <li><span class="ct-check">✓</span>Tarif dégressif selon effectif</li>
+                <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="mailto:jeremy.reding@outlook.fr" class="seances-card-cta">Contacter par email →</a>
+              <a href="mailto:jeremy.reding@outlook.fr" class="ct-card-cta">Contacter →</a>
             </div>
 
           </div>
         </div>
 
-        <!-- Carte zone d'entraînement -->
-        <div class="seances-map-wrap" id="note-lieux">
-          <p class="seances-map-label">
-            <span>*</span> Je me déplace jusqu'à 30 min de <strong>La Défense</strong>
-          </p>
-          <div id="seances-map"></div>
-        </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
         <script>
@@ -5297,9 +5420,8 @@
   <section class="form-section" id="contactForm">
 
     <div style="text-align:center;margin-bottom:48px;">
-      <span style="display:inline-block;font-size:11px;font-weight:700;color:#FF6B35;text-transform:uppercase;letter-spacing:2.5px;margin-bottom:12px;">Première étape</span>
-      <h2 class="section-title" style="color:#FF6B35;margin-bottom:0;">Formulaire</h2>
-      <p style="font-size:clamp(14px,1.3vw,16px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Sélectionne ton besoin — le formulaire s'adapte instantanément.</p>
+<h2 class="section-title" style="color:#FF6B35;margin-bottom:0;">Formulaire</h2>
+      <p style="font-size:clamp(14px,1.3vw,16px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Remplis le formulaire et je reviens vers toi le plus rapidement possible.</p>
     </div>
 
     <div class="form-section-inner">
@@ -5361,13 +5483,13 @@
               <input type="radio" id="type-a" name="Type de coaching" value="Suivi à distance" required>
               <span class="qf-choice-dot"></span>
               <span class="qf-choice-title">Suivi à distance</span>
-              <span class="qf-choice-desc">Plan personnalisé et accompagnement du 5K au marathon</span>
+              <span class="qf-choice-desc">Plan personnalisé et accompagnement du 5K au Marathon</span>
             </label>
             <label class="qf-choice-card" for="type-b">
               <input type="radio" id="type-b" name="Type de coaching" value="Coaching terrain">
               <span class="qf-choice-dot"></span>
               <span class="qf-choice-title">Coaching terrain</span>
-              <span class="qf-choice-desc">Séance individuelle ou groupe · La Défense</span>
+              <span class="qf-choice-desc">Séance individuelle ou groupe </span>
             </label>
           </div>
         </div>
