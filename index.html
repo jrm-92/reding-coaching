@@ -671,46 +671,94 @@
       .hero-img-wrap img { height: 540px; max-width: 400px; }
     }
 
+    /* ─── HERO MOBILE (≤ 768px) — mise en page spécifique ─── */
     @media (max-width: 768px) {
-      .hero-section { padding: 100px 25px 60px; }
+      .hero-section { padding: 96px 20px 48px; }
+
       .hero-grid {
         display: flex;
         flex-direction: column;
-        gap: 28px;
+        gap: 0;
         align-items: stretch;
       }
+
+      /* display:contents permet aux enfants de .hero-left de participer
+         directement au flux flex de .hero-grid */
       .hero-left { display: contents; }
-      .hero-main-title { order: 1; margin-bottom: 0; }
-      .hero-img-col { order: 2; }
-      .hero-accent-line { order: 3; margin-bottom: 0; margin-top: 8px; }
-      .hero-subtitle-line { order: 3; margin-top: 10px; }
-      .hero-body-text { order: 4; }
-      .hero-en-savoir-plus { order: 4; align-self: flex-start; margin-left: 0; }
-      .hero-cta-group { order: 5; }
-      .hero-img-wrap img { height: 340px; max-width: 100%; object-position: center 10%; }
-      .hero-main-title { font-size: clamp(34px, 8vw, 52px); }
-      .hero-body-text { font-size: 17px; max-width: 100%; line-height: 1.65; margin-bottom: 8px; }
-      .hero-en-savoir-plus { margin-top: 2px; }
-      .hero-subtitle-line { font-size: 13px; }
-      .hero-cta-group { margin-bottom: 36px; gap: 12px; }
-      .hero-btn-primary { padding: 16px 32px; font-size: 15px; }
-      .hero-btn-secondary { padding: 15px 28px; font-size: 15px; }
-      .hero-badges { gap: 8px; }
-      .hero-badge { padding: 10px 12px; min-width: 68px; }
+
+      /* Ordre de lecture mobile : titre → accent → texte → CTA → badges → photo */
+      .hero-main-title  { order: 1; margin-bottom: 14px; font-size: clamp(36px, 9vw, 54px); }
+      .hero-accent-line { order: 2; margin-top: 0; margin-bottom: 22px; }
+      .hero-value-prop  { order: 3; margin-bottom: 28px; font-size: 16px; line-height: 1.65; }
+      .hero-cta-duo     { order: 4; margin-bottom: 28px; }
+      .hero-badges      { order: 5; margin-bottom: 32px; }
+      .hero-img-col     { order: 6; padding-top: 0; }
+
+      /* CTA : boutons empilés pleine largeur */
+      .hero-cta-duo {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        align-items: start;
+      }
+      .hcta-card { gap: 14px; padding: 16px 18px; border-radius: 14px; }
+      .hcta-primary,
+      .hcta-secondary {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        height: 52px;
+        min-height: 52px;
+        font-size: 14px;
+        padding: 0 14px;
+      }
+      .hcta-sub { font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+      /* Badges : 3 sur une ligne si possible, sinon 2 lignes centrées */
+      .hero-badges {
+        gap: 8px;
+        justify-content: center;
+      }
+      .hero-badge {
+        flex: 1;
+        min-width: 85px;
+        max-width: 130px;
+        padding: 12px 10px;
+      }
+      .hero-badge-value { font-size: 15px; }
+      .hero-badge-label { font-size: 8.5px; }
+
+      /* Photo en dernier */
+      .hero-img-wrap img {
+        height: 300px;
+        max-width: 100%;
+        object-position: center 10%;
+        border-radius: 20px;
+      }
       .hero-img-badge { padding: 8px 12px; gap: 7px; border-radius: 10px; bottom: 14px; left: 14px; right: 14px; }
       .hero-img-badge-text { font-size: 9px; letter-spacing: 1.4px; }
       .hero-img-badge-dot { width: 6px; height: 6px; }
     }
 
+    /* ─── HERO MOBILE PETIT (≤ 480px) — photo remontée, rythme resserré ─── */
     @media (max-width: 480px) {
-      .hero-section { padding: 90px 18px 50px; }
-      .hero-main-title { font-size: clamp(28px, 10vw, 42px); }
-      .hero-body-text { font-size: 15px; line-height: 1.6; margin-bottom: 6px; }
-      .hero-subtitle-line { font-size: 12px; }
-      .hero-cta-group { flex-direction: column; gap: 10px; }
-      .hero-btn-primary { width: 100%; justify-content: center; text-align: center; padding: 17px 24px; font-size: 15px; }
-      .hero-btn-secondary { width: 100%; justify-content: center; text-align: center; padding: 15px 24px; font-size: 14px; }
-      .hero-img-wrap img { height: 280px; }
+      .hero-section { padding: 90px 18px 40px; }
+
+      /* Taille de titre adaptée */
+      .hero-main-title { font-size: clamp(30px, 10vw, 44px); margin-bottom: 10px; }
+
+      /* Rythme vertical : chaque espace est justifié par la relation entre blocs */
+      .hero-accent-line { margin-bottom: 14px; }   /* serré : trait lié au titre     */
+      .hero-value-prop  { margin-bottom: 20px; }   /* modéré : intro avant la photo  */
+
+      /* Ordre : titre → accent → texte → photo → CTA → badges */
+      .hero-img-col { order: 4; margin-bottom: 24px; } /* photo respire avant les CTA   */
+      .hero-cta-duo { order: 5; margin-bottom: 20px; grid-template-columns: 1fr; gap: 10px; }
+      .hero-badges  { order: 6; margin-bottom: 0; }    /* dernier élément, pas de marge */
+
+      .hcta-primary,
+      .hcta-secondary { height: 52px; font-size: 15px; }
+      .hero-img-wrap img { height: 260px; }
     }
 
     @media (min-width: 769px) { .hero-break-mobile { display: none; } }
@@ -3497,34 +3545,34 @@
       }
     }
 
-    /* ===== TÉMOIGNAGES SECTION ===== */
-    .temoignages-section {
+    /* ===== RÉSULTATS — ÉTUDES DE CAS ===== */
+    .resultats-section {
       padding: 100px 60px;
       background: #0f0f0f;
       position: relative;
       overflow: hidden;
     }
 
-    .temoignages-section::before {
+    .resultats-section::before {
       content: '';
       position: absolute;
       top: -200px;
       left: 50%;
       transform: translateX(-50%);
-      width: 800px;
-      height: 800px;
+      width: 900px;
+      height: 900px;
       background: radial-gradient(circle, rgba(255, 107, 53, 0.07) 0%, transparent 65%);
       pointer-events: none;
     }
 
-    .temoignages-header {
+    .resultats-header {
       text-align: center;
-      margin-bottom: 70px;
+      margin-bottom: 64px;
       position: relative;
       z-index: 1;
     }
 
-    .temoignages-header h2 {
+    .resultats-header h2 {
       font-size: clamp(32px, 4vw, 48px);
       font-weight: 900;
       font-style: italic;
@@ -3535,7 +3583,7 @@
       margin: 0 0 14px;
     }
 
-    .temoignages-header h2::after {
+    .resultats-header h2::after {
       content: '';
       display: block;
       width: 70px;
@@ -3545,13 +3593,13 @@
       border-radius: 2px;
     }
 
-    .temoignages-header p {
+    .resultats-header p {
       font-size: clamp(15px, 1.5vw, 18px);
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.5);
       margin: 0;
     }
 
-    .temoignages-grid {
+    .resultats-grid {
       max-width: 1200px;
       margin: 0 auto;
       display: grid;
@@ -3561,180 +3609,224 @@
       z-index: 1;
     }
 
-    .temoignage-card {
+    /* ── Card ── */
+    .resultat-card {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 20px;
-      padding: 32px 28px;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      transition: border-color 0.3s ease, transform 0.3s ease;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .temoignage-card:hover {
-      border-color: rgba(255, 107, 53, 0.3);
-      transform: translateY(-4px);
+    .resultat-card:hover {
+      border-color: rgba(255, 107, 53, 0.35);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
     }
 
-    .temoignage-stars {
-      display: flex;
-      gap: 4px;
+    /* ── Photo ── */
+    .resultat-photo-wrap {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      flex-shrink: 0;
     }
 
-    .temoignage-stars span {
-      color: #FF6B35;
-      font-size: 16px;
+    .resultat-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.5s ease;
     }
 
-    .temoignage-quote {
-      font-size: 15px;
-      line-height: 1.75;
-      color: rgba(255, 255, 255, 0.78);
-      font-style: italic;
-      flex: 1;
+    .resultat-card:hover .resultat-photo {
+      transform: scale(1.04);
     }
 
-    .temoignage-result {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 107, 53, 0.1);
-      border: 1px solid rgba(255, 107, 53, 0.25);
-      border-radius: 30px;
-      padding: 6px 14px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #FF6B35;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      width: fit-content;
-    }
-
-    .temoignage-author {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-      padding-top: 20px;
-    }
-
-    .temoignage-avatar {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(255,107,53,0.3), rgba(18,130,162,0.3));
-      border: 2px solid rgba(255, 107, 53, 0.3);
+    .resultat-photo-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,107,53,0.15) 0%, rgba(18,130,162,0.15) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      font-weight: 900;
-      color: #FF6B35;
-      flex-shrink: 0;
-    }
-
-    .temoignage-info-name {
-      font-size: 14px;
-      font-weight: 700;
-      color: #ffffff;
-    }
-
-    .temoignage-info-detail {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.45);
-      margin-top: 2px;
-    }
-
-    @media (max-width: 992px) {
-      .temoignages-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .temoignages-section {
-        padding: 70px 20px;
-      }
-      .temoignages-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      .temoignages-header {
-        margin-bottom: 48px;
-      }
-    }
-
-    .temoignages-rating-global {
-      text-align: center;
-      margin-bottom: 56px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .temoignages-rating-score {
       font-size: 64px;
       font-weight: 900;
       font-style: italic;
-      color: #ffffff;
-      line-height: 1;
-      margin-bottom: 10px;
-    }
-
-    .temoignages-rating-stars {
-      font-size: 28px;
-      color: #FF6B35;
-      letter-spacing: 4px;
-      margin-bottom: 8px;
-    }
-
-    .temoignages-rating-count {
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.4);
+      color: rgba(255, 107, 53, 0.3);
       text-transform: uppercase;
-      letter-spacing: 1.5px;
+      user-select: none;
+    }
+
+    /* ── Contenu ── */
+    .resultat-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      flex: 1;
+    }
+
+    .resultat-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .resultat-name {
+      font-size: 18px;
+      font-weight: 800;
+      font-style: italic;
+      text-transform: uppercase;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    .resultat-objectif {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    .resultat-objectif strong {
+      color: rgba(255, 255, 255, 0.78);
       font-weight: 600;
     }
 
-    .temoignages-placeholder {
-      text-align: center;
-      color: rgba(255, 255, 255, 0.25);
-      font-size: 15px;
-      font-style: italic;
-      padding: 50px 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    .temoignages-cta {
-      text-align: center;
-      margin-top: 60px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .temoignages-btn-avis {
-      display: inline-flex;
+    /* ── Bloc progression avant/après ── */
+    .resultat-progression {
+      display: flex;
       align-items: center;
-      gap: 12px;
-      background: #ffffff;
-      color: #1a1a1a;
-      padding: 18px 42px;
-      border-radius: 50px;
-      text-decoration: none;
+      gap: 8px;
+      background: rgba(255, 107, 53, 0.06);
+      border: 1px solid rgba(255, 107, 53, 0.14);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+
+    .rp-temps {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      flex: 1;
+    }
+
+    .rp-label {
+      font-size: 9px;
       font-weight: 700;
-      font-size: 15px;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: rgba(255, 255, 255, 0.3);
     }
 
-    .temoignages-btn-avis:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    .rp-value {
+      font-size: 22px;
+      font-weight: 900;
+      font-style: italic;
+      line-height: 1;
+      letter-spacing: -0.02em;
     }
 
-    .temoignages-btn-avis svg {
+    .rp-before {
+      color: rgba(255, 255, 255, 0.35);
+      text-decoration: line-through;
+      text-decoration-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .rp-after {
+      color: #FF6B35;
+    }
+
+    .rp-middle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
       flex-shrink: 0;
+      padding: 0 4px;
+    }
+
+    .rp-arrow {
+      font-size: 16px;
+      color: rgba(255, 107, 53, 0.5);
+      line-height: 1;
+    }
+
+    /* ── Citation ── */
+    .resultat-quote {
+      font-size: 13.5px;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.75;
+      margin: 0;
+      padding: 16px 0 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      flex: 1;
+      quotes: "\00AB\00A0" "\00A0\00BB";
+    }
+
+    .resultat-quote::before {
+      content: open-quote;
+      color: #FF6B35;
+      font-size: 17px;
+      font-weight: 900;
+      font-style: normal;
+      margin-right: 2px;
+      vertical-align: -1px;
+    }
+
+    .resultat-quote::after {
+      content: close-quote;
+      color: #FF6B35;
+      font-size: 17px;
+      font-weight: 900;
+      font-style: normal;
+      margin-left: 2px;
+      vertical-align: -1px;
+    }
+
+    /* ── Strava en haut de carte ── */
+    .resultat-photo-wrap--strava {
+      height: auto;
+      overflow: visible;
+      position: relative;
+    }
+
+    /* Masque flouté sur le nom de famille dans l'embed Strava */
+    .strava-name-mask {
+      position: absolute;
+      z-index: 10;
+      top: 15px;
+      left: 99px;
+      width: 60px;
+      height: 22px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .resultats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .resultats-section { padding: 70px 20px; }
+      .resultats-header { margin-bottom: 48px; }
+      .resultats-grid { grid-template-columns: 1fr; gap: 20px; }
+      .rp-value { font-size: 20px; }
+      .resultat-photo-wrap { height: 200px; }
     }
 
     /* ===== FORMULAIRE SECTION ===== */
@@ -4611,8 +4703,8 @@
 
     .hero-cta-duo {
       display: flex;
-      align-items: flex-start;
-      gap: 22px;
+      align-items: stretch;
+      gap: 16px;
       flex-wrap: wrap;
       margin-bottom: 60px;
       animation: fadeInUp 0.6s 0.3s ease both;
@@ -4630,6 +4722,7 @@
     .hcta-secondary {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 9px;
       height: 56px;
       padding: 0 26px;
@@ -4679,18 +4772,39 @@
     .hcta-primary:hover .hcta-chevron,
     .hcta-secondary:hover .hcta-chevron { transform: translateX(4px); }
 
-    .hcta-group {
+    .hcta-card {
       display: flex;
       flex-direction: column;
-      gap: 16px; /* plus d'air entre le bouton et son texte descriptif */
+      justify-content: space-between;
+      gap: 20px;
+      min-width: 220px;
+      flex: 1;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 20px 22px;
+      transition: border-color 0.3s ease;
+    }
+
+    .hcta-card:hover {
+      border-color: rgba(255, 107, 53, 0.3);
     }
 
     .hcta-sub {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.72);
-      line-height: 1.55;
+      font-size: clamp(6.5px, 0.95vw, 9px);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.6;
       margin: 0;
-      padding-left: 2px;
+      white-space: nowrap;
+    }
+    .hcta-dot { color: #FF6B35; font-size: 9px; vertical-align: middle; }
+
+    .hcta-primary,
+    .hcta-secondary {
+      width: 100% !important;
     }
 
     .hero-desc-text {
@@ -4704,7 +4818,6 @@
 
 
     @media (max-width: 480px) {
-      .hero-cta-duo { gap: 16px; flex-direction: column; }
       .hcta-primary, .hcta-secondary { width: 100%; justify-content: center; }
     }
 
@@ -4731,8 +4844,18 @@
 
     .ct-subtitle {
       font-size: clamp(16px, 1.6vw, 19px); color: rgba(255,255,255,0.6);
-      font-weight: 400; line-height: 1.65; margin-bottom: 60px;
+      font-weight: 400; line-height: 1.65; margin-bottom: 16px;
       max-width: 540px; margin-left: auto; margin-right: auto;
+    }
+    .ct-bullets {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: rgba(255,255,255,0.85);
+      margin: 0 auto 60px; text-align: center;
+    }
+    .ct-exemples {
+      font-size: 14px; color: rgba(255,255,255,0.45);
+      font-style: italic; text-align: center;
+      margin: 0 auto 48px; max-width: 1200px; line-height: 1.6;
     }
 
     .ct-cards-grid {
@@ -4915,7 +5038,7 @@
         "name": "Reding Running",
         "description": "Coach running. Suivi personnalisé à distance ou en présentiel en Île-de-France. Plan d'entraînement individualisé, technique de course, préparation compétition.",
         "url": "https://reding-running.fr",
-        "email": "jeremy.reding@outlook.fr",
+        "email": "contact@reding-running.fr",
         "areaServed": {
           "@type": "AdministrativeArea",
           "name": "Île-de-France"
@@ -4944,7 +5067,7 @@
         "name": "Jérémy Reding",
         "jobTitle": "Coach Running FFA",
         "description": "Athlète et coach running. 15+ ans de pratique, spécialisé en endurance.",
-        "email": "jeremy.reding@outlook.fr",
+        "email": "contact@reding-running.fr",
         "url": "https://reding-running.fr",
         "sameAs": [
           "https://www.athle.fr/athletes/861859"
@@ -5006,17 +5129,17 @@
         <p class="hero-value-prop">Atteignez vos objectifs et progressez durablement avec un accompagnement sur-mesure.</p>
 
         <div class="hero-cta-duo">
-          <div class="hcta-group">
+          <div class="hcta-card">
             <a href="#suivi-personnalise" class="hcta-primary">
               Suivi à distance <span class="hcta-chevron">→</span>
             </a>
-            <p class="hcta-sub">Accompagnement quotidien,<br>plan sur mesure vers ton objectif.</p>
+            <p class="hcta-sub"><span class="hcta-dot">● </span>Plan 100 % personnalisé<span class="hcta-dot"> ● </span>Suivi hebdomadaire<span class="hcta-dot"> ● </span>Sans engagement</p>
           </div>
-          <div class="hcta-group">
+          <div class="hcta-card">
             <a href="#solo-duo-trio" class="hcta-secondary">
               Coaching terrain <span class="hcta-chevron">→</span>
             </a>
-            <p class="hcta-sub">Séances encadrées en live,<br>technique et intensité au programme.</p>
+            <p class="hcta-sub"><span class="hcta-dot">● </span>Séances encadrées<span class="hcta-dot"> ● </span>Progression et motivation<span class="hcta-dot"> ● </span>Spécifique et Technique</p>
           </div>
         </div>
 
@@ -5028,6 +5151,10 @@
           <div class="hero-badge">
             <span class="hero-badge-value">35'20"</span>
             <span class="hero-badge-label">record 10K</span>
+          </div>
+          <div class="hero-badge">
+            <span class="hero-badge-value">Diplôme</span>
+            <span class="hero-badge-label">CQP Technicien sportif d'athlétisme</span>
           </div>
           <div class="hero-badge">
             <span class="hero-badge-value">Coach Running</span>
@@ -5075,22 +5202,16 @@
             Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlétisme depuis plus de 15 ans</strong> — j'ai commencé par le sprint avant de basculer vers les épreuves d'endurance avec un record personnel de 35'20" au 10K.
           </p>
           <p style="margin-bottom: 32px; font-size: clamp(17px, 1.6vw, 20px);">
-             <strong style="color:#fff;">Formé et certifié par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux avec une approche basée sur l'analyse, l'écoute et l'adaptation.
+             <strong style="color:#fff;">Formé par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux avec une approche basée sur l'analyse, l'écoute et l'adaptation.
           </p>
           <p style="margin-bottom: 36px; font-size: clamp(17px, 1.6vw, 20px);">
             Mon objectif : t'aider à <strong style="color:#fff;">atteindre tes objectifs en combinant performance, plaisir et progression durable.</strong>
           </p>
         </div>
 
-        <!-- Signature + RP -->
+        <!-- Signature -->
         <div style="text-align:center;margin-bottom:16px;font-family:'Barlow',sans-serif;">
           <a href="https://www.athle.fr/athletes/861859" target="_blank" style="display:inline-block;font-size:clamp(17px, 1.6vw, 20px);font-style:italic;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;margin-bottom:10px;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Jérémy R.</a>
-          <div style="display:flex;align-items:center;justify-content:center;gap:14px;">
-            <span style="flex:1;max-width:70px;height:1px;background:linear-gradient(to right, transparent, rgba(255,107,53,0.5));"></span>
-            <span style="font-size:clamp(17px, 1.6vw, 20px);font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;">RP 10K</span>
-            <span style="font-size:clamp(17px, 1.6vw, 20px);font-weight:900;font-style:italic;color:#FF6B35;letter-spacing:0.5px;">35'20</span>
-            <span style="flex:1;max-width:70px;height:1px;background:linear-gradient(to left, transparent, rgba(255,107,53,0.5));"></span>
-          </div>
         </div>
       </div>
 
@@ -5213,7 +5334,7 @@
               <span class="step-number">01</span>
               <h4 class="step-title">Prise de contact</h4>
             </div>
-            <p class="step-text">Renseigne le <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">«formulaire»</a> ou écris-moi à <a href="mailto:jeremy.reding@outlook.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">jeremy.reding@outlook.fr</a>.</p>
+            <p class="step-text">Renseigne le <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">«formulaire»</a> ou écris-moi à <a href="mailto:contact@reding-running.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">contact@reding-running.fr</a>.</p>
           </li>
           <li class="step-item">
             <div class="step-header">
@@ -5267,7 +5388,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Pour démarrer, il te suffit de remplir le <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">formulaire "Parlons de ton objectif"</a> ou de m'envoyer un mail à <a href="mailto:jeremy.reding@outlook.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">jeremy.reding@outlook.fr</a>. Nous convenons ensuite d'un appel pour discuter de tes objectifs, contraintes et attentes. Suite à cet échange et après ton "feu vert", je te prépare les premières séances de ton plan d'entraînement.</p>
+              <p>Pour démarrer, il te suffit de remplir le <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">le formulaire</a> ou de m'envoyer un mail à <a href="mailto:contact@reding-running.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">contact@reding-running.fr</a>. Nous convenons ensuite d'un appel pour discuter de tes objectifs, contraintes et attentes. Suite à cet échange et après ton "feu vert", je te prépare les premières séances de ton plan d'entraînement.</p>
             </div>
           </div>
 
@@ -5383,9 +5504,14 @@
       <div class="solo-duo-content">
         <!-- SECTION 1 : Hero + Cartes tarifaires -->
         <div class="ct-hero">
-          <span class="ct-eyebrow">Coaching Terrain</span>
           <h2 class="ct-title">Coaching Terrain</h2>
-          <p class="ct-subtitle">Séances terrain pour coureur de tous niveaux</p>
+          <p class="suivi-distance-lead">Coaching terrain pour coureur de tous niveaux.</p>
+          <ul class="suivi-distance-meta" style="margin-bottom: 20px;" aria-label="Engagements clés">
+            <li><span class="dot" aria-hidden="true"></span>Séances encadrées</li>
+            <li><span class="dot" aria-hidden="true"></span>Progression et motivation</li>
+            <li><span class="dot" aria-hidden="true"></span>Spécifique et Technique</li>
+          </ul>
+          <p class="ct-exemples">Exemples de séances : définition du profil d'endurance, renforcement musculaire, développement de la technique, développement de la vitesse/endurance, entretien de la condition physique.</p>
 
           <div class="ct-cards-grid">
 
@@ -5406,7 +5532,7 @@
             <!-- Duo -->
             <div class="ct-card ct-card--duo">
               <span class="ct-card-label">Duo</span>
-              <div class="ct-price">35€</div>
+              <div class="ct-price">30€</div>
               <div class="ct-price-unit">par pers. / séance</div>
               <hr class="ct-divider">
               <ul class="ct-features">
@@ -5420,7 +5546,7 @@
             <!-- Trio -->
             <div class="ct-card ct-card--trio">
               <span class="ct-card-label">Trio</span>
-              <div class="ct-price">30€</div>
+              <div class="ct-price">25€</div>
               <div class="ct-price-unit">par pers. / séance</div>
               <hr class="ct-divider">
               <ul class="ct-features">
@@ -5443,7 +5569,7 @@
                 <li><span class="ct-check">✓</span>Tarif dégressif selon effectif</li>
                 <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="mailto:jeremy.reding@outlook.fr" class="ct-card-cta">Contacter →</a>
+              <a href="mailto:contact@reding-running.fr" class="ct-card-cta">Contacter →</a>
             </div>
 
           </div>
@@ -5938,7 +6064,7 @@
         formMessage.style.backgroundColor = '#f8d7da';
         formMessage.style.color = '#721c24';
         formMessage.style.border = '1px solid #f5c6cb';
-        formMessage.textContent = '❌ Une erreur est survenue. Réessaie ou écris-moi à jeremy.reding@outlook.fr';
+        formMessage.textContent = '❌ Une erreur est survenue. Réessaie ou écris-moi à contact@reding-running.fr';
         button.textContent = originalText;
         button.disabled = false;
       }
@@ -5968,111 +6094,99 @@
     });
   </script>
 
-  <!-- TÉMOIGNAGES SECTION -->
-  <section class="temoignages-section" id="temoignages">
-    <div class="temoignages-header">
-      <h2>Témoignages</h2>
-      <p>Ce qu'ils disent de leur progression</p>
+  <!-- RÉSULTATS — ÉTUDES DE CAS -->
+  <section class="resultats-section" id="temoignages">
+
+    <div class="resultats-header">
+      <h2>Ils ont progressé</h2>
+      <p>Ce qu'un suivi structuré change concrètement sur tes performances</p>
     </div>
 
-    <!-- Note globale Google -->
-    <div class="temoignages-rating-global" id="temoignages-rating" style="display:none;">
-      <div class="temoignages-rating-score" id="rating-score"></div>
-      <div class="temoignages-rating-stars" id="rating-stars"></div>
-      <div class="temoignages-rating-count" id="rating-count"></div>
-    </div>
+    <div class="resultats-grid">
 
-    <!-- Grille des avis Google (remplie par JS) -->
-    <div class="temoignages-grid" id="temoignages-grid"></div>
+      <!-- ── CARTE 1 ─────────────────────────────────────────── -->
+      <article class="resultat-card">
+        <div class="resultat-content">
+          <div class="resultat-header-row">
+            <span class="resultat-name">Benoit</span>
+          </div>
+          <p class="resultat-objectif">Objectif : <strong>Passer sous les 1h50 au semi-marathon</strong></p>
+          <div class="resultat-progression">
+            <div class="rp-temps">
+              <span class="rp-label">Avant</span>
+              <span class="rp-value rp-before">1h56'51"</span>
+            </div>
+            <div class="rp-middle">
+              <span class="rp-arrow">→</span>
+            </div>
+            <div class="rp-temps">
+              <span class="rp-label">Après</span>
+              <span class="rp-value rp-after">1h48'19"</span>
+            </div>
+          </div>
+          <blockquote class="resultat-quote">Le suivi hebdomadaire m'a permis de structurer mes entraînements et d'atteindre un objectif que je pensais inaccessible.</blockquote>
+        </div>
+        <div class="resultat-photo-wrap" style="height: auto;">
+          <img src="benoit_rp.png" alt="Strava — Benoit semi-marathon 1h48" class="resultat-photo" style="height: auto; object-fit: contain;">
+        </div>
+      </article>
 
-    <!-- Message affiché avant configuration -->
-    <p class="temoignages-placeholder" id="temoignages-placeholder">
-      Les avis Google apparaîtront ici une fois la fiche configurée.
-    </p>
+      <!-- ── CARTE 2 ─────────────────────────────────────────── -->
+      <article class="resultat-card">
+        <div class="resultat-photo-wrap">
+          <div class="resultat-photo-placeholder">M</div>
+        </div>
+        <div class="resultat-content">
+          <div class="resultat-header-row">
+            <span class="resultat-name">Alexis</span>
+          </div>
+          <p class="resultat-objectif">Objectif : <strong>Passer sous les 50' sur 10K</strong></p>
+          <div class="resultat-progression">
+            <div class="rp-temps">
+              <span class="rp-label">Avant</span>
+              <span class="rp-value rp-before">50'21</span>
+            </div>
+            <div class="rp-middle">
+              <span class="rp-arrow">→</span>
+            </div>
+            <div class="rp-temps">
+              <span class="rp-label">Après</span>
+              <span class="rp-value rp-after">47'32</span>
+            </div>
+          </div>
+          <blockquote class="resultat-quote">Je n'avais jamais couru plus d'une heure. En six mois, j'ai terminé un semi sous les deux heures avec des jambes encore fraîches.</blockquote>
+        </div>
+      </article>
 
-    <!-- Attribution obligatoire Google Places API -->
-    <div id="places-attribution" style="display:none;"></div>
+      <!-- ── CARTE 3 ─────────────────────────────────────────── -->
+      <article class="resultat-card">
+        <div class="resultat-photo-wrap">
+          <div class="resultat-photo-placeholder">K</div>
+        </div>
+        <div class="resultat-content">
+          <div class="resultat-header-row">
+            <span class="resultat-name">Théo</span>
+          </div>
+          <p class="resultat-objectif">Objectif : <strong>Casser la barrières des 40' sur 10k</strong></p>
+          <div class="resultat-progression">
+            <div class="rp-temps">
+              <span class="rp-label">Avant</span>
+              <span class="rp-value rp-before">41'23</span>
+            </div>
+            <div class="rp-middle">
+              <span class="rp-arrow">→</span>
+            </div>
+            <div class="rp-temps">
+              <span class="rp-label">Après</span>
+              <span class="rp-value rp-after">39'54</span>
+            </div>
+          </div>
+          <blockquote class="resultat-quote">La progression était progressive, sans blessure. Jérémy a su ajuster la charge semaine après semaine selon mes sensations.</blockquote>
+        </div>
+      </article>
 
-    <!-- Bouton laisser un avis -->
-    <div class="temoignages-cta">
-      <a id="temoignages-btn-avis" href="#" target="_blank" rel="noopener" class="temoignages-btn-avis">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-        Laisser un avis Google
-      </a>
     </div>
   </section>
-
-  <script>
-    // ============================================================
-    // CONFIGURATION GOOGLE REVIEWS — À remplir quand tu as ta fiche
-    // ============================================================
-    const GOOGLE_API_KEY   = 'VOTRE_CLE_API';      // Clé API Google Cloud
-    const GOOGLE_PLACE_ID  = 'VOTRE_PLACE_ID';     // Place ID de ta fiche Google Business
-    const GOOGLE_REVIEW_URL = 'VOTRE_LIEN_AVIS';   // Lien direct vers l'espace "Laisser un avis"
-    // ============================================================
-
-    (function() {
-      const isConfigured = GOOGLE_API_KEY !== 'VOTRE_CLE_API' && GOOGLE_PLACE_ID !== 'VOTRE_PLACE_ID';
-
-      // Met à jour le bouton "Laisser un avis" dès que l'URL est fournie
-      if (GOOGLE_REVIEW_URL !== 'VOTRE_LIEN_AVIS') {
-        document.getElementById('temoignages-btn-avis').href = GOOGLE_REVIEW_URL;
-      }
-
-      if (!isConfigured) return; // Rien d'autre à faire tant que ce n'est pas configuré
-
-      // Charge la librairie Google Maps + Places
-      var script = document.createElement('script');
-      script.src = 'https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_API_KEY + '&libraries=places&callback=initGoogleReviews';
-      script.async = true;
-      document.head.appendChild(script);
-    })();
-
-    function initGoogleReviews() {
-      var service = new google.maps.places.PlacesService(document.getElementById('places-attribution'));
-      service.getDetails({
-        placeId: GOOGLE_PLACE_ID,
-        fields: ['name', 'rating', 'user_ratings_total', 'reviews']
-      }, function(place, status) {
-        if (status !== google.maps.places.PlacesServiceStatus.OK || !place.reviews) return;
-
-        // Masque le placeholder
-        document.getElementById('temoignages-placeholder').style.display = 'none';
-
-        // Affiche la note globale
-        var ratingEl = document.getElementById('temoignages-rating');
-        ratingEl.style.display = 'block';
-        document.getElementById('rating-score').textContent = place.rating.toFixed(1);
-        document.getElementById('rating-stars').textContent = '★'.repeat(Math.round(place.rating)) + '☆'.repeat(5 - Math.round(place.rating));
-        document.getElementById('rating-count').textContent = place.user_ratings_total + ' avis Google';
-
-        // Affiche les avis (max 5, triés par pertinence par défaut par Google)
-        var grid = document.getElementById('temoignages-grid');
-        place.reviews.forEach(function(review) {
-          var stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
-          var initial = review.author_name ? review.author_name.charAt(0).toUpperCase() : '?';
-          var card = document.createElement('div');
-          card.className = 'temoignage-card';
-          card.innerHTML =
-            '<div class="temoignage-stars"><span>' + stars + '</span></div>' +
-            '<p class="temoignage-quote">« ' + review.text + ' »</p>' +
-            '<div class="temoignage-author">' +
-              '<div class="temoignage-avatar">' + initial + '</div>' +
-              '<div>' +
-                '<div class="temoignage-info-name">' + review.author_name + '</div>' +
-                '<div class="temoignage-info-detail">' + review.relative_time_description + '</div>' +
-              '</div>' +
-            '</div>';
-          grid.appendChild(card);
-        });
-      });
-    }
-  </script>
 
   <!-- FAQ Accordion Script -->
   <script>
@@ -6107,14 +6221,15 @@
       <div class="footer-links">
         <a href="mentions-legales.html">Mentions légales</a>
         <a href="politique-confidentialite.html">Politique de confidentialité</a>
-        <a href="mailto:jeremy.reding@outlook.fr">jeremy.reding@outlook.fr</a>
-        <a href="https://www.athle.fr/athletes/861859" target="_blank" rel="noopener">Profil FFA</a>
+        <a href="mailto:contact@reding-running.fr">contact@reding-running.fr</a>
       </div>
       <div class="footer-copyright">
         © 2026 Reding Running
       </div>
     </div>
   </footer>
+
+  <script src="https://strava-embeds.com/embed.js"></script>
 
 </body>
 </html>
