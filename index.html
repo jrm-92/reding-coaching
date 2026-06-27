@@ -714,19 +714,18 @@
       }
       .hcta-sub { font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-      /* Badges : 3 sur une ligne si possible, sinon 2 lignes centrées */
+      /* Badges : grille 2×2 sur mobile */
       .hero-badges {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 8px;
-        justify-content: center;
       }
       .hero-badge {
-        flex: 1;
-        min-width: 85px;
-        max-width: 130px;
         padding: 12px 10px;
+        min-width: 0;
       }
-      .hero-badge-value { font-size: 15px; }
-      .hero-badge-label { font-size: 8.5px; }
+      .hero-badge-value { font-size: 14px; }
+      .hero-badge-label { font-size: 8px; letter-spacing: 0.5px; }
 
       /* Photo en dernier */
       .hero-img-wrap img {
