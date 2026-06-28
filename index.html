@@ -547,20 +547,21 @@
 
     .hero-badges {
       display: flex;
-      gap: 14px; /* plus d'espace entre les badges */
       flex-wrap: wrap;
+      gap: 12px; /* cartes compactes au contenu, alignées à gauche */
       animation: fadeInUp 0.7s 0.5s ease both;
     }
 
     .hero-badge {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
+      gap: 12px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
-      padding: 16px 20px; /* padding interne augmenté pour plus de volume */
-      flex: 0 0 auto;
+      padding: 12px 16px; /* compact */
+      flex: 0 0 auto; /* largeur au contenu, pas étirée */
       backdrop-filter: blur(10px);
       transition: all 0.3s ease;
     }
@@ -571,12 +572,33 @@
       transform: translateY(-2px);
     }
 
+    .hero-badge-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: rgba(255, 107, 53, 0.12);
+      color: #FF6B35;
+    }
+    .hero-badge-icon svg { width: 20px; height: 20px; }
+
+    .hero-badge-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
     .hero-badge-value {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 900;
       font-style: italic;
       color: #FF6B35;
-      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.05;
       white-space: nowrap;
     }
 
@@ -584,11 +606,11 @@
       font-size: 9px;
       color: rgba(255, 255, 255, 0.55);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 1.2px;
       margin-top: 4px;
-      font-weight: 600;
-      text-align: center;
-      white-space: nowrap;
+      font-weight: 700;
+      text-align: left;
+      white-space: nowrap; /* tout sur une ligne */
     }
 
     .hero-img-col {
@@ -690,42 +712,33 @@
       .hero-main-title  { order: 1; margin-bottom: 14px; font-size: clamp(36px, 9vw, 54px); }
       .hero-accent-line { order: 2; margin-top: 0; margin-bottom: 22px; }
       .hero-value-prop  { order: 3; margin-bottom: 28px; font-size: 16px; line-height: 1.65; }
-      .hero-cta-duo     { order: 4; margin-bottom: 28px; }
+      .hcta-section     { order: 4; margin-bottom: 24px; }
       .hero-badges      { order: 5; margin-bottom: 32px; }
       .hero-img-col     { order: 6; padding-top: 0; }
 
-      /* CTA : boutons empilés pleine largeur */
-      .hero-cta-duo {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 16px;
-        align-items: start;
-      }
-      .hcta-card { gap: 14px; padding: 16px 18px; border-radius: 14px; }
-      .hcta-primary,
-      .hcta-secondary {
-        width: 100%;
-        justify-content: center;
-        text-align: center;
-        height: 52px;
-        min-height: 52px;
-        font-size: 14px;
-        padding: 0 14px;
-      }
-      .hcta-sub { font-size: 9px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      /* CTA : cartes empilées sur mobile */
+      .hcta-label-text { font-size: 9px; letter-spacing: 0.1em; }
+      .hero-cta-duo { flex-direction: column; gap: 10px; margin-bottom: 12px; }
+      .hcta-card { padding: 16px 18px; border-radius: 13px; }
+      .hcta-card-title { font-size: 14px; }
+      .hcta-benefits { gap: 4px 8px; }
+      .hcta-benefit-item { font-size: 10px; }
 
-      /* Badges : grille 2×2 sur mobile */
+      /* Badges : compacts, largeur au contenu, retour à la ligne automatique */
       .hero-badges {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
+        flex-wrap: wrap;
         gap: 8px;
       }
       .hero-badge {
-        padding: 12px 10px;
-        min-width: 0;
+        padding: 11px 12px;
+        gap: 9px;
       }
+      .hero-badge-icon { width: 30px; height: 30px; border-radius: 8px; }
+      .hero-badge-icon svg { width: 16px; height: 16px; }
+      .hero-badge-text { min-width: 0; }
       .hero-badge-value { font-size: 14px; }
-      .hero-badge-label { font-size: 8px; letter-spacing: 0.5px; }
+      .hero-badge-label { font-size: 8px; letter-spacing: 0.5px; white-space: nowrap; }
 
       /* Photo en dernier */
       .hero-img-wrap img {
@@ -751,12 +764,9 @@
       .hero-value-prop  { margin-bottom: 20px; }   /* modéré : intro avant la photo  */
 
       /* Ordre : titre → accent → texte → photo → CTA → badges */
-      .hero-img-col { order: 4; margin-bottom: 24px; } /* photo respire avant les CTA   */
-      .hero-cta-duo { order: 5; margin-bottom: 20px; grid-template-columns: 1fr; gap: 10px; }
-      .hero-badges  { order: 6; margin-bottom: 0; }    /* dernier élément, pas de marge */
-
-      .hcta-primary,
-      .hcta-secondary { height: 52px; font-size: 15px; }
+      .hero-img-col { order: 4; margin-bottom: 24px; }
+      .hcta-section { order: 5; margin-bottom: 20px; }
+      .hero-badges  { order: 6; margin-bottom: 0; }
       .hero-img-wrap img { height: 260px; }
     }
 
@@ -4700,110 +4710,209 @@
       animation: fadeInUp 0.6s 0.2s ease both;
     }
 
-    .hero-cta-duo {
-      display: flex;
-      align-items: stretch;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 60px;
+    /* ── CTA SECTION ── */
+    .hcta-section {
+      margin-bottom: 48px;
       animation: fadeInUp 0.6s 0.3s ease both;
     }
 
-    .hero-cta-hint {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.35);
-      letter-spacing: 0.4px;
-      margin-bottom: 48px; /* gap principal avant les badges */
-      animation: fadeInUp 0.6s 0.42s ease both;
+    .hcta-label-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
     }
 
-    .hcta-primary,
-    .hcta-secondary {
+    .hcta-label-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .hcta-label-text {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.38);
+      white-space: nowrap;
+    }
+
+    .hero-cta-duo {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .hcta-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 18px 22px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+      cursor: pointer;
+    }
+
+    .hcta-card:focus-visible {
+      outline: 2px solid #FF6B35;
+      outline-offset: 3px;
+    }
+
+    .hcta-card:active {
+      transform: translateY(1px) scale(0.988);
+      transition-duration: 0.1s;
+    }
+
+    .hcta-card--primary {
+      background: #FF6B35;
+      border: 1.5px solid #FF6B35;
+      box-shadow: 0 6px 24px rgba(255, 107, 53, 0.35);
+    }
+
+    /* reflet diagonal subtil sur la carte principale au survol */
+    .hcta-card--primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.22) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .hcta-card--primary:hover::after { opacity: 1; }
+
+    .hcta-card--primary:hover {
+      background: #ff7a47;
+      border-color: #ff7a47;
+      transform: translateY(-3px);
+      box-shadow: 0 18px 44px rgba(255, 107, 53, 0.55);
+    }
+
+    .hcta-card--secondary {
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+    }
+
+    .hcta-card--secondary:hover {
+      background: rgba(255, 107, 53, 0.07);
+      border-color: rgba(255, 107, 53, 0.55);
+      transform: translateY(-3px);
+      box-shadow: 0 18px 44px rgba(255, 107, 53, 0.18);
+    }
+
+    .hcta-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      line-height: 1;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .hcta-icon svg { width: 23px; height: 23px; }
+    .hcta-card--primary .hcta-icon {
+      border: 1.5px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+    .hcta-card--secondary .hcta-icon {
+      border: 1.5px solid rgba(255, 107, 53, 0.45);
+      background: rgba(255, 107, 53, 0.1);
+      color: #FF6B35;
+    }
+    .hcta-card:hover .hcta-icon { transform: scale(1.06); }
+
+    /* contenu au-dessus du reflet diagonal */
+    .hcta-icon,
+    .hcta-card-body,
+    .hcta-arrow-circle { position: relative; z-index: 1; }
+
+    .hcta-card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 0;
+    }
+
+    .hcta-card-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+    }
+
+    .hcta-card-cta {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .hcta-card--primary .hcta-card-cta { color: rgba(255, 255, 255, 0.92); }
+    .hcta-card--secondary .hcta-card-cta { color: #FF6B35; }
+
+    /* flèche en cercle à droite */
+    .hcta-arrow-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+    .hcta-arrow-circle svg { width: 16px; height: 16px; }
+    .hcta-card--primary .hcta-arrow-circle { background: rgba(255, 255, 255, 0.18); color: #ffffff; }
+    .hcta-card--secondary .hcta-arrow-circle { background: rgba(255, 107, 53, 0.14); color: #FF6B35; }
+    .hcta-card:hover .hcta-arrow-circle { transform: translateX(4px); }
+    .hcta-card--primary:hover .hcta-arrow-circle { background: rgba(255, 255, 255, 0.3); }
+    .hcta-card--secondary:hover .hcta-arrow-circle { background: rgba(255, 107, 53, 0.24); }
+
+    .hcta-benefits {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px 18px;
+    }
+
+    .hcta-benefit-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .hcta-benefit-item::before {
+      content: '✓';
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 9px;
-      height: 56px;
-      padding: 0 26px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 15px;
-      letter-spacing: 0.15px;
-      white-space: nowrap;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: rgba(255, 107, 53, 0.16);
+      color: #FF6B35;
+      font-size: 9px;
+      font-weight: 900;
+      flex-shrink: 0;
     }
 
-    .hcta-primary {
-      background: #FF6B35;
-      color: #ffffff;
-      border: 1.5px solid #FF6B35;
-      box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
-      transition: background 250ms ease, border-color 250ms ease, transform 250ms ease, box-shadow 250ms ease;
-    }
-    .hcta-primary:hover {
-      background: #ff7a47;
-      border-color: #ff7a47;
-      transform: translateY(-2px);
-      box-shadow: 0 10px 32px rgba(255, 107, 53, 0.55);
-      color: #ffffff;
-    }
-
-    .hcta-secondary {
-      background: rgba(255, 107, 53, 0.08);
-      color: #ffffff;
-      border: 1.5px solid rgba(255, 107, 53, 0.45);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      transition: background 250ms ease, border-color 250ms ease, transform 250ms ease, box-shadow 250ms ease;
-    }
-    .hcta-secondary:hover {
-      background: rgba(255, 107, 53, 0.15);
-      border-color: rgba(255, 107, 53, 0.75);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 32px rgba(255, 107, 53, 0.2);
-      color: #ffffff;
-    }
-
-    .hcta-chevron {
-      display: inline-block;
-      transition: transform 250ms ease;
-      font-style: normal;
-    }
-    .hcta-primary:hover .hcta-chevron,
-    .hcta-secondary:hover .hcta-chevron { transform: translateX(4px); }
-
-    .hcta-card {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 20px;
-      min-width: 220px;
-      flex: 1;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      padding: 20px 22px;
-      transition: border-color 0.3s ease;
-    }
-
-    .hcta-card:hover {
-      border-color: rgba(255, 107, 53, 0.3);
-    }
-
-    .hcta-sub {
-      font-size: clamp(6.5px, 0.95vw, 9px);
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.85);
-      line-height: 1.6;
-      margin: 0;
-      white-space: nowrap;
-    }
-    .hcta-dot { color: #FF6B35; font-size: 9px; vertical-align: middle; }
-
-    .hcta-primary,
-    .hcta-secondary {
-      width: 100% !important;
+    .hcta-benefit-sep {
+      color: rgba(255, 255, 255, 0.18);
+      font-size: 14px;
     }
 
     .hero-desc-text {
@@ -4813,11 +4922,6 @@
       max-width: 500px;
       margin-bottom: 28px;
       animation: fadeInUp 0.6s 0.38s ease both;
-    }
-
-
-    @media (max-width: 480px) {
-      .hcta-primary, .hcta-secondary { width: 100%; justify-content: center; }
     }
 
     /* ===== COACHING TERRAIN — REDESIGN ===== */
@@ -5035,7 +5139,7 @@
         "@type": "LocalBusiness",
         "@id": "https://reding-running.fr/#business",
         "name": "Reding Running",
-        "description": "Coach running. Suivi personnalisé à distance ou en présentiel en Île-de-France. Plan d'entraînement individualisé, technique de course, préparation compétition.",
+        "description": "Coach running. Suivi à distance ou coaching terrain en Île-de-France. Plan d'entraînement individualisé, technique de course, préparation compétition.",
         "url": "https://reding-running.fr",
         "email": "contact@reding-running.fr",
         "areaServed": {
@@ -5127,37 +5231,61 @@
 
         <p class="hero-value-prop">Atteignez vos objectifs et progressez durablement avec un accompagnement sur-mesure.</p>
 
-        <div class="hero-cta-duo">
-          <div class="hcta-card">
-            <a href="#suivi-personnalise" class="hcta-primary">
-              Suivi à distance <span class="hcta-chevron">→</span>
-            </a>
-            <p class="hcta-sub"><span class="hcta-dot">● </span>Plan 100 % personnalisé<span class="hcta-dot"> ● </span>Suivi hebdomadaire<span class="hcta-dot"> ● </span>Sans engagement</p>
+        <div class="hcta-section">
+          <div class="hcta-label-row">
+            <span class="hcta-label-line"></span>
+            <span class="hcta-label-text">Choisissez votre accompagnement</span>
+            <span class="hcta-label-line"></span>
           </div>
-          <div class="hcta-card">
-            <a href="#solo-duo-trio" class="hcta-secondary">
-              Coaching terrain <span class="hcta-chevron">→</span>
+
+          <div class="hero-cta-duo">
+            <a href="#suivi-personnalise" class="hcta-card hcta-card--primary" aria-label="Suivi à distance — en savoir plus">
+              <span class="hcta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span>
+              <span class="hcta-card-body">
+                <span class="hcta-card-title">Suivi à distance</span>
+                <span class="hcta-card-cta">En savoir plus</span>
+              </span>
+              <span class="hcta-arrow-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
             </a>
-            <p class="hcta-sub"><span class="hcta-dot">● </span>Séances encadrées<span class="hcta-dot"> ● </span>Progression et motivation<span class="hcta-dot"> ● </span>Spécifique et Technique</p>
+            <a href="#solo-duo-trio" class="hcta-card hcta-card--secondary" aria-label="Coaching terrain — en savoir plus">
+              <span class="hcta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="1"/><path d="M4 17l5 1l.75 -1.5"/><path d="M15 21l0 -4l-4 -3l1 -6"/><path d="M7 12l0 -3l5 -1l3 3l3 1"/></svg></span>
+              <span class="hcta-card-body">
+                <span class="hcta-card-title">Coaching terrain</span>
+                <span class="hcta-card-cta">En savoir plus</span>
+              </span>
+              <span class="hcta-arrow-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            </a>
           </div>
         </div>
 
         <div class="hero-badges">
           <div class="hero-badge">
-            <span class="hero-badge-value">+15</span>
-            <span class="hero-badge-label">ans de pratique</span>
+            <span class="hero-badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+            <span class="hero-badge-text">
+              <span class="hero-badge-value">+15</span>
+              <span class="hero-badge-label">ans de pratique</span>
+            </span>
           </div>
           <div class="hero-badge">
-            <span class="hero-badge-value">35'20"</span>
-            <span class="hero-badge-label">record 10K</span>
+            <span class="hero-badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></span>
+            <span class="hero-badge-text">
+              <span class="hero-badge-value">35'20"</span>
+              <span class="hero-badge-label">record 10K</span>
+            </span>
           </div>
           <div class="hero-badge">
-            <span class="hero-badge-value">Diplôme</span>
-            <span class="hero-badge-label">CQP Technicien sportif d'athlétisme</span>
+            <span class="hero-badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></span>
+            <span class="hero-badge-text">
+              <span class="hero-badge-value">Diplôme</span>
+              <span class="hero-badge-label">Coach athlétisme</span>
+            </span>
           </div>
           <div class="hero-badge">
-            <span class="hero-badge-value">Coach Running</span>
-            <span class="hero-badge-label">Carte professionnelle</span>
+            <span class="hero-badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+            <span class="hero-badge-text">
+              <span class="hero-badge-value">Coach Running</span>
+              <span class="hero-badge-label">Carte professionnelle</span>
+            </span>
           </div>
         </div>
 
@@ -5239,8 +5367,9 @@
       <div class="service-card distance">
         <h3 style="white-space: nowrap; margin: 0; padding: 30px 30px 0; text-align: center;">Suivi à distance</h3>
         <div style="display: flex; align-items: center; justify-content: center; padding: 20px 30px 0;">
-          <span class="price-badge" style="display: inline-flex; flex-direction: column; align-items: center; background: linear-gradient(135deg, #1282A2, #0091B8); color: white; border-radius: 50px; padding: 14px 36px; font-size: 22px; font-weight: 800; box-shadow: 0 6px 20px rgba(18, 130, 162, 0.4); text-align: center; line-height: 1.4; white-space: nowrap;">70€ / mois<span style="font-size: 14px; font-weight: 600; opacity: 0.9; letter-spacing: 0.5px; margin-top: 2px;">Sans engagement</span></span>
+          <a href="#contactForm" aria-label="Faire ma demande de suivi à distance" style="text-decoration: none;"><span class="price-badge" style="display: inline-flex; flex-direction: column; align-items: center; background: linear-gradient(135deg, #1282A2, #0091B8); color: white; border-radius: 50px; padding: 14px 36px; font-size: 22px; font-weight: 800; box-shadow: 0 6px 20px rgba(18, 130, 162, 0.4); text-align: center; line-height: 1.4; white-space: nowrap; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;" onmouseover="this.style.transform='scale(1.04)';this.style.boxShadow='0 10px 28px rgba(18,130,162,0.55)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 20px rgba(18,130,162,0.4)'"><span>70€ / mois<span style="opacity: 0.85;">&nbsp;*</span></span><span style="font-size: 14px; font-weight: 600; opacity: 0.9; letter-spacing: 0.5px; margin-top: 2px;">Sans engagement</span></span></a>
         </div>
+        <p style="text-align: center; margin: 10px 30px 0; font-size: 12px; font-style: italic; color: rgba(255,255,255,0.5); line-height: 1.5;">* Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
         <ul class="service-features" style="margin-top: 0; padding-top: 15px;">
           <li class="has-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
@@ -5300,26 +5429,12 @@
             Communication via WhatsApp 
           </li>
         </ul>
-        <div style="margin-top: 8px; padding: 20px 15px; border-top: 1px solid rgba(74, 184, 216, 0.25); background: rgba(74, 184, 216, 0.08);">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
-            <span style="font-size: 20px;">➕</span>
-            <h4 style="font-size: 20px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 1px; color: #4AB8D8; margin: 0;">Option : Ajouter du coaching terrain</h4>
+        <div style="margin-top: 8px; padding: 22px 20px; border-top: 1px solid rgba(255, 107, 53, 0.25); background: rgba(255, 107, 53, 0.06); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 220px;">
+            <h4 style="font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 0.5px; color: #FF6B35; margin: 0 0 6px;">Envie d'aller plus loin ?</h4>
+            <p style="margin: 0; color: rgba(255, 255, 255, 0.78); font-size: 14px; line-height: 1.6;">Tu peux compléter ton suivi à distance par des séances de <strong style="color:#fff;">coaching terrain</strong> : technique de course, renforcement et séances clés encadrées.</p>
           </div>
-          <div style="display: flex; align-items: stretch; gap: 24px; flex-wrap: wrap;">
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0;">
-              <div class="price-badge" style="padding: 12px 22px; background: linear-gradient(135deg, #1282A2, #0091B8); color: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(18, 130, 162, 0.25); text-align: center; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;">
-                <span style="font-size: 26px; font-weight: 800;">50€</span>
-                <span style="font-size: 14px; opacity: 0.95;">la séance</span>
-              </div>
-              <a href="#note-lieux" style="color: #FF6B35; text-decoration: none; font-size: 11px; font-style: italic; text-align: center; transition: color 0.2s;" onmouseover="this.style.color='#ff8856'" onmouseout="this.style.color='#FF6B35'">
-                📍 Je me déplace jusqu'à<br>30 min de La Défense
-              </a>
-            </div>
-            <p style="margin: 0; flex: 1; min-width: 180px; color: rgba(255, 255, 255, 0.85); font-size: 13px; font-weight: 500; line-height: 1.65;">
-              Tu veux aller plus loin dans ta progression ?<br>
-              Je me déplace pour un coaching terrain, entièrement dédiée à ta progression : évaluation du profil d'endurance · technique de course · préparation physique · accompagnement sur séance clé · renforcement musculaire.
-            </p>
-          </div>
+          <a href="#solo-duo-trio" style="display: inline-flex; align-items: center; gap: 8px; background: #FF6B35; color: #fff; padding: 13px 26px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35); flex-shrink: 0; transition: background 0.25s ease;" onmouseover="this.style.background='#ff7a47'" onmouseout="this.style.background='#FF6B35'">Découvrir le coaching terrain →</a>
         </div>
       </div>
 
@@ -5369,148 +5484,20 @@
     </div>
   </section>
 
-  <!-- FAQ SECTION -->
-  <section class="faq-section" id="faq">
-    <div class="faq-container">
-      <div class="section-header">
-        <h2 class="section-title">FAQ - Suivi personnalisé</h2>
-        <p class="section-subtitle">Tu as des questions ? Voici les réponses aux questions les plus fréquentes</p>
-      </div>
-
-      <div class="faq-content">
-        <div class="faq-category">
-          <h3 class="faq-category-title">LE DÉMARRAGE</h3>
-          
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Comment démarrer ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Pour démarrer, il te suffit de remplir le <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">le formulaire</a> ou de m'envoyer un mail à <a href="mailto:contact@reding-running.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">contact@reding-running.fr</a>. Nous convenons ensuite d'un appel pour discuter de tes objectifs, contraintes et attentes. Suite à cet échange et après ton "feu vert", je te prépare les premières séances de ton plan d'entraînement.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Y a-t-il une évaluation au démarrage ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Oui, une évaluation du profil d'endurance (en présence du coach) est réalisée au démarrage de l'accompagnement. Elle permet d'établir un point de départ précis et de construire un plan d'entraînement vraiment adapté à ton niveau.</p>
-              <p style="margin-top:10px;font-size:13px;font-style:italic;color:#555;"><a href="#note-lieux" style="color:#FF6B35;font-weight:700;text-decoration:none;">*</a> Je me déplace jusqu'à 30 min de <a href="#note-lieux" style="color:#555;text-decoration:underline;">La Défense</a>.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Comment fonctionne le paiement ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Le paiement s'effectue directement via la plateforme de suivi Nolio par prélèvement automatique mensuel. Tu peux arrêter ce prélèvement à tout moment depuis ton espace personnel, en toute simplicité et sans frais.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Y a-t-il un engagement minimum ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Non, l'accompagnement à distance est sans engagement. Tu peux arrêter quand tu le souhaites.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-category">
-          <h3 class="faq-category-title">LE SUIVI</h3>
-          
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Comment fonctionne l'accompagnement via Nolio ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Nolio est une plateforme qui te permet de recevoir ton plan d'entraînement personnalisé. Les séances sont automatiquement synchronisées avec ta montre GPS (Garmin, Polar, Suunto, etc.). Tu peux consulter <a href="https://help.nolio.io/fr/articles/11623193-premier-jour-avec-nolio-en-tant-que-sportif" target="_blank" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">ce site</a> qui te donnera plus de détails sur le fonctionnement de la plateforme.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>À quelle fréquence mon plan est-il ajusté ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>J'analyse chacune de tes séances et j'adapte ton plan si nécessaire. Si tu as une semaine difficile, une fatigue inhabituelle, ou au contraire une progression plus rapide que prévu, j'ajuste immédiatement ton programme pour rester dans une logique de progression durable.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Puis-je te contacter à tout moment ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Oui, tu peux me contacter via WhatsApp ou la messagerie Nolio. Je réponds généralement sous 24h maximum. Il est également possible de convenir d'un créneau pour échanger par téléphone si tu souhaites discuter plus en détail.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Une montre GPS est-elle obligatoire ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Oui, une montre GPS est obligatoire pour le suivi à distance. Elle me permet d'analyser précisément tes données d'entraînement (allure, fréquence cardiaque, dénivelé, temps de récupération, etc.) afin d'ajuster au mieux ton plan et de suivre ta progression de manière efficace.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Le renforcement musculaire est-il inclus ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Oui ! Le renforcement musculaire est essentiel pour progresser en course à pied et prévenir les blessures. Tu as accès à des vidéos explicatives sur Nolio avec des exercices adaptés à ton niveau et à tes objectifs. Ces séances sont intégrées dans ton plan d'entraînement.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Où se déroulent les séances en présentiel ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>📍 Les séances en présentiel se déroulent à maximum 30 minutes de <a href="https://www.google.com/maps/dir/La+D%C3%A9fense//@48.9043275,2.2511616,14z/data=!4m9!4m8!1m5!1m1!1s0x47e66503bb403457:0xda098f7887a51000!2m2!1d2.238767!2d48.891759!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">La Défense</a> en transport en commun ou en 2 roues. Le lieu exact est défini ensemble en fonction de tes disponibilités et de la séance prévue (piste, parc, parcours urbain, etc.).</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Pourquoi programmer des séances en présentiel en plus du suivi à distance ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Les séances en présentiel sont un excellent complément au suivi à distance. Elles permettent de travailler sur des points techniques spécifiques, de bénéficier d'un coaching en temps réel et d'une motivation supplémentaire. Ces séances ne sont pas obligatoires mais peuvent vraiment accélérer ta progression.</p>
-            </div>
-          </div>
-  </section>
-
   <!-- SOLO-DUO/TRIO SECTION -->
   <section class="solo-duo-section" id="solo-duo-trio">
     <div class="solo-duo-container">
       <div class="solo-duo-content">
         <!-- SECTION 1 : Hero + Cartes tarifaires -->
         <div class="ct-hero">
-          <h2 class="ct-title">Coaching Terrain</h2>
+          <h2 class="ct-title">Coaching terrain</h2>
           <p class="suivi-distance-lead">Coaching terrain pour coureur de tous niveaux.</p>
           <ul class="suivi-distance-meta" style="margin-bottom: 20px;" aria-label="Engagements clés">
             <li><span class="dot" aria-hidden="true"></span>Séances encadrées</li>
             <li><span class="dot" aria-hidden="true"></span>Progression et motivation</li>
             <li><span class="dot" aria-hidden="true"></span>Spécifique et Technique</li>
           </ul>
-          <p class="ct-exemples">Exemples de séances : définition du profil d'endurance, renforcement musculaire, développement de la technique, développement de la vitesse/endurance, entretien de la condition physique.</p>
+          <p class="ct-exemples">Exemples de séances : définition du profil d'endurance, renforcement musculaire, amélioration de la technique de course, développement de la vitesse/endurance, entretien de la condition physique.</p>
 
           <div class="ct-cards-grid">
 
@@ -5568,10 +5555,11 @@
                 <li><span class="ct-check">✓</span>Tarif dégressif selon effectif</li>
                 <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="mailto:contact@reding-running.fr" class="ct-card-cta">Contacter →</a>
+              <a href="#contactForm" class="ct-card-cta">Réserver →</a>
             </div>
 
           </div>
+          <p style="text-align: center; margin: 22px auto 0; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.55); line-height: 1.5;">Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
         </div>
 
 
@@ -5670,12 +5658,145 @@
     </div>
   </section>
 
+  <!-- FAQ SECTION -->
+  <section class="faq-section" id="faq">
+    <div class="faq-container">
+      <div class="section-header">
+        <h2 class="section-title">Questions fréquentes</h2>
+        <p class="section-subtitle">Tu as des questions ? Voici les réponses aux questions les plus fréquentes</p>
+      </div>
+
+      <div class="faq-content">
+        <div class="faq-category">
+          <h3 class="faq-category-title">Général</h3>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Comment démarrer ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Pour démarrer, il te suffit de remplir le <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">formulaire</a> ou de m'envoyer un mail à <a href="mailto:contact@reding-running.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">contact@reding-running.fr</a>. Précise-moi quelques informations sur ton profil, ton besoin et tes attentes, et je reviens vers toi pour échanger et définir ensemble la suite.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Comment fonctionne le paiement ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Le paiement s'effectue par lien Stripe (carte bancaire), virement ou chèque ANCV (à venir). Il n'y a aucun prélèvement automatique : c'est toi qui gardes le contrôle sur chaque versement.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Y a-t-il un engagement minimum pour le suivi à distance ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Non, le suivi à distance est sans engagement. Tu peux arrêter quand tu le souhaites.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-category">
+          <h3 class="faq-category-title">Suivi à distance</h3>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Comment fonctionne l'accompagnement via Nolio ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Nolio est une plateforme qui te permet de recevoir ton plan d'entraînement personnalisé. Les séances sont automatiquement synchronisées avec ta montre GPS (Garmin, Polar, Suunto, etc.). Tu peux consulter <a href="https://help.nolio.io/fr/articles/11623193-premier-jour-avec-nolio-en-tant-que-sportif" target="_blank" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">ce site</a> qui te donnera plus de détails sur le fonctionnement de la plateforme.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Y a-t-il une évaluation au démarrage ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Oui, une évaluation du profil d'endurance est réalisée au démarrage de l'accompagnement. Elle permet d'établir un point de départ précis et de construire un plan d'entraînement adapté à ton niveau.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Le plan est-il ajusté régulièrement ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>J'analyse chacune de tes séances et j'adapte ton plan si nécessaire. Si tu as une semaine difficile, une fatigue inhabituelle, ou au contraire une progression plus rapide que prévu, j'ajuste immédiatement ton programme pour rester dans une logique de progression cohérente et durable.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Puis-je te contacter à tout moment ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Oui, tu peux me contacter via WhatsApp ou la messagerie Nolio. Je réponds généralement sous 24h maximum. Il est également possible de convenir d'un créneau pour échanger par téléphone si tu souhaites discuter plus en détail.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Une montre GPS est-elle obligatoire ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Oui, une montre GPS est obligatoire pour le suivi à distance. Elle me permet d'analyser précisément tes données d'entraînement (allure, fréquence cardiaque, dénivelé, temps de récupération, etc.) afin d'ajuster au mieux ton plan et de suivre ta progression de manière efficace.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Le renforcement musculaire est-il inclus ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Oui ! Le renforcement musculaire est essentiel pour progresser en course à pied et prévenir les blessures. Tu as accès à des vidéos explicatives sur Nolio avec des exercices adaptés à ton niveau et à tes objectifs. Ces séances sont intégrées dans ton plan d'entraînement.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-category">
+          <h3 class="faq-category-title">Coaching terrain</h3>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Où se déroulent les séances de coaching terrain ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>📍 Les séances de coaching terrain se déroulent à maximum 30 minutes de <a href="https://www.google.com/maps/dir/La+D%C3%A9fense//@48.9043275,2.2511616,14z/data=!4m9!4m8!1m5!1m1!1s0x47e66503bb403457:0xda098f7887a51000!2m2!1d2.238767!2d48.891759!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">La Défense</a> en transport en commun ou en 2 roues. Le lieu exact est défini ensemble en fonction de tes disponibilités et de la séance prévue (piste, parc, parcours urbain, etc.).</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Pourquoi programmer des séances de coaching terrain en plus du suivi à distance ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Les séances de coaching terrain sont un excellent complément au suivi à distance. Elles permettent de travailler sur des points techniques spécifiques, de bénéficier d'un coaching en temps réel et d'une motivation supplémentaire. Ces séances ne sont pas obligatoires mais peuvent vraiment accélérer ta progression.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FORMULAIRE SECTION -->
   <section class="form-section" id="contactForm">
 
     <div style="text-align:center;margin-bottom:48px;">
 <h2 class="section-title" style="color:#FF6B35;margin-bottom:0;">Formulaire</h2>
-      <p style="font-size:clamp(14px,1.3vw,16px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Remplis le formulaire et je reviens vers toi le plus rapidement possible.</p>
+      <p style="font-size:clamp(20px, 2.1vw, 26px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Remplis le formulaire et je reviens vers toi le plus rapidement possible.</p>
     </div>
 
     <div class="form-section-inner">
@@ -5734,7 +5855,7 @@
           </div>
           <div class="qf-choice-grid">
             <label class="qf-choice-card" for="type-a">
-              <input type="radio" id="type-a" name="Type de coaching" value="Suivi à distance" required>
+              <input type="radio" id="type-a" name="Type de coaching" value="Suivi à distance" required checked>
               <span class="qf-choice-dot"></span>
               <span class="qf-choice-title">Suivi à distance</span>
               <span class="qf-choice-desc">Plan personnalisé et accompagnement du 5K au Marathon</span>
@@ -5751,7 +5872,7 @@
         <!-- ══════════════════════════════════════
              BRANCHE A — SUIVI À DISTANCE
         ══════════════════════════════════════ -->
-        <div class="qf-branch" id="qf-branch-a">
+        <div class="qf-branch qf-active" id="qf-branch-a" style="display:block;opacity:1;transform:none;">
           <div class="qform-divider"></div>
 
           <div class="qform-block" style="margin-bottom:0;">
@@ -5766,10 +5887,10 @@
             <div class="form-group">
               <span class="qform-field-label">Ton niveau actuel</span>
               <div class="pill-group">
-                <div class="pill-option"><input type="radio" id="niv1" name="Niveau" value="Débutant (moins d'1 an)"><label for="niv1">Je débute (- d'1 an)</label></div>
-                <div class="pill-option"><input type="radio" id="niv2" name="Niveau" value="Coureur régulier"><label for="niv2">Je cours régulièrement</label></div>
-                <div class="pill-option"><input type="radio" id="niv3" name="Niveau" value="Compétiteur"><label for="niv3">Je cours en compétition</label></div>
-                <div class="pill-option"><input type="radio" id="niv4" name="Niveau" value="Reprise après pause"><label for="niv4">Je reprends</label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="niv1" name="Niveau" value="Débutant — je commence (moins d'1 an)"><label for="niv1">Débutant<br><small style="font-weight:500;opacity:.7;">Je commence (- d'1 an)</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="niv2" name="Niveau" value="Intermédiaire — je cours régulièrement"><label for="niv2">Intermédiaire<br><small style="font-weight:500;opacity:.7;">Je cours régulièrement</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="niv3" name="Niveau" value="Confirmé — plusieurs années de pratique"><label for="niv3">Confirmé<br><small style="font-weight:500;opacity:.7;">Plusieurs années de pratique</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="niv4" name="Niveau" value="Expert — compétiteur expérimenté"><label for="niv4">Expert<br><small style="font-weight:500;opacity:.7;">Compétiteur expérimenté</small></label></div>
               </div>
             </div>
 
@@ -5778,10 +5899,10 @@
             <div class="form-group">
               <span class="qform-field-label">Ton objectif principal *</span>
               <div class="pill-group">
-                <div class="pill-option pill-lg"><input type="radio" id="obj2" name="Objectif principal" value="Battre mon record — performance"><label for="obj2">⚡ Battre mon record<br><small style="font-weight:500;opacity:.7;">Améliorer mes chrono</small></label></div>
-                <div class="pill-option pill-lg"><input type="radio" id="obj1" name="Objectif principal" value="Relever un défi — finir ma première course"><label for="obj1">🏁 Relever un défi<br><small style="font-weight:500;opacity:.7;">Finir ma première course</small></label></div>
-                <div class="pill-option pill-lg"><input type="radio" id="obj3" name="Objectif principal" value="Gagner en endurance — courir plus longtemps"><label for="obj3">🌱 Gagner en endurance<br><small style="font-weight:500;opacity:.7;">Courir plus longtemps</small></label></div>
-                <div class="pill-option pill-lg"><input type="radio" id="obj4" name="Objectif principal" value="M'entretenir — santé et bien-être"><label for="obj4">💚 M'entretenir<br><small style="font-weight:500;opacity:.7;">Santé & bien-être</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="obj2" name="Objectif principal" value="Battre mon record — performance"><label for="obj2">Battre mon record<br><small style="font-weight:500;opacity:.7;">Améliorer mes chrono</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="obj1" name="Objectif principal" value="Relever un défi — finir ma première course"><label for="obj1">Relever un défi<br><small style="font-weight:500;opacity:.7;">Finir ma première course</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="obj3" name="Objectif principal" value="Gagner en endurance — courir plus longtemps"><label for="obj3">Gagner en endurance<br><small style="font-weight:500;opacity:.7;">Courir plus longtemps</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="obj4" name="Objectif principal" value="M'entretenir — santé et bien-être"><label for="obj4">M'entretenir<br><small style="font-weight:500;opacity:.7;">Santé & bien-être</small></label></div>
               </div>
 
               <!-- Sous-questions : Relever un défi -->
@@ -5830,7 +5951,7 @@
                 <div class="pill-option"><input type="radio" id="gps-non" name="Montre GPS" value="Non"><label for="gps-non">Non</label></div>
               </div>
               <div class="qf-alert" id="qf-gps-alert">
-                ⚠️ <strong>Attention :</strong> une montre GPS est indispensable pour permettre l'analyse de tes données via Nolio dans le cadre du suivi à distance.
+                <strong>Attention :</strong> une montre GPS est indispensable pour permettre l'analyse de tes données via Nolio dans le cadre du suivi à distance.
               </div>
             </div>
           </div>
@@ -5857,6 +5978,15 @@
                 <div class="pill-option"><input type="radio" id="fmt1" name="Format séance" value="Individuel"><label for="fmt1">Individuel</label></div>
                 <div class="pill-option"><input type="radio" id="fmt2" name="Format séance" value="Duo (2 pers.)"><label for="fmt2">Duo</label></div>
                 <div class="pill-option"><input type="radio" id="fmt3" name="Format séance" value="Trio (3 pers.)"><label for="fmt3">Trio</label></div>
+                <div class="pill-option"><input type="radio" id="fmt4" name="Format séance" value="Groupe (4 pers. et +)"><label for="fmt4">Groupe</label></div>
+              </div>
+
+              <!-- Sous-question : Groupe → nombre de personnes -->
+              <div class="qf-subfields" id="qf-fmt-groupe">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label for="groupe-nb">Nombre de personnes <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(à partir de 4)</span></label>
+                  <input type="number" id="groupe-nb" name="Nombre de personnes" min="4" inputmode="numeric" placeholder="Ex : 5">
+                </div>
               </div>
             </div>
 
@@ -5895,7 +6025,7 @@
         <!-- ══════════════════════════════════════
              SECTION FINALE — COMMUNE
         ══════════════════════════════════════ -->
-        <div class="qf-branch" id="qf-final">
+        <div class="qf-branch qf-active" id="qf-final" style="display:block;opacity:1;transform:none;">
           <div class="qform-divider"></div>
 
           <div class="qform-block" style="margin-bottom:0;">
@@ -5914,7 +6044,7 @@
             </label>
           </div>
           <button type="submit" class="form-submit-btn">Envoyer ma demande →</button>
-          <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds sous 24h — pas de spam, jamais.</p>
+          <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds sous 24h</p>
           <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
         </div>
 
@@ -5942,37 +6072,46 @@
       var qfFinal  = document.getElementById('qf-final');
       var gpsAlert = document.getElementById('qf-gps-alert');
 
+      // Affichage à toute épreuve : on force directement l'opacité/transform en ligne,
+      // indépendamment de l'état d'animation, pour que le bloc apparaisse à chaque fois.
       function showEl(el) {
+        if (!el) return;
         el.style.display = 'block';
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () { el.classList.add('qf-active'); });
-        });
+        void el.offsetWidth; // force un reflow → l'animation part de l'état caché
+        el.classList.add('qf-active');
+        el.style.opacity = '1';
+        el.style.transform = 'none';
       }
       function hideEl(el) {
+        if (!el) return;
         el.classList.remove('qf-active');
-        el.addEventListener('transitionend', function h() {
-          if (!el.classList.contains('qf-active')) el.style.display = 'none';
-          el.removeEventListener('transitionend', h);
-        });
+        el.style.display = 'none';
+        el.style.opacity = '';
+        el.style.transform = '';
       }
 
       // Initialise les date min = aujourd'hui
       var today = new Date().toISOString().split('T')[0];
       document.querySelectorAll('input[type="date"]').forEach(function (d) { d.min = today; });
 
-      // Cartes de choix → branches
+      // Affiche la branche correspondant au choix coché (Suivi à distance / Coaching terrain).
       document.querySelectorAll('input[name="Type de coaching"]').forEach(function (r) {
         r.addEventListener('change', function () {
-          if (this.value === 'Suivi à distance') {
-            hideEl(branchB);
-            showEl(branchA);
-          } else if (this.value === 'Coaching terrain') {
+          if (this.value === 'Coaching terrain') {
             hideEl(branchA);
             showEl(branchB);
+          } else {
+            hideEl(branchB);
+            showEl(branchA);
           }
-          if (!qfFinal.classList.contains('qf-active')) showEl(qfFinal);
+          showEl(qfFinal);
         });
       });
+
+      // Par défaut : « Suivi à distance » est coché → sa branche et la suite sont visibles.
+      showEl(branchA);
+      hideEl(branchB);
+      showEl(qfFinal);
 
       // Sous-questions selon l'objectif
       var subDefi   = document.getElementById('qf-obj-defi');
@@ -5980,38 +6119,27 @@
 
       document.querySelectorAll('input[name="Objectif principal"]').forEach(function (r) {
         r.addEventListener('change', function () {
-          [subDefi, subRecord].forEach(function (el) {
-            el.classList.remove('qf-active');
-            el.addEventListener('transitionend', function h() {
-              if (!el.classList.contains('qf-active')) el.style.display = 'none';
-              el.removeEventListener('transitionend', h);
-            });
-          });
+          hideEl(subDefi);
+          hideEl(subRecord);
           var target = this.id === 'obj1' ? subDefi : this.id === 'obj2' ? subRecord : null;
-          if (target) {
-            target.style.display = 'block';
-            requestAnimationFrame(function () {
-              requestAnimationFrame(function () { target.classList.add('qf-active'); });
-            });
-          }
+          if (target) showEl(target);
         });
       });
 
       // Alerte GPS montre
       document.querySelectorAll('input[name="Montre GPS"]').forEach(function (r) {
         r.addEventListener('change', function () {
-          if (this.value === 'Non') {
-            gpsAlert.style.display = 'block';
-            requestAnimationFrame(function () {
-              requestAnimationFrame(function () { gpsAlert.classList.add('qf-active'); });
-            });
-          } else {
-            gpsAlert.classList.remove('qf-active');
-            gpsAlert.addEventListener('transitionend', function h() {
-              if (!gpsAlert.classList.contains('qf-active')) gpsAlert.style.display = 'none';
-              gpsAlert.removeEventListener('transitionend', h);
-            });
-          }
+          if (this.value === 'Non') showEl(gpsAlert);
+          else hideEl(gpsAlert);
+        });
+      });
+
+      // Sous-question : Groupe → nombre de personnes
+      var subGroupe = document.getElementById('qf-fmt-groupe');
+      document.querySelectorAll('input[name="Format séance"]').forEach(function (r) {
+        r.addEventListener('change', function () {
+          if (this.id === 'fmt4') showEl(subGroupe);
+          else hideEl(subGroupe);
         });
       });
     })();
@@ -6043,7 +6171,7 @@
 
         if (data.success) {
           form.reset();
-          ['qf-branch-a','qf-branch-b','qf-final','qf-gps-alert','qf-obj-defi','qf-obj-record'].forEach(function(id) {
+          ['qf-branch-a','qf-branch-b','qf-final','qf-gps-alert','qf-obj-defi','qf-obj-record','qf-fmt-groupe'].forEach(function(id) {
             var el = document.getElementById(id);
             if (el) { el.classList.remove('qf-active'); el.style.display = 'none'; }
           });
@@ -6229,6 +6357,101 @@
   </footer>
 
   <script src="https://strava-embeds.com/embed.js"></script>
+
+  <!-- ===== POLISH GLOBAL : reveal au scroll + retour en haut ===== -->
+  <style>
+    .service-card { transition: transform .3s ease, box-shadow .3s ease; }
+    .service-card:hover { transform: translateY(-4px); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s cubic-bezier(.16,.84,.44,1), transform .7s cubic-bezier(.16,.84,.44,1);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal.is-visible { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+
+    #toTop {
+      position: fixed; right: 22px; bottom: 22px; z-index: 90;
+      width: 48px; height: 48px; border: none; border-radius: 50%;
+      background: #FF6B35; color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(255,107,53,0.45);
+      opacity: 0; transform: translateY(16px) scale(.9); pointer-events: none;
+      transition: opacity .3s ease, transform .3s ease, background .25s ease;
+    }
+    #toTop.show { opacity: 1; transform: none; pointer-events: auto; }
+    #toTop:hover { background: #ff7a47; transform: translateY(-3px); }
+    #toTop svg { width: 22px; height: 22px; }
+    @media (max-width: 768px) { #toTop { right: 16px; bottom: 16px; width: 44px; height: 44px; } }
+  </style>
+
+  <button id="toTop" aria-label="Revenir en haut de la page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+  </button>
+
+  <script>
+    (function () {
+      // --- Apparition douce au défilement ---
+      var sel = [
+        '#apropos .hero-title-section', '#apropos .apropos-image-wrapper', '#apropos .about-content',
+        '#suivi-personnalise .suivi-distance-header', '#suivi-personnalise .service-card',
+        '#faq .section-header', '#faq .faq-item',
+        '#solo-duo-trio .ct-title', '#solo-duo-trio .ct-card',
+        '#contactForm > div:first-child', '#contactForm .form-section-inner',
+        '#temoignages .resultats-header', '#temoignages .resultat-card',
+        '.site-footer'
+      ].join(',');
+
+      var els = Array.prototype.slice.call(document.querySelectorAll(sel));
+      var counts = {};
+      els.forEach(function (el) {
+        el.classList.add('reveal');
+        var p = el.parentElement;
+        var key = p ? (p.id || p.className || 'p') : 'root';
+        counts[key] = counts[key] || 0;
+        var i = counts[key]++;
+        el.style.transitionDelay = (Math.min(i, 6) * 70) + 'ms';
+      });
+
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function (el) { el.classList.add('is-visible'); el.style.transitionDelay = ''; });
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) {
+              var el = en.target;
+              el.classList.add('is-visible');
+              io.unobserve(el);
+              // nettoyage : on rend la main aux transitions natives (hover, etc.)
+              setTimeout(function () {
+                el.classList.remove('reveal', 'is-visible');
+                el.style.transitionDelay = '';
+              }, 1000);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+        els.forEach(function (el) { io.observe(el); });
+      }
+
+      // --- Bouton retour en haut ---
+      var btn = document.getElementById('toTop');
+      if (btn) {
+        var onScroll = function () {
+          if (window.pageYOffset > 700) btn.classList.add('show');
+          else btn.classList.remove('show');
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+        btn.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    })();
+  </script>
 
 </body>
 </html>
