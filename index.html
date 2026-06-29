@@ -6057,7 +6057,6 @@
               J'accepte que mes données soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" rel="noopener noreferrer" style="color:#FF6B35;">politique de confidentialité</a> *
             </label>
           </div>
-          <div class="h-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2" style="margin-bottom:18px;"></div>
           <button type="submit" class="form-submit-btn">Envoyer ma demande →</button>
           <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds sous 24h</p>
           <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
@@ -6170,16 +6169,6 @@
       e.preventDefault();
 
       const formData = new FormData(form);
-
-      // Vérifie que le captcha anti-robot a bien été résolu
-      if (!formData.get('h-captcha-response')) {
-        formMessage.style.display = 'block';
-        formMessage.style.backgroundColor = '#fff3cd';
-        formMessage.style.color = '#7a5b00';
-        formMessage.style.border = '1px solid #ffe69c';
-        formMessage.textContent = 'Merci de cocher la case « Je ne suis pas un robot » avant d\'envoyer.';
-        return;
-      }
 
       const button = form.querySelector('button[type="submit"]');
       const originalText = button.textContent;
@@ -6384,10 +6373,7 @@
 
   <script src="https://strava-embeds.com/embed.js"></script>
 
-  <!-- hCaptcha (protection anti-spam du formulaire via Web3Forms) -->
-  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
-
-  <!-- ===== POLISH GLOBAL : reveal au scroll + retour en haut ===== -->
+<!-- ===== POLISH GLOBAL : reveal au scroll + retour en haut ===== -->
   <style>
     .service-card { transition: transform .3s ease, box-shadow .3s ease; }
     .service-card:hover { transform: translateY(-4px); }
