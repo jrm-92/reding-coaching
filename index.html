@@ -3835,7 +3835,24 @@
     @media (max-width: 640px) {
       .resultats-section { padding: 70px 20px; }
       .resultats-header { margin-bottom: 48px; }
-      .resultats-grid { grid-template-columns: 1fr; gap: 20px; }
+
+      /* Témoignages en carrousel horizontal (défilement tactile) */
+      .resultats-grid {
+        display: flex;
+        grid-template-columns: none;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -20px;
+        padding: 4px 20px 16px;
+        scrollbar-width: none;
+      }
+      .resultats-grid::-webkit-scrollbar { display: none; }
+      .resultat-card {
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+      }
       .rp-value { font-size: 20px; }
       .resultat-photo-wrap { height: 200px; }
     }
@@ -6274,59 +6291,7 @@
         </div>
       </article>
 
-      <!-- ── CARTE 2 ─────────────────────────────────────────── -->
-      <article class="resultat-card">
-        <div class="resultat-content">
-          <div class="resultat-header-row">
-            <span class="resultat-name">Alexis</span>
-          </div>
-          <p class="resultat-objectif">Objectif : <strong>Passer sous les 50' sur 10K</strong></p>
-          <div class="resultat-progression">
-            <div class="rp-temps">
-              <span class="rp-label">Avant</span>
-              <span class="rp-value rp-before">50'21</span>
-            </div>
-            <div class="rp-middle">
-              <span class="rp-arrow">→</span>
-            </div>
-            <div class="rp-temps">
-              <span class="rp-label">Après</span>
-              <span class="rp-value rp-after">47'32</span>
-            </div>
-          </div>
-          <blockquote class="resultat-quote">Je n'avais jamais couru plus d'une heure. En six mois, j'ai terminé un semi sous les deux heures avec des jambes encore fraîches.</blockquote>
-        </div>
-        <div class="resultat-photo-wrap" style="height: auto;">
-          <div class="resultat-photo-placeholder">A</div>
-        </div>
-      </article>
-
-      <!-- ── CARTE 3 ─────────────────────────────────────────── -->
-      <article class="resultat-card">
-        <div class="resultat-content">
-          <div class="resultat-header-row">
-            <span class="resultat-name">Théo</span>
-          </div>
-          <p class="resultat-objectif">Objectif : <strong>Casser la barrière des 40' sur 10k</strong></p>
-          <div class="resultat-progression">
-            <div class="rp-temps">
-              <span class="rp-label">Avant</span>
-              <span class="rp-value rp-before">41'23</span>
-            </div>
-            <div class="rp-middle">
-              <span class="rp-arrow">→</span>
-            </div>
-            <div class="rp-temps">
-              <span class="rp-label">Après</span>
-              <span class="rp-value rp-after">39'54</span>
-            </div>
-          </div>
-          <blockquote class="resultat-quote">La progression était progressive, sans blessure. Jérémy a su ajuster la charge semaine après semaine selon mes sensations.</blockquote>
-        </div>
-        <div class="resultat-photo-wrap" style="height: auto;">
-          <div class="resultat-photo-placeholder">T</div>
-        </div>
-      </article>
+      <!-- Autres témoignages à ajouter ici (dupliquer le bloc <article class="resultat-card"> ci-dessus) -->
 
     </div>
   </section>
