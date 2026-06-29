@@ -4364,7 +4364,7 @@
     }
     .qf-form .form-group input::placeholder,
     .qf-form .form-group textarea::placeholder {
-      color: rgba(255, 255, 255, 0.25);
+      color: rgba(255, 255, 255, 0.5);
       font-weight: 400;
     }
     .qf-form .form-group input:focus,
@@ -5429,7 +5429,7 @@
             Communication via WhatsApp 
           </li>
         </ul>
-        <div style="margin-top: 8px; padding: 22px 20px; border-top: 1px solid rgba(255, 107, 53, 0.25); background: rgba(255, 107, 53, 0.06); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;">
+        <div class="ct-bridge" style="margin-top: 8px; padding: 22px 20px; border-top: 1px solid rgba(255, 107, 53, 0.25); background: rgba(255, 107, 53, 0.06); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;">
           <div style="flex: 1; min-width: 220px;">
             <h4 style="font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 0.5px; color: #FF6B35; margin: 0 0 6px;">Envie d'aller plus loin ?</h4>
             <p style="margin: 0; color: rgba(255, 255, 255, 0.78); font-size: 14px; line-height: 1.6;">Tu peux compléter ton suivi à distance par des séances de <strong style="color:#fff;">coaching terrain</strong> : technique de course, renforcement et séances clés encadrées.</p>
@@ -5504,7 +5504,7 @@
             <!-- Individuel -->
             <div class="ct-card ct-card--individuel">
               <span class="ct-card-label">Individuel</span>
-              <div class="ct-price">50€</div>
+              <div class="ct-price">50€<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
               <div class="ct-price-unit">par séance</div>
               <hr class="ct-divider">
               <ul class="ct-features">
@@ -5518,7 +5518,7 @@
             <!-- Duo -->
             <div class="ct-card ct-card--duo">
               <span class="ct-card-label">Duo</span>
-              <div class="ct-price">30€</div>
+              <div class="ct-price">30€<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
               <div class="ct-price-unit">par pers. / séance</div>
               <hr class="ct-divider">
               <ul class="ct-features">
@@ -5532,7 +5532,7 @@
             <!-- Trio -->
             <div class="ct-card ct-card--trio">
               <span class="ct-card-label">Trio</span>
-              <div class="ct-price">25€</div>
+              <div class="ct-price">25€<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
               <div class="ct-price-unit">par pers. / séance</div>
               <hr class="ct-divider">
               <ul class="ct-features">
@@ -5546,7 +5546,7 @@
             <!-- Groupe -->
             <div class="ct-card ct-card--groupe">
               <span class="ct-card-label">Groupe</span>
-              <div class="ct-price" style="font-size:clamp(30px,3vw,42px);line-height:1.15;">Sur devis</div>
+              <div class="ct-price" style="font-size:clamp(30px,3vw,42px);line-height:1.15;">Sur devis<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
               <div class="ct-price-unit">4 coureurs et +</div>
               <hr class="ct-divider">
               <ul class="ct-features">
@@ -5559,7 +5559,7 @@
             </div>
 
           </div>
-          <p style="text-align: center; margin: 22px auto 0; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.55); line-height: 1.5;">Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
+          <p style="text-align: center; margin: 22px auto 0; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.55); line-height: 1.5;">* Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
         </div>
 
 
@@ -5620,6 +5620,8 @@
               zoom: 11,
               zoomControl: true,
               scrollWheelZoom: false,
+              dragging: !L.Browser.mobile, // sur mobile : pas de glissement → la page défile librement
+              tap: false,
               attributionControl: true
             });
 
@@ -5880,7 +5882,7 @@
               <span class="qform-block-num">03</span>
               <div>
                 <div class="qform-block-title">Ton profil de coureur</div>
-                <div class="qform-block-sub">Pour calibrer le plan dès le départ</div>
+                <div class="qform-block-sub">Pour apprendre à te connaître et adapter ton plan</div>
               </div>
             </div>
 
@@ -6031,7 +6033,7 @@
           <div class="qform-block" style="margin-bottom:0;">
             <div class="form-group">
               <label for="message">Message ou précisions <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(optionnel)</span></label>
-              <textarea id="message" name="Message" rows="3" placeholder="Blessure récente, contrainte particulière, question... tout est utile."></textarea>
+              <textarea id="message" name="Message" rows="3" placeholder="Donne-moi quelques précisions sur ton profil, ton besoin et tes attentes (historique en course à pieds,blessure récente, contrainte, objectif…)."></textarea>
             </div>
           </div>
 
@@ -6094,15 +6096,22 @@
       var today = new Date().toISOString().split('T')[0];
       document.querySelectorAll('input[type="date"]').forEach(function (d) { d.min = today; });
 
+      // Texte d'invite du champ "Message" adapté au parcours choisi
+      var messageField = document.getElementById('message');
+      var msgDistance = "Donne-moi quelques précisions sur ton profil, ton besoin et tes attentes (blessure récente, contrainte, objectif…).";
+      var msgTerrain  = "Dis-moi ce que tu attends de ce coaching terrain : objectif de la séance, points à travailler (technique, allure, renforcement…), contrainte ou niveau du groupe éventuel…";
+
       // Affiche la branche correspondant au choix coché (Suivi à distance / Coaching terrain).
       document.querySelectorAll('input[name="Type de coaching"]').forEach(function (r) {
         r.addEventListener('change', function () {
           if (this.value === 'Coaching terrain') {
             hideEl(branchA);
             showEl(branchB);
+            if (messageField) messageField.placeholder = msgTerrain;
           } else {
             hideEl(branchB);
             showEl(branchA);
+            if (messageField) messageField.placeholder = msgDistance;
           }
           showEl(qfFinal);
         });
@@ -6387,6 +6396,12 @@
     #toTop:hover { background: #ff7a47; transform: translateY(-3px); }
     #toTop svg { width: 22px; height: 22px; }
     @media (max-width: 768px) { #toTop { right: 16px; bottom: 16px; width: 44px; height: 44px; } }
+
+    /* Passerelle « Envie d'aller plus loin ? » : empilée et centrée sur mobile */
+    @media (max-width: 600px) {
+      .ct-bridge { flex-direction: column; align-items: stretch !important; text-align: center; }
+      .ct-bridge > a { width: 100%; justify-content: center; }
+    }
   </style>
 
   <button id="toTop" aria-label="Revenir en haut de la page">
@@ -6395,47 +6410,7 @@
 
   <script>
     (function () {
-      // --- Apparition douce au défilement ---
-      var sel = [
-        '#apropos .hero-title-section', '#apropos .apropos-image-wrapper', '#apropos .about-content',
-        '#suivi-personnalise .suivi-distance-header', '#suivi-personnalise .service-card',
-        '#faq .section-header', '#faq .faq-item',
-        '#solo-duo-trio .ct-title', '#solo-duo-trio .ct-card',
-        '#contactForm > div:first-child', '#contactForm .form-section-inner',
-        '#temoignages .resultats-header', '#temoignages .resultat-card',
-        '.site-footer'
-      ].join(',');
-
-      var els = Array.prototype.slice.call(document.querySelectorAll(sel));
-      var counts = {};
-      els.forEach(function (el) {
-        el.classList.add('reveal');
-        var p = el.parentElement;
-        var key = p ? (p.id || p.className || 'p') : 'root';
-        counts[key] = counts[key] || 0;
-        var i = counts[key]++;
-        el.style.transitionDelay = (Math.min(i, 6) * 70) + 'ms';
-      });
-
-      if (!('IntersectionObserver' in window)) {
-        els.forEach(function (el) { el.classList.add('is-visible'); el.style.transitionDelay = ''; });
-      } else {
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (en) {
-            if (en.isIntersecting) {
-              var el = en.target;
-              el.classList.add('is-visible');
-              io.unobserve(el);
-              // nettoyage : on rend la main aux transitions natives (hover, etc.)
-              setTimeout(function () {
-                el.classList.remove('reveal', 'is-visible');
-                el.style.transitionDelay = '';
-              }, 1000);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-        els.forEach(function (el) { io.observe(el); });
-      }
+      // (Effet d'apparition au défilement désactivé)
 
       // --- Bouton retour en haut ---
       var btn = document.getElementById('toTop');
