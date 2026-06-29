@@ -6210,14 +6210,14 @@
             });
           });
         } else {
-          throw new Error('Erreur lors de l\'envoi');
+          throw new Error(data.message || 'Erreur lors de l\'envoi');
         }
       } catch (error) {
         formMessage.style.display = 'block';
         formMessage.style.backgroundColor = '#f8d7da';
         formMessage.style.color = '#721c24';
         formMessage.style.border = '1px solid #f5c6cb';
-        formMessage.textContent = '❌ Une erreur est survenue. Réessaie ou écris-moi à contact@reding-running.fr';
+        formMessage.textContent = '❌ ' + (error.message || 'Une erreur est survenue. Réessaie ou écris-moi à contact@reding-running.fr');
         button.textContent = originalText;
         button.disabled = false;
       }
