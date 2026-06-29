@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Jérémy Reding – Coach Running | Île-de-France</title>
   <meta name="description" content="Coach running certifié FFA en Île-de-France. Suivi à distance et Coaching terrain pour coureurs de tous niveaux." />
   <meta name="keywords" content="coach running, coaching course à pied, entraîneur running, plan entraînement running, suivi personnalisé running, suivi à distance running, coach running, Jérémy Reding" />
@@ -724,21 +725,22 @@
       .hcta-benefits { gap: 4px 8px; }
       .hcta-benefit-item { font-size: 10px; }
 
-      /* Badges : compacts, largeur au contenu, retour à la ligne automatique */
+      /* Badges : grille 2 colonnes de tailles égales sur petit écran */
       .hero-badges {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 8px;
       }
       .hero-badge {
         padding: 11px 12px;
         gap: 9px;
+        min-width: 0;
       }
-      .hero-badge-icon { width: 30px; height: 30px; border-radius: 8px; }
+      .hero-badge-icon { width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0; }
       .hero-badge-icon svg { width: 16px; height: 16px; }
       .hero-badge-text { min-width: 0; }
-      .hero-badge-value { font-size: 14px; }
-      .hero-badge-label { font-size: 8px; letter-spacing: 0.5px; white-space: nowrap; }
+      .hero-badge-value { font-size: 14px; white-space: normal; }
+      .hero-badge-label { font-size: 8px; letter-spacing: 0.5px; white-space: normal; }
 
       /* Photo en dernier */
       .hero-img-wrap img {
@@ -5338,7 +5340,7 @@
 
         <!-- Signature -->
         <div style="text-align:center;margin-bottom:16px;font-family:'Barlow',sans-serif;">
-          <a href="https://www.athle.fr/athletes/861859" target="_blank" style="display:inline-block;font-size:clamp(17px, 1.6vw, 20px);font-style:italic;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;margin-bottom:10px;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Jérémy R.</a>
+          <a href="https://www.athle.fr/athletes/861859" target="_blank" rel="noopener noreferrer" style="display:inline-block;font-size:clamp(17px, 1.6vw, 20px);font-style:italic;font-weight:700;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s;margin-bottom:10px;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">Jérémy R.</a>
         </div>
       </div>
 
@@ -5701,6 +5703,16 @@
               <p>Non, le suivi à distance est sans engagement. Tu peux arrêter quand tu le souhaites.</p>
             </div>
           </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Qu'est-ce que l'évaluation du profil d'endurance ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>C'est un test qui me permet de définir avec précision ton niveau et tes axes d'amélioration.</p>
+            </div>
+          </div>
         </div>
 
         <div class="faq-category">
@@ -5712,7 +5724,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Nolio est une plateforme qui te permet de recevoir ton plan d'entraînement personnalisé. Les séances sont automatiquement synchronisées avec ta montre GPS (Garmin, Polar, Suunto, etc.). Tu peux consulter <a href="https://help.nolio.io/fr/articles/11623193-premier-jour-avec-nolio-en-tant-que-sportif" target="_blank" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">ce site</a> qui te donnera plus de détails sur le fonctionnement de la plateforme.</p>
+              <p>Nolio est une plateforme qui te permet de recevoir ton plan d'entraînement personnalisé. Les séances sont automatiquement synchronisées avec ta montre GPS (Garmin, Polar, Suunto, etc.). Tu peux consulter <a href="https://help.nolio.io/fr/articles/11623193-premier-jour-avec-nolio-en-tant-que-sportif" target="_blank" rel="noopener noreferrer" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">ce site</a> qui te donnera plus de détails sur le fonctionnement de la plateforme.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -5775,7 +5787,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>📍 Les séances de coaching terrain se déroulent à maximum 30 minutes de <a href="https://www.google.com/maps/dir/La+D%C3%A9fense//@48.9043275,2.2511616,14z/data=!4m9!4m8!1m5!1m1!1s0x47e66503bb403457:0xda098f7887a51000!2m2!1d2.238767!2d48.891759!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">La Défense</a> en transport en commun ou en 2 roues. Le lieu exact est défini ensemble en fonction de tes disponibilités et de la séance prévue (piste, parc, parcours urbain, etc.).</p>
+              <p>📍 Les séances de coaching terrain se déroulent à maximum 30 minutes de <a href="https://www.google.com/maps/dir/La+D%C3%A9fense//@48.9043275,2.2511616,14z/data=!4m9!4m8!1m5!1m1!1s0x47e66503bb403457:0xda098f7887a51000!2m2!1d2.238767!2d48.891759!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">La Défense</a> en transport en commun ou en 2 roues. Le lieu exact est défini ensemble en fonction de tes disponibilités et de la séance prévue (piste, parc, parcours urbain, etc.).</p>
             </div>
           </div>
 
@@ -6032,8 +6044,8 @@
 
           <div class="qform-block" style="margin-bottom:0;">
             <div class="form-group">
-              <label for="message">Message ou précisions <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(optionnel)</span></label>
-              <textarea id="message" name="Message" rows="3" placeholder="Donne-moi quelques précisions sur ton profil, ton besoin et tes attentes (historique en course à pieds,blessure récente, contrainte, objectif…)."></textarea>
+              <label for="message">Message <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(optionnel)</span></label>
+              <textarea id="message" name="Message" rows="3" placeholder="Donne-moi quelques précisions sur ton profil (ou profil des participants)."></textarea>
             </div>
           </div>
 
@@ -6042,9 +6054,10 @@
           <div class="form-checkbox-group" style="margin-bottom:24px;">
             <input type="checkbox" id="rgpd_consent" name="RGPD_Consent" required>
             <label for="rgpd_consent" style="color:rgba(255,255,255,0.8);">
-              J'accepte que mes données soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" style="color:#FF6B35;">politique de confidentialité</a> *
+              J'accepte que mes données soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" rel="noopener noreferrer" style="color:#FF6B35;">politique de confidentialité</a> *
             </label>
           </div>
+          <div class="h-captcha" data-sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2" style="margin-bottom:18px;"></div>
           <button type="submit" class="form-submit-btn">Envoyer ma demande →</button>
           <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds sous 24h</p>
           <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
@@ -6096,22 +6109,15 @@
       var today = new Date().toISOString().split('T')[0];
       document.querySelectorAll('input[type="date"]').forEach(function (d) { d.min = today; });
 
-      // Texte d'invite du champ "Message" adapté au parcours choisi
-      var messageField = document.getElementById('message');
-      var msgDistance = "Donne-moi quelques précisions sur ton profil, ton besoin et tes attentes (blessure récente, contrainte, objectif…).";
-      var msgTerrain  = "Dis-moi ce que tu attends de ce coaching terrain : objectif de la séance, points à travailler (technique, allure, renforcement…), contrainte ou niveau du groupe éventuel…";
-
       // Affiche la branche correspondant au choix coché (Suivi à distance / Coaching terrain).
       document.querySelectorAll('input[name="Type de coaching"]').forEach(function (r) {
         r.addEventListener('change', function () {
           if (this.value === 'Coaching terrain') {
             hideEl(branchA);
             showEl(branchB);
-            if (messageField) messageField.placeholder = msgTerrain;
           } else {
             hideEl(branchB);
             showEl(branchA);
-            if (messageField) messageField.placeholder = msgDistance;
           }
           showEl(qfFinal);
         });
@@ -6164,6 +6170,17 @@
       e.preventDefault();
 
       const formData = new FormData(form);
+
+      // Vérifie que le captcha anti-robot a bien été résolu
+      if (!formData.get('h-captcha-response')) {
+        formMessage.style.display = 'block';
+        formMessage.style.backgroundColor = '#fff3cd';
+        formMessage.style.color = '#7a5b00';
+        formMessage.style.border = '1px solid #ffe69c';
+        formMessage.textContent = 'Merci de cocher la case « Je ne suis pas un robot » avant d\'envoyer.';
+        return;
+      }
+
       const button = form.querySelector('button[type="submit"]');
       const originalText = button.textContent;
 
@@ -6366,6 +6383,9 @@
   </footer>
 
   <script src="https://strava-embeds.com/embed.js"></script>
+
+  <!-- hCaptcha (protection anti-spam du formulaire via Web3Forms) -->
+  <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 
   <!-- ===== POLISH GLOBAL : reveal au scroll + retour en haut ===== -->
   <style>
