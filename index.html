@@ -548,8 +548,8 @@
 
     .hero-badges {
       display: flex;
-      flex-wrap: wrap;
-      gap: 12px; /* cartes compactes au contenu, alignées à gauche */
+      flex-wrap: nowrap; /* les 4 badges restent sur une seule ligne */
+      gap: clamp(6px, 0.7vw, 12px);
       animation: fadeInUp 0.7s 0.5s ease both;
     }
 
@@ -557,12 +557,13 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap: 12px;
+      gap: clamp(6px, 0.7vw, 11px);
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
-      padding: 12px 16px; /* compact */
-      flex: 0 0 auto; /* largeur au contenu, pas étirée */
+      padding: clamp(8px, 0.85vw, 13px) clamp(9px, 0.9vw, 15px);
+      flex: 1 1 0; /* largeurs égales, se mettent à l'échelle pour tenir sur la ligne */
+      min-width: 0;
       backdrop-filter: blur(10px);
       transition: all 0.3s ease;
     }
@@ -574,8 +575,8 @@
     }
 
     .hero-badge-icon {
-      width: 38px;
-      height: 38px;
+      width: clamp(28px, 2.3vw, 38px);
+      height: clamp(28px, 2.3vw, 38px);
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -584,7 +585,7 @@
       background: rgba(255, 107, 53, 0.12);
       color: #FF6B35;
     }
-    .hero-badge-icon svg { width: 20px; height: 20px; }
+    .hero-badge-icon svg { width: clamp(15px, 1.2vw, 20px); height: clamp(15px, 1.2vw, 20px); }
 
     .hero-badge-text {
       display: flex;
@@ -593,25 +594,26 @@
     }
 
     .hero-badge-value {
-      font-size: 16px;
+      font-size: clamp(11px, 1.05vw, 16px);
       font-weight: 900;
       font-style: italic;
       color: #FF6B35;
       text-transform: uppercase;
       letter-spacing: 0.02em;
-      line-height: 1.05;
-      white-space: nowrap;
+      line-height: 1.1;
+      white-space: normal;
     }
 
     .hero-badge-label {
-      font-size: 9px;
+      font-size: clamp(7.5px, 0.62vw, 9px);
       color: rgba(255, 255, 255, 0.55);
       text-transform: uppercase;
-      letter-spacing: 1.2px;
+      letter-spacing: 1px;
       margin-top: 4px;
       font-weight: 700;
       text-align: left;
-      white-space: nowrap; /* tout sur une ligne */
+      white-space: normal;
+      line-height: 1.25;
     }
 
     .hero-img-col {
@@ -692,6 +694,14 @@
     @media (max-width: 1100px) {
       .hero-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
       .hero-img-wrap img { height: 540px; max-width: 400px; }
+
+      /* La colonne se resserre → badges en 2×2 */
+      .hero-badges { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .hero-badge { padding: 11px 14px; }
+      .hero-badge-icon { width: 34px; height: 34px; }
+      .hero-badge-icon svg { width: 18px; height: 18px; }
+      .hero-badge-value { font-size: 15px; }
+      .hero-badge-label { font-size: 8.5px; }
     }
 
     /* ─── HERO MOBILE (≤ 768px) — mise en page spécifique ─── */
@@ -5114,7 +5124,7 @@
       color: rgba(255,255,255,0.8); line-height: 1.4;
     }
 
-    /* Section 3 — Zone d'intervention */
+    /* Section 3 — Zone de déplacement */
     .ct-zone {
       border-top: 1px solid rgba(255,255,255,0.07);
       padding-top: 80px; margin-top: 80px; text-align: center;
@@ -5198,7 +5208,7 @@
               "@type": "Offer",
               "name": "Coaching terrain",
               "category": "Coaching running en présentiel",
-              "description": "Coaching terrain en région parisienne, jusqu'à 30 min de La Défense. Technique de course, évaluation du profil d'endurance, préparation physique. Séances en individuel, duo, trio ou groupe."
+              "description": "Coaching terrain en région parisienne, dans la zone de déplacement. Technique de course, évaluation du profil d'endurance, préparation physique. Séances en individuel, duo, trio ou groupe."
             }
           ]
         }
@@ -5270,7 +5280,7 @@
         <h1 class="hero-main-title">
           <span class="line-orange">Coach running</span>
           <span class="line-white">tous niveaux</span>
-          <span class="line-outline">Du 5k au Marathon</span>
+          <span class="line-outline">Courir encadré</span>
         </h1>
 
         <div class="hero-accent-line"></div>
@@ -5330,7 +5340,7 @@
             <span class="hero-badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
             <span class="hero-badge-text">
               <span class="hero-badge-value">Coach Running</span>
-              <span class="hero-badge-label">Carte professionnelle</span>
+              <span class="hero-badge-label">Carte Pro</span>
             </span>
           </div>
         </div>
@@ -5517,7 +5527,7 @@
               <span class="step-number">04</span>
               <h4 class="step-title">Démarrage du suivi</h4>
             </div>
-            <p class="step-text">Dès validation, je construis ton plan d'entraînement et nous démarrons le suivi.</p>
+            <p class="step-text">Une fois ton accord donné, je construis ton plan d'entraînement et nous démarrons le suivi.</p>
           </li>
 
         </ul>
@@ -5537,7 +5547,7 @@
         <!-- SECTION 1 : Hero + Cartes tarifaires -->
         <div class="ct-hero">
           <h2 class="ct-title">Coaching terrain</h2>
-          <p class="suivi-distance-lead">Coaching terrain pour coureur de tous niveaux.</p>
+          <p class="suivi-distance-lead">Séance en individuel ou collectif pour coureur de tous niveaux.</p>
           <ul class="suivi-distance-meta" style="margin-bottom: 20px;" aria-label="Engagements clés">
             <li><span class="dot" aria-hidden="true"></span>Séances encadrées</li>
             <li><span class="dot" aria-hidden="true"></span>Progression et motivation</li>
@@ -5608,6 +5618,12 @@
           <p style="text-align: center; margin: 22px auto 0; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.55); line-height: 1.5;">* Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
         </div>
 
+        <!-- Zone de déplacement (carte) -->
+        <div class="seances-map-wrap">
+          <h3 style="text-align:center;font-size:clamp(22px,3vw,32px);font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:-0.01em;color:#FF6B35;margin:0 0 10px;">Zone de déplacement</h3>
+          <p class="seances-map-label">Lieux d'entrainement défini ensemble en fonction de ta localisation et de l'objectif de la séance. 
+          <div id="seances-map"></div>
+        </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
         <script>
@@ -5677,13 +5693,13 @@
               maxZoom: 19
             }).addTo(map);
 
-            /* Zone 30 min */
+            /* Zone de déplacement (8 km) */
             L.circle([48.8917, 2.2396], {
-              radius: 12000,
+              radius: 8000,
               color: '#FF6B35',
               fillColor: '#FF6B35',
-              fillOpacity: 0.10,
-              weight: 2,
+              fillOpacity: 0.16,
+              weight: 2.5,
               dashArray: '8, 5'
             }).addTo(map);
 
@@ -5698,7 +5714,7 @@
 
             L.marker([48.8917, 2.2396], { icon: markerIcon })
               .addTo(map)
-              .bindPopup('<strong style="color:#FF6B35;font-family:Barlow,sans-serif;">La Défense</strong><br><span style="font-size:12px;font-family:Barlow,sans-serif;">Point de référence</span>')
+              .bindPopup('<strong style="color:#FF6B35;font-family:Barlow,sans-serif;">Zone de déplacement</strong><br><span style="font-size:12px;font-family:Barlow,sans-serif;">Coaching terrain</span>')
               .openPopup();
           })();
         </script>
@@ -5831,7 +5847,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>📍 Les séances de coaching terrain se déroulent à maximum 30 minutes de <a href="https://www.google.com/maps/dir/La+D%C3%A9fense//@48.9043275,2.2511616,14z/data=!4m9!4m8!1m5!1m1!1s0x47e66503bb403457:0xda098f7887a51000!2m2!1d2.238767!2d48.891759!1m0!3e0?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">La Défense</a> en transport en commun ou en 2 roues. Le lieu exact est défini ensemble en fonction de tes disponibilités et de la séance prévue (piste, parc, parcours urbain, etc.).</p>
+              <p>📍 Les séances de coaching terrain se déroulent dans la zone de déplacement indiquée sur la carte. Le lieu exact est défini ensemble en fonction de tes disponibilités et de la séance prévue (piste, parc, parcours urbain, etc.).</p>
             </div>
           </div>
 
@@ -6031,6 +6047,12 @@
             </div>
 
             <div class="form-group">
+              <label for="loc-terrain">Ta localisation <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(Pour définir le lieu d'entraînement)</span></label>
+              <input type="text" id="loc-terrain" name="Localisation" placeholder="Ex : Courbevoie, Puteaux, 92400…">
+              <p style="margin-top:6px;font-size:12px;color:rgba(255,255,255,0.45);font-style:italic;">Le coaching terrain se déroule dans la zone de déplacement (voir la carte plus haut).</p>
+            </div>
+
+            <div class="form-group">
               <span class="qform-field-label">Format souhaité</span>
               <div class="pill-group">
                 <div class="pill-option"><input type="radio" id="fmt1" name="Format séance" value="Individuel"><label for="fmt1">Individuel</label></div>
@@ -6103,7 +6125,7 @@
           </div>
           <div class="h-captcha" data-captcha="true" style="margin-bottom:18px;"></div>
           <button type="submit" class="form-submit-btn">Envoyer ma demande →</button>
-          <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds sous 24h</p>
+          <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds généralement sous 24h</p>
           <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
         </div>
 
