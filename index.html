@@ -29,8 +29,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <style>
     /* ===== BASE STYLES ===== */
-    html { 
-      scroll-behavior: smooth; 
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 116px; /* décale les ancres sous le header fixe (100px) */
+    }
+    @media (max-width: 768px) {
+      html { scroll-padding-top: 88px; }
     }
 
     * { 
@@ -1062,7 +1066,7 @@
 .apropos-image-wrapper {
   align-items: flex-start;
   margin-left: 0;
-  margin-top: 60px; /* Modifiez cette valeur pour déplacer la photo */
+  margin-top: -80px; /* remonte la photo pour qu'elle apparaisse en entier (desktop) */
 }
 
 .apropos-image {
@@ -5368,10 +5372,10 @@
     </div>
 
     <!-- Grille : photo+card gauche | texte droite -->
-    <div class="apropos-container" style="align-items: center;">
+    <div class="apropos-container" style="align-items: start;">
 
       <!-- Colonne gauche : photo uniquement -->
-      <div class="apropos-image-wrapper" style="display: flex; flex-direction: column; margin-top: 0;">
+      <div class="apropos-image-wrapper" style="display: flex; flex-direction: column;">
         <div class="apropos-image" style="height: auto; margin: 0; max-height: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,107,53,0.18);">
           <img src="jerem_ratp.jpeg" alt="Jérémy - Coach Running" style="width: 100%; height: auto; display: block;" />
         </div>
@@ -6378,6 +6382,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
       </div>
       <div class="footer-links">
         <a href="mentions-legales.html">Mentions légales</a>
+        <a href="cgv.html">CGV / CGU</a>
         <a href="politique-confidentialite.html">Politique de confidentialité</a>
         <a href="mailto:contact@reding-running.fr">contact@reding-running.fr</a>
       </div>
