@@ -4,9 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=3.0, user-scalable=yes"/>
   <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <!-- Sécurité : liste blanche des ressources externes autorisées.
+       ⚠️ Si le formulaire, le captcha ou la carte cessent de fonctionner après une mise à jour
+       d'un service tiers, supprime cette balise meta et re-teste. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://web3forms.com https://hcaptcha.com https://*.hcaptcha.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://*.hcaptcha.com https://www.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
   <title>Jérémy Reding – Coach Running | Île-de-France</title>
   <meta name="description" content="Coach running certifié FFA en Île-de-France. Suivi à distance et Coaching terrain pour coureurs de tous niveaux." />
-  <meta name="keywords" content="coach running, coach running Île-de-France, coach running Paris, suivi running, suivi à distance running, suivi personnalisé running, coaching running, coaching course à pied, entraîneur running, entraîneur course à pied, plan d'entraînement running, préparation marathon, préparation semi-marathon, préparation 10 km, coach course à pied, coaching terrain running, coach running La Défense, Jérémy Reding" />
   <meta name="author" content="Jérémy Reding" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://reding-running.fr/" />
@@ -16,17 +19,20 @@
   <meta property="og:description" content="Coach running en Île-de-France. Suivi personnalisé à distance et coaching terrain pour coureur de tous niveaux." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://reding-running.fr/" />
-  <meta property="og:image" content="https://reding-running.fr/logo_running_orange.png" />
+  <meta property="og:image" content="https://reding-running.fr/og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jérémy Reding — Coach running en Île-de-France" />
   <meta property="og:locale" content="fr_FR" />
   <meta property="og:site_name" content="Reding Running" />
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Jérémy Reding – Coach Running | Île-de-France" />
   <meta name="twitter:description" content="Coach running en Île-de-France. Suivi personnalisé à distance et coaching terrain pour coureur de tous niveaux." />
-  <meta name="twitter:image" content="https://reding-running.fr/logo_running_orange.png" />
+  <meta name="twitter:image" content="https://reding-running.fr/og-image.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
   <style>
     /* ===== BASE STYLES ===== */
     html {
@@ -36,6 +42,7 @@
     @media (max-width: 768px) {
       html { scroll-padding-top: 88px; }
     }
+
 
     * { 
       margin: 0; 
@@ -132,7 +139,7 @@
     }
 
     nav.main-nav a:hover {
-      color: #FFE766;
+      color: #ff8856;
     }
 
     nav.main-nav a::after {
@@ -142,36 +149,12 @@
       left: 0;
       width: 0;
       height: 2px;
-      background: #FFE766;
+      background: #ff8856;
       transition: width 0.3s ease;
     }
 
     nav.main-nav a:hover::after {
       width: 100%;
-    }
-
-    .cta-button {
-      background: #000000;
-      color: #ffffff;
-      padding: 14px 36px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 15px;
-      transition: all 0.3s ease;
-      border: 2px solid #000000;
-      margin-left: auto;
-    }
-
-    .cta-button:hover {
-      background: #FFE766;
-      color: #000000;
-      border-color: #FFE766;
-      transform: translateY(-2px);
-    }
-
-    .cta-button::after {
-      display: none;
     }
 
     .nav-cta {
@@ -191,7 +174,7 @@
       background: #ff7a47 !important;
       color: #ffffff !important;
       transform: translateY(-2px) !important;
-      box-shadow: 0 8px 28px rgba(255, 107, 53, 0.55) !important;
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4) !important;
     }
 
     .nav-cta::after {
@@ -255,11 +238,8 @@
         opacity: 1;
         pointer-events: all;
       }
-
-      .cta-button {
-        margin-left: 0;
-      }
     }
+
 
     /* ===== HERO SECTION (REDESIGNED) ===== */
     @keyframes fadeInUp {
@@ -270,17 +250,9 @@
       from { opacity: 0; transform: translateX(50px); }
       to   { opacity: 1; transform: translateX(0); }
     }
-    @keyframes heroFloat {
-      0%, 100% { transform: translateY(0px); }
-      50%       { transform: translateY(-16px); }
-    }
     @keyframes glowPulse {
       0%, 100% { opacity: 0.5; }
       50%       { opacity: 1; }
-    }
-    @keyframes pulse-badge {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.5; transform: scale(0.8); }
     }
 
     .hero-section {
@@ -303,7 +275,7 @@
       background: radial-gradient(circle, rgba(255, 107, 53, 0.16) 0%, transparent 60%);
       pointer-events: none;
       z-index: 0;
-      animation: glowPulse 5s ease-in-out infinite;
+      animation: glowPulse 9s ease-in-out infinite;
     }
 
     .hero-section::after {
@@ -335,34 +307,6 @@
       flex-direction: column;
       padding-top: 70px;
       justify-content: flex-start; /* flex-start : la distribution se fait par les marges entre blocs, pas par centrage global */
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255, 107, 53, 0.12);
-      border: 1px solid rgba(255, 107, 53, 0.3);
-      color: #FF6B35;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2.5px;
-      padding: 9px 18px;
-      border-radius: 30px;
-      width: fit-content;
-      margin-bottom: 32px;
-      animation: fadeInUp 0.7s ease both;
-    }
-
-    .hero-eyebrow::before {
-      content: '';
-      width: 7px;
-      height: 7px;
-      background: #FF6B35;
-      border-radius: 50%;
-      flex-shrink: 0;
-      animation: pulse-badge 2s ease-in-out infinite;
     }
 
     .hero-main-title {
@@ -400,7 +344,7 @@
     .hero-accent-line {
       width: 64px;
       height: 4px;
-      background: linear-gradient(90deg, #FF6B35, #FFE766);
+      background: linear-gradient(90deg, #FF6B35, #ff8856);
       border-radius: 2px;
       margin-bottom: 24px;
       animation: fadeInUp 0.7s 0.2s ease both;
@@ -413,141 +357,6 @@
       font-weight: 400;
       margin-bottom: 48px;
       animation: fadeInUp 0.7s 0.18s ease both;
-    }
-
-    .hero-body-text {
-      font-size: clamp(16px, 1.7vw, 19px);
-      color: rgba(255, 255, 255, 0.78);
-      line-height: 1.8;
-      margin-bottom: 16px;
-      max-width: 960px;
-      animation: fadeInUp 0.7s 0.3s ease both;
-    }
-
-    .hero-subtitle-line {
-      color: #FF6B35;
-      font-size: clamp(14px, 1.4vw, 18px);
-      font-weight: 700;
-      letter-spacing: 0.6px;
-      margin-bottom: 18px;
-      max-width: 600px;
-      text-transform: uppercase;
-      animation: fadeInUp 0.7s 0.25s ease both;
-    }
-
-    .hero-en-savoir-plus {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      position: relative;
-      width: fit-content;
-      color: rgba(255, 255, 255, 0.65);
-      font-size: 13px;
-      font-weight: 500;
-      font-style: normal;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding-bottom: 2px;
-      margin-top: 8px;
-      white-space: nowrap;
-      transition: color 0.25s;
-    }
-    .hero-en-savoir-plus::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: #FF6B35;
-      transition: width 0.3s ease;
-    }
-    .hero-en-savoir-plus:hover {
-      color: #FF6B35;
-    }
-    .hero-en-savoir-plus:hover::after {
-      width: 100%;
-    }
-    .hero-en-savoir-plus .esm-arrow {
-      display: inline-block;
-      transition: transform 0.25s ease;
-      font-style: normal;
-    }
-    .hero-en-savoir-plus:hover .esm-arrow {
-      transform: translateX(4px);
-    }
-
-    .hero-cta-group {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-top: 32px;
-      margin-bottom: 52px;
-      animation: fadeInUp 0.7s 0.4s ease both;
-    }
-
-    .hero-btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #FF6B35;
-      color: #ffffff;
-      padding: 18px 42px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 16px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 32px rgba(255, 107, 53, 0.45);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-btn-primary::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .hero-btn-primary:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 18px 50px rgba(255, 107, 53, 0.6);
-      background: #ff7a47;
-      color: #ffffff;
-    }
-
-    .hero-btn-primary:hover::before {
-      opacity: 1;
-    }
-
-    .hero-btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.07);
-      color: rgba(255, 255, 255, 0.88);
-      padding: 17px 32px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 15px;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      backdrop-filter: blur(8px);
-    }
-
-    .hero-btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.14);
-      border-color: rgba(255, 255, 255, 0.4);
-      transform: translateY(-4px);
-      color: #ffffff;
     }
 
     .hero-badges {
@@ -609,7 +418,7 @@
     }
 
     .hero-badge-label {
-      font-size: clamp(7.5px, 0.62vw, 9px);
+      font-size: clamp(10px, 0.8vw, 11px);
       color: rgba(255, 255, 255, 0.55);
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -640,7 +449,6 @@
       background: radial-gradient(ellipse, rgba(255, 107, 53, 0.22) 0%, transparent 70%);
       border-radius: 50%;
       z-index: 0;
-      animation: glowPulse 4s ease-in-out infinite;
     }
 
     .hero-img-wrap {
@@ -662,38 +470,6 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
-    .hero-img-badge {
-      position: absolute;
-      bottom: 22px;
-      left: 20px;
-      width: fit-content;
-      background: rgba(6, 9, 15, 0.88);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 107, 53, 0.3);
-      border-radius: 14px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .hero-img-badge-dot {
-      width: 8px;
-      height: 8px;
-      background: #FF6B35;
-      border-radius: 50%;
-      flex-shrink: 0;
-      animation: pulse-badge 2s ease-in-out infinite;
-    }
-
-    .hero-img-badge-text {
-      color: rgba(255, 255, 255, 0.9);
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
     /* Hero responsive */
     @media (max-width: 1100px) {
       .hero-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
@@ -705,7 +481,7 @@
       .hero-badge-icon { width: 34px; height: 34px; }
       .hero-badge-icon svg { width: 18px; height: 18px; }
       .hero-badge-value { font-size: 15px; }
-      .hero-badge-label { font-size: 8.5px; }
+      .hero-badge-label { font-size: 10px; }
     }
 
     /* ─── HERO MOBILE (≤ 768px) — mise en page spécifique ─── */
@@ -732,7 +508,7 @@
       .hero-img-col     { order: 6; padding-top: 0; }
 
       /* CTA : cartes empilées sur mobile */
-      .hcta-label-text { font-size: 9px; letter-spacing: 0.1em; }
+      .hcta-label-text { font-size: 10px; letter-spacing: 0.1em; }
       .hero-cta-duo { flex-direction: column; gap: 10px; margin-bottom: 12px; }
       .hcta-card { padding: 16px 18px; border-radius: 13px; }
       .hcta-card-title { font-size: 14px; }
@@ -754,7 +530,7 @@
       .hero-badge-icon svg { width: 16px; height: 16px; }
       .hero-badge-text { min-width: 0; }
       .hero-badge-value { font-size: 14px; white-space: normal; }
-      .hero-badge-label { font-size: 8px; letter-spacing: 0.5px; white-space: normal; }
+      .hero-badge-label { font-size: 10px; letter-spacing: 0.5px; white-space: normal; }
 
       /* Photo en dernier */
       .hero-img-wrap img {
@@ -788,13 +564,6 @@
 
     @media (min-width: 769px) { .hero-break-mobile { display: none; } }
 
-    /* ===== CLASSES PRÉSERVÉES POUR AUTRES SECTIONS ===== */
-    .hero-middle {
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-      padding-right: 20px;
-    }
 
     .hero-title-section {
       margin-bottom: 45px;
@@ -814,19 +583,13 @@
       width: 100%;
     }
 
-    .hero-title .highlight {
-      color: #FF6B35;
-      position: relative;
-      display: inline-block;
-    }
-
     /* ===== HERO FORM ===== */
     .hero-form {
       background: rgba(10, 17, 40, 0.7);
       backdrop-filter: blur(25px);
       padding: 18px 20px;
       border-radius: 20px;
-      border: 2px solid rgba(255, 231, 102, 0.35);
+      border: 2px solid rgba(255, 107, 53, 0.35);
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
       width: 100%;
       position: relative;
@@ -840,20 +603,9 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(90deg, #FF6B35, #FFE766, #1282A2);
+      background: linear-gradient(90deg, #FF6B35, #ff8856);
     }
 
-    .hero-form h3 {
-      font-size: 22px;
-      font-weight: 900;
-      font-style: italic;
-      color: #FFE766;
-      margin-bottom: 24px;
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      text-shadow: 0 2px 10px rgba(255, 231, 102, 0.4);
-    }
 
     .form-row {
       display: grid;
@@ -873,7 +625,7 @@
 
     .form-group label {
       display: block;
-      color: #FFE766;
+      color: #FF6B35;
       font-size: 12px;
       font-weight: 700;
       margin-bottom: 8px;
@@ -906,10 +658,9 @@
     .form-group textarea:focus,
     .form-group select:focus {
       outline: none;
-      border-color: #FFE766;
+      border-color: #FF6B35;
       background: #ffffff;
-      box-shadow: 0 0 0 4px rgba(255, 231, 102, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
-      transform: translateY(-2px);
+      box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .form-group textarea {
@@ -934,7 +685,7 @@
       background: linear-gradient(135deg, #FF6B35 0%, #ff8856 100%);
       color: #ffffff;
       border: none;
-      border-radius: 10px;
+      border-radius: 50px;
       font-size: 14px;
       font-weight: 800;
       cursor: pointer;
@@ -942,31 +693,15 @@
       text-transform: uppercase;
       letter-spacing: 1.8px;
       margin-top: 12px;
-      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.45);
+      box-shadow: 0 6px 18px rgba(255, 107, 53, 0.3);
       position: relative;
       overflow: hidden;
     }
 
-    .form-submit-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: left 0.5s;
-    }
-
-    .form-submit-btn:hover::before {
-      left: 100%;
-    }
-
     .form-submit-btn:hover {
-      background: linear-gradient(135deg, #FFE766 0%, #ffd700 100%);
-      color: #1a1a1a;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(255, 231, 102, 0.5);
+      background: linear-gradient(135deg, #ff7a47 0%, #ff9466 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(255, 107, 53, 0.4);
     }
 
     .form-submit-btn:active {
@@ -983,60 +718,6 @@
       letter-spacing: 0.5px;
       max-width: 100%;
       width: 100%;
-    }
-
-    .hero-title .highlight {
-      color: #FF6B35;
-      position: relative;
-      display: inline-block;
-    }
-
-
-    .hero-cta {
-      display: flex;
-      gap: 20px;
-      justify-content: flex-start;
-      flex-wrap: wrap;
-      margin-top: 40px;
-    }
-
-    .btn-primary {
-      background: #ffffff;
-      color: #0047FF;
-      padding: 16px 36px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      border: 2px solid #ffffff;
-      display: inline-block;
-    }
-
-    .btn-primary:hover {
-      background: #FFE766;
-      color: #0047FF;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: #ffffff;
-      padding: 16px 36px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      transition: all 0.3s ease;
-      border: 2px solid #ffffff;
-      display: inline-block;
-    }
-
-    .btn-secondary:hover {
-      background: #ffffff;
-      color: #0047FF;
-      transform: translateY(-3px);
     }
 
     /* ===== À PROPOS SECTION ===== */
@@ -1089,106 +770,6 @@
   border-radius: 20px;
 }
 
-.apropos-records-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #FF6B35;
-  text-align: center;
-  margin-top: 25px;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  max-width: 320px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.apropos-stats {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  width: 100%;
-  max-width: 320px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.apropos-stat-item {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  padding: 10px 12px;
-  border-radius: 8px;
-  text-align: center;
-  flex: 1;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.apropos-stat-value {
-  font-size: 15px;
-  font-weight: 800;
-  color: #FF6B35;
-  margin-bottom: 3px;
-}
-
-.aprésentiel {
-  font-size: 9px;
-  color: rgba(255, 255, 255, 0.8);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.apropos-strava-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(252, 76, 2, 0.9);
-  color: #ffffff;
-  padding: 8px 16px;
-  border-radius: 20px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 12px;
-  transition: all 0.3s ease;
-  border: 2px solid rgba(252, 76, 2, 1);
-  margin-top: 15px;
-}
-
-.apropos-strava-link:hover {
-  background: rgba(252, 76, 2, 1);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(252, 76, 2, 0.4);
-}
-
-.apropos-content h2 {
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 900;
-  font-style: italic;
-  text-transform: uppercase;
-  color: #FF6B35;
-  margin-bottom: 40px;
-  margin-top: 0; /* Aligné avec la photo */
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  text-align: center;
-}
-
-.apropos-content p {
-  font-size: clamp(18px, 1.8vw, 22px);
-  color: rgba(255, 255, 255, 0.92);
-  line-height: 1.7;
-  letter-spacing: 0.2px;
-  max-width: 100%;
-  margin-bottom: 8px;
-  font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  text-align: justify;
-}
-
-.apropos-content strong {
-  color: #ffffff;
-  font-weight: 600;
-}
-
 @media (max-width: 992px) {
   .apropos-container {
     grid-template-columns: 1fr;
@@ -1212,6 +793,7 @@
   }
 }
 
+
 @media (max-width: 768px) {
   .apropos-section {
     padding: 80px 20px;
@@ -1225,20 +807,8 @@
     max-width: 350px;
     margin-bottom: 40px;
   }
-
-  .apropos-stats {
-    max-width: 280px;
-  }
-
-  .apropos-content h2 {
-    font-size: 32px;
-  }
-
-  .apropos-content p {
-    font-size: 17px;
-    text-align: left;
-  }
 }
+
 
 @media (max-width: 600px) {
   .apropos-section {
@@ -1249,25 +819,8 @@
     max-width: 100%;
     margin-bottom: 30px;
   }
-
-  .apropos-stats {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  .apropos-stat-item {
-    flex: 1 1 calc(50% - 3px);
-    min-width: 0;
-  }
-
-  .apropos-content h2 {
-    font-size: 28px;
-  }
-
-  .apropos-content p {
-    font-size: 16px;
-  }
 }
+
 
     /* ===== Grille Cards Suivi Personnalisé ===== */
     .about-section > div[style*="grid-template-columns: 1.15fr 0.85fr"] {
@@ -1314,11 +867,6 @@
         font-size: 20px !important;
         padding: 20px 18px 0 !important;
         white-space: normal !important;
-      }
-      
-      .about-section .service-card .service-price {
-        font-size: 28px !important;
-        padding: 0 18px !important;
       }
       
       .about-section .service-card .service-features {
@@ -1380,11 +928,12 @@
         line-height: 1.5 !important;
       }
     }
+
     
     /* ===== ABOUT SECTION ===== */
     .about-section {
       padding: 100px 60px 100px 60px;
-      background: linear-gradient(135deg, #0A1128 0%, #001F54 25%, #034078 50%, #1282A2 75%, #0091B8 100%);
+      background: linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
       position: relative;
       overflow: visible;
     }
@@ -1415,7 +964,7 @@
     .about-content {
       max-width: 100%;
       padding: 0;
-      text-align: justify;
+      text-align: left;
     }
 
     .about-content h2 {
@@ -1438,7 +987,7 @@
       font-size: clamp(18px, 1.8vw, 22px);
       line-height: 1.7;
       color: rgba(255, 255, 255, 0.92);
-      text-align: justify;
+      text-align: left;
       margin-bottom: clamp(15px, 4vw, 35px); /* Responsive spacing */
       letter-spacing: 0.2px;
     }
@@ -1446,23 +995,6 @@
     .about-content strong {
       color: #1a1a1a;
       font-weight: 600;
-    }
-
-    /* Bandeau offre */
-    .promo-banner {
-      width: 100%;
-      background: linear-gradient(135deg, #FF6B35 0%, #FF8C61 100%);
-      padding: 8px 60px;
-      text-align: center;
-      margin: 30px auto;
-      max-width: 700px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
-    }
-
-    .promo-banner,
-    .services-grid {
-      grid-column: 1 / -1;
     }
 
     /* ===== ÉTAPES — CARD "PARCOURS D'ACCOMPAGNEMENT" ===== */
@@ -1558,22 +1090,13 @@
       }
     }
 
+
     @media (max-width: 420px) {
       .step-text {
         padding-left: 0;
       }
     }
 
-    /* ===== SUIVI PERSONNALISÉ — GRILLE RESPONSIVE ===== */
-    .suivi-intro-text {
-      max-width: 700px;
-      margin: 0 auto 56px;
-      padding: 0 30px;
-      text-align: center;
-      font-size: clamp(15px, 1.5vw, 18px);
-      color: rgba(255, 255, 255, 0.72);
-      line-height: 1.85;
-    }
 
     /* ===== SUIVI À DISTANCE — EN-TÊTE PREMIUM ===== */
     .suivi-distance-header {
@@ -1621,14 +1144,6 @@
       }
     }
 
-    .suivi-distance-sub {
-      font-size: clamp(16px, 1.5vw, 18px);
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.78);
-      line-height: 1.75;
-      margin: 0 auto 36px;
-      max-width: 960px;
-    }
 
     .suivi-distance-meta {
       display: inline-flex;
@@ -1681,6 +1196,7 @@
       }
     }
 
+
     .suivi-cards-grid {
       max-width: 1800px;
       margin: 40px auto 0;
@@ -1708,6 +1224,7 @@
       }
     }
 
+
     @media (max-width: 600px) {
       .suivi-cards-grid {
         padding: 0 15px;
@@ -1715,6 +1232,7 @@
         gap: 20px;
       }
     }
+
 
     /* Réajustements des éléments internes des cards (titres, prix, blocs imbriqués) */
     @media (max-width: 768px) {
@@ -1800,27 +1318,6 @@
       }
     }
 
-    .promo-banner-content {
-      max-width: 100%;
-      margin: 0 auto;
-      color: white;
-    }
-
-    .promo-banner h3 {
-      font-size: clamp(16px, 2vw, 20px);
-      font-weight: 900;
-      font-style: italic;
-      text-transform: uppercase;
-      margin: 0 0 3px 0;
-      color: white;
-    }
-
-    .promo-banner p {
-      font-size: clamp(13px, 1.5vw, 16px);
-      margin: 0;
-      line-height: 1.4;
-      color: rgba(255, 255, 255, 0.95);
-    }
 
     /* Responsive promo-banner */
     @media (max-width: 768px) {
@@ -1829,54 +1326,6 @@
         margin: 40px 15px;
         border-radius: 10px;
       }
-    }
-
-    @media (max-width: 480px) {
-      .promo-banner {
-        padding: 12px 20px;
-        margin: 30px 10px;
-      }
-
-      .promo-banner h3 {
-        font-size: 14px;
-        margin-bottom: 3px;
-      }
-
-      .promo-banner p {
-        font-size: 12px;
-      }
-    }
-
-    .stats-row {
-      display: flex;
-      gap: 20px;
-      margin-top: 40px;
-      flex-wrap: wrap;
-    }
-
-    .stat-item {
-      flex: 1;
-      min-width: 120px;
-      text-align: center;
-      padding: 20px;
-      background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
-      border-radius: 12px;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .stat-value {
-      font-size: 24px;
-      font-weight: 800;
-      color: #ff5722;
-      margin-bottom: 5px;
-    }
-
-    .stat-label {
-      font-size: 12px;
-      color: #999;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
     }
 
 
@@ -1935,281 +1384,6 @@
       margin-right: auto;
     }
 
-    /* ===== SÉANCES TERRAINS — STRUCTURE RESPONSIVE ===== */
-    .seances-text-col {
-      text-align: left;
-      max-width: 700px;
-      margin: 10px auto 36px;
-    }
-
-    .seances-intro {
-      line-height: 1.8;
-      color: rgba(255, 255, 255, 0.75);
-      margin: 0 0 18px 0;
-      font-size: 15px;
-      font-style: italic;
-    }
-
-    .seances-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      color: rgba(255, 255, 255, 0.92);
-    }
-
-    .seances-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 11px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 15px;
-      line-height: 1.55;
-    }
-
-    .seances-list li:last-child {
-      border-bottom: none;
-    }
-
-    .seances-arrow {
-      color: #FF6B35;
-      font-weight: 900;
-      font-size: 18px;
-      flex-shrink: 0;
-      padding-top: 1px;
-      line-height: 1.55;
-    }
-
-    .seances-cards-col {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 60px;
-    }
-
-    .seances-price-card {
-      border-radius: 20px;
-      padding: 0;
-      text-align: center;
-      min-width: 180px;
-      flex: 0 1 210px;
-      position: relative;
-      overflow: hidden;
-      backdrop-filter: blur(6px);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .seances-price-card--individuel {
-      background: rgba(255, 107, 53, 0.15);
-      border: 1px solid rgba(255, 107, 53, 0.3);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .seances-price-card--individuel::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, #FF6B35, #ff8856);
-    }
-
-    .seances-price-card--groupe {
-      background: rgba(18, 130, 162, 0.18);
-      border: 1px solid rgba(18, 130, 162, 0.35);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .seances-price-card--groupe::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, #4AB8D8, #0091B8);
-    }
-
-    .seances-price-card h3 {
-      font-size: 16px;
-      font-weight: 900;
-      font-style: italic;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin: 0;
-      padding: 20px 18px 0;
-    }
-
-    .seances-price-card--individuel h3 { color: #FF6B35; }
-    .seances-price-card--duo h3 { color: #FFE766; text-shadow: 0 0 30px rgba(255,231,102,0.25); }
-    .seances-price-card--trio h3 { color: #34D399; text-shadow: 0 0 30px rgba(52,211,153,0.25); }
-    .seances-price-card--groupe h3 { color: #ffffff; text-shadow: 0 0 30px rgba(74,184,216,0.25); }
-
-    .seances-price-card--duo {
-      background: rgba(255, 231, 102, 0.12);
-      border: 1px solid rgba(255, 231, 102, 0.3);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
-    }
-    .seances-price-card--duo::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, #FFE766, #ffd700);
-    }
-    .seances-price-card--duo .seances-price-badge {
-      background: linear-gradient(135deg, #FFE766, #ffd700);
-      color: #1a1a1a;
-      box-shadow: 0 6px 20px rgba(255, 231, 102, 0.4);
-    }
-    .seances-price-card--duo .seances-features li svg { color: #FFE766; }
-    .seances-price-card--duo .seances-card-cta {
-      background: transparent;
-      color: #FFE766;
-      border: 1.5px solid rgba(255, 231, 102, 0.5);
-    }
-    .seances-price-card--duo .seances-card-cta:hover {
-      background: rgba(255, 231, 102, 0.15);
-      border-color: #FFE766;
-      transform: translateY(-2px);
-    }
-
-    .seances-price-card--trio {
-      background: rgba(52, 211, 153, 0.12);
-      border: 1px solid rgba(52, 211, 153, 0.3);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
-    }
-    .seances-price-card--trio::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 6px;
-      background: linear-gradient(90deg, #34D399, #10b981);
-    }
-    .seances-price-card--trio .seances-price-badge {
-      background: linear-gradient(135deg, #34D399, #10b981);
-      color: #ffffff;
-      box-shadow: 0 6px 20px rgba(52, 211, 153, 0.4);
-    }
-    .seances-price-card--trio .seances-features li svg { color: #34D399; }
-    .seances-price-card--trio .seances-card-cta {
-      background: transparent;
-      color: #34D399;
-      border: 1.5px solid rgba(52, 211, 153, 0.5);
-    }
-    .seances-price-card--trio .seances-card-cta:hover {
-      background: rgba(52, 211, 153, 0.15);
-      border-color: #34D399;
-      transform: translateY(-2px);
-    }
-
-    .seances-price-badge {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50px;
-      padding: 9px 18px;
-      font-size: 17px;
-      font-weight: 800;
-      line-height: 1.3;
-      white-space: nowrap;
-      width: fit-content;
-      margin: 12px auto 0;
-      min-height: 64px;
-    }
-
-    .seances-price-card--individuel .seances-price-badge {
-      background: linear-gradient(135deg, #FF6B35, #ff8856);
-      color: #ffffff;
-      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-    }
-
-    .seances-price-card--groupe .seances-price-badge {
-      background: linear-gradient(135deg, #1282A2, #0091B8);
-      color: #ffffff;
-      box-shadow: 0 6px 20px rgba(18, 130, 162, 0.4);
-    }
-
-    .seances-price-badge-sub {
-      font-size: 12px;
-      font-weight: 600;
-      opacity: 0.9;
-      letter-spacing: 0.5px;
-    }
-
-    .seances-features {
-      list-style: none;
-      margin: 12px 0 0;
-      padding: 0 16px 16px;
-    }
-
-    .seances-features li {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 6px 0;
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 1.4;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-      color: rgba(255,255,255,0.82);
-    }
-
-    .seances-features li:last-child { border-bottom: none; }
-
-    .seances-features li svg {
-      flex-shrink: 0;
-      width: 13px;
-      height: 13px;
-    }
-
-    .seances-price-card--individuel .seances-features li svg { color: #FF6B35; }
-    .seances-price-card--groupe .seances-features li svg { color: #4AB8D8; }
-
-    .seances-card-cta {
-      display: block;
-      width: fit-content;
-      margin: 0 auto 18px;
-      padding: 10px 24px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 13px;
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-    }
-
-    .seances-price-card--individuel .seances-card-cta {
-      background: #FF6B35;
-      color: #ffffff;
-      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.35);
-    }
-    .seances-price-card--individuel .seances-card-cta:hover {
-      background: #ff7a47;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(255, 107, 53, 0.5);
-    }
-
-    .seances-price-card--groupe .seances-card-cta {
-      background: transparent;
-      color: #4AB8D8;
-      border: 1.5px solid rgba(74, 184, 216, 0.5);
-    }
-    .seances-price-card--groupe .seances-card-cta:hover {
-      background: rgba(74, 184, 216, 0.15);
-      border-color: #4AB8D8;
-      transform: translateY(-2px);
-    }
-
-    .seances-price-label { display: none; }
-    .seances-price-value { display: none; }
-    .seances-price-value--devis { display: none; }
-    .seances-price-unit { display: none; }
-    .seances-price-cta { display: none; }
-
     .seances-map-wrap {
       margin-top: 48px;
       width: 100%;
@@ -2241,68 +1415,6 @@
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
     }
 
-    .location-hover-trigger {
-      position: relative;
-      display: inline-block;
-      cursor: default;
-    }
-
-    .location-map-tooltip {
-      position: absolute;
-      bottom: calc(100% + 12px);
-      left: 50%;
-      transform: translateX(-50%) translateY(6px);
-      width: 300px;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(255, 107, 53, 0.35);
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease, transform 0.25s ease;
-      z-index: 9999;
-    }
-
-    .location-map-tooltip.visible {
-      opacity: 1;
-      pointer-events: auto;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    #location-mini-map {
-      width: 300px;
-      height: 200px;
-      display: block;
-    }
-
-    .seances-footnote-link {
-      color: #FF6B35;
-      font-weight: 900;
-      font-size: 13px;
-      text-decoration: none;
-      vertical-align: super;
-      line-height: 0;
-      transition: color 0.2s;
-    }
-    .seances-footnote-link:hover { color: #ff8856; }
-
-    .seances-cities-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .seances-cities-grid span {
-      background: rgba(255, 231, 102, 0.12);
-      border: 1px solid rgba(255, 231, 102, 0.25);
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 12.5px;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 20px;
-    }
-
     /* Responsive Coaching terrains */
     @media (max-width: 992px) {
       .solo-duo-section {
@@ -2311,17 +1423,6 @@
       .seances-cards-col {
         grid-template-columns: repeat(4, 1fr);
         margin-bottom: 20px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .seances-cards-col {
-        grid-template-columns: repeat(2, 1fr);
-        width: 100%;
-        margin-bottom: 0;
-      }
-      .seances-price-card {
-        min-width: 0;
       }
     }
 
@@ -2335,34 +1436,8 @@
       .solo-duo-content > p {
         font-size: 16px;
       }
-      .seances-intro {
-        font-size: 14px;
-      }
-      .seances-list li {
-        font-size: 14px;
-        line-height: 1.55;
-        gap: 10px;
-      }
-      .seances-cards-col {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-      }
-      .seances-price-card {
-        min-width: 0;
-        border-radius: 16px;
-      }
-      .seances-location-wrap {
-        margin-top: 28px;
-        margin-bottom: 16px;
-      }
-      .seances-location-box {
-        padding: 14px 20px;
-      }
-      .seances-location-text {
-        font-size: 13.5px;
-        line-height: 1.55;
-      }
     }
+
 
     /* Forcer 2 cards côte à côte sur petits paysages mais 1 sur très petits */
     @media (min-width: 480px) and (max-width: 768px) {
@@ -2372,84 +1447,6 @@
       .seances-price-card {
         flex: 1 1 240px;
       }
-    }
-
-    @media (max-width: 480px) {
-      .seances-cards-col {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      .seances-price-card h3 {
-        font-size: 13px;
-        padding: 14px 8px 0;
-      }
-      .seances-price-badge {
-        font-size: 15px;
-        padding: 6px 12px;
-        min-height: 52px;
-        margin: 8px auto 0;
-      }
-      .seances-price-badge-sub {
-        font-size: 10px;
-      }
-      .seances-features {
-        padding: 0 8px 10px;
-        margin: 8px 0 0;
-      }
-      .seances-features li {
-        font-size: 10.5px;
-        gap: 5px;
-        padding: 4px 0;
-      }
-      .seances-features li svg {
-        width: 11px;
-        height: 11px;
-      }
-      .seances-card-cta {
-        font-size: 10px;
-        padding: 7px 10px;
-        letter-spacing: 0.5px;
-        white-space: normal;
-        line-height: 1.3;
-        width: calc(100% - 16px);
-        margin: 0 auto 12px;
-      }
-    }
-
-    @media (max-width: 360px) {
-      .seances-cards-col {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-      .seances-price-card h3 {
-        font-size: 15px;
-        padding: 16px 14px 0;
-      }
-      .seances-price-badge {
-        font-size: 18px;
-        min-height: auto;
-        padding: 8px 20px;
-        margin: 10px auto 0;
-      }
-      .seances-price-badge-sub {
-        font-size: 12px;
-      }
-      .seances-features li {
-        font-size: 12px;
-      }
-      .seances-card-cta {
-        font-size: 12px;
-        padding: 9px 20px;
-        white-space: nowrap;
-        width: fit-content;
-      }
-    }
-
-    /* ===== SERVICES SECTION ===== */
-    .services-section {
-      padding: 0;
-      background: transparent;
-      margin: 0;
     }
 
     .section-header {
@@ -2471,39 +1468,14 @@
       color: #666;
       line-height: 1.6;
     }
-
-    .services-grid {
-      max-width: 1600px;
-      margin: 40px auto 0;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 0 60px;
-    }
-
-    @media (min-width: 992px) {
-      .services-grid {
-        grid-template-columns: repeat(2, minmax(320px, 1fr));
-      }
-    }
     
     @media (max-width: 768px) {
-      .services-grid {
-        grid-template-columns: 1fr;
-        padding: 0 20px;
-        gap: 20px;
-      }
       
       .service-card {
         max-width: 100%;
       }
     }
-    
-    @media (max-width: 480px) {
-      .services-grid {
-        padding: 0 15px;
-      }
-    }
+
 
     .service-card {
       background: #ffffff;
@@ -2524,7 +1496,7 @@
       backdrop-filter: blur(6px);
     }
 
-    .seréel {
+    .service-card.terrain {
       background: rgba(255, 107, 53, 0.15);
       border: 1px solid rgba(255, 107, 53, 0.3);
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
@@ -2545,7 +1517,7 @@
       background: linear-gradient(90deg, #4AB8D8, #0091B8);
     }
 
-    .seréel::before {
+    .service-card.terrain::before {
       background: linear-gradient(90deg, #FF6B35, #ff8856);
     }
 
@@ -2555,7 +1527,7 @@
     }
 
     .price-badge:hover {
-      transform: translateY(-8px) scale(1.05);
+      transform: translateY(-3px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
@@ -2575,7 +1547,7 @@
       text-shadow: 0 0 30px rgba(74, 184, 216, 0.25);
     }
 
-    .seréel h3 {
+    .service-card.terrain h3 {
       color: #FF6B35;
     }
 
@@ -2587,30 +1559,6 @@
       padding: 0 30px;
     }
 
-    .service-price {
-      font-size: 32px;
-      font-weight: 900;
-      margin-bottom: 6px;
-      padding: 0 30px;
-      background: linear-gradient(135deg, #1282A2, #0091B8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .seréel .service-price {
-      background: linear-gradient(135deg, #FF6B35, #ff8856);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .service-period {
-      font-size: 16px;
-      color: #999;
-      font-weight: 600;
-    }
-
     .service-features {
       list-style: none;
       margin-top: 8px;
@@ -2618,7 +1566,7 @@
       background: transparent;
     }
 
-    .seréel .service-features {
+    .service-card.terrain .service-features {
       background: transparent;
     }
 
@@ -2665,18 +1613,18 @@
       color: #ffffff;
     }
 
-    .seréel .service-features li::before {
+    .service-card.terrain .service-features li::before {
       display: none;
     }
 
-    .seréel .service-features li strong {
+    .service-card.terrain .service-features li strong {
       color: #FF8C60;
     }
 
     /* ===== FAQ SECTION ===== */
     .faq-section {
       padding: 80px 60px;
-      background: linear-gradient(135deg, #0A1128 0%, #001F54 25%, #034078 50%, #1282A2 75%, #0091B8 100%);
+      background: linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
     }
 
     .faq-container {
@@ -2702,7 +1650,7 @@
     .faq-category-title {
       font-size: 20px;
       font-weight: 800;
-      color: #FFE766;
+      color: #FF6B35;
       margin-bottom: 24px;
       text-transform: uppercase;
       letter-spacing: 1.5px;
@@ -2749,7 +1697,7 @@
 
     .faq-icon {
       font-size: 28px;
-      font-weight: 300;
+      font-weight: 400;
       color: #ffffff;
       transition: transform 0.3s ease;
       flex-shrink: 0;
@@ -2801,197 +1749,6 @@
       }
     }
 
-    /* ===== ETAPES SECTION ===== */
-    .etapes-section {
-      padding: 60px 60px;
-      background: linear-gradient(135deg, #b3e5fc 0%, #e1f5fe 50%, #b3e5fc 100%);
-    }
-
-    .etapes-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 30px;
-      align-items: stretch;
-    }
-
-    .etapes-form-container {
-      background: linear-gradient(135deg, #D4EDF7 0%, #E8F6FA 50%, #D4EDF7 100%);
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(18, 130, 162, 0.2);
-      border: 2px solid rgba(18, 130, 162, 0.3);
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .etapes-form-container h3 {
-      font-size: 20px;
-      font-weight: 900;
-      font-style: italic;
-      color: #003366;
-      margin-bottom: 15px;
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .etapes-form-container form {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .etapes-form-group {
-      margin-bottom: 10px;
-    }
-
-    .etapes-form-group label {
-      display: block;
-      color: #003366;
-      font-size: 10px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .etapes-form-group input,
-    .etapes-form-group textarea,
-    .etapes-form-group select {
-      width: 100%;
-      padding: 8px 12px;
-      border: 2px solid rgba(18, 130, 162, 0.2);
-      border-radius: 8px;
-      background: #ffffff;
-      color: #1a1a1a;
-      font-size: 13px;
-      font-family: inherit;
-      transition: all 0.3s ease;
-    }
-
-    .etapes-form-group input:focus,
-    .etapes-form-group textarea:focus,
-    .etapes-form-group select:focus {
-      outline: none;
-      border-color: #1282A2;
-      box-shadow: 0 0 0 3px rgba(18, 130, 162, 0.1);
-    }
-
-    .etapes-form-group textarea {
-      resize: vertical;
-      min-height: 60px;
-    }
-
-    .etapes-form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .etapes-submit-btn {
-      width: 100%;
-      padding: 10px 24px;
-      background: linear-gradient(135deg, #1282A2, #0091B8);
-      color: #ffffff;
-      border: none;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: auto;
-    }
-
-    .etapes-submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(18, 130, 162, 0.3);
-      background: linear-gradient(135deg, #0091B8, #1282A2);
-    }
-
-    .etapes-calendly-container {
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(18, 130, 162, 0.15);
-      border: 2px solid rgba(18, 130, 162, 0.2);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .etapes-calendly-container h3 {
-      font-size: 22px;
-      font-weight: 900;
-      font-style: italic;
-      color: #1282A2;
-      margin-bottom: 15px;
-      text-align: center;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    @media (max-width: 1024px) {
-      .etapes-container {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .etapes-section {
-        padding: 40px 15px;
-      }
-
-      .etapes-form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .etapes-form-container h3 {
-        font-size: 18px;
-      }
-    }
-
-    /* ===== CONTACT SECTION ===== */
-    .contact-section {
-      padding: 100px 60px;
-      background: #1a1a1a;
-      color: #fff;
-      text-align: center;
-    }
-
-    .contact-section .section-title {
-      color: #fff;
-    }
-
-    .contact-section .section-subtitle {
-      color: #999;
-    }
-
-    .contact-info {
-      max-width: 600px;
-      margin: 40px auto 0;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .contact-item {
-      font-size: 18px;
-      color: #fff;
-    }
-
-    .contact-item a {
-      color: #ff5722;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .contact-item a:hover {
-      color: #e64a19;
-    }
 
     /* Responsive contact section */
     @media (max-width: 768px) {
@@ -3001,16 +1758,6 @@
 
       .contact-item {
         font-size: 16px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .contact-section {
-        padding: 60px 15px;
-      }
-
-      .contact-item {
-        font-size: 15px;
       }
     }
 
@@ -3033,29 +1780,13 @@
     }
 
     @media (max-width: 992px) {
-      .hero-content {
-        grid-template-columns: 1fr 360px;
-        gap: 40px;
-      }
-
-      .hero-photo-col {
-        display: none;
-      }
 
       .about-container {
         grid-template-columns: 1fr;
         gap: 40px;
       }
-
-      .about-image {
-        order: -1;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-        padding: 0 30px;
-      }
     }
+
 
     @media (max-width: 768px) {
       .hero-section,
@@ -3064,24 +1795,11 @@
       .contact-section {
         padding: 80px 25px;
       }
-      
-      .hero-content {
-        grid-template-columns: 1fr;
-        gap: 36px;
-      }
-
-      .hero-photo-col {
-        display: none;
-      }
 
       .hero-form {
         padding: 30px 25px;
         max-width: 100%;
         margin: 0 auto;
-      }
-
-      .hero-form h3 {
-        font-size: 22px;
       }
 
       .form-row {
@@ -3100,11 +1818,6 @@
 
       .service-card p {
         font-size: 15px !important;
-        padding: 0 30px !important;
-      }
-
-      .service-price {
-        font-size: 36px !important;
         padding: 0 30px !important;
       }
 
@@ -3148,6 +1861,7 @@
       }
     }
 
+
     /* Breakpoint 600px - Small Mobile */
     @media (max-width: 600px) {
       .site-header {
@@ -3180,11 +1894,6 @@
       .hero-form {
         padding: 28px 22px;
         max-width: 100%;
-      }
-
-      .hero-form h3 {
-        font-size: 18px !important;
-        margin-bottom: 22px !important;
       }
 
       .form-group label {
@@ -3529,6 +2238,7 @@
       .nav-cta { padding: 8px 16px !important; font-size: 11px !important; }
     }
 
+
     /* Navigation mobile - amélioration */
     @media (max-width: 768px) {
       .nav-left,
@@ -3573,7 +2283,7 @@
     /* ===== RÉSULTATS — ÉTUDES DE CAS ===== */
     .resultats-section {
       padding: 100px 60px;
-      background: #0f0f0f;
+      background: linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
       position: relative;
       overflow: hidden;
     }
@@ -3628,7 +2338,8 @@
       max-width: 1200px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+      justify-content: center;
       gap: 28px;
       position: relative;
       z-index: 1;
@@ -3636,19 +2347,30 @@
 
     /* ── Card ── */
     .resultat-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      background: rgba(255, 107, 53, 0.07);
+      border: 1px solid rgba(255, 107, 53, 0.3);
       border-radius: 20px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      backdrop-filter: blur(6px);
       transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
 
+    .resultat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #FF6B35, #ff8856);
+      z-index: 1;
+    }
+
     .resultat-card:hover {
-      border-color: rgba(255, 107, 53, 0.35);
-      transform: translateY(-5px);
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 107, 53, 0.55);
+      transform: translateY(-4px);
+      box-shadow: 0 18px 44px rgba(255, 107, 53, 0.15);
     }
 
     /* ── Photo ── */
@@ -3671,21 +2393,6 @@
 
     .resultat-card:hover .resultat-photo {
       transform: scale(1.04);
-    }
-
-    .resultat-photo-placeholder {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(255,107,53,0.15) 0%, rgba(18,130,162,0.15) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 64px;
-      font-weight: 900;
-      font-style: italic;
-      color: rgba(255, 107, 53, 0.3);
-      text-transform: uppercase;
-      user-select: none;
     }
 
     /* ── Contenu ── */
@@ -3731,8 +2438,8 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(255, 107, 53, 0.06);
-      border: 1px solid rgba(255, 107, 53, 0.14);
+      background: rgba(10, 17, 40, 0.45);
+      border: 1px solid rgba(255, 107, 53, 0.25);
       border-radius: 14px;
       padding: 16px 18px;
     }
@@ -3746,11 +2453,11 @@
     }
 
     .rp-label {
-      font-size: 9px;
+      font-size: 10px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1.8px;
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.35);
     }
 
     .rp-value {
@@ -3819,28 +2526,6 @@
       vertical-align: -1px;
     }
 
-    /* ── Strava en haut de carte ── */
-    .resultat-photo-wrap--strava {
-      height: auto;
-      overflow: visible;
-      position: relative;
-    }
-
-    /* Masque flouté sur le nom de famille dans l'embed Strava */
-    .strava-name-mask {
-      position: absolute;
-      z-index: 10;
-      top: 15px;
-      left: 99px;
-      width: 60px;
-      height: 22px;
-      background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 4px;
-      pointer-events: none;
-    }
-
     /* ── Responsive ── */
     @media (max-width: 1024px) {
       .resultats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -3870,6 +2555,7 @@
       .rp-value { font-size: 20px; }
       .resultat-photo-wrap { height: 200px; }
     }
+
 
     /* ===== FORMULAIRE SECTION ===== */
     .form-section {
@@ -3917,35 +2603,6 @@
       width: 100%;
     }
 
-    .form-section-info {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      padding: 40px 30px;
-      background: rgba(255, 107, 53, 0.08);
-      border-left: 4px solid #FF6B35;
-      border-radius: 8px;
-    }
-
-    .form-section-info p {
-      color: rgba(255, 255, 255, 0.95);
-      font-size: 18px;
-      line-height: 2;
-      margin: 0;
-      font-weight: 500;
-    }
-
-    .form-section-info a {
-      color: #FFE766;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    .form-section-info a:hover {
-      text-decoration: underline;
-    }
-
     @media (max-width: 992px) {
       .form-section {
         padding: 60px 40px;
@@ -3959,11 +2616,8 @@
       .form-section-inner > form {
         grid-column: 1;
       }
-
-      .form-section-info {
-        grid-column: 1;
-      }
     }
+
 
     @media (max-width: 768px) {
       .form-section {
@@ -3977,11 +2631,8 @@
       .form-section-inner > form {
         padding: 30px 20px;
       }
-
-      .form-section-info p {
-        font-size: 14px;
-      }
     }
+
 
     /* ===== FOOTER RGPD ===== */
     .site-footer {
@@ -4014,7 +2665,7 @@
     }
 
     .footer-links a:hover {
-      color: #FFE766;
+      color: #ff8856;
     }
 
     .footer-brand {
@@ -4052,6 +2703,7 @@
         gap: 15px;
       }
     }
+
 
     /* ===== BOLD TEXT VISIBILITY ===== */
     .apropos-section p strong,
@@ -4107,34 +2759,13 @@
     }
 
     .form-checkbox-group label a {
-      color: #FFE766;
+      color: #FF6B35;
       text-decoration: underline;
       font-weight: 600;
     }
 
     .form-checkbox-group label a:hover {
-      color: #ffd700;
-    }
-
-    /* ===== FORMULAIRE QUALIFIANT ===== */
-    .qform-intro {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-    .qform-eyebrow {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      color: #FF6B35;
-      text-transform: uppercase;
-      letter-spacing: 2.5px;
-      margin-bottom: 12px;
-    }
-    .qform-lead {
-      font-size: clamp(15px, 1.4vw, 17px);
-      color: rgba(255,255,255,0.6);
-      line-height: 1.7;
-      margin-top: 10px;
+      color: #ff8856;
     }
     .qform-block {
       margin-bottom: 0;
@@ -4184,7 +2815,7 @@
       display: block;
       font-size: 11px;
       font-weight: 700;
-      color: #FFE766;
+      color: #FF6B35;
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 10px;
@@ -4239,6 +2870,7 @@
       .pill-option label { font-size: 13px; padding: 7px 13px; }
     }
 
+
     /* ===== FORMULAIRE BRANCHÉ — THÈME LIME ===== */
     .qf-form::before {
       background: linear-gradient(90deg, #FF6B35, #ff8c1a, #1282A2) !important;
@@ -4279,16 +2911,6 @@
       background: linear-gradient(135deg, #ff8c5a 0%, #FF6B35 100%) !important;
       color: #fff !important;
       box-shadow: 0 18px 50px rgba(255,107,53,0.5);
-    }
-    /* Cartes choix A/B */
-    .qf-choice-label {
-      display: block;
-      font-size: 11px;
-      font-weight: 700;
-      color: #FF6B35;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 14px;
     }
     .qf-choice-grid {
       display: grid;
@@ -4341,11 +2963,6 @@
       border-color: #FF6B35;
       box-shadow: 0 0 10px rgba(255,107,53,0.5);
     }
-    .qf-choice-icon {
-      font-size: 28px;
-      line-height: 1;
-      margin-bottom: 2px;
-    }
     .qf-choice-title {
       font-size: 17px;
       font-weight: 800;
@@ -4380,10 +2997,10 @@
         padding: 16px 44px 16px 16px;
         gap: 12px;
       }
-      .qf-choice-icon { font-size: 22px; flex-shrink: 0; margin-bottom: 0; }
       .qf-choice-dot { top: 50%; transform: translateY(-50%); right: 14px; }
       .qf-choice-card:has(input:checked) .qf-choice-dot { transform: translateY(-50%); }
     }
+
 
     /* ===== FORMULAIRE DUAL-PATH — OVERRIDES DARK ===== */
     /* Inputs sombres */
@@ -4598,7 +3215,6 @@
       .faq-answer p { font-size: 14px; line-height: 1.7; }
 
       .hero-form { padding: 22px 18px; border-radius: 16px; }
-      .hero-form h3 { font-size: 18px; letter-spacing: 1px; margin-bottom: 18px; }
       .form-group input,
       .form-group textarea,
       .form-group select { padding: 12px; font-size: 14px; }
@@ -4672,76 +3288,7 @@
         min-height: 44px;
       }
     }
-    /* ===== ANIMATIONS SCROLL ===== */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
 
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .fade-in-delay-1 { transition-delay: 0.1s; }
-    .fade-in-delay-2 { transition-delay: 0.2s; }
-    .fade-in-delay-3 { transition-delay: 0.3s; }
-
-    .nav-outils-link {
-      cursor: pointer;
-    }
-
-    /* ===== STICKY CTA MOBILE ===== */
-    .sticky-cta-mobile {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .sticky-cta-mobile {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 9998;
-        padding: 12px 16px;
-        background: rgba(6, 9, 15, 0.92);
-        backdrop-filter: blur(12px);
-        border-top: 1px solid rgba(255, 107, 53, 0.3);
-      }
-
-      .sticky-cta-mobile a {
-        display: block;
-        width: 100%;
-        text-align: center;
-        background: #FF6B35;
-        color: #ffffff;
-        padding: 14px 20px;
-        border-radius: 30px;
-        font-weight: 700;
-        font-size: 15px;
-        text-decoration: none;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        box-shadow: 0 4px 20px rgba(255, 107, 53, 0.45);
-        transition: background 0.2s;
-      }
-
-      .sticky-cta-mobile a:hover {
-        background: #ff7a47;
-      }
-    }
-
-    /* ===== HERO CTA BUTTONS ===== */
-    .hero-tagline {
-      font-size: clamp(13px, 1.2vw, 15px);
-      color: rgba(255, 255, 255, 0.55);
-      letter-spacing: 0.5px;
-      font-weight: 500;
-      margin-bottom: 28px;
-      animation: fadeInUp 0.6s 0.2s ease both;
-    }
 
     /* ── CTA SECTION ── */
     .hcta-section {
@@ -4763,7 +3310,7 @@
     }
 
     .hcta-label-text {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.16em;
       text-transform: uppercase;
@@ -4823,7 +3370,7 @@
       background: #ff7a47;
       border-color: #ff7a47;
       transform: translateY(-3px);
-      box-shadow: 0 18px 44px rgba(255, 107, 53, 0.55);
+      box-shadow: 0 12px 30px rgba(255, 107, 53, 0.4);
     }
 
     .hcta-card--secondary {
@@ -4835,7 +3382,7 @@
       background: rgba(255, 107, 53, 0.07);
       border-color: rgba(255, 107, 53, 0.55);
       transform: translateY(-3px);
-      box-shadow: 0 18px 44px rgba(255, 107, 53, 0.18);
+      box-shadow: 0 12px 30px rgba(255, 107, 53, 0.15);
     }
 
     .hcta-icon {
@@ -4912,81 +3459,13 @@
     .hcta-card--primary:hover .hcta-arrow-circle { background: rgba(255, 255, 255, 0.3); }
     .hcta-card--secondary:hover .hcta-arrow-circle { background: rgba(255, 107, 53, 0.24); }
 
-    .hcta-benefits {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 9px 18px;
-    }
-
-    .hcta-benefit-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 11.5px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .hcta-benefit-item::before {
-      content: '✓';
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 17px;
-      height: 17px;
-      border-radius: 50%;
-      background: rgba(255, 107, 53, 0.16);
-      color: #FF6B35;
-      font-size: 9px;
-      font-weight: 900;
-      flex-shrink: 0;
-    }
-
-    .hcta-benefit-sep {
-      color: rgba(255, 255, 255, 0.18);
-      font-size: 14px;
-    }
-
-    .hero-desc-text {
-      font-size: clamp(14px, 1.35vw, 16px);
-      color: rgba(255, 255, 255, 0.62);
-      line-height: 1.75;
-      max-width: 500px;
-      margin-bottom: 28px;
-      animation: fadeInUp 0.6s 0.38s ease both;
-    }
-
     /* ===== COACHING TERRAIN — REDESIGN ===== */
     .ct-hero { text-align: center; padding-bottom: 72px; }
-
-    .ct-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.25);
-      color: #FF6B35; font-size: 11px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 2.5px;
-      padding: 7px 18px; border-radius: 99px; margin-bottom: 20px;
-    }
-    .ct-eyebrow::before {
-      content: ''; width: 6px; height: 6px; background: #FF6B35;
-      border-radius: 50%; animation: pulse-badge 2s ease-in-out infinite;
-    }
 
     .ct-title {
       font-size: clamp(40px, 5.5vw, 68px); font-weight: 900; font-style: italic;
       text-transform: uppercase; letter-spacing: -0.02em;
       color: #ffffff; line-height: 1; margin-bottom: 16px;
-    }
-
-    .ct-subtitle {
-      font-size: clamp(16px, 1.6vw, 19px); color: rgba(255,255,255,0.6);
-      font-weight: 400; line-height: 1.65; margin-bottom: 16px;
-      max-width: 540px; margin-left: auto; margin-right: auto;
-    }
-    .ct-bullets {
-      font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
-      text-transform: uppercase; color: rgba(255,255,255,0.85);
-      margin: 0 auto 60px; text-align: center;
     }
     .ct-exemples {
       font-size: 14px; color: rgba(255,255,255,0.45);
@@ -5004,51 +3483,44 @@
       display: flex; flex-direction: column; overflow: hidden;
       transition: transform 0.35s cubic-bezier(.2,.8,.4,1), box-shadow 0.35s ease;
     }
-    .ct-card:hover { transform: translateY(-10px); }
+    .ct-card:hover { transform: translateY(-6px); }
     .ct-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
     }
+    /* Cartes tarifaires — couleur d'accent unique (orange), Individuel mis en avant */
+    .ct-card--duo,
+    .ct-card--trio,
+    .ct-card--groupe {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12);
+    }
+    .ct-card--duo:hover,
+    .ct-card--trio:hover,
+    .ct-card--groupe:hover {
+      border-color: rgba(255,107,53,0.4);
+      box-shadow: 0 32px 64px rgba(0,0,0,0.35);
+    }
+    .ct-card--duo::before,
+    .ct-card--trio::before,
+    .ct-card--groupe::before { background: rgba(255,107,53,0.25); }
+
     .ct-card--individuel {
-      background: rgba(255,107,53,0.10); border: 1.5px solid rgba(255,107,53,0.45);
+      background: rgba(255,107,53,0.10); border: 1.5px solid rgba(255,107,53,0.55);
     }
     .ct-card--individuel:hover { box-shadow: 0 32px 64px rgba(255,107,53,0.25); }
     .ct-card--individuel::before { background: linear-gradient(90deg,#FF6B35,#ff8856); }
 
-    .ct-card--duo {
-      background: rgba(255,231,102,0.08); border: 1.5px solid rgba(255,231,102,0.42);
-    }
-    .ct-card--duo:hover { box-shadow: 0 32px 64px rgba(255,231,102,0.2); }
-    .ct-card--duo::before { background: linear-gradient(90deg,#FFE766,#ffd700); }
-
-    .ct-card--trio {
-      background: rgba(52,211,153,0.08); border: 1.5px solid rgba(52,211,153,0.42);
-    }
-    .ct-card--trio:hover { box-shadow: 0 32px 64px rgba(52,211,153,0.2); }
-    .ct-card--trio::before { background: linear-gradient(90deg,#34D399,#10b981); }
-
-    .ct-card--groupe {
-      background: rgba(56,189,248,0.10); border: 1.5px solid rgba(56,189,248,0.48);
-    }
-    .ct-card--groupe:hover { box-shadow: 0 32px 64px rgba(56,189,248,0.25); }
-    .ct-card--groupe::before { background: linear-gradient(90deg,#38BDF8,#0EA5E9); }
-
     .ct-card-label {
       font-size: 11px; font-weight: 700; text-transform: uppercase;
       letter-spacing: 2px; margin-bottom: 18px;
+      color: #FF6B35;
     }
-    .ct-card--individuel .ct-card-label { color: #FF6B35; }
-    .ct-card--duo .ct-card-label { color: #FFE766; }
-    .ct-card--trio .ct-card-label { color: #34D399; }
-    .ct-card--groupe .ct-card-label { color: #38BDF8; }
 
     .ct-price {
       font-size: clamp(52px, 5vw, 70px); font-weight: 900; font-style: italic;
       line-height: 1; margin-bottom: 4px;
+      color: #ffffff;
     }
     .ct-card--individuel .ct-price { color: #FF6B35; }
-    .ct-card--duo .ct-price { color: #FFE766; }
-    .ct-card--trio .ct-price { color: #34D399; }
-    .ct-card--groupe .ct-price { color: #38BDF8; }
 
     .ct-price-unit {
       font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.45);
@@ -5074,75 +3546,38 @@
       display: inline-flex; align-items: center; justify-content: center;
       font-size: 9px; font-weight: 900; margin-top: 1px;
     }
-    .ct-card--individuel .ct-check { background: rgba(255,107,53,0.2); color: #FF6B35; }
-    .ct-card--duo .ct-check { background: rgba(255,231,102,0.2); color: #FFE766; }
-    .ct-card--trio .ct-check { background: rgba(52,211,153,0.2); color: #34D399; }
-    .ct-card--groupe .ct-check { background: rgba(56,189,248,0.2); color: #38BDF8; }
+    .ct-check { background: rgba(255,107,53,0.2); color: #FF6B35; }
 
     .ct-card-cta {
       display: block; text-align: center; padding: 13px 18px;
-      border-radius: 12px; text-decoration: none; font-weight: 700;
+      border-radius: 50px; text-decoration: none; font-weight: 700;
       font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
       transition: all 0.3s ease; margin-top: auto;
     }
-    .ct-card--individuel .ct-card-cta { background: #FF6B35; color: #fff; box-shadow: 0 4px 18px rgba(255,107,53,0.35); }
-    .ct-card--individuel .ct-card-cta:hover { background: #ff7a47; box-shadow: 0 8px 28px rgba(255,107,53,0.55); }
-    .ct-card--duo .ct-card-cta { background: rgba(255,231,102,0.12); color: #FFE766; border: 1px solid rgba(255,231,102,0.3); }
-    .ct-card--duo .ct-card-cta:hover { background: rgba(255,231,102,0.22); }
-    .ct-card--trio .ct-card-cta { background: rgba(52,211,153,0.12); color: #34D399; border: 1px solid rgba(52,211,153,0.3); }
-    .ct-card--trio .ct-card-cta:hover { background: rgba(52,211,153,0.22); }
-    .ct-card--groupe .ct-card-cta { background: rgba(56,189,248,0.14); color: #38BDF8; border: 1px solid rgba(56,189,248,0.35); }
-    .ct-card--groupe .ct-card-cta:hover { background: rgba(56,189,248,0.24); }
-
-    /* Section 2 — Ce qui est inclus */
-    .ct-includes {
-      border-top: 1px solid rgba(255,255,255,0.07);
-      padding-top: 80px; margin-top: 80px; text-align: center;
-    }
-    .ct-section-title {
-      font-size: clamp(26px, 3vw, 38px); font-weight: 900; font-style: italic;
-      text-transform: uppercase; letter-spacing: -0.01em;
-      color: #FF6B35; margin-bottom: 48px;
-    }
-    .ct-section-title::after {
-      content: ''; display: block; width: 48px; height: 3px;
-      background: linear-gradient(90deg, transparent, #FF6B35, transparent);
-      margin: 10px auto 0; border-radius: 2px;
-    }
-    .ct-includes-grid {
-      display: grid; grid-template-columns: repeat(5, 1fr);
-      gap: 16px; max-width: 1100px; margin: 0 auto;
-    }
-    .ct-include-item {
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 16px; padding: 28px 14px;
-      transition: all 0.3s ease;
-    }
-    .ct-include-item:hover {
-      background: rgba(255,107,53,0.07); border-color: rgba(255,107,53,0.2);
-      transform: translateY(-4px);
-    }
-    .ct-include-icon { font-size: 28px; margin-bottom: 12px; display: block; }
-    .ct-include-label {
-      font-size: 13px; font-weight: 600;
-      color: rgba(255,255,255,0.8); line-height: 1.4;
-    }
-
-    /* Section 3 — Zone de déplacement */
-    .ct-zone {
-      border-top: 1px solid rgba(255,255,255,0.07);
-      padding-top: 80px; margin-top: 80px; text-align: center;
-    }
-    .ct-zone-text {
-      font-size: clamp(15px, 1.4vw, 17px); color: rgba(255,255,255,0.6);
-      margin-bottom: 32px; line-height: 1.6;
-    }
-    .ct-zone-text strong { color: rgba(255,255,255,0.9); }
+    .ct-card-cta { background: rgba(255,107,53,0.1); color: #FF6B35; border: 1px solid rgba(255,107,53,0.35); }
+    .ct-card-cta:hover { background: rgba(255,107,53,0.2); border-color: rgba(255,107,53,0.6); }
+    .ct-card--individuel .ct-card-cta { background: #FF6B35; color: #fff; border: none; box-shadow: 0 4px 18px rgba(255,107,53,0.35); }
+    .ct-card--individuel .ct-card-cta:hover { background: #ff7a47; box-shadow: 0 6px 20px rgba(255,107,53,0.4); }
 
     #seances-map {
       width: 100%; height: 380px; border-radius: 16px; overflow: hidden;
       border: 1px solid rgba(255,107,53,0.2);
       box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      /* Skeleton avant l'initialisation différée de la carte */
+      position: relative;
+      background: rgba(255, 255, 255, 0.04);
+    }
+    #seances-map::before {
+      content: 'Chargement de la carte…';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
     /* Responsive CT */
@@ -5153,13 +3588,12 @@
     @media (max-width: 768px) {
       .ct-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
       .ct-price { font-size: 48px; }
-      .ct-includes-grid { grid-template-columns: repeat(2, 1fr); }
-      .ct-includes, .ct-zone { padding-top: 60px; margin-top: 60px; }
     }
+
     @media (max-width: 480px) {
       .ct-cards-grid { grid-template-columns: 1fr; }
-      .ct-includes-grid { grid-template-columns: repeat(2, 1fr); }
     }
+
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 
@@ -5262,7 +3696,8 @@
       </div>
       <div class="nav-right">
         <a href="#temoignages">Témoignages</a>
-        <a href="#contactForm" class="nav-cta">Me contacter →</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contactForm" class="nav-cta">Me contacter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;vertical-align:-1.5px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
       </div>
     </nav>
 
@@ -5354,7 +3789,10 @@
       <!-- DROITE : Photo forte -->
       <div class="hero-img-col">
         <div class="hero-img-wrap">
-          <img src="photo_10k_jo.jpg" alt="Jérémy Reding - 10K JO · 35'20&quot;">
+          <picture>
+            <source srcset="photo_10k_jo.webp" type="image/webp">
+            <img src="photo_10k_jo.jpg" alt="Jérémy Reding, coach running, en course sur 10K en 35'20&quot;" width="1000" height="1231" fetchpriority="high">
+          </picture>
         </div>
       </div>
 
@@ -5377,7 +3815,10 @@
       <!-- Colonne gauche : photo uniquement -->
       <div class="apropos-image-wrapper" style="display: flex; flex-direction: column;">
         <div class="apropos-image" style="height: auto; margin: 0; max-height: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,107,53,0.18);">
-          <img src="jerem_ratp.jpeg" alt="Jérémy - Coach Running" style="width: 100%; height: auto; display: block;" />
+          <picture>
+            <source srcset="jerem_ratp.webp" type="image/webp">
+            <img src="jerem_ratp.jpeg" alt="Jérémy Reding, coach running en Île-de-France" style="width: 100%; height: auto; display: block;" width="785" height="1200" loading="lazy" />
+          </picture>
         </div>
       </div>
 
@@ -5413,7 +3854,7 @@
       <header class="suivi-distance-header">
         <h2 class="suivi-distance-title">Suivi à distance</h2>
         <span class="suivi-distance-divider" aria-hidden="true"></span>
-        <p class="suivi-distance-lead" style="white-space: nowrap;">Accompagnement adapté à tous les niveaux, du coureur loisir au compétiteur.</p>
+        <p class="suivi-distance-lead">Pour coureurs de tous niveaux, du loisir à la compétition. <br><br> Je planifie ton entraînement en fonction de tes objectifs, j'analyse chaque séance et j'adapte ton programme en temps réel — tu n'as plus qu'à courir.</p>
         <ul class="suivi-distance-meta" aria-label="Engagements clés">
           <li><span class="dot" aria-hidden="true"></span>Plan 100 % personnalisé</li>
           <li><span class="dot" aria-hidden="true"></span>Suivi hebdomadaire</li>
@@ -5486,7 +3927,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
-            Communication via WhatsApp 
+            Communication via WhatsApp
           </li>
         </ul>
         <div class="ct-bridge" style="margin-top: 8px; padding: 22px 20px; border-top: 1px solid rgba(255, 107, 53, 0.25); background: rgba(255, 107, 53, 0.06); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;">
@@ -5494,12 +3935,12 @@
             <h4 style="font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 0.5px; color: #FF6B35; margin: 0 0 6px;">Envie d'aller plus loin ?</h4>
             <p style="margin: 0; color: rgba(255, 255, 255, 0.78); font-size: 14px; line-height: 1.6;">Tu peux compléter ton suivi à distance par des séances de <strong style="color:#fff;">coaching terrain</strong> : technique de course, renforcement et séances clés encadrées.</p>
           </div>
-          <a href="#solo-duo-trio" style="display: inline-flex; align-items: center; gap: 8px; background: #FF6B35; color: #fff; padding: 13px 26px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35); flex-shrink: 0; transition: background 0.25s ease;" onmouseover="this.style.background='#ff7a47'" onmouseout="this.style.background='#FF6B35'">Découvrir le coaching terrain →</a>
+          <a href="#solo-duo-trio" style="display: inline-flex; align-items: center; gap: 8px; background: #FF6B35; color: #fff; padding: 13px 26px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35); flex-shrink: 0; transition: background 0.25s ease;" onmouseover="this.style.background='#ff7a47'" onmouseout="this.style.background='#FF6B35'">Découvrir le coaching terrain <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
         </div>
       </div>
 
       <!-- Étapes -->
-      <div class="service-card seréel">
+      <div class="service-card terrain">
         <h3 style="text-align: center;">Comment démarrer ?</h3>
         <ul class="service-features steps-list" style="padding: 0 30px 24px;">
 
@@ -5537,10 +3978,11 @@
         </ul>
         <div style="text-align: center; padding: 0 30px 8px;">
           <a href="#contactForm" style="display: inline-flex; align-items: center; gap: 10px; background: #FF6B35; color: #ffffff; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);">
-            Accéder au formulaire <span style="font-size: 16px;">→</span>
+            Accéder au formulaire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
         </div>
       </div>
+    </div>
     </div>
   </section>
 
@@ -5550,8 +3992,8 @@
       <div class="solo-duo-content">
         <!-- SECTION 1 : Hero + Cartes tarifaires -->
         <div class="ct-hero">
-          <h2 class="ct-title">Coaching terrain</h2>
-          <p class="suivi-distance-lead">Séance en individuel ou collectif pour coureur de tous niveaux.</p>
+          <h2 class="ct-title">Coaching terrain <span style="display:block;font-size:0.32em;font-weight:700;font-style:normal;letter-spacing:0.18em;color:rgba(255,255,255,0.55);margin-top:10px;">Île-de-France (voir zone de déplacement)</span></h2>
+          <p class="suivi-distance-lead">Séances en individuel ou en collectif, pour coureurs de tous niveaux.</p>
           <ul class="suivi-distance-meta" style="margin-bottom: 20px;" aria-label="Engagements clés">
             <li><span class="dot" aria-hidden="true"></span>Séances encadrées</li>
             <li><span class="dot" aria-hidden="true"></span>Progression et motivation</li>
@@ -5572,7 +4014,7 @@
                 <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
                 <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="#contactForm" class="ct-card-cta">Réserver →</a>
+              <a href="#contactForm" class="ct-card-cta">Réserver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
 
             <!-- Duo -->
@@ -5586,7 +4028,7 @@
                 <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
                 <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="#contactForm" class="ct-card-cta">Réserver →</a>
+              <a href="#contactForm" class="ct-card-cta">Réserver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
 
             <!-- Trio -->
@@ -5600,7 +4042,7 @@
                 <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
                 <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="#contactForm" class="ct-card-cta">Réserver →</a>
+              <a href="#contactForm" class="ct-card-cta">Réserver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
 
             <!-- Groupe -->
@@ -5615,7 +4057,7 @@
                 <li><span class="ct-check">✓</span>Tarif dégressif selon effectif</li>
                 <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="#contactForm" class="ct-card-cta">Réserver →</a>
+              <a href="#contactForm" class="ct-card-cta">Réserver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
 
           </div>
@@ -5625,62 +4067,19 @@
         <!-- Zone de déplacement (carte) -->
         <div class="seances-map-wrap">
           <h3 style="text-align:center;font-size:clamp(22px,3vw,32px);font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:-0.01em;color:#FF6B35;margin:0 0 10px;">Zone de déplacement</h3>
-          <p class="seances-map-label">Lieux d'entrainement défini ensemble en fonction de ta localisation et de l'objectif de la séance. 
+          <p class="seances-map-label">Lieux d'entraînement définis ensemble en fonction de ta localisation et de l'objectif de la séance.</p>
           <div id="seances-map"></div>
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
         <script>
-          /* Mini-carte tooltip */
+          /* Carte principale — initialisée uniquement quand elle approche de l'écran (perf) */
           (function() {
-            var miniMapInit = false;
-            var trigger = document.querySelector('.location-hover-trigger');
-            var tooltip = document.querySelector('.location-map-tooltip');
-            if (!trigger || !tooltip) return;
+            var mapInit = false;
 
-            function showTooltip() {
-              tooltip.classList.add('visible');
-              if (!miniMapInit) {
-                miniMapInit = true;
-                var miniMap = L.map('location-mini-map', {
-                  center: [48.8917, 2.2396],
-                  zoom: 10,
-                  zoomControl: false,
-                  scrollWheelZoom: false,
-                  dragging: false,
-                  attributionControl: false
-                });
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                  subdomains: 'abcd', maxZoom: 19
-                }).addTo(miniMap);
-                L.circle([48.8917, 2.2396], {
-                  radius: 12000,
-                  color: '#FF6B35',
-                  fillColor: '#FF6B35',
-                  fillOpacity: 0.12,
-                  weight: 2,
-                  dashArray: '6, 4'
-                }).addTo(miniMap);
-                var icon = L.divIcon({
-                  className: '',
-                  html: '<div style="width:10px;height:10px;background:#FF6B35;border-radius:50%;border:2px solid #fff;box-shadow:0 0 8px rgba(255,107,53,0.9);"></div>',
-                  iconSize: [10, 10], iconAnchor: [5, 5]
-                });
-                L.marker([48.8917, 2.2396], { icon: icon }).addTo(miniMap);
-                setTimeout(function() { miniMap.invalidateSize(); }, 50);
-              }
-            }
-
-            function hideTooltip() {
-              tooltip.classList.remove('visible');
-            }
-
-            trigger.addEventListener('mouseenter', showTooltip);
-            trigger.addEventListener('mouseleave', hideTooltip);
-          })();
-
-          /* Carte principale */
-          (function() {
+            function initSeancesMap() {
+            if (mapInit || typeof L === 'undefined') return;
+            mapInit = true;
             var map = L.map('seances-map', {
               center: [48.8917, 2.2396],
               zoom: 11,
@@ -5720,9 +4119,78 @@
               .addTo(map)
               .bindPopup('<strong style="color:#FF6B35;font-family:Barlow,sans-serif;">Zone de déplacement</strong><br><span style="font-size:12px;font-family:Barlow,sans-serif;">Coaching terrain</span>')
               .openPopup();
+            }
+
+            var mapEl = document.getElementById('seances-map');
+            if (!mapEl) return;
+
+            function tryInit() {
+              if (typeof L !== 'undefined') { initSeancesMap(); return true; }
+              var t = setInterval(function() {
+                if (typeof L !== 'undefined') { clearInterval(t); initSeancesMap(); }
+              }, 150);
+              return true;
+            }
+
+            if ('IntersectionObserver' in window) {
+              var io = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) {
+                  if (e.isIntersecting) { io.disconnect(); tryInit(); }
+                });
+              }, { rootMargin: '400px 0px' });
+              io.observe(mapEl);
+            } else {
+              window.addEventListener('load', tryInit);
+            }
           })();
         </script>
       </div>
+    </div>
+  </section>
+
+  <!-- RÉSULTATS — ÉTUDES DE CAS -->
+  <section class="resultats-section" id="temoignages">
+
+    <div class="resultats-header">
+      <h2>Ils ont atteint leur objectif</h2>
+      <p>Ce qu'un suivi structuré change concrètement sur tes performances</p>
+    </div>
+
+    <div class="resultats-grid">
+
+      <!-- ── CARTE 1 ─────────────────────────────────────────── -->
+      <article class="resultat-card">
+        <div class="resultat-content">
+          <div class="resultat-header-row">
+            <span class="resultat-name">Benoit</span>
+          </div>
+          <p class="resultat-objectif">Objectif : <strong>Passer sous les 1h50 au semi-marathon</strong></p>
+          <div class="resultat-progression">
+            <div class="rp-temps">
+              <span class="rp-label">Avant</span>
+              <span class="rp-value rp-before">1h56'51"</span>
+            </div>
+            <div class="rp-middle">
+              <span class="rp-arrow">→</span>
+            </div>
+            <div class="rp-temps">
+              <span class="rp-label">Après</span>
+              <span class="rp-value rp-after">1h48'19"</span>
+            </div>
+          </div>
+          <blockquote class="resultat-quote">Le suivi des entraînements programmés par Jeremy m'a permis de reussir un temps que je pensais impossible pour moi, il a su s’adapter à mes disponibilités et être à l’écoute de mes ressentis lors des séances pour un entraînement le plus personnalisé possible.
+Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon record sur 10km.</blockquote>
+        </div>
+        <div class="resultat-photo-wrap" style="height: auto;">
+          <picture>
+            <source srcset="benoit_rp.webp" type="image/webp">
+            <img src="benoit_rp.png" alt="Capture Strava — Benoit, semi-marathon en 1h48'19" class="resultat-photo" style="height: auto; object-fit: contain;" loading="lazy" width="547" height="591">
+          </picture>
+        </div>
+      </article>
+
+      <!-- Autres témoignages à ajouter ici (dupliquer le bloc <article class="resultat-card"> ci-dessus) -->
+
     </div>
   </section>
 
@@ -5851,7 +4319,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>📍 Les séances de coaching terrain se déroulent dans la zone de déplacement indiquée sur la carte. Le lieu exact est défini ensemble en fonction de tes disponibilités et de la séance prévue (piste, parc, parcours urbain, etc.).</p>
+              <p>Les séances de coaching terrain se déroulent dans la zone de déplacement indiquée sur la carte. Le lieu exact est défini ensemble en fonction de tes disponibilités et de la séance prévue (piste, parc, parcours urbain, etc.).</p>
             </div>
           </div>
 
@@ -5873,8 +4341,8 @@
   <section class="form-section" id="contactForm">
 
     <div style="text-align:center;margin-bottom:48px;">
-<h2 class="section-title" style="color:#FF6B35;margin-bottom:0;">Formulaire</h2>
-      <p style="font-size:clamp(20px, 2.1vw, 26px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Remplis le formulaire et je reviens vers toi le plus rapidement possible.</p>
+<h2 class="section-title" style="color:#FF6B35;margin-bottom:0;">Parlons de ton objectif</h2>
+      <p style="font-size:clamp(20px, 2.1vw, 26px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Remplis le formulaire et je reviens vers toi sous 24h. Sans engagement.</p>
     </div>
 
     <div class="form-section-inner">
@@ -5977,7 +4445,7 @@
             <div class="form-group">
               <span class="qform-field-label">Ton objectif principal *</span>
               <div class="pill-group">
-                <div class="pill-option pill-lg"><input type="radio" id="obj2" name="Objectif principal" value="Battre mon record — performance"><label for="obj2">Battre mon record<br><small style="font-weight:500;opacity:.7;">Améliorer mes chrono</small></label></div>
+                <div class="pill-option pill-lg"><input type="radio" id="obj2" name="Objectif principal" value="Battre mon record — performance"><label for="obj2">Battre mon record<br><small style="font-weight:500;opacity:.7;">Améliorer mes chronos</small></label></div>
                 <div class="pill-option pill-lg"><input type="radio" id="obj1" name="Objectif principal" value="Relever un défi — finir ma première course"><label for="obj1">Relever un défi<br><small style="font-weight:500;opacity:.7;">Finir ma première course</small></label></div>
                 <div class="pill-option pill-lg"><input type="radio" id="obj3" name="Objectif principal" value="Gagner en endurance — courir plus longtemps"><label for="obj3">Gagner en endurance<br><small style="font-weight:500;opacity:.7;">Courir plus longtemps</small></label></div>
                 <div class="pill-option pill-lg"><input type="radio" id="obj4" name="Objectif principal" value="M'entretenir — santé et bien-être"><label for="obj4">M'entretenir<br><small style="font-weight:500;opacity:.7;">Santé & bien-être</small></label></div>
@@ -6128,7 +4596,7 @@
             </label>
           </div>
           <div class="h-captcha" data-captcha="true" style="margin-bottom:18px;"></div>
-          <button type="submit" class="form-submit-btn">Envoyer ma demande →</button>
+          <button type="submit" class="form-submit-btn">Envoyer ma demande <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
           <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds généralement sous 24h</p>
           <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
         </div>
@@ -6264,6 +4732,7 @@
           document.getElementById('contactForm').scrollIntoView({ behavior: 'instant', block: 'start' });
           form.style.display = 'none';
           qfSuccess.style.display = 'block';
+          if (typeof gtag === 'function') { gtag('event', 'generate_lead', { event_category: 'formulaire' }); }
           requestAnimationFrame(function() {
             requestAnimationFrame(function() {
               qfSuccess.classList.add('qf-active');
@@ -6307,49 +4776,6 @@
     });
   </script>
 
-  <!-- RÉSULTATS — ÉTUDES DE CAS -->
-  <section class="resultats-section" id="temoignages">
-
-    <div class="resultats-header">
-      <h2>Ils ont progressé</h2>
-      <p>Ce qu'un suivi structuré change concrètement sur tes performances</p>
-    </div>
-
-    <div class="resultats-grid">
-
-      <!-- ── CARTE 1 ─────────────────────────────────────────── -->
-      <article class="resultat-card">
-        <div class="resultat-content">
-          <div class="resultat-header-row">
-            <span class="resultat-name">Benoit</span>
-          </div>
-          <p class="resultat-objectif">Objectif : <strong>Passer sous les 1h50 au semi-marathon</strong></p>
-          <div class="resultat-progression">
-            <div class="rp-temps">
-              <span class="rp-label">Avant</span>
-              <span class="rp-value rp-before">1h56'51"</span>
-            </div>
-            <div class="rp-middle">
-              <span class="rp-arrow">→</span>
-            </div>
-            <div class="rp-temps">
-              <span class="rp-label">Après</span>
-              <span class="rp-value rp-after">1h48'19"</span>
-            </div>
-          </div>
-          <blockquote class="resultat-quote">Le suivi des entraînements programmés par Jeremy m'a permis de reussir un temps que je pensais impossible pour moi, il a su s’adapter à mes disponibilités et être à l’écoute de mes ressentis lors des séances pour un entraînement le plus personnalisé possible.
-Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon record sur 10km.</blockquote>
-        </div>
-        <div class="resultat-photo-wrap" style="height: auto;">
-          <img src="benoit_rp.png" alt="Strava — Benoit semi-marathon 1h48" class="resultat-photo" style="height: auto; object-fit: contain;">
-        </div>
-      </article>
-
-      <!-- Autres témoignages à ajouter ici (dupliquer le bloc <article class="resultat-card"> ci-dessus) -->
-
-    </div>
-  </section>
-
   <!-- FAQ Accordion Script -->
   <script>
     // FAQ Accordion functionality
@@ -6392,8 +4818,6 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     </div>
   </footer>
 
-  <script src="https://strava-embeds.com/embed.js"></script>
-
   <!-- Web3Forms + hCaptcha -->
   <script src="https://web3forms.com/client/script.js" async defer></script>
 
@@ -6413,6 +4837,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
       .reveal, .reveal.is-visible { opacity: 1 !important; transform: none !important; transition: none !important; }
     }
 
+
     #toTop {
       position: fixed; right: 22px; bottom: 22px; z-index: 90;
       width: 48px; height: 48px; border: none; border-radius: 50%;
@@ -6427,6 +4852,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     #toTop svg { width: 22px; height: 22px; }
     @media (max-width: 768px) { #toTop { right: 16px; bottom: 16px; width: 44px; height: 44px; } }
 
+
     /* Passerelle « Envie d'aller plus loin ? » : empilée et centrée sur mobile */
     @media (max-width: 600px) {
       .ct-bridge { flex-direction: column; align-items: stretch !important; text-align: center; }
@@ -6438,10 +4864,85 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
   </button>
 
+  <!-- ===== GA4 + BANNIÈRE DE CONSENTEMENT (RGPD) ===== -->
+  <style>
+    #cookie-banner {
+      position: fixed; left: 18px; right: 18px; bottom: 18px; z-index: 10000;
+      max-width: 440px; margin: 0 auto;
+      background: rgba(10, 17, 40, 0.97); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 107, 53, 0.35); border-radius: 16px;
+      padding: 18px 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      display: none; font-family: 'Barlow', sans-serif;
+    }
+    #cookie-banner.cb-show { display: block; }
+    #cookie-banner p {
+      margin: 0 0 14px; font-size: 13px; line-height: 1.55;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    #cookie-banner p a { color: #FF6B35; }
+    .cb-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+    .cb-buttons button {
+      flex: 1; min-width: 140px; padding: 11px 16px; border-radius: 50px;
+      font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    #cb-accept { background: #FF6B35; color: #fff; border: none; }
+    #cb-accept:hover { background: #ff7a47; }
+    #cb-refuse { background: transparent; color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.25); }
+    #cb-refuse:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+  </style>
+
+  <div id="cookie-banner" role="dialog" aria-label="Consentement cookies">
+    <p>Ce site utilise Google Analytics pour mesurer son audience. Les données sont anonymisées. <a href="politique-confidentialite.html" target="_blank" rel="noopener noreferrer">En savoir plus</a></p>
+    <div class="cb-buttons">
+      <button id="cb-accept">Accepter</button>
+      <button id="cb-refuse">Continuer sans accepter</button>
+    </div>
+  </div>
+
   <script>
     (function () {
-      // (Effet d'apparition au défilement désactivé)
+      /* ⚠️ REMPLACE l'ID ci-dessous par ton ID de mesure GA4 (admin GA4 → Flux de données → G-…).
+         Tant que l'ID contient "XXXX", ni la bannière ni GA ne sont activés. */
+      var GA_ID = 'G-XXXXXXXXXX';
+      if (GA_ID.indexOf('XXXX') !== -1) return;
 
+      var KEY = 'rr-consent-analytics';
+
+      function loadGA() {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag('js', new Date());
+        gtag('config', GA_ID, { anonymize_ip: true });
+      }
+
+      var banner = document.getElementById('cookie-banner');
+      var choice = null;
+      try { choice = localStorage.getItem(KEY); } catch (e) {}
+
+      if (choice === 'granted') {
+        loadGA();
+      } else if (choice !== 'denied') {
+        banner.classList.add('cb-show');
+        document.getElementById('cb-accept').addEventListener('click', function () {
+          try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
+          banner.classList.remove('cb-show');
+          loadGA();
+        });
+        document.getElementById('cb-refuse').addEventListener('click', function () {
+          try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
+          banner.classList.remove('cb-show');
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    (function () {
       // --- Bouton retour en haut ---
       var btn = document.getElementById('toTop');
       if (btn) {
@@ -6460,5 +4961,3 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
 
 </body>
 </html>
-
-
