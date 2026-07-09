@@ -195,8 +195,13 @@
       height: 3px;
       background: #ffffff;
       border-radius: 2px;
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease, opacity 0.25s ease;
     }
+
+    /* Burger → croix quand le menu est ouvert */
+    .mobile-menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .mobile-menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .mobile-menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
     @media (max-width: 768px) {
       .site-header {
@@ -221,16 +226,18 @@
         top: 80px;
         left: 0;
         right: 0;
-        background: #fff;
+        background: rgba(6, 9, 15, 0.97);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         flex-direction: column;
         padding: 20px;
         gap: 20px;
-        transform: translateY(-100%);
+        transform: translateY(-8px);
         opacity: 0;
         pointer-events: none;
-        transition: all 0.3s ease;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        border-bottom: 1px solid rgba(255, 107, 53, 0.25);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
       }
 
       nav.main-nav.active {
@@ -508,7 +515,7 @@
       .hero-img-col     { order: 6; padding-top: 0; }
 
       /* CTA : cartes empilées sur mobile */
-      .hcta-label-text { font-size: 10px; letter-spacing: 0.1em; }
+      .hcta-label-text { font-size: 12px; letter-spacing: 0.1em; }
       .hero-cta-duo { flex-direction: column; gap: 10px; margin-bottom: 12px; }
       .hcta-card { padding: 16px 18px; border-radius: 13px; }
       .hcta-card-title { font-size: 14px; }
@@ -1127,14 +1134,25 @@
       border-radius: 2px;
     }
 
+    .suivi-distance-sub {
+      font-size: clamp(16px, 1.5vw, 18px);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.75;
+      margin: 0 auto 32px;
+      max-width: 1080px;
+      text-wrap: balance;
+    }
+
     .suivi-distance-lead {
       font-size: clamp(20px, 2.1vw, 26px);
       font-weight: 500;
       color: rgba(255, 255, 255, 0.98);
-      line-height: 1.4;
+      line-height: 1.45;
       letter-spacing: -0.01em;
-      margin: 0 auto 20px;
-      max-width: 960px;
+      margin: 0 auto 18px;
+      max-width: 1080px;
+      text-wrap: balance;
     }
 
     @media (max-width: 900px) {
@@ -2253,14 +2271,15 @@
       }
 
       nav.main-nav a {
-        color: #1a1a1a;
+        color: rgba(255, 255, 255, 0.92);
         font-size: 16px;
         padding: 10px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
       }
 
       nav.main-nav a:hover {
-        background: rgba(18, 130, 162, 0.05);
+        background: rgba(255, 107, 53, 0.08);
+        color: #ff8856;
       }
 
       .nav-cta {
@@ -2867,7 +2886,6 @@
       .qform-block-header { gap: 12px; }
       .qform-block-num { width: 34px; height: 34px; font-size: 12px; }
       .qform-block-title { font-size: 15px; }
-      .pill-option label { font-size: 13px; padding: 7px 13px; }
     }
 
 
@@ -3076,6 +3094,34 @@
       padding: 10px 20px;
       font-size: 14px;
     }
+
+    /* Petits écrans : pills alignées en grille 2 colonnes de largeur égale */
+    @media (max-width: 600px) {
+      .pill-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .pill-option label {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        min-height: 48px;
+        text-align: center;
+        padding: 10px 8px;
+        border-radius: 16px;
+      }
+      .qf-form .pill-option.pill-lg label {
+        padding: 12px 10px;
+        font-size: 13.5px;
+        line-height: 1.3;
+      }
+      .qf-form .pill-option.pill-lg label small {
+        font-size: 11.5px;
+      }
+    }
     /* Sous-questions conditionnelles */
     .qf-subfields {
       display: none;
@@ -3271,7 +3317,7 @@
         text-align: left;
         font-size: 15px;
         padding: 14px 4px;
-        color: #1a1a1a;
+        color: rgba(255, 255, 255, 0.92);
       }
       nav.main-nav .nav-cta {
         margin-top: 8px;
@@ -3306,15 +3352,15 @@
     .hcta-label-line {
       flex: 1;
       height: 1px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.18);
     }
 
     .hcta-label-text {
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 700;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.38);
+      color: rgba(255, 255, 255, 0.85);
       white-space: nowrap;
     }
 
@@ -3586,12 +3632,40 @@
       .ct-includes-grid { grid-template-columns: repeat(3, 1fr); }
     }
     @media (max-width: 768px) {
-      .ct-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      /* Carrousel horizontal : les cartes tarifaires se font défiler au doigt.
+         La carte suivante dépasse sur le bord → invite au swipe. */
+      .ct-cards-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 14px;
+        padding: 4px 4px 18px;
+        scrollbar-width: none;
+      }
+      .ct-cards-grid::-webkit-scrollbar { display: none; }
+      .ct-card {
+        flex: 0 0 76%;
+        max-width: 300px;
+        scroll-snap-align: center;
+      }
       .ct-price { font-size: 48px; }
+
+      /* Indication de glissement sous le carrousel */
+      .ct-swipe-hint {
+        display: block;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        margin-top: 4px;
+      }
     }
 
-    @media (max-width: 480px) {
-      .ct-cards-grid { grid-template-columns: 1fr; }
+    @media (min-width: 769px) {
+      .ct-swipe-hint { display: none; }
     }
 
   </style>
@@ -3693,6 +3767,7 @@
       <div class="nav-center">
         <a href="#suivi-personnalise">Suivi à distance</a>
         <a href="#solo-duo-trio">Coaching terrain</a>
+        <a href="sessions-collectives.html">Sessions collectives</a>
       </div>
       <div class="nav-right">
         <a href="#temoignages">Témoignages</a>
@@ -3830,10 +3905,10 @@
             Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlétisme depuis plus de 15 ans</strong> — j'ai commencé par le sprint avant de m'orienter vers les épreuves d'endurance avec un record personnel de 35'20" au 10K.
           </p>
           <p style="margin-bottom: 32px; font-size: clamp(17px, 1.6vw, 20px);">
-             <strong style="color:#fff;">Formé par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux avec une approche basée sur l'analyse, l'écoute et l'adaptation.
+             <strong style="color:#fff;">Formé par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux en construisant un entraînement personnalisé : analyse des données, écoute de l'athlète, adaptation continue — pour optimiser la progression à chaque étape.
           </p>
           <p style="margin-bottom: 36px; font-size: clamp(17px, 1.6vw, 20px);">
-            Mon objectif : t'aider à <strong style="color:#fff;">atteindre tes objectifs en combinant performance, plaisir et progression durable.</strong>
+            Mon objectif : aider mes athlètes <strong style="color:#fff;">à atteindre leurs objectifs en combinant performance, plaisir et progression durable.</strong>
           </p>
         </div>
 
@@ -3854,7 +3929,8 @@
       <header class="suivi-distance-header">
         <h2 class="suivi-distance-title">Suivi à distance</h2>
         <span class="suivi-distance-divider" aria-hidden="true"></span>
-        <p class="suivi-distance-lead">Pour coureurs de tous niveaux, du loisir à la compétition. <br><br> Je planifie ton entraînement en fonction de tes objectifs, j'analyse chaque séance et j'adapte ton programme en temps réel — tu n'as plus qu'à courir.</p>
+        <p class="suivi-distance-lead">Un accompagnement adapté à chaque coureur, du débutant souhaitant progresser au compétiteur recherchant la performance.</p>
+        <p class="suivi-distance-sub">Je planifie ton entraînement en fonction de tes objectifs, j'analyse chaque séance, j'échange avec toi sur ta progression et j'adapte ton programme en temps réel — tu n'as plus qu'à courir.</p>
         <ul class="suivi-distance-meta" aria-label="Engagements clés">
           <li><span class="dot" aria-hidden="true"></span>Plan 100 % personnalisé</li>
           <li><span class="dot" aria-hidden="true"></span>Suivi hebdomadaire</li>
@@ -3992,8 +4068,8 @@
       <div class="solo-duo-content">
         <!-- SECTION 1 : Hero + Cartes tarifaires -->
         <div class="ct-hero">
-          <h2 class="ct-title">Coaching terrain <span style="display:block;font-size:0.32em;font-weight:700;font-style:normal;letter-spacing:0.18em;color:rgba(255,255,255,0.55);margin-top:10px;">Île-de-France (voir zone de déplacement)</span></h2>
-          <p class="suivi-distance-lead">Séances en individuel ou en collectif, pour coureurs de tous niveaux.</p>
+          <h2 class="ct-title">Coaching terrain <span style="display:block;font-size:0.32em;font-weight:700;font-style:normal;letter-spacing:0.18em;color:rgba(255,255,255,0.55);margin-top:10px;">Île-de-France <em style="font-style:italic;">(voir zone de déplacement)</em></span></h2>
+          <p class="suivi-distance-lead">Des séances individuelles ou collectives encadrées sur le terrain, adaptées à tous les niveaux.</p>
           <ul class="suivi-distance-meta" style="margin-bottom: 20px;" aria-label="Engagements clés">
             <li><span class="dot" aria-hidden="true"></span>Séances encadrées</li>
             <li><span class="dot" aria-hidden="true"></span>Progression et motivation</li>
@@ -4061,6 +4137,7 @@
             </div>
 
           </div>
+          <span class="ct-swipe-hint" aria-hidden="true">← Glisse pour voir les formats →</span>
           <p style="text-align: center; margin: 22px auto 0; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.55); line-height: 1.5;">* Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
         </div>
 
@@ -4178,7 +4255,7 @@
               <span class="rp-value rp-after">1h48'19"</span>
             </div>
           </div>
-          <blockquote class="resultat-quote">Le suivi des entraînements programmés par Jeremy m'a permis de reussir un temps que je pensais impossible pour moi, il a su s’adapter à mes disponibilités et être à l’écoute de mes ressentis lors des séances pour un entraînement le plus personnalisé possible.
+          <blockquote class="resultat-quote">Le suivi des entraînements programmés par Jeremy m'a permis de faire un chrono que je pensais impossible pour moi, il a su s’adapter à mes disponibilités et être à l’écoute de mes ressentis lors des séances pour un entraînement le plus personnalisé possible.
 Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon record sur 10km.</blockquote>
         </div>
         <div class="resultat-photo-wrap" style="height: auto;">
@@ -4342,7 +4419,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
 
     <div style="text-align:center;margin-bottom:48px;">
 <h2 class="section-title" style="color:#FF6B35;margin-bottom:0;">Parlons de ton objectif</h2>
-      <p style="font-size:clamp(20px, 2.1vw, 26px);color:rgba(255,255,255,0.5);line-height:1.7;margin-top:12px;">Remplis le formulaire et je reviens vers toi sous 24h. Sans engagement.</p>
+      <p style="font-size:clamp(16px, 1.5vw, 18px);color:rgba(255,255,255,0.65);line-height:1.7;margin-top:12px;max-width:640px;margin-left:auto;margin-right:auto;">Remplis le formulaire ou envoie-moi un mail à <a href="mailto:contact@reding-running.fr" style="color:#FF6B35;text-decoration:none;">contact@reding-running.fr</a><br> et je reviens vers toi sous 24h. Sans engagement.</p>
     </div>
 
     <div class="form-section-inner">
@@ -4755,7 +4832,9 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     // Mobile menu toggle
     function toggleMenu() {
       const nav = document.querySelector('.main-nav');
+      const burger = document.querySelector('.mobile-menu-toggle');
       nav.classList.toggle('active');
+      if (burger) burger.classList.toggle('open', nav.classList.contains('active'));
     }
 
     // Header scroll effect
@@ -4772,6 +4851,8 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     document.querySelectorAll('.main-nav a').forEach(link => {
       link.addEventListener('click', () => {
         document.querySelector('.main-nav').classList.remove('active');
+        const burger = document.querySelector('.mobile-menu-toggle');
+        if (burger) burger.classList.remove('open');
       });
     });
   </script>
@@ -4807,6 +4888,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
         <p class="footer-tagline">Coach Running · Île-de-France</p>
       </div>
       <div class="footer-links">
+        <a href="sessions-collectives.html">Sessions collectives</a>
         <a href="mentions-legales.html">Mentions légales</a>
         <a href="cgv.html">CGV / CGU</a>
         <a href="politique-confidentialite.html">Politique de confidentialité</a>
@@ -4856,7 +4938,49 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     /* Passerelle « Envie d'aller plus loin ? » : empilée et centrée sur mobile */
     @media (max-width: 600px) {
       .ct-bridge { flex-direction: column; align-items: stretch !important; text-align: center; }
-      .ct-bridge > a { width: 100%; justify-content: center; }
+      .ct-bridge > a {
+        width: 100%;
+        justify-content: center;
+        white-space: normal !important;
+        line-height: 1.35;
+      }
+    }
+
+    /* ===== POLISH GRAPHIQUE MOBILE ===== */
+    @media (max-width: 768px) {
+      /* Hero plus compact : moins de vide avant le premier contenu */
+      .hero-section { padding: 88px 18px 40px; }
+      .hero-accent-line { margin-bottom: 18px; }
+      .hcta-section { margin-bottom: 20px; }
+
+      /* Badges hero : plus fins, mieux alignés */
+      .hero-badge { padding: 10px 11px; gap: 8px; border-radius: 10px; }
+      .hero-badge-icon { width: 28px; height: 28px; border-radius: 7px; }
+      .hero-badge-icon svg { width: 15px; height: 15px; }
+
+      /* Photo hero : rayon cohérent avec les cartes */
+      .hero-img-wrap img { border-radius: 16px; }
+
+      /* Titres de section : respiration réduite */
+      .suivi-distance-header { margin-bottom: 40px; }
+    }
+
+    @media (max-width: 600px) {
+      /* CTA « Accéder au formulaire » pleine largeur, plus tactile */
+      #suivi-personnalise .service-card.terrain > div > a[href="#contactForm"] {
+        display: flex !important;
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* Carte témoignage : occupe presque tout l'écran, mieux centrée */
+      .resultat-card { flex: 0 0 92%; }
+
+      /* Bloc avant/après : chiffres légèrement réduits pour tenir à l'aise */
+      .resultat-progression { padding: 14px 12px; }
+
+      /* Carte Leaflet moins haute sur mobile : moins de scroll bloqué */
+      #seances-map { height: 300px; }
     }
   </style>
 
