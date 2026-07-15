@@ -594,38 +594,38 @@
 
     /* ── Lien de paiement Stripe (à créer une seule fois) ─────────────────
        Dashboard Stripe → Paiements → Liens de paiement → « Créer un lien »
-       (produit « Session collective », montant 15 €). Colle l'URL obtenue
+       (produit « Session collective », montant 8 €). Colle l'URL obtenue
        ci-dessous (ex. "https://buy.stripe.com/xxxxxxxx").
        Elle sert de lien de paiement par défaut pour TOUTES les sessions. */
     var LIEN_STRIPE = "";
 
     var SESSIONS = [
       /* ── Samedis d'août : VMA 9h30 · Endurance 11h00 ── */
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-08", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-08", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-15", heure: "9h30",  duree: "1h", lieu: LIEU3, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-15", heure: "11h00", duree: "1h", lieu: LIEU3, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-29", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-29", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-08", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-08", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-15", heure: "9h30",  duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-15", heure: "11h00", duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-29", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-29", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
 
       /* ── Dimanches d'août : Endurance 9h30 · VMA 11h00 ── */
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-09", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-09", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-16", heure: "9h30",  duree: "1h", lieu: LIEU3, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-16", heure: "11h00", duree: "1h", lieu: LIEU3, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-30", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-30", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-09", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-09", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-16", heure: "9h30",  duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-16", heure: "11h00", duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-30", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-30", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
 
       /* ── Le Vésinet, samedis 10h15-11h15, octobre → décembre 2026
             (hors vacances scolaires zone C : Toussaint 17/10-02/11, Noël dès le 19/12 — aucun férié un samedi) ── */
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-10-03", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-10-10", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-11-07", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-11-14", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-11-21", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-11-28", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-12-05", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-12-12", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "15 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE }
+      { titre: "VMA (vitesse maximale aérobie)", date: "2026-10-03", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-10-10", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { titre: "VMA (vitesse maximale aérobie)", date: "2026-11-07", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-11-14", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { titre: "VMA (vitesse maximale aérobie)", date: "2026-11-21", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-11-28", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { titre: "VMA (vitesse maximale aérobie)", date: "2026-12-05", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-12-12", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE }
     ];
     /* ═══════════════ FIN DE LA ZONE À ÉDITER ═══════════════ */
 

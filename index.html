@@ -9,7 +9,7 @@
        d'un service tiers, supprime cette balise meta et re-teste. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://web3forms.com https://hcaptcha.com https://*.hcaptcha.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://*.hcaptcha.com https://www.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
   <title>Jérémy Reding – Coach Running | Île-de-France</title>
-  <meta name="description" content="Coach running certifié FFA en Île-de-France. Suivi à distance et Coaching terrain pour coureurs de tous niveaux." />
+  <meta name="description" content="Coach running FFA en Île-de-France. Suivi à distance et Coaching terrain pour coureurs de tous niveaux." />
   <meta name="author" content="Jérémy Reding" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://reding-running.fr/" />
@@ -784,11 +784,11 @@
   }
 
   .about-content {
-    order: 1;
+    order: 2;
   }
 
   .apropos-image-wrapper {
-    order: 2;
+    order: 1;
     margin-top: 0;
   }
 
@@ -1161,6 +1161,22 @@
         white-space: normal !important;
         text-align: center;
       }
+    }
+
+    /* Retours à la ligne plus équilibrés / propres (surtout mobile) */
+    h1, h2, h3,
+    .ct-title, .section-title,
+    .suivi-distance-lead, .suivi-distance-sub,
+    .section-subtitle, .hero-value-prop {
+      text-wrap: balance;
+    }
+    p { text-wrap: pretty; }
+
+    /* Intros un peu plus compactes sur petit écran */
+    @media (max-width: 600px) {
+      .suivi-distance-lead { font-size: 19px; line-height: 1.4; margin-bottom: 14px; }
+      .suivi-distance-sub { font-size: 15px; line-height: 1.55; }
+      .section-subtitle { font-size: 14.5px; }
     }
 
 
@@ -3528,6 +3544,70 @@
       gap: 20px; max-width: 1160px; margin: 0 auto;
     }
 
+    /* Carte unique centrée */
+    .ct-cards-grid--single {
+      display: flex; justify-content: center; overflow: visible;
+    }
+    .ct-cards-grid--single .ct-card {
+      width: 100%; max-width: 400px; flex: 0 0 auto;
+      padding: 26px 24px 24px;
+    }
+
+    /* Bloc « +10 € par personne supplémentaire » */
+    .ct-supp {
+      display: flex; align-items: baseline; justify-content: center; flex-wrap: wrap;
+      gap: 4px 10px; margin: 6px auto 8px; padding: 12px 16px;
+      background: rgba(255, 107, 53, 0.12);
+      border: 1px dashed rgba(255, 107, 53, 0.45);
+      border-radius: 12px;
+    }
+    .ct-supp-plus { font-size: 24px; font-weight: 900; font-style: italic; color: #FF6B35; line-height: 1; }
+    .ct-supp-txt { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255, 255, 255, 0.82); }
+    .ct-supp-ex { text-align: center; font-size: 12.5px; font-style: italic; color: rgba(255, 255, 255, 0.6); margin: 6px 0 4px; }
+
+    /* Coaching terrain : 2 colonnes (programme + carte) pour combler l'espace */
+    .ct-hero-cols {
+      display: grid;
+      grid-template-columns: 1fr minmax(0, 400px);
+      gap: 50px;
+      align-items: center;
+      max-width: 960px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .ct-program-title {
+      font-size: clamp(20px, 2.3vw, 28px);
+      font-weight: 900; font-style: italic; text-transform: uppercase;
+      letter-spacing: -0.01em; color: #ffffff; margin: 0 0 20px;
+    }
+    .ct-program-list {
+      list-style: none; margin: 0 0 18px; padding: 0;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .ct-program-list li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: 16px; color: rgba(255, 255, 255, 0.88); line-height: 1.4;
+    }
+    .ct-program-list li::before {
+      content: '✓'; flex-shrink: 0;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: rgba(255, 107, 53, 0.15); color: #FF6B35;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 900; margin-top: 1px;
+    }
+    .ct-program-note { font-size: 14px; font-style: italic; color: rgba(255, 255, 255, 0.55); margin: 0; }
+
+    @media (max-width: 860px) {
+      .ct-hero-cols {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        max-width: 460px;
+        text-align: center;
+      }
+      .ct-program-list { max-width: 320px; margin-left: auto; margin-right: auto; }
+      .ct-program-list li { text-align: left; }
+    }
+
     .ct-card {
       position: relative; border-radius: 20px; padding: 28px 22px 24px;
       display: flex; flex-direction: column; overflow: hidden;
@@ -3655,6 +3735,10 @@
       }
       .ct-price { font-size: 48px; }
 
+      /* Carte unique : centrée, pleine largeur, pas de carrousel */
+      .ct-cards-grid--single { display: flex; justify-content: center; overflow: visible; padding: 0; }
+      .ct-cards-grid--single .ct-card { flex: 0 0 auto; width: 100%; max-width: 100%; scroll-snap-align: none; }
+
       /* Indication de glissement sous le carrousel */
       .ct-swipe-hint {
         display: block;
@@ -3733,7 +3817,7 @@
         "@type": "Person",
         "@id": "https://reding-running.fr/#person",
         "name": "Jérémy Reding",
-        "jobTitle": "Coach Running certifié FFA",
+        "jobTitle": "Coach Running",
         "description": "Athlète et coach running en Île-de-France. 15+ ans de pratique, spécialisé en endurance et préparation course à pied.",
         "email": "contact@reding-running.fr",
         "url": "https://reding-running.fr",
@@ -4078,69 +4162,47 @@
             <li><span class="dot" aria-hidden="true"></span>Progression et motivation</li>
             <li><span class="dot" aria-hidden="true"></span>Spécifique et Technique</li>
           </ul>
-          <p class="ct-exemples">Exemples de séances : définition du profil d'endurance, renforcement musculaire, amélioration de la technique de course, développement de la vitesse/endurance, entretien de la condition physique.</p>
+          <div class="ct-hero-cols">
 
-          <div class="ct-cards-grid">
+            <!-- Panneau : au programme -->
+            <div class="ct-program">
+              <h3 class="ct-program-title">Exemples de séances</h3>
+              <ul class="ct-program-list">
+                <li>Définition du profil d'endurance</li>
+                <li>Technique de course</li>
+                <li>Renforcement musculaire</li>
+                <li>Développement vitesse / endurance</li>
+                <li>Entretien de la condition physique</li>
+              </ul>
+              <p class="ct-program-note">Chaque séance est construite selon ton niveau et ton objectif du moment.</p>
+            </div>
 
-            <!-- Individuel -->
+            <div class="ct-cards-grid ct-cards-grid--single">
+
+            <!-- Séance de base + tarif dégressif -->
             <div class="ct-card ct-card--individuel">
-              <span class="ct-card-label">Individuel</span>
+              <span class="ct-card-label">La séance</span>
               <div class="ct-price">50€<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
-              <div class="ct-price-unit">par séance</div>
-              <hr class="ct-divider">
-              <ul class="ct-features">
-                <li><span class="ct-check">✓</span>Coaching 100% solo</li>
-                <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
-                <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
-              </ul>
-              <a href="#contactForm" class="ct-card-cta">Réserver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-            </div>
+              <div class="ct-price-unit">En individuel</div>
 
-            <!-- Duo -->
-            <div class="ct-card ct-card--duo">
-              <span class="ct-card-label">Duo</span>
-              <div class="ct-price">30€<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
-              <div class="ct-price-unit">par pers. / séance</div>
               <hr class="ct-divider">
               <ul class="ct-features">
-                <li><span class="ct-check">✓</span>Coaching à 2</li>
                 <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
+                <li><span class="ct-check">✓</span>En solo, duo, trio ou groupe</li>
                 <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
               </ul>
-              <a href="#contactForm" class="ct-card-cta">Réserver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-            </div>
 
-            <!-- Trio -->
-            <div class="ct-card ct-card--trio">
-              <span class="ct-card-label">Trio</span>
-              <div class="ct-price">25€<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
-              <div class="ct-price-unit">par pers. / séance</div>
-              <hr class="ct-divider">
-              <ul class="ct-features">
-                <li><span class="ct-check">✓</span>Coaching à 3</li>
-                <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
-                <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
-              </ul>
-              <a href="#contactForm" class="ct-card-cta">Réserver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-            </div>
+              <div class="ct-supp">
+                <span class="ct-supp-plus">+10&nbsp;€</span>
+                <span class="ct-supp-txt">par personne supplémentaire</span>
+              </div>
+              <div class="ct-supp-ex">Duo&nbsp;60&nbsp;€ · Trio&nbsp;70&nbsp;€ · Quatuor&nbsp;80&nbsp;€ · Groupe&nbsp;(5&nbsp;+)&nbsp;: sur devis</div>
 
-            <!-- Groupe -->
-            <div class="ct-card ct-card--groupe">
-              <span class="ct-card-label">Groupe</span>
-              <div class="ct-price" style="font-size:clamp(30px,3vw,42px);line-height:1.15;">Sur devis<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
-              <div class="ct-price-unit">4 coureurs et +</div>
-              <hr class="ct-divider">
-              <ul class="ct-features">
-                <li><span class="ct-check">✓</span>Coaching groupe 4+</li>
-                <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
-                <li><span class="ct-check">✓</span>Tarif dégressif selon effectif</li>
-                <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
-              </ul>
               <a href="#contactForm" class="ct-card-cta">Réserver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
 
           </div>
-          <span class="ct-swipe-hint" aria-hidden="true">← Glisse pour voir les formats →</span>
+          </div>
           <p style="text-align: center; margin: 22px auto 0; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.55); line-height: 1.5;">* Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
         </div>
 
@@ -4610,14 +4672,15 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
                 <div class="pill-option"><input type="radio" id="fmt1" name="Format séance" value="Individuel"><label for="fmt1">Individuel</label></div>
                 <div class="pill-option"><input type="radio" id="fmt2" name="Format séance" value="Duo (2 pers.)"><label for="fmt2">Duo</label></div>
                 <div class="pill-option"><input type="radio" id="fmt3" name="Format séance" value="Trio (3 pers.)"><label for="fmt3">Trio</label></div>
-                <div class="pill-option"><input type="radio" id="fmt4" name="Format séance" value="Groupe (4 pers. et +)"><label for="fmt4">Groupe</label></div>
+                <div class="pill-option"><input type="radio" id="fmt5" name="Format séance" value="Quatuor (4 pers.)"><label for="fmt5">Quatuor</label></div>
+                <div class="pill-option"><input type="radio" id="fmt4" name="Format séance" value="Groupe (5 pers. et +)"><label for="fmt4">Groupe</label></div>
               </div>
 
               <!-- Sous-question : Groupe → nombre de personnes -->
               <div class="qf-subfields" id="qf-fmt-groupe">
                 <div class="form-group" style="margin-bottom:0;">
-                  <label for="groupe-nb">Nombre de personnes <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(à partir de 4)</span></label>
-                  <input type="number" id="groupe-nb" name="Nombre de personnes" min="4" inputmode="numeric" placeholder="Ex : 5">
+                  <label for="groupe-nb">Nombre de personnes <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(à partir de 5)</span></label>
+                  <input type="number" id="groupe-nb" name="Nombre de personnes" min="5" inputmode="numeric" placeholder="Ex : 6">
                 </div>
               </div>
             </div>
