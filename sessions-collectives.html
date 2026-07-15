@@ -28,7 +28,7 @@
     body {
       font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.85);
-      background: linear-gradient(180deg, #06090F 0%, #0A1128 40%, #0D1B33 100%);
+      background: linear-gradient(160deg, #0A1128 0%, #001F54 22%, #034078 45%, #1282A2 72%, #0091B8 100%);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
@@ -150,16 +150,17 @@
     /* Flèches de défilement (desktop) */
     .lieu-nav { display: flex; gap: 8px; flex-shrink: 0; }
     .lieu-fleche {
-      width: 38px; height: 38px; border-radius: 50%;
-      border: 1px solid rgba(255, 107, 53, 0.45);
-      background: rgba(255, 107, 53, 0.08);
-      color: #FF6B35; cursor: pointer;
+      width: 40px; height: 40px; border-radius: 50%;
+      border: none;
+      background: #FF6B35;
+      color: #ffffff; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+      box-shadow: 0 6px 16px rgba(255, 107, 53, 0.45);
+      transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
     }
-    .lieu-fleche svg { width: 17px; height: 17px; }
-    .lieu-fleche:hover:not(:disabled) { background: #FF6B35; color: #fff; }
-    .lieu-fleche:disabled { opacity: 0.25; cursor: default; }
+    .lieu-fleche svg { width: 18px; height: 18px; }
+    .lieu-fleche:hover:not(:disabled) { background: #ff7a47; transform: translateY(-1px); }
+    .lieu-fleche:disabled { opacity: 0.3; cursor: default; box-shadow: none; }
     @media (max-width: 768px) {
       .lieu-nav { display: none !important; }
     }
@@ -208,11 +209,12 @@
     }
     .session-card {
       position: relative;
-      background: rgba(255,107,53,0.07);
-      border: 1px solid rgba(255,107,53,0.3);
+      background: rgba(255, 107, 53, 0.10);
+      border: 1.5px solid rgba(255, 107, 53, 0.45);
       border-radius: 20px;
       overflow: hidden;
       display: flex; flex-direction: column;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
     .session-card::before {
@@ -522,7 +524,6 @@
           </div>
         </div>
 
-        <div id="hcap-container" style="margin-bottom:14px;"></div>
         <button type="submit" class="btn-envoyer" id="btn-envoyer">Confirmer mon inscription</button>
         <p class="m-note">Paiement en ligne sécurisé (Stripe) après l'inscription. Annulation gratuite jusqu'à 24h avant la séance.</p>
         <p class="m-message" id="m-message"></p>
@@ -797,18 +798,6 @@
       var overlay = document.getElementById('modal-overlay');
       var current = null;
 
-      /* hCaptcha : rendu explicite à l'ouverture de la modale (widget dans une fenêtre masquée au chargement) */
-      var hcapId = null, hcapPret = false, modaleOuverte = false;
-      function afficherHcap() {
-        if (!hcapPret || !window.hcaptcha) return;
-        if (hcapId === null) {
-          hcapId = hcaptcha.render('hcap-container', { sitekey: '50b2fe65-b00b-4b9e-ad62-3ba471098be2' });
-        } else {
-          hcaptcha.reset(hcapId);
-        }
-      }
-      window.hcapOnload = function () { hcapPret = true; if (modaleOuverte) afficherHcap(); };
-
       grid.addEventListener('click', function (e) {
         var btn = e.target.closest('.btn-inscrire');
         if (!btn || btn.disabled) return;
@@ -824,8 +813,6 @@
         var b = document.getElementById('btn-envoyer');
         b.disabled = false; b.textContent = 'Confirmer mon inscription';
         overlay.classList.add('open');
-        modaleOuverte = true;
-        afficherHcap();
       });
 
       document.getElementById('modal-close').addEventListener('click', function () { overlay.classList.remove('open'); });
@@ -890,12 +877,6 @@
         e.preventDefault();
         var btn = document.getElementById('btn-envoyer');
         var msg = document.getElementById('m-message');
-        if (!new FormData(form).get('h-captcha-response')) {
-          msg.style.display = 'block';
-          msg.style.background = 'rgba(255,193,7,0.15)'; msg.style.color = '#ffc107';
-          msg.textContent = 'Merci de cocher la case « Je ne suis pas un robot ».';
-          return;
-        }
         btn.disabled = true; btn.textContent = 'Envoi en cours…';
         try {
           var resp = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form) });
@@ -926,8 +907,6 @@
     })();
   </script>
 
-  <!-- hCaptcha (protection anti-spam du formulaire d'inscription via Web3Forms) -->
-  <script src="https://js.hcaptcha.com/1/api.js?render=explicit&onload=hcapOnload" async defer></script>
 
 </body>
 </html>

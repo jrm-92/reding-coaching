@@ -729,7 +729,7 @@
 
     /* ===== À PROPOS SECTION ===== */
 .apropos-section {
-  padding: 100px 60px;
+  padding: 60px 60px;
   background: linear-gradient(135deg, #0A1128 0%, #001F54 25%, #034078 50%, #1282A2 75%, #0091B8 100%);
   position: relative;
 }
@@ -754,15 +754,15 @@
 .apropos-image-wrapper {
   align-items: flex-start;
   margin-left: 0;
-  margin-top: -80px; /* remonte la photo pour qu'elle apparaisse en entier (desktop) */
+  margin-top: 0; /* photo quasi carrée : alignée en haut avec le texte */
 }
 
 .apropos-image {
   position: relative;
-  border-radius: 20px;
+  border-radius: 28px;
   overflow: visible;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  width: 380px;
+  width: 470px;
   min-width: 180px;
   max-width: none;
   max-height: none;
@@ -814,6 +814,7 @@
     max-width: 350px;
     margin-bottom: 40px;
   }
+  .apropos-image img { height: 420px !important; }
 }
 
 
@@ -939,7 +940,7 @@
     
     /* ===== ABOUT SECTION ===== */
     .about-section {
-      padding: 100px 60px 100px 60px;
+      padding: 48px 60px 100px 60px;
       background: linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
       position: relative;
       overflow: visible;
@@ -1109,7 +1110,7 @@
     .suivi-distance-header {
       max-width: 1080px;
       margin: 0 auto 64px;
-      padding: 24px 30px 0;
+      padding: 0 30px 0;
       text-align: center;
       position: relative;
     }
@@ -1349,7 +1350,7 @@
 
     /* ===== SOLO-DUO/TRIO SECTION ===== */
     .solo-duo-section {
-      padding: 100px 60px;
+      padding: 48px 60px 100px 60px;
       background: linear-gradient(135deg, #0A1128 0%, #001F54 25%, #034078 50%, #1282A2 75%, #0091B8 100%);
       position: relative;
       overflow: visible;
@@ -1742,6 +1743,9 @@
       line-height: 1.8;
       color: #1a1a1a;
       margin: 0;
+      text-align: justify;
+      hyphens: auto;
+      -webkit-hyphens: auto;
     }
 
     @media (max-width: 768px) {
@@ -3878,21 +3882,20 @@
   <section class="apropos-section" id="apropos">
 
     <!-- Titre -->
-    <div class="hero-title-section" style="text-align: center; margin-bottom: 48px;">
+    <div class="hero-title-section" style="text-align: center; margin-bottom: 28px;">
       <h2 class="hero-title" style="font-size: clamp(32px, 4vw, 48px); font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: -0.02em; color: #FF6B35; margin: 0; line-height: 1.2; text-align: center;">
         À propos
       </h2>
     </div>
 
     <!-- Grille : photo+card gauche | texte droite -->
-    <div class="apropos-container" style="align-items: start;">
+    <div class="apropos-container" style="align-items: center;">
 
       <!-- Colonne gauche : photo uniquement -->
       <div class="apropos-image-wrapper" style="display: flex; flex-direction: column;">
-        <div class="apropos-image" style="height: auto; margin: 0; max-height: none; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,107,53,0.18);">
+        <div class="apropos-image" style="height: auto; margin: 0; max-height: none; border-radius: 28px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,107,53,0.18);">
           <picture>
-            <source srcset="jerem_ratp.webp" type="image/webp">
-            <img src="jerem_ratp.jpeg" alt="Jérémy Reding, coach running en Île-de-France" style="width: 100%; height: auto; display: block;" width="785" height="1200" loading="lazy" />
+            <img src="photo_apropos.JPG" alt="Jérémy Reding, coach running en Île-de-France" style="width: 100%; height: 560px; object-fit: cover; object-position: center; display: block;" width="1440" height="1920" loading="lazy" />
           </picture>
         </div>
       </div>
@@ -3900,11 +3903,11 @@
       <!-- Colonne droite : texte + card + lien FFA -->
       <div class="about-content" style="display: flex; flex-direction: column; justify-content: center; gap: 0;">
 
-        <div style="color: rgba(255,255,255,0.78); line-height: 1.9; text-align: left;">
-          <p style="margin-bottom: 32px; font-size: clamp(17px, 1.6vw, 20px);">
+        <div style="color: rgba(255,255,255,0.78); line-height: 1.9; text-align: justify; hyphens: auto; -webkit-hyphens: auto;">
+          <p style="margin-bottom: 48px; font-size: clamp(17px, 1.6vw, 20px);">
             Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlétisme depuis plus de 15 ans</strong> — j'ai commencé par le sprint avant de m'orienter vers les épreuves d'endurance avec un record personnel de 35'20" au 10K.
           </p>
-          <p style="margin-bottom: 32px; font-size: clamp(17px, 1.6vw, 20px);">
+          <p style="margin-bottom: 48px; font-size: clamp(17px, 1.6vw, 20px);">
              <strong style="color:#fff;">Formé par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux en construisant un entraînement personnalisé : analyse des données, écoute de l'athlète, adaptation continue — pour optimiser la progression à chaque étape.
           </p>
           <p style="margin-bottom: 36px; font-size: clamp(17px, 1.6vw, 20px);">
@@ -4672,7 +4675,6 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
               J'accepte que mes données soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" rel="noopener noreferrer" style="color:#FF6B35;">politique de confidentialité</a> *
             </label>
           </div>
-          <div class="h-captcha" data-captcha="true" style="margin-bottom:18px;"></div>
           <button type="submit" class="form-submit-btn">Envoyer ma demande <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
           <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds généralement sous 24h</p>
           <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
