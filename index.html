@@ -1217,17 +1217,19 @@
         margin-bottom: 48px;
       }
       .suivi-distance-meta {
-        gap: 8px;
+        gap: 8px 10px;
         width: 100%;
       }
       .suivi-distance-meta li {
-        flex: 1 1 100%;
+        flex: 0 1 auto;
         justify-content: center;
         background: rgba(255, 107, 53, 0.06);
         border: 1px solid rgba(255, 107, 53, 0.2);
-        padding: 9px 14px;
+        gap: 7px;
+        padding: 7px 12px;
         border-radius: 999px;
-        font-size: 12px;
+        font-size: 11px;
+        letter-spacing: 0.04em;
       }
     }
 
@@ -3355,6 +3357,35 @@
       }
     }
 
+    /* ── Boutons plus compacts sur mobile ── */
+    @media (max-width: 768px) {
+      /* Cartes CTA du hero (Suivi à distance / Coaching terrain) */
+      .hcta-card { padding: 13px 15px; gap: 12px; }
+      .hcta-icon { width: 38px; height: 38px; }
+      .hcta-icon svg { width: 19px; height: 19px; }
+      .hcta-arrow-circle { width: 30px; height: 30px; }
+      .hcta-arrow-circle svg { width: 15px; height: 15px; }
+      .hcta-card-title { font-size: 13.5px; }
+      .hcta-card-cta { font-size: 10px; }
+
+      /* Bouton « Réserver » (coaching terrain) */
+      .ct-card-cta { padding: 11px 16px; font-size: 11.5px; letter-spacing: 0.6px; }
+
+      /* Bouton d'envoi du formulaire */
+      .form-submit-btn { padding: 13px 18px; font-size: 12.5px; letter-spacing: 1px; }
+
+      /* Choix du formulaire (Suivi à distance / Coaching terrain) */
+      .qf-choice-title { font-size: 14.5px; }
+      .qf-choice-desc { font-size: 10.5px; }
+
+      /* Questions de la FAQ */
+      .faq-question { padding: 13px 16px; font-size: 14px; }
+      .faq-icon { font-size: 18px; }
+
+      /* Bouton « Me contacter » du menu */
+      nav.main-nav .nav-cta { padding: 12px 16px !important; font-size: 13px !important; }
+    }
+
 
     /* ── CTA SECTION ── */
     .hcta-section {
@@ -4450,6 +4481,16 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
               <p>Oui ! Le renforcement musculaire est essentiel pour progresser en course à pied et prévenir les blessures. Tu as accès à des vidéos explicatives sur Nolio avec des exercices adaptés à ton niveau et à tes objectifs. Ces séances sont intégrées dans ton plan d'entraînement.</p>
             </div>
           </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Comment gérer ou résilier mon abonnement ?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>Le suivi à distance est sans engagement : tu peux mettre à jour ton moyen de paiement, consulter tes factures ou résilier ton abonnement à tout moment, en toute autonomie, depuis ton <a href="https://billing.stripe.com/p/login/dRm6oI7IPfYd6ZneTk8bS00" target="_blank" rel="noopener noreferrer" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">espace de gestion sécurisé</a>. La résiliation prend effet à la fin de la période déjà réglée. Une question ? Écris-moi, je m'en occupe.</p>
+            </div>
+          </div>
         </div>
 
         <div class="faq-category">
@@ -4954,6 +4995,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
       </div>
       <div class="footer-links">
         <a href="sessions-collectives.html">Sessions collectives</a>
+        <a href="https://billing.stripe.com/p/login/dRm6oI7IPfYd6ZneTk8bS00" target="_blank" rel="noopener">Gérer mon abonnement</a>
         <a href="mentions-legales.html">Mentions légales</a>
         <a href="cgv.html">CGV / CGU</a>
         <a href="politique-confidentialite.html">Politique de confidentialité</a>

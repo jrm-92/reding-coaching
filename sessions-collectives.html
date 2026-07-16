@@ -476,7 +476,7 @@
   <main>
     <div class="page-intro">
       <h1>Sessions <span class="accent">collectives</span></h1>
-      <p class="lead">Des séances de running en groupe, encadrées par un coach certifié FFA : fractionné, technique de course, renforcement. Choisis ta session, inscris-toi en ligne — et viens courir.</p>
+      <p class="lead">Des séances collectives variées pour progresser en running dans une ambiance conviviale. Développe ta condition physique, ta technique et ton endurance grâce à des entraînements adaptés à tous les niveaux.</p>
     </div>
 
     <div class="sessions-grid" id="sessions-grid"></div>
@@ -597,35 +597,47 @@
        (produit « Session collective », montant 8 €). Colle l'URL obtenue
        ci-dessous (ex. "https://buy.stripe.com/xxxxxxxx").
        Elle sert de lien de paiement par défaut pour TOUTES les sessions. */
-    var LIEN_STRIPE = "";
+    var LIEN_STRIPE = "https://buy.stripe.com/dRm6oI7IPfYd6ZneTk8bS00";
+
+    /* ── Sessions pilotées par une Google Sheet (sans toucher au code) ───────
+       Colle ici l'URL CSV « Publier sur le web » de ta feuille Google.
+       Laisse "" pour utiliser la liste SESSIONS écrite ci-dessus.
+       Quand une URL est renseignée, TOUTE la liste des sessions vient de la
+       feuille : ajouter une ligne = ajouter une session sur le site.
+       Colonnes de la feuille : id | type | date | heure | duree | lieu |
+       places | inscrits | stripe   (voir détails plus bas dans le code).
+       Colonne « lieu » : écris le nom complet du lieu (recommandé, lisible)
+       ou un code L1 / L2 / L3. Toute autre colonne (ex. « paye ») est ignorée
+       par le site : tu peux en ajouter librement pour ton suivi perso. */
+    var SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSggn8BSPm988-wljlbRkksIeveedgJxuZ_VTOzYredPAmfK_t3h0JXV-Ayh6-xM0HPO0SeSn8bMO8T/pub?gid=1222905758&single=true&output=csv";
 
     var SESSIONS = [
       /* ── Samedis d'août : VMA 9h30 · Endurance 11h00 ── */
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-08", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-08", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-15", heure: "9h30",  duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-15", heure: "11h00", duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-29", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-29", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { id: "s01", titre: "VMA (vitesse maximale aérobie)", date: "2026-08-08", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { id: "s02", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-08", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { id: "s03", titre: "VMA (vitesse maximale aérobie)", date: "2026-08-15", heure: "9h30",  duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { id: "s04", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-15", heure: "11h00", duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { id: "s05", titre: "VMA (vitesse maximale aérobie)", date: "2026-08-29", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { id: "s06", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-29", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
 
       /* ── Dimanches d'août : Endurance 9h30 · VMA 11h00 ── */
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-09", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-09", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-16", heure: "9h30",  duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-16", heure: "11h00", duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-30", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-08-30", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { id: "s07", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-09", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { id: "s08", titre: "VMA (vitesse maximale aérobie)", date: "2026-08-09", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { id: "s09", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-16", heure: "9h30",  duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { id: "s10", titre: "VMA (vitesse maximale aérobie)", date: "2026-08-16", heure: "11h00", duree: "1h", lieu: LIEU3, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { id: "s11", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-08-30", heure: "9h30",  duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { id: "s12", titre: "VMA (vitesse maximale aérobie)", date: "2026-08-30", heure: "11h00", duree: "1h", lieu: LIEU2, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
 
       /* ── Le Vésinet, samedis 10h15-11h15, octobre → décembre 2026
             (hors vacances scolaires zone C : Toussaint 17/10-02/11, Noël dès le 19/12 — aucun férié un samedi) ── */
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-10-03", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-10-10", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-11-07", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-11-14", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-11-21", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-11-28", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { titre: "VMA (vitesse maximale aérobie)", date: "2026-12-05", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { titre: "Endurance (capacité de maintien aérobie)",  date: "2026-12-12", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE }
+      { id: "s13", titre: "VMA (vitesse maximale aérobie)", date: "2026-10-03", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { id: "s14", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-10-10", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { id: "s15", titre: "VMA (vitesse maximale aérobie)", date: "2026-11-07", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { id: "s16", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-11-14", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { id: "s17", titre: "VMA (vitesse maximale aérobie)", date: "2026-11-21", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { id: "s18", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-11-28", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
+      { id: "s19", titre: "VMA (vitesse maximale aérobie)", date: "2026-12-05", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
+      { id: "s20", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-12-12", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE }
     ];
     /* ═══════════════ FIN DE LA ZONE À ÉDITER ═══════════════ */
 
@@ -646,7 +658,7 @@
       });
     })();
 
-    (function () {
+    function demarrerSessions() {
       var MOIS = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'];
       var JOURS = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'];
       var grid = document.getElementById('sessions-grid');
@@ -904,6 +916,110 @@
           btn.disabled = false; btn.textContent = 'Confirmer mon inscription';
         }
       });
+    }
+
+    /* ══════════════════════════════════════════════════════════════════════
+       LECTURE DE LA GOOGLE SHEET → CONSTRUCTION DES SESSIONS
+       ══════════════════════════════════════════════════════════════════════
+       Si SHEET_CSV_URL est renseignée, la liste des sessions est construite
+       ENTIÈREMENT à partir de la feuille : ajouter une ligne = ajouter une
+       session sur le site, sans toucher au code ni redéployer.
+
+       Colonnes attendues dans la feuille (l'ordre n'a pas d'importance) :
+         id       — identifiant unique (ex. s21). Obligatoire.
+         type     — « VMA » ou « Endurance » (définit le titre + le déroulé)
+         date     — AAAA-MM-JJ  ou  JJ/MM/AAAA
+         heure    — ex. 9h30
+         duree    — ex. 1h  (défaut : 1h)
+         lieu     — L1 / L2 / L3  (ou le nom complet du lieu)
+         places   — nombre total de places (défaut : 10)
+         inscrits — nombre d'inscrits (défaut : 0)
+         stripe   — lien de paiement propre à la session (facultatif)
+
+       En cas d'échec (pas d'URL, hors ligne, feuille vide), on garde la liste
+       SESSIONS écrite dans le code — la page s'affiche quoi qu'il arrive. */
+
+    /* Découpe une ligne CSV en cellules (gère les guillemets et virgules) */
+    function _cellules(l) {
+      var out = [], cur = '', q = false, i, c;
+      for (i = 0; i < l.length; i++) {
+        c = l[i];
+        if (c === '"') { if (q && l[i + 1] === '"') { cur += '"'; i++; } else { q = !q; } }
+        else if (c === ',' && !q) { out.push(cur); cur = ''; }
+        else { cur += c; }
+      }
+      out.push(cur);
+      return out;
+    }
+
+    /* Normalise une date « JJ/MM/AAAA » ou « AAAA-MM-JJ » → « AAAA-MM-JJ » */
+    function _normDate(v) {
+      v = String(v == null ? '' : v).trim();
+      var m = v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (m) return m[1] + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[3]).slice(-2);
+      m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+      if (m) return m[3] + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[1]).slice(-2);
+      return v;
+    }
+
+    /* Code de lieu L1/L2/L3 → nom complet ; sinon renvoie la valeur telle quelle */
+    function _lieuFromCode(v) {
+      var k = String(v == null ? '' : v).trim().toLowerCase().replace(/\s+/g, '');
+      if (k === 'l1') return LIEU1;
+      if (k === 'l2') return LIEU2;
+      if (k === 'l3') return LIEU3;
+      return String(v == null ? '' : v).trim();
+    }
+
+    /* Construit la liste des sessions à partir du texte CSV publié */
+    function _construireSessions(txt) {
+      var lignes = txt.split(/\r?\n/).filter(function (l) { return l.trim() !== ''; });
+      if (lignes.length < 2) return [];
+      var head = _cellules(lignes[0]).map(function (h) { return h.trim().toLowerCase(); });
+      function col(nom) { return head.indexOf(nom); }
+      var iId = col('id'), iType = col('type'), iDate = col('date'), iHeure = col('heure'),
+          iDuree = col('duree'), iLieu = col('lieu'), iPlaces = col('places'),
+          iIns = col('inscrits'), iStripe = col('stripe');
+      var out = [];
+      for (var r = 1; r < lignes.length; r++) {
+        var c = _cellules(lignes[r]);
+        var id = iId > -1 ? String(c[iId] || '').trim() : '';
+        if (!id) continue;
+        var date = _normDate(iDate > -1 ? c[iDate] : '');
+        var heure = (iHeure > -1 ? String(c[iHeure] || '') : '').trim();
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !heure) continue; /* ligne incomplète → ignorée */
+        var type = (iType > -1 ? String(c[iType] || '') : '').trim().toLowerCase();
+        var estVMA = type.indexOf('vma') > -1 || type.indexOf('puiss') > -1 || type.indexOf('maximale') > -1;
+        var placesN = parseInt(iPlaces > -1 ? c[iPlaces] : '', 10);
+        var insN = parseInt(iIns > -1 ? c[iIns] : '', 10);
+        out.push({
+          id: id,
+          titre: estVMA ? 'VMA (vitesse maximale aérobie)' : 'Endurance (capacité de maintien aérobie)',
+          date: date,
+          heure: heure,
+          duree: (iDuree > -1 ? String(c[iDuree] || '') : '').trim() || '1h',
+          lieu: _lieuFromCode(iLieu > -1 ? c[iLieu] : ''),
+          prix: '8 €',
+          places: isNaN(placesN) ? 10 : placesN,
+          inscrits: isNaN(insN) ? 0 : Math.max(0, insN),
+          stripe: (iStripe > -1 ? String(c[iStripe] || '') : '').trim(),
+          deroule: estVMA ? DEROULE_PUISSANCE : DEROULE_CAPACITE
+        });
+      }
+      return out;
+    }
+
+    (function _demarrer() {
+      if (!SHEET_CSV_URL) { demarrerSessions(); return; }
+      var url = SHEET_CSV_URL + (SHEET_CSV_URL.indexOf('?') > -1 ? '&' : '?') + '_=' + Date.now();
+      fetch(url)
+        .then(function (r) { if (!r.ok) throw new Error('http'); return r.text(); })
+        .then(function (txt) {
+          var liste = _construireSessions(txt);
+          if (liste.length) SESSIONS = liste; /* la feuille remplace la liste du code */
+        })
+        .catch(function () { /* on garde la liste du code en secours */ })
+        .then(function () { demarrerSessions(); });
     })();
   </script>
 
