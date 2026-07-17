@@ -491,8 +491,8 @@
       .hero-badge-label { font-size: 10px; }
     }
 
-    /* ─── HERO MOBILE (≤ 768px) — mise en page spécifique ─── */
-    @media (max-width: 768px) {
+    /* ─── HERO EMPILÉ (≤ 992px) — même seuil que le reste du site ─── */
+    @media (max-width: 992px) {
       .hero-section { padding: 96px 20px 48px; }
 
       .hero-grid {
@@ -506,13 +506,13 @@
          directement au flux flex de .hero-grid */
       .hero-left { display: contents; }
 
-      /* Ordre de lecture mobile : titre → accent → texte → CTA → badges → photo */
+      /* Ordre de lecture empilé : titre → accent → texte → photo → CTA → badges */
       .hero-main-title  { order: 1; margin-bottom: 14px; font-size: clamp(36px, 9vw, 54px); }
       .hero-accent-line { order: 2; margin-top: 0; margin-bottom: 22px; }
       .hero-value-prop  { order: 3; margin-bottom: 28px; font-size: 16px; line-height: 1.65; }
-      .hcta-section     { order: 4; margin-bottom: 24px; }
-      .hero-badges      { order: 5; margin-bottom: 32px; }
-      .hero-img-col     { order: 6; padding-top: 0; }
+      .hero-img-col     { order: 4; padding-top: 0; margin-bottom: 28px; }
+      .hcta-section     { order: 5; margin-bottom: 24px; }
+      .hero-badges      { order: 6; margin-bottom: 32px; }
 
       /* CTA : cartes empilées sur mobile */
       .hcta-label-text { font-size: 12px; letter-spacing: 0.1em; }
@@ -569,7 +569,7 @@
       .hero-img-wrap img { height: 260px; }
     }
 
-    @media (min-width: 769px) { .hero-break-mobile { display: none; } }
+    @media (min-width: 993px) { .hero-break-mobile { display: none; } }
 
 
     .hero-title-section {
@@ -3596,16 +3596,85 @@
     .ct-supp-txt { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255, 255, 255, 0.82); }
     .ct-supp-ex { text-align: center; font-size: 12.5px; font-style: italic; color: rgba(255, 255, 255, 0.6); margin: 6px 0 4px; }
 
-    /* Coaching terrain : 2 colonnes (programme + carte) pour combler l'espace */
-    .ct-hero-cols {
-      display: grid;
-      grid-template-columns: 1fr minmax(0, 400px);
-      gap: 50px;
+    /* Coaching terrain : bande « exemples » + 2 colonnes (carte · comment programmer) */
+    .ct-examples {
+      max-width: 820px;
+      margin: 0 auto 42px;
+      text-align: center;
+    }
+    .ct-examples-list {
+      list-style: none;
+      margin: 20px 0 14px;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px 20px;
+    }
+    .ct-examples-list li {
+      display: inline-flex;
       align-items: center;
-      max-width: 960px;
+      gap: 10px;
+      font-size: 15.5px;
+      color: rgba(255, 255, 255, 0.88);
+      line-height: 1.3;
+    }
+    .ct-examples-list li::before {
+      content: '✓';
+      flex-shrink: 0;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(255, 107, 53, 0.15); color: #FF6B35;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 900;
+    }
+
+    .ct-offer-cols {
+      display: block;
+      max-width: 760px;
       margin: 0 auto;
       text-align: left;
     }
+    .ct-offer-cols .ct-cards-grid--single { margin-bottom: 34px; }
+    /* Le formulaire dédié occupe toute la hauteur de son cadre */
+    #coaching-form { justify-content: flex-start; }
+    #coaching-form .js-lead-form { width: 100%; }
+    .suivi-form-wrap {
+      position: relative; overflow: hidden; align-self: start; scroll-margin-top: 100px;
+      background: rgba(18,130,162,0.18);
+      border: 1px solid rgba(18,130,162,0.35);
+      border-radius: 20px;
+      padding: 28px 28px 22px;
+    }
+    .suivi-form-wrap::before { content:''; position:absolute; top:0; left:0; right:0; height:6px; background: linear-gradient(90deg,#4AB8D8,#0091B8); }
+    .suivi-form-title { text-align:center; font-size: clamp(22px,3vw,28px); font-weight:900; font-style:italic; text-transform:uppercase; letter-spacing:-0.01em; color:#ffffff; margin:0 0 8px; }
+    .suivi-form-sub { text-align:center; color:rgba(255,255,255,0.6); font-size:14.5px; line-height:1.6; margin:0 auto 26px; max-width:520px; }
+
+    /* Formulaire Coaching : rangées en 2 colonnes (on élargit la zone plutôt que d'empiler) */
+    #coaching-form .form-row { grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    /* Formulaire Suivi : panneau plus clair + champs plus lisibles sur fond sombre */
+    .suivi-form-wrap .form-group input,
+    .suivi-form-wrap .form-group textarea {
+      background: rgba(255,255,255,0.09);
+      border-color: rgba(255,255,255,0.22);
+    }
+    .suivi-form-wrap .form-group input:focus,
+    .suivi-form-wrap .form-group textarea:focus {
+      background: rgba(255,107,53,0.10);
+      border-color: rgba(255,107,53,0.5);
+    }
+    /* Encadré sobre autour des étapes — parité visuelle avec la carte prix,
+       mais volontairement plus discret pour que l'offre reste l'élément vedette. */
+    .ct-steps-col {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px 30px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .ct-steps-col .steps-list { margin-top: 4px; }
     .ct-program-title {
       font-size: clamp(20px, 2.3vw, 28px);
       font-weight: 900; font-style: italic; text-transform: uppercase;
@@ -3629,14 +3698,7 @@
     .ct-program-note { font-size: 14px; font-style: italic; color: rgba(255, 255, 255, 0.55); margin: 0; }
 
     @media (max-width: 860px) {
-      .ct-hero-cols {
-        grid-template-columns: 1fr;
-        gap: 28px;
-        max-width: 460px;
-        text-align: center;
-      }
-      .ct-program-list { max-width: 320px; margin-left: auto; margin-right: auto; }
-      .ct-program-list li { text-align: left; }
+      .ct-offer-cols { max-width: 480px; }
     }
 
     .ct-card {
@@ -3720,6 +3782,48 @@
     .ct-card--individuel .ct-card-cta { background: #FF6B35; color: #fff; border: none; box-shadow: 0 4px 18px rgba(255,107,53,0.35); }
     .ct-card--individuel .ct-card-cta:hover { background: #ff7a47; box-shadow: 0 6px 20px rgba(255,107,53,0.4); }
 
+    /* ── Coaching terrain : carte prix ORANGE (gauche) ·
+          carte « Comment programmer » BLEUE (droite). Barre d'accent 6px. ── */
+    .ct-card--individuel::before { height: 6px !important; }
+
+    .ct-steps-col {
+      position: relative;
+      overflow: hidden;
+      background: rgba(18, 130, 162, 0.18) !important;
+      border: 1px solid rgba(18, 130, 162, 0.35) !important;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+    .ct-steps-col::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 6px;
+      background: linear-gradient(90deg, #4AB8D8, #0091B8);
+    }
+    .ct-steps-col .step-number {
+      background: rgba(18, 130, 162, 0.15);
+      border-color: rgba(18, 130, 162, 0.45);
+      color: #4AB8D8;
+    }
+    .ct-steps-col .step-text a { color: #4AB8D8 !important; }
+
+    /* ── Suivi à distance : mêmes couleurs échangées — offre ORANGE, « Comment démarrer » BLEUE ── */
+    .service-card.distance {
+      background: rgba(255, 107, 53, 0.15) !important;
+      border: 1px solid rgba(255, 107, 53, 0.3) !important;
+    }
+    .service-card.distance::before { background: linear-gradient(90deg, #FF6B35, #ff8856) !important; }
+    .service-card.distance .service-features li::before { color: #FF8C60 !important; }
+    .service-card.distance .service-features li.has-icon svg { color: #FF8C60 !important; }
+    .service-card.distance .price-badge { background: linear-gradient(135deg, #FF6B35, #ff8856) !important; box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4) !important; }
+
+    .service-card.terrain {
+      background: rgba(18, 130, 162, 0.18) !important;
+      border: 1px solid rgba(18, 130, 162, 0.35) !important;
+    }
+    .service-card.terrain::before { background: linear-gradient(90deg, #4AB8D8, #0091B8) !important; }
+    .service-card.terrain h3 { color: #4AB8D8 !important; }
+    .service-card.terrain .step-number { background: rgba(18, 130, 162, 0.15); border-color: rgba(18, 130, 162, 0.45); color: #4AB8D8; }
+    .service-card.terrain .step-text a { color: #4AB8D8 !important; }
+
     #seances-map {
       width: 100%; height: 380px; border-radius: 16px; overflow: hidden;
       border: 1px solid rgba(255,107,53,0.2);
@@ -3785,6 +3889,32 @@
 
     @media (min-width: 769px) {
       .ct-swipe-hint { display: none; }
+    }
+
+    /* ── Photo « À propos » (mobile) : toujours affichée EN ENTIER ──
+       Pas de recadrage : la largeur s'adapte à l'écran et la hauteur suit
+       automatiquement les proportions de l'image. Surcharge les anciennes
+       règles héritées (largeurs 280/350/400, hauteurs fixes 420/560). */
+    @media (max-width: 992px) {
+      .apropos-image {
+        width: 100% !important;
+        max-width: 400px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        height: auto !important;
+        max-height: none !important;
+      }
+      .apropos-image picture {
+        display: block !important;
+        width: 100% !important;
+      }
+      .apropos-image img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        object-fit: initial !important;
+        display: block !important;
+      }
     }
 
   </style>
@@ -3891,7 +4021,7 @@
       <div class="nav-right">
         <a href="#temoignages">Témoignages</a>
         <a href="#faq">FAQ</a>
-        <a href="#contactForm" class="nav-cta">Me contacter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;vertical-align:-1.5px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        <a href="#suivi-form" class="nav-cta">Me contacter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;vertical-align:-1.5px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
       </div>
     </nav>
 
@@ -4062,7 +4192,7 @@
       <div class="service-card distance">
         <h3 style="white-space: nowrap; margin: 0; padding: 30px 30px 0; text-align: center;">Suivi à distance</h3>
         <div style="display: flex; align-items: center; justify-content: center; padding: 20px 30px 0;">
-          <a href="#contactForm" aria-label="Faire ma demande de suivi à distance" style="text-decoration: none;"><span class="price-badge" style="display: inline-flex; flex-direction: column; align-items: center; background: linear-gradient(135deg, #1282A2, #0091B8); color: white; border-radius: 50px; padding: 14px 36px; font-size: 22px; font-weight: 800; box-shadow: 0 6px 20px rgba(18, 130, 162, 0.4); text-align: center; line-height: 1.4; white-space: nowrap; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;" onmouseover="this.style.transform='scale(1.04)';this.style.boxShadow='0 10px 28px rgba(18,130,162,0.55)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 20px rgba(18,130,162,0.4)'"><span>70€ / mois<span style="opacity: 0.85;">&nbsp;*</span></span><span style="font-size: 14px; font-weight: 600; opacity: 0.9; letter-spacing: 0.5px; margin-top: 2px;">Sans engagement</span></span></a>
+          <a href="#suivi-form" aria-label="Faire ma demande de suivi à distance" style="text-decoration: none;"><span class="price-badge" style="display: inline-flex; flex-direction: column; align-items: center; background: linear-gradient(135deg, #1282A2, #0091B8); color: white; border-radius: 50px; padding: 14px 36px; font-size: 22px; font-weight: 800; box-shadow: 0 6px 20px rgba(18, 130, 162, 0.4); text-align: center; line-height: 1.4; white-space: nowrap; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;" onmouseover="this.style.transform='scale(1.04)';this.style.boxShadow='0 10px 28px rgba(18,130,162,0.55)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 20px rgba(18,130,162,0.4)'"><span>70€ / mois<span style="opacity: 0.85;">&nbsp;*</span></span><span style="font-size: 14px; font-weight: 600; opacity: 0.9; letter-spacing: 0.5px; margin-top: 2px;">Sans engagement</span></span></a>
         </div>
         <p style="text-align: center; margin: 10px 30px 0; font-size: 12px; font-style: italic; color: rgba(255,255,255,0.5); line-height: 1.5;">* Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
         <ul class="service-features" style="margin-top: 0; padding-top: 15px;">
@@ -4133,49 +4263,53 @@
         </div>
       </div>
 
-      <!-- Étapes -->
-      <div class="service-card terrain">
-        <h3 style="text-align: center;">Comment démarrer ?</h3>
-        <ul class="service-features steps-list" style="padding: 0 30px 24px;">
+    <!-- Formulaire dédié : démarrer le suivi à distance -->
+    <div class="suivi-form-wrap" id="suivi-form">
+      <h3 class="suivi-form-title">Démarrer mon suivi</h3>
+      <p class="suivi-form-sub">Renseigne l'essentiel — on affine le reste ensemble lors de l'entretien découverte.</p>
+      <form class="js-lead-form qf-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+        <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
+        <input type="hidden" name="subject" value="Suivi à distance — nouvelle demande — Reding Running">
+        <input type="hidden" name="from_name" value="Reding Running">
+        <input type="hidden" name="Type de coaching" value="Suivi à distance">
+        <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off">
 
-          <li class="step-item">
-            <div class="step-header">
-              <span class="step-number">01</span>
-              <h4 class="step-title">Prise de contact</h4>
-            </div>
-            <p class="step-text">Renseigne le <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">«formulaire»</a> ou écris-moi à <a href="mailto:contact@reding-running.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">contact@reding-running.fr</a>.</p>
-          </li>
-          <li class="step-item">
-            <div class="step-header">
-              <span class="step-number">02</span>
-              <h4 class="step-title">Entretien découverte</h4>
-            </div>
-            <p class="step-text">Nous fixons un rendez-vous téléphonique pour échanger sur ton parcours, tes contraintes et tes objectifs.</p>
-          </li>
-
-          <li class="step-item">
-            <div class="step-header">
-              <span class="step-number">03</span>
-              <h4 class="step-title">Temps de réflexion</h4>
-            </div>
-            <p class="step-text">L'entretien est sans engagement. Tu disposes du temps nécessaire pour évaluer si le coaching correspond à tes attentes.</p>
-          </li>
-
-          <li class="step-item step-item--last">
-            <div class="step-header">
-              <span class="step-number">04</span>
-              <h4 class="step-title">Démarrage du suivi</h4>
-            </div>
-            <p class="step-text">Une fois ton accord donné, je construis ton plan d'entraînement et nous démarrons le suivi.</p>
-          </li>
-
-        </ul>
-        <div style="text-align: center; padding: 0 30px 8px;">
-          <a href="#contactForm" style="display: inline-flex; align-items: center; gap: 10px; background: #FF6B35; color: #ffffff; padding: 16px 40px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1.5px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);">
-            Accéder au formulaire <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;flex-shrink:0;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
+        <div class="form-row">
+          <div class="form-group"><label for="s-prenom">Prénom *</label><input type="text" id="s-prenom" name="Prénom" required placeholder="Ton prénom"></div>
+          <div class="form-group"><label for="s-nom">Nom *</label><input type="text" id="s-nom" name="Nom" required placeholder="Ton nom"></div>
         </div>
+        <div class="form-row">
+          <div class="form-group"><label for="s-email">Email *</label><input type="email" id="s-email" name="Email" required placeholder="ton@email.com"></div>
+          <div class="form-group"><label for="s-tel">Téléphone</label><input type="tel" id="s-tel" name="Téléphone" placeholder="06 12 34 56 78"></div>
+        </div>
+
+        <div class="form-group">
+          <span class="qform-field-label">Ton objectif principal *</span>
+          <div class="pill-group">
+            <div class="pill-option pill-lg"><input type="radio" id="s-obj2" name="Objectif principal" value="Battre mon record — performance"><label for="s-obj2">Battre mon record<br><small style="font-weight:500;opacity:.7;">Améliorer mes chronos</small></label></div>
+            <div class="pill-option pill-lg"><input type="radio" id="s-obj1" name="Objectif principal" value="Relever un défi — finir ma première course"><label for="s-obj1">Relever un défi<br><small style="font-weight:500;opacity:.7;">Finir ma première course</small></label></div>
+            <div class="pill-option pill-lg"><input type="radio" id="s-obj3" name="Objectif principal" value="Gagner en endurance — courir plus longtemps"><label for="s-obj3">Gagner en endurance<br><small style="font-weight:500;opacity:.7;">Courir plus longtemps</small></label></div>
+            <div class="pill-option pill-lg"><input type="radio" id="s-obj4" name="Objectif principal" value="M'entretenir — santé et bien-être"><label for="s-obj4">M'entretenir<br><small style="font-weight:500;opacity:.7;">Santé & bien-être</small></label></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="s-message">Message <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(optionnel)</span></label>
+          <textarea id="s-message" name="Message" rows="3" placeholder="Parle-moi de ton profil, ton niveau, tes contraintes…"></textarea>
+        </div>
+
+        <div class="form-checkbox-group" style="margin-bottom:18px;">
+          <input type="checkbox" id="s-rgpd" name="RGPD_Consent" required>
+          <label for="s-rgpd" style="color:rgba(255,255,255,0.8);">J'accepte que mes données soient traitées conformément à la <a href="politique-confidentialite.html" target="_blank" rel="noopener noreferrer" style="color:#FF6B35;">politique de confidentialité</a> *</label>
+        </div>
+        <button type="submit" class="form-submit-btn">Envoyer ma demande <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        <p class="lead-error" style="display:none;margin-top:14px;padding:12px;border-radius:8px;text-align:center;font-weight:600;background:rgba(248,113,113,0.15);color:#f87171;"></p>
+      </form>
+      <div class="lead-success" style="display:none;text-align:center;padding:26px 10px;">
+        <h3 style="color:#FF6B35;margin:0 0 6px;font-style:italic;font-size:22px;text-transform:uppercase;">Demande envoyée !</h3>
+        <p style="color:rgba(255,255,255,0.8);margin:0;">Je reviens vers toi sous 24h.</p>
       </div>
+    </div>
     </div>
     </div>
   </section>
@@ -4193,46 +4327,106 @@
             <li><span class="dot" aria-hidden="true"></span>Progression et motivation</li>
             <li><span class="dot" aria-hidden="true"></span>Spécifique et Technique</li>
           </ul>
-          <div class="ct-hero-cols">
-
-            <!-- Panneau : au programme -->
-            <div class="ct-program">
-              <h3 class="ct-program-title">Exemples de séances</h3>
-              <ul class="ct-program-list">
-                <li>Définition du profil d'endurance</li>
-                <li>Technique de course</li>
-                <li>Renforcement musculaire</li>
-                <li>Développement vitesse / endurance</li>
-                <li>Entretien de la condition physique</li>
-              </ul>
-              <p class="ct-program-note">Chaque séance est construite selon ton niveau et ton objectif du moment.</p>
-            </div>
+          <!-- 2 colonnes : carte (gauche) · comment programmer (droite) -->
+          <div class="ct-offer-cols">
 
             <div class="ct-cards-grid ct-cards-grid--single">
+              <!-- Séance de base + tarif dégressif -->
+              <div class="ct-card ct-card--individuel">
+                <span class="ct-card-label">La séance</span>
+                <div class="ct-price">50€<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
+                <div class="ct-price-unit">En individuel</div>
 
-            <!-- Séance de base + tarif dégressif -->
-            <div class="ct-card ct-card--individuel">
-              <span class="ct-card-label">La séance</span>
-              <div class="ct-price">50€<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
-              <div class="ct-price-unit">En individuel</div>
+                <hr class="ct-divider">
+                <ul class="ct-features">
+                  <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
+                  <li><span class="ct-check">✓</span>En solo, duo, trio ou groupe</li>
+                  <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
+                </ul>
 
-              <hr class="ct-divider">
-              <ul class="ct-features">
-                <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
-                <li><span class="ct-check">✓</span>En solo, duo, trio ou groupe</li>
-                <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
-              </ul>
-
-              <div class="ct-supp">
-                <span class="ct-supp-plus">+10&nbsp;€</span>
-                <span class="ct-supp-txt">par personne supplémentaire</span>
+                <div class="ct-supp">
+                  <span class="ct-supp-plus">+10&nbsp;€</span>
+                  <span class="ct-supp-txt">par personne supplémentaire</span>
+                </div>
+                <div class="ct-supp-ex">Duo&nbsp;60&nbsp;€ · Trio&nbsp;70&nbsp;€ · Quatuor&nbsp;80&nbsp;€ · Groupe&nbsp;(5&nbsp;+)&nbsp;: sur devis</div>
               </div>
-              <div class="ct-supp-ex">Duo&nbsp;60&nbsp;€ · Trio&nbsp;70&nbsp;€ · Quatuor&nbsp;80&nbsp;€ · Groupe&nbsp;(5&nbsp;+)&nbsp;: sur devis</div>
-
-              <a href="#contactForm" class="ct-card-cta">Réserver <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
 
-          </div>
+            <!-- Formulaire dédié : programmer une séance -->
+            <div class="ct-program ct-steps-col" id="coaching-form">
+              <h3 class="ct-program-title">Programmer une séance</h3>
+              <form class="js-lead-form qf-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+                <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
+                <input type="hidden" name="subject" value="Coaching terrain — nouvelle demande — Reding Running">
+                <input type="hidden" name="from_name" value="Reding Running">
+                <input type="hidden" name="Type de coaching" value="Coaching terrain">
+                <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off">
+
+                <div class="form-row">
+                  <div class="form-group"><label for="t-prenom">Prénom *</label><input type="text" id="t-prenom" name="Prénom" required placeholder="Ton prénom"></div>
+                  <div class="form-group"><label for="t-nom">Nom *</label><input type="text" id="t-nom" name="Nom" required placeholder="Ton nom"></div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group"><label for="t-email">Email *</label><input type="email" id="t-email" name="Email" required placeholder="ton@email.com"></div>
+                  <div class="form-group"><label for="t-tel">Téléphone</label><input type="tel" id="t-tel" name="Téléphone" placeholder="06 12 34 56 78"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="t-loc">Ta localisation <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(pour définir le lieu)</span></label>
+                  <input type="text" id="t-loc" name="Localisation" placeholder="Ex : Courbevoie, Puteaux, 92400…">
+                </div>
+
+                <div class="form-group">
+                  <span class="qform-field-label">Format souhaité</span>
+                  <div class="pill-group">
+                    <div class="pill-option"><input type="radio" id="t-fmt1" name="Format séance" value="Individuel"><label for="t-fmt1">Individuel</label></div>
+                    <div class="pill-option"><input type="radio" id="t-fmt2" name="Format séance" value="Duo (2 pers.)"><label for="t-fmt2">Duo</label></div>
+                    <div class="pill-option"><input type="radio" id="t-fmt3" name="Format séance" value="Trio (3 pers.)"><label for="t-fmt3">Trio</label></div>
+                    <div class="pill-option"><input type="radio" id="t-fmt5" name="Format séance" value="Quatuor (4 pers.)"><label for="t-fmt5">Quatuor</label></div>
+                    <div class="pill-option"><input type="radio" id="t-fmt4" name="Format séance" value="Groupe (5 pers. et +)"><label for="t-fmt4">Groupe</label></div>
+                  </div>
+                  <div class="qf-subfields" id="t-fmt-groupe">
+                    <div class="form-group" style="margin-bottom:0;">
+                      <label for="t-groupe-nb">Nombre de personnes <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(à partir de 5)</span></label>
+                      <input type="number" id="t-groupe-nb" name="Nombre de personnes" min="5" inputmode="numeric" placeholder="Ex : 6">
+                    </div>
+                  </div>
+                </div>
+
+                <span class="qform-field-label" style="display:block;margin-bottom:12px;">Propose-moi 2 créneaux — je confirme sous 24h</span>
+                <div class="qf-slot-block">
+                  <span class="qf-slot-label">Créneau 1 — Préféré</span>
+                  <div class="form-row" style="margin-bottom:0;">
+                    <div class="form-group" style="margin-bottom:0;"><label for="t-slot1-date">Date</label><input type="date" id="t-slot1-date" name="Créneau 1 — Date"></div>
+                    <div class="form-group" style="margin-bottom:0;"><label for="t-slot1-time">Heure</label><input type="time" id="t-slot1-time" name="Créneau 1 — Heure" min="07:00" max="21:00"></div>
+                  </div>
+                </div>
+                <div class="qf-slot-block">
+                  <span class="qf-slot-label">Créneau 2 — Alternatif</span>
+                  <div class="form-row" style="margin-bottom:0;">
+                    <div class="form-group" style="margin-bottom:0;"><label for="t-slot2-date">Date</label><input type="date" id="t-slot2-date" name="Créneau 2 — Date"></div>
+                    <div class="form-group" style="margin-bottom:0;"><label for="t-slot2-time">Heure</label><input type="time" id="t-slot2-time" name="Créneau 2 — Heure" min="07:00" max="21:00"></div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="t-message">Message <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(optionnel)</span></label>
+                  <textarea id="t-message" name="Message" rows="3" placeholder="Ce que tu aimerais travailler…"></textarea>
+                </div>
+
+                <div class="form-checkbox-group" style="margin-bottom:18px;">
+                  <input type="checkbox" id="t-rgpd" name="RGPD_Consent" required>
+                  <label for="t-rgpd" style="color:rgba(255,255,255,0.8);">J'accepte que mes données soient traitées conformément à la <a href="politique-confidentialite.html" target="_blank" rel="noopener noreferrer" style="color:#FF6B35;">politique de confidentialité</a> *</label>
+                </div>
+                <button type="submit" class="form-submit-btn">Envoyer ma demande <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+                <p class="lead-error" style="display:none;margin-top:14px;padding:12px;border-radius:8px;text-align:center;font-weight:600;background:rgba(248,113,113,0.15);color:#f87171;"></p>
+              </form>
+              <div class="lead-success" style="display:none;text-align:center;padding:26px 10px;">
+                <h3 style="color:#4AB8D8;margin:0 0 6px;font-style:italic;font-size:22px;text-transform:uppercase;">Demande envoyée !</h3>
+                <p style="color:rgba(255,255,255,0.8);margin:0;">Je reviens vers toi sous 24h.</p>
+              </div>
+            </div>
+
           </div>
           <p style="text-align: center; margin: 22px auto 0; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.55); line-height: 1.5;">* Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
         </div>
@@ -4385,7 +4579,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Pour démarrer, il te suffit de remplir le <a href="#contactForm" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">formulaire</a> ou de m'envoyer un mail à <a href="mailto:contact@reding-running.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">contact@reding-running.fr</a>. Précise-moi quelques informations sur ton profil, ton besoin et tes attentes, et je reviens vers toi pour échanger et définir ensemble la suite.</p>
+              <p>Pour démarrer, il te suffit de remplir le <a href="#suivi-form" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">formulaire</a> ou de m'envoyer un mail à <a href="mailto:contact@reding-running.fr" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">contact@reding-running.fr</a>. Précise-moi quelques informations sur ton profil, ton besoin et tes attentes, et je reviens vers toi pour échanger et définir ensemble la suite.</p>
             </div>
           </div>
 
@@ -4520,422 +4714,55 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     </div>
   </section>
 
-  <!-- FORMULAIRE SECTION -->
-  <section class="form-section" id="contactForm">
 
-    <div style="text-align:center;margin-bottom:48px;">
-<h2 class="section-title" style="color:#FF6B35;margin-bottom:0;">Parlons de ton objectif</h2>
-      <p style="font-size:clamp(16px, 1.5vw, 18px);color:rgba(255,255,255,0.65);line-height:1.7;margin-top:12px;max-width:640px;margin-left:auto;margin-right:auto;">Remplis le formulaire ou envoie-moi un mail à <a href="mailto:contact@reding-running.fr" style="color:#FF6B35;text-decoration:none;">contact@reding-running.fr</a><br> et je reviens vers toi sous 24h. Sans engagement.</p>
-    </div>
-
-    <div class="form-section-inner">
-      <form class="hero-form qf-form" action="https://api.web3forms.com/submit" method="POST">
-
-        <!-- Web3Forms — champs cachés -->
-        <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
-        <input type="hidden" name="subject" value="Nouvelle demande de coaching — Reding Running">
-        <input type="hidden" name="from_name" value="Reding Running">
-        <input type="checkbox" name="botcheck" style="display:none;">
-
-        <!-- ══════════════════════════════════════
-             SECTION COMMUNE
-        ══════════════════════════════════════ -->
-        <div class="qform-block">
-          <div class="qform-block-header">
-            <span class="qform-block-num">01</span>
-            <div>
-              <div class="qform-block-title">Tes coordonnées</div>
-              <div class="qform-block-sub">Pour que je puisse te répondre</div>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="prenom">Prénom *</label>
-              <input type="text" id="prenom" name="Prénom" required placeholder="Ton prénom">
-            </div>
-            <div class="form-group">
-              <label for="nom">Nom *</label>
-              <input type="text" id="nom" name="Nom" required placeholder="Ton nom">
-            </div>
-          </div>
-          <div class="form-row" style="margin-bottom:0;">
-            <div class="form-group">
-              <label for="email">Email *</label>
-              <input type="email" id="email" name="Email" required placeholder="ton@email.com">
-            </div>
-            <div class="form-group">
-              <label for="telephone">Téléphone</label>
-              <input type="tel" id="telephone" name="Téléphone" placeholder="06 12 34 56 78">
-            </div>
-          </div>
-        </div>
-
-        <div class="qform-divider"></div>
-
-        <!-- CHOIX DÉCISIF — CARTES -->
-        <div class="qform-block" style="margin-bottom:0;">
-          <div class="qform-block-header">
-            <span class="qform-block-num">02</span>
-            <div>
-              <div class="qform-block-title">Ton besoin</div>
-              <div class="qform-block-sub">Le formulaire s'adapte à ton choix</div>
-            </div>
-          </div>
-          <div class="qf-choice-grid">
-            <label class="qf-choice-card" for="type-a">
-              <input type="radio" id="type-a" name="Type de coaching" value="Suivi à distance" required checked>
-              <span class="qf-choice-dot"></span>
-              <span class="qf-choice-title">Suivi à distance</span>
-              <span class="qf-choice-desc">Plan personnalisé et accompagnement du 5K au Marathon</span>
-            </label>
-            <label class="qf-choice-card" for="type-b">
-              <input type="radio" id="type-b" name="Type de coaching" value="Coaching terrain">
-              <span class="qf-choice-dot"></span>
-              <span class="qf-choice-title">Coaching terrain</span>
-              <span class="qf-choice-desc">Séance individuelle ou groupe </span>
-            </label>
-          </div>
-        </div>
-
-        <!-- ══════════════════════════════════════
-             BRANCHE A — SUIVI À DISTANCE
-        ══════════════════════════════════════ -->
-        <div class="qf-branch qf-active" id="qf-branch-a" style="display:block;opacity:1;transform:none;">
-          <div class="qform-divider"></div>
-
-          <div class="qform-block" style="margin-bottom:0;">
-            <div class="qform-block-header">
-              <span class="qform-block-num">03</span>
-              <div>
-                <div class="qform-block-title">Ton profil de coureur</div>
-                <div class="qform-block-sub">Pour apprendre à te connaître et adapter ton plan</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <span class="qform-field-label">Ton niveau actuel</span>
-              <div class="pill-group">
-                <div class="pill-option pill-lg"><input type="radio" id="niv1" name="Niveau" value="Débutant — je commence (moins d'1 an)"><label for="niv1">Débutant<br><small style="font-weight:500;opacity:.7;">Je commence (- d'1 an)</small></label></div>
-                <div class="pill-option pill-lg"><input type="radio" id="niv2" name="Niveau" value="Intermédiaire — je cours régulièrement"><label for="niv2">Intermédiaire<br><small style="font-weight:500;opacity:.7;">Je cours régulièrement</small></label></div>
-                <div class="pill-option pill-lg"><input type="radio" id="niv3" name="Niveau" value="Confirmé — plusieurs années de pratique"><label for="niv3">Confirmé<br><small style="font-weight:500;opacity:.7;">Plusieurs années de pratique</small></label></div>
-                <div class="pill-option pill-lg"><input type="radio" id="niv4" name="Niveau" value="Expert — compétiteur expérimenté"><label for="niv4">Expert<br><small style="font-weight:500;opacity:.7;">Compétiteur expérimenté</small></label></div>
-              </div>
-            </div>
-
-
-
-            <div class="form-group">
-              <span class="qform-field-label">Ton objectif principal *</span>
-              <div class="pill-group">
-                <div class="pill-option pill-lg"><input type="radio" id="obj2" name="Objectif principal" value="Battre mon record — performance"><label for="obj2">Battre mon record<br><small style="font-weight:500;opacity:.7;">Améliorer mes chronos</small></label></div>
-                <div class="pill-option pill-lg"><input type="radio" id="obj1" name="Objectif principal" value="Relever un défi — finir ma première course"><label for="obj1">Relever un défi<br><small style="font-weight:500;opacity:.7;">Finir ma première course</small></label></div>
-                <div class="pill-option pill-lg"><input type="radio" id="obj3" name="Objectif principal" value="Gagner en endurance — courir plus longtemps"><label for="obj3">Gagner en endurance<br><small style="font-weight:500;opacity:.7;">Courir plus longtemps</small></label></div>
-                <div class="pill-option pill-lg"><input type="radio" id="obj4" name="Objectif principal" value="M'entretenir — santé et bien-être"><label for="obj4">M'entretenir<br><small style="font-weight:500;opacity:.7;">Santé & bien-être</small></label></div>
-              </div>
-
-              <!-- Sous-questions : Relever un défi -->
-              <div class="qf-subfields" id="qf-obj-defi">
-                <div class="form-row" style="margin-bottom:0;">
-                  <div class="form-group" style="margin-bottom:0;">
-                    <label for="defi-course">Quelle course ?</label>
-                    <input type="text" id="defi-course" name="Course cible" placeholder="Ex : Semi de Paris, 10K Boulogne…">
-                  </div>
-                  <div class="form-group" style="margin-bottom:0;">
-                    <label for="defi-date">Date prévue</label>
-                    <input type="date" id="defi-date" name="Date de la course">
-                  </div>
-                </div>
-              </div>
-
-              <!-- Sous-questions : Battre mon record -->
-              <div class="qf-subfields" id="qf-obj-record">
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="record-course">Quelle course ?</label>
-                    <input type="text" id="record-course" name="Course record" placeholder="Ex : 10K Boulogne, Semi de Paris…">
-                  </div>
-                  <div class="form-group">
-                    <label for="record-date">Date prévue</label>
-                    <input type="date" id="record-date" name="Date de la course (record)">
-                  </div>
-                </div>
-                <div class="form-row" style="margin-bottom:0;">
-                  <div class="form-group" style="margin-bottom:0;">
-                    <label for="record-actuel">Record actuel sur la distance <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(si référence)</span></label>
-                    <input type="text" id="record-actuel" name="Record actuel" placeholder="Ex : 42'30, 1h52…">
-                  </div>
-                  <div class="form-group" style="margin-bottom:0;">
-                    <label for="record-chrono">Chrono envisagé</label>
-                    <input type="text" id="record-chrono" name="Chrono envisagé" placeholder="Ex : sub-40min, 1h45…">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group" style="margin-bottom:0;">
-              <span class="qform-field-label">Possèdes-tu une montre GPS ?</span>
-              <div class="pill-group" style="margin-bottom:0;">
-                <div class="pill-option"><input type="radio" id="gps-oui" name="Montre GPS" value="Oui"><label for="gps-oui">Oui</label></div>
-                <div class="pill-option"><input type="radio" id="gps-non" name="Montre GPS" value="Non"><label for="gps-non">Non</label></div>
-              </div>
-              <div class="qf-alert" id="qf-gps-alert">
-                <strong>Attention :</strong> une montre GPS est indispensable pour permettre l'analyse de tes données via Nolio dans le cadre du suivi à distance.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ══════════════════════════════════════
-             BRANCHE B — COACHING TERRAIN
-        ══════════════════════════════════════ -->
-        <div class="qf-branch" id="qf-branch-b">
-          <div class="qform-divider"></div>
-
-          <div class="qform-block" style="margin-bottom:0;">
-            <div class="qform-block-header">
-              <span class="qform-block-num">03</span>
-              <div>
-                <div class="qform-block-title">Ta séance terrain</div>
-                <div class="qform-block-sub">Format et créneaux — je valide la compatibilité</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="loc-terrain">Ta localisation <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(Pour définir le lieu d'entraînement)</span></label>
-              <input type="text" id="loc-terrain" name="Localisation" placeholder="Ex : Courbevoie, Puteaux, 92400…">
-              <p style="margin-top:6px;font-size:12px;color:rgba(255,255,255,0.45);font-style:italic;">Le coaching terrain se déroule dans la zone de déplacement (voir la carte plus haut).</p>
-            </div>
-
-            <div class="form-group">
-              <span class="qform-field-label">Format souhaité</span>
-              <div class="pill-group">
-                <div class="pill-option"><input type="radio" id="fmt1" name="Format séance" value="Individuel"><label for="fmt1">Individuel</label></div>
-                <div class="pill-option"><input type="radio" id="fmt2" name="Format séance" value="Duo (2 pers.)"><label for="fmt2">Duo</label></div>
-                <div class="pill-option"><input type="radio" id="fmt3" name="Format séance" value="Trio (3 pers.)"><label for="fmt3">Trio</label></div>
-                <div class="pill-option"><input type="radio" id="fmt5" name="Format séance" value="Quatuor (4 pers.)"><label for="fmt5">Quatuor</label></div>
-                <div class="pill-option"><input type="radio" id="fmt4" name="Format séance" value="Groupe (5 pers. et +)"><label for="fmt4">Groupe</label></div>
-              </div>
-
-              <!-- Sous-question : Groupe → nombre de personnes -->
-              <div class="qf-subfields" id="qf-fmt-groupe">
-                <div class="form-group" style="margin-bottom:0;">
-                  <label for="groupe-nb">Nombre de personnes <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(à partir de 5)</span></label>
-                  <input type="number" id="groupe-nb" name="Nombre de personnes" min="5" inputmode="numeric" placeholder="Ex : 6">
-                </div>
-              </div>
-            </div>
-
-            <span class="qform-field-label" style="display:block;margin-bottom:12px;">Propose-moi 2 créneaux — je confirme sous 24h</span>
-
-            <div class="qf-slot-block">
-              <span class="qf-slot-label">Créneau 1 — Préféré</span>
-              <div class="form-row" style="margin-bottom:0;">
-                <div class="form-group" style="margin-bottom:0;">
-                  <label for="slot1-date">Date</label>
-                  <input type="date" id="slot1-date" name="Créneau 1 — Date">
-                </div>
-                <div class="form-group" style="margin-bottom:0;">
-                  <label for="slot1-time">Heure</label>
-                  <input type="time" id="slot1-time" name="Créneau 1 — Heure" min="07:00" max="21:00">
-                </div>
-              </div>
-            </div>
-
-            <div class="qf-slot-block" style="margin-bottom:0;">
-              <span class="qf-slot-label">Créneau 2 — Alternatif</span>
-              <div class="form-row" style="margin-bottom:0;">
-                <div class="form-group" style="margin-bottom:0;">
-                  <label for="slot2-date">Date</label>
-                  <input type="date" id="slot2-date" name="Créneau 2 — Date">
-                </div>
-                <div class="form-group" style="margin-bottom:0;">
-                  <label for="slot2-time">Heure</label>
-                  <input type="time" id="slot2-time" name="Créneau 2 — Heure" min="07:00" max="21:00">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ══════════════════════════════════════
-             SECTION FINALE — COMMUNE
-        ══════════════════════════════════════ -->
-        <div class="qf-branch qf-active" id="qf-final" style="display:block;opacity:1;transform:none;">
-          <div class="qform-divider"></div>
-
-          <div class="qform-block" style="margin-bottom:0;">
-            <div class="form-group">
-              <label for="message">Message <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(optionnel)</span></label>
-              <textarea id="message" name="Message" rows="3" placeholder="Donne-moi quelques précisions sur ton profil (ou celui des participants)."></textarea>
-            </div>
-          </div>
-
-          <div class="qform-divider"></div>
-
-          <div class="form-checkbox-group" style="margin-bottom:24px;">
-            <input type="checkbox" id="rgpd_consent" name="RGPD_Consent" required>
-            <label for="rgpd_consent" style="color:rgba(255,255,255,0.8);">
-              J'accepte que mes données soient collectées et traitées conformément à la <a href="politique-confidentialite.html" target="_blank" rel="noopener noreferrer" style="color:#FF6B35;">politique de confidentialité</a> *
-            </label>
-          </div>
-          <button type="submit" class="form-submit-btn">Envoyer ma demande <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-          <p style="text-align:center;margin-top:14px;font-size:12px;color:rgba(255,255,255,0.3);">Je réponds généralement sous 24h</p>
-          <p id="form-message" style="display:none;margin-top:15px;padding:12px;border-radius:8px;text-align:center;font-weight:600;"></p>
-        </div>
-
-      </form>
-
-      <!-- Overlay succès -->
-      <div id="qf-success">
-        <svg class="qf-check-circle" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="44" cy="44" r="40"/>
-          <polyline points="26,44 38,56 62,32"/>
-        </svg>
-        <h3>Demande envoyée !</h3>
-        <p>Je reviens vers toi sous 24h.</p>
-      </div>
-
-    </div>
-  </section>
 
 
   <script>
-    // ── Formulaire Dual-Path ──────────────────────────────────
+    // ── Formulaires de contact intégrés (Web3Forms) ──────────
     (function () {
-      var branchA  = document.getElementById('qf-branch-a');
-      var branchB  = document.getElementById('qf-branch-b');
-      var qfFinal  = document.getElementById('qf-final');
-      var gpsAlert = document.getElementById('qf-gps-alert');
-
-      // Affichage à toute épreuve : on force directement l'opacité/transform en ligne,
-      // indépendamment de l'état d'animation, pour que le bloc apparaisse à chaque fois.
-      function showEl(el) {
-        if (!el) return;
-        el.style.display = 'block';
-        void el.offsetWidth; // force un reflow → l'animation part de l'état caché
-        el.classList.add('qf-active');
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      }
-      function hideEl(el) {
-        if (!el) return;
-        el.classList.remove('qf-active');
-        el.style.display = 'none';
-        el.style.opacity = '';
-        el.style.transform = '';
-      }
-
-      // Initialise les date min = aujourd'hui
       var today = new Date().toISOString().split('T')[0];
-      document.querySelectorAll('input[type="date"]').forEach(function (d) { d.min = today; });
+      document.querySelectorAll('input[type="date"]').forEach(function (d) { if (!d.min) d.min = today; });
 
-      // Affiche la branche correspondant au choix coché (Suivi à distance / Coaching terrain).
-      document.querySelectorAll('input[name="Type de coaching"]').forEach(function (r) {
-        r.addEventListener('change', function () {
-          if (this.value === 'Coaching terrain') {
-            hideEl(branchA);
-            showEl(branchB);
-          } else {
-            hideEl(branchB);
-            showEl(branchA);
-          }
-          showEl(qfFinal);
-        });
-      });
-
-      // Par défaut : « Suivi à distance » est coché → sa branche et la suite sont visibles.
-      showEl(branchA);
-      hideEl(branchB);
-      showEl(qfFinal);
-
-      // Sous-questions selon l'objectif
-      var subDefi   = document.getElementById('qf-obj-defi');
-      var subRecord = document.getElementById('qf-obj-record');
-
-      document.querySelectorAll('input[name="Objectif principal"]').forEach(function (r) {
-        r.addEventListener('change', function () {
-          hideEl(subDefi);
-          hideEl(subRecord);
-          var target = this.id === 'obj1' ? subDefi : this.id === 'obj2' ? subRecord : null;
-          if (target) showEl(target);
-        });
-      });
-
-      // Alerte GPS montre
-      document.querySelectorAll('input[name="Montre GPS"]').forEach(function (r) {
-        r.addEventListener('change', function () {
-          if (this.value === 'Non') showEl(gpsAlert);
-          else hideEl(gpsAlert);
-        });
-      });
-
-      // Sous-question : Groupe → nombre de personnes
-      var subGroupe = document.getElementById('qf-fmt-groupe');
+      // Coaching : sous-champ « nombre de personnes » si Groupe
+      var grp = document.getElementById('t-fmt-groupe');
       document.querySelectorAll('input[name="Format séance"]').forEach(function (r) {
         r.addEventListener('change', function () {
-          if (this.id === 'fmt4') showEl(subGroupe);
-          else hideEl(subGroupe);
+          if (!grp) return;
+          if (this.id === 't-fmt4') {
+            grp.style.display = 'block'; void grp.offsetWidth; grp.classList.add('qf-active');
+          } else {
+            grp.classList.remove('qf-active'); grp.style.display = 'none';
+          }
+        });
+      });
+
+      // Envoi partagé pour chaque formulaire intégré
+      document.querySelectorAll('form.js-lead-form').forEach(function (form) {
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          var btn = form.querySelector('button[type="submit"]');
+          var err = form.querySelector('.lead-error');
+          var success = form.parentNode.querySelector('.lead-success');
+          var original = btn ? btn.innerHTML : '';
+          if (err) err.style.display = 'none';
+          if (btn) { btn.disabled = true; btn.textContent = 'Envoi en cours...'; }
+          try {
+            var res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form) });
+            var data = await res.json();
+            if (data.success) {
+              form.style.display = 'none';
+              if (success) { success.style.display = 'block'; success.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+              if (typeof gtag === 'function') { gtag('event', 'generate_lead', { event_category: 'formulaire' }); }
+            } else { throw new Error(data.message || 'Erreur'); }
+          } catch (e2) {
+            if (err) { err.style.display = 'block'; err.textContent = "Une erreur est survenue. Réessaie ou écris-moi à contact@reding-running.fr"; }
+            if (btn) { btn.disabled = false; btn.innerHTML = original; }
+          }
         });
       });
     })();
 
-    // ── Web3Forms — envoi ─────────────────────────────────────
-    var submitted = false;
-
-    const form = document.querySelector('#contactForm form');
-    const formMessage = document.getElementById('form-message');
-    const qfSuccess = document.getElementById('qf-success');
-
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const formData = new FormData(form);
-
-      const button = form.querySelector('button[type="submit"]');
-      const originalText = button.textContent;
-
-      button.textContent = 'Envoi en cours...';
-      button.disabled = true;
-
-      try {
-        const response = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          body: formData
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-          form.reset();
-          ['qf-branch-a','qf-branch-b','qf-final','qf-gps-alert','qf-obj-defi','qf-obj-record','qf-fmt-groupe'].forEach(function(id) {
-            var el = document.getElementById(id);
-            if (el) { el.classList.remove('qf-active'); el.style.display = 'none'; }
-          });
-          document.getElementById('contactForm').scrollIntoView({ behavior: 'instant', block: 'start' });
-          form.style.display = 'none';
-          qfSuccess.style.display = 'block';
-          if (typeof gtag === 'function') { gtag('event', 'generate_lead', { event_category: 'formulaire' }); }
-          requestAnimationFrame(function() {
-            requestAnimationFrame(function() {
-              qfSuccess.classList.add('qf-active');
-            });
-          });
-        } else {
-          throw new Error(data.message || 'Erreur lors de l\'envoi');
-        }
-      } catch (error) {
-        formMessage.style.display = 'block';
-        formMessage.style.backgroundColor = '#f8d7da';
-        formMessage.style.color = '#721c24';
-        formMessage.style.border = '1px solid #f5c6cb';
-        formMessage.textContent = '❌ ' + (error.message || 'Une erreur est survenue. Réessaie ou écris-moi à contact@reding-running.fr');
-        button.textContent = originalText;
-        button.disabled = false;
-      }
-    });
-    
-    // Mobile menu toggle
+        // Mobile menu toggle
     function toggleMenu() {
       const nav = document.querySelector('.main-nav');
       const burger = document.querySelector('.mobile-menu-toggle');
@@ -5074,7 +4901,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
 
     @media (max-width: 600px) {
       /* CTA « Accéder au formulaire » pleine largeur, plus tactile */
-      #suivi-personnalise .service-card.terrain > div > a[href="#contactForm"] {
+      #suivi-personnalise .service-card.terrain > div > a[href="#suivi-form"] {
         display: flex !important;
         width: 100%;
         justify-content: center;
