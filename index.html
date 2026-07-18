@@ -7,7 +7,7 @@
   <!-- Sécurité : liste blanche des ressources externes autorisées.
        ⚠️ Si le formulaire, le captcha ou la carte cessent de fonctionner après une mise à jour
        d'un service tiers, supprime cette balise meta et re-teste. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://web3forms.com https://hcaptcha.com https://*.hcaptcha.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://*.hcaptcha.com https://www.google-analytics.com https://*.googletagmanager.com; connect-src 'self' https://api.web3forms.com https://hcaptcha.com https://*.hcaptcha.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; frame-src https://hcaptcha.com https://*.hcaptcha.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://web3forms.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com; connect-src 'self' https://api.web3forms.com; frame-src 'none'; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
   <title>Jérémy Reding – Coach Running | Île-de-France</title>
   <meta name="description" content="Coach running FFA en Île-de-France. Suivi à distance et Coaching terrain pour coureurs de tous niveaux." />
   <meta name="author" content="Jérémy Reding" />
@@ -267,7 +267,7 @@
       display: flex;
       align-items: flex-start;
       position: relative;
-      background: linear-gradient(160deg, #06090F 0%, #0B1526 35%, #0E1E38 65%, #0D2845 100%);
+      background: linear-gradient(180deg, #070C18 0%, #0A1128 100%);
       padding: 80px 40px 70px;
       overflow: hidden;
     }
@@ -730,7 +730,7 @@
     /* ===== À PROPOS SECTION ===== */
 .apropos-section {
   padding: 60px 60px;
-  background: linear-gradient(135deg, #0A1128 0%, #001F54 25%, #034078 50%, #1282A2 75%, #0091B8 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.40) 50%, transparent 100%) top center / 70% 1px no-repeat, linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
   position: relative;
 }
 
@@ -941,7 +941,7 @@
     /* ===== ABOUT SECTION ===== */
     .about-section {
       padding: 48px 60px 100px 60px;
-      background: linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.40) 50%, transparent 100%) top center / 70% 1px no-repeat, linear-gradient(180deg, #0D1B33 0%, #0A1128 100%);
       position: relative;
       overflow: visible;
     }
@@ -1369,7 +1369,7 @@
     /* ===== SOLO-DUO/TRIO SECTION ===== */
     .solo-duo-section {
       padding: 48px 60px 100px 60px;
-      background: linear-gradient(135deg, #0A1128 0%, #001F54 25%, #034078 50%, #1282A2 75%, #0091B8 100%);
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.40) 50%, transparent 100%) top center / 70% 1px no-repeat, linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
       position: relative;
       overflow: visible;
     }
@@ -1422,8 +1422,15 @@
     }
 
     .seances-map-wrap {
-      margin-top: 48px;
+      margin-top: 26px;
       width: 100%;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 22px 22px 20px;
+      border: 1px solid rgba(255, 107, 53, 0.22);
+      border-radius: 18px;
+      background: rgba(255, 107, 53, 0.05);
     }
 
     .seances-map-label {
@@ -1661,7 +1668,7 @@
     /* ===== FAQ SECTION ===== */
     .faq-section {
       padding: 80px 60px;
-      background: linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.40) 50%, transparent 100%) top center / 70% 1px no-repeat, #0A1128;
     }
 
     .faq-container {
@@ -1762,8 +1769,8 @@
       color: #1a1a1a;
       margin: 0;
       text-align: justify;
-      hyphens: auto;
-      -webkit-hyphens: auto;
+      hyphens: none;
+      -webkit-hyphens: none;
     }
 
     @media (max-width: 768px) {
@@ -2324,15 +2331,28 @@
     /* ===== RÉSULTATS — ÉTUDES DE CAS ===== */
     .resultats-section {
       padding: 100px 60px;
-      background: linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
+      background: linear-gradient(180deg, #0D1B33 0%, #0A1128 100%);
       position: relative;
       overflow: hidden;
+    }
+
+    .resultats-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.40) 50%, transparent 100%);
+      z-index: 2;
+      pointer-events: none;
     }
 
     .resultats-section::before {
       content: '';
       position: absolute;
-      top: -200px;
+      top: 40px;
       left: 50%;
       transform: translateX(-50%);
       width: 900px;
@@ -2600,7 +2620,7 @@
 
     /* ===== FORMULAIRE SECTION ===== */
     .form-section {
-      background: linear-gradient(135deg, #0A1128 0%, #001F54 25%, #034078 50%, #1282A2 75%, #0091B8 100%);
+      background: linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
       padding: 80px 60px;
       display: flex;
       flex-direction: column;
@@ -3237,6 +3257,13 @@
       height: auto;
     }
 
+    /* Aucun mot ne doit être coupé par un saut de ligne */
+    html, body, p, li, h1, h2, h3, h4, span, a, label, button, td, th, blockquote {
+      hyphens: none;
+      -webkit-hyphens: none;
+      -ms-hyphens: none;
+    }
+
     /* Évite que les longs mots/URLs cassent le layout */
     p, li, h1, h2, h3, h4, span, a {
       overflow-wrap: break-word;
@@ -3630,11 +3657,43 @@
 
     .ct-offer-cols {
       display: block;
-      max-width: 760px;
+      max-width: 950px;
       margin: 0 auto;
       text-align: left;
     }
-    .ct-offer-cols .ct-cards-grid--single { margin-bottom: 34px; }
+    .ct-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: stretch;
+      gap: 30px;
+      margin: 0 auto 34px;
+    }
+    .ct-seance-wrap { flex: 1 1 400px; max-width: 460px; margin: 0; }
+    .ct-photo {
+      flex: 1 1 400px;
+      max-width: 460px;
+      margin: 0;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+    }
+    .ct-photo img { width: 100%; height: 100%; min-height: 340px; object-fit: cover; display: block; }
+    .ct-photo--empty {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 340px;
+      border: 2px dashed rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.03);
+      box-shadow: none;
+    }
+    .ct-photo-ph { text-align: center; color: rgba(255, 255, 255, 0.45); padding: 20px; }
+    .ct-photo-ph svg { width: 40px; height: 40px; margin-bottom: 12px; opacity: 0.6; }
+    .ct-photo-ph span { display: block; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 13px; }
+    .ct-photo-ph small { display: block; margin-top: 6px; font-size: 12px; font-style: italic; opacity: 0.7; }
+    @media (max-width: 860px) {
+      .ct-photo img { min-height: 240px; }
+    }
     /* Le formulaire dédié occupe toute la hauteur de son cadre */
     #coaching-form { justify-content: flex-start; }
     #coaching-form .js-lead-form { width: 100%; }
@@ -3917,6 +3976,21 @@
       }
     }
 
+    /* Photo du hero : même format que la photo « À propos » sur petit écran
+       (image entière, non recadrée, largeur adaptée et centrée) */
+    @media (max-width: 992px) {
+      .hero-img-wrap { width: 100%; }
+      .hero-img-wrap img {
+        width: 100% !important;
+        max-width: 400px !important;
+        height: auto !important;
+        object-fit: initial !important;
+        margin-left: auto; margin-right: auto;
+        display: block;
+        border-radius: 20px;
+      }
+    }
+
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 
@@ -4148,9 +4222,9 @@
       <!-- Colonne droite : texte + card + lien FFA -->
       <div class="about-content" style="display: flex; flex-direction: column; justify-content: center; gap: 0;">
 
-        <div style="color: rgba(255,255,255,0.78); line-height: 1.9; text-align: justify; hyphens: auto; -webkit-hyphens: auto;">
+        <div style="color: rgba(255,255,255,0.78); line-height: 1.9; text-align: justify; hyphens: none; -webkit-hyphens: none;">
           <p style="margin-bottom: 48px; font-size: clamp(17px, 1.6vw, 20px);">
-            Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlétisme depuis plus de 15 ans</strong> — j'ai commencé par le sprint avant de m'orienter vers les épreuves d'endurance avec un record personnel de 35'20" au 10K.
+            Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlétisme depuis plus de 15 ans</strong> — j'ai&nbsp;commencé par le sprint avant de m'orienter vers les épreuves d'endurance avec un record personnel de 35'20" au 10K.
           </p>
           <p style="margin-bottom: 48px; font-size: clamp(17px, 1.6vw, 20px);">
              <strong style="color:#fff;">Formé par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux en construisant un entraînement personnalisé : analyse des données, écoute de l'athlète, adaptation continue — pour optimiser la progression à chaque étape.
@@ -4295,7 +4369,7 @@
 
         <div class="form-group">
           <label for="s-message">Message <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(optionnel)</span></label>
-          <textarea id="s-message" name="Message" rows="3" placeholder="Parle-moi de ton profil, ton niveau, tes contraintes…"></textarea>
+          <textarea id="s-message" name="Message" rows="3" placeholder="Parle-moi de ton objectif, de ton historique en course à pied, et précise toutes les informations utiles."></textarea>
         </div>
 
         <div class="form-checkbox-group" style="margin-bottom:18px;">
@@ -4330,26 +4404,36 @@
           <!-- 2 colonnes : carte (gauche) · comment programmer (droite) -->
           <div class="ct-offer-cols">
 
-            <div class="ct-cards-grid ct-cards-grid--single">
-              <!-- Séance de base + tarif dégressif -->
-              <div class="ct-card ct-card--individuel">
-                <span class="ct-card-label">La séance</span>
-                <div class="ct-price">50€<span style="font-size:0.5em;vertical-align:super;opacity:0.7;">*</span></div>
-                <div class="ct-price-unit">En individuel</div>
-
-                <hr class="ct-divider">
-                <ul class="ct-features">
-                  <li><span class="ct-check">✓</span>Séance d'1h minimum</li>
-                  <li><span class="ct-check">✓</span>En solo, duo, trio ou groupe</li>
-                  <li><span class="ct-check">✓</span>Lieu à définir ensemble</li>
-                </ul>
-
-                <div class="ct-supp">
-                  <span class="ct-supp-plus">+10&nbsp;€</span>
-                  <span class="ct-supp-txt">par personne supplémentaire</span>
+            <div class="ct-top-row">
+            <div class="ct-seance-wrap">
+              <div class="service-card distance">
+                <h3 style="margin:0;padding:30px 30px 0;text-align:center;">La séance</h3>
+                <div style="display:flex;align-items:center;justify-content:center;padding:20px 30px 0;">
+                  <a href="#coaching-form" aria-label="Programmer une séance de coaching terrain" style="text-decoration:none;"><span class="price-badge" style="display:inline-flex;flex-direction:column;align-items:center;background:linear-gradient(135deg,#FF6B35,#ff8856);color:#fff;border-radius:50px;padding:14px 36px;font-size:22px;font-weight:800;box-shadow:0 6px 20px rgba(255,107,53,0.4);text-align:center;line-height:1.4;white-space:nowrap;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;" onmouseover="this.style.transform='scale(1.04)';this.style.boxShadow='0 10px 28px rgba(255,107,53,0.55)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 20px rgba(255,107,53,0.4)'"><span>50 € la séance<span style="opacity:0.85;">&nbsp;*</span></span><span style="font-size:14px;font-weight:600;opacity:0.9;letter-spacing:0.5px;margin-top:2px;">En individuel</span></span></a>
                 </div>
-                <div class="ct-supp-ex">Duo&nbsp;60&nbsp;€ · Trio&nbsp;70&nbsp;€ · Quatuor&nbsp;80&nbsp;€ · Groupe&nbsp;(5&nbsp;+)&nbsp;: sur devis</div>
+                <p style="text-align:center;margin:10px 30px 0;font-size:12px;font-style:italic;color:rgba(255,255,255,0.5);line-height:1.5;">* Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
+                <ul class="service-features" style="margin-top:0;padding-top:15px;">
+                  <li class="has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Séance d'1h minimum</li>
+                  <li class="has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>En solo, duo, trio, quatuor ou groupe</li>
+                  <li class="has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Lieu défini ensemble, dans la zone de déplacement</li>
+                  <li class="has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><strong>+10 € par personne supplémentaire</strong></li>
+                  <li class="has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Duo 60 € · Trio 70 € · Quatuor 80 € · Groupe (5 +) : sur devis</li>
+                </ul>
               </div>
+            </div>
+
+            <!-- ═══ PHOTO « COACHING TERRAIN » — cadre fictif ═══
+                 Quand tu auras la photo : dépose-la dans le dossier du site,
+                 puis remplace TOUT le bloc figure ci-dessous par :
+                 <figure class="ct-photo"><img src="coaching-terrain.jpg" alt="Séance de coaching terrain encadrée par Jérémy Reding" loading="lazy"></figure>
+            -->
+            <figure class="ct-photo ct-photo--empty">
+              <div class="ct-photo-ph">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                <span>Photo coaching terrain</span>
+                <small>Emplacement réservé</small>
+              </div>
+            </figure>
             </div>
 
             <!-- Formulaire dédié : programmer une séance -->
@@ -4411,7 +4495,7 @@
 
                 <div class="form-group">
                   <label for="t-message">Message <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(optionnel)</span></label>
-                  <textarea id="t-message" name="Message" rows="3" placeholder="Ce que tu aimerais travailler…"></textarea>
+                  <textarea id="t-message" name="Message" rows="3" placeholder="Précise-moi ton objectif et toute information utile pour le bon déroulement de la séance."></textarea>
                 </div>
 
                 <div class="form-checkbox-group" style="margin-bottom:18px;">
@@ -4428,13 +4512,12 @@
             </div>
 
           </div>
-          <p style="text-align: center; margin: 22px auto 0; font-size: 13px; font-style: italic; color: rgba(255,255,255,0.55); line-height: 1.5;">* Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
         </div>
 
         <!-- Zone de déplacement (carte) -->
         <div class="seances-map-wrap">
-          <h3 style="text-align:center;font-size:clamp(22px,3vw,32px);font-weight:900;font-style:italic;text-transform:uppercase;letter-spacing:-0.01em;color:#FF6B35;margin:0 0 10px;">Zone de déplacement</h3>
-          <p class="seances-map-label">Lieux d'entraînement définis ensemble en fonction de ta localisation et de l'objectif de la séance.</p>
+          <h3 style="text-align:center;font-size:clamp(16px,2vw,20px);font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.92);margin:0 0 8px;">Zone de déplacement</h3>
+          <p class="seances-map-label">Les séances de coaching terrain se déroulent dans cette zone. Le lieu exact est défini ensemble selon ta localisation et l'objectif de la séance.</p>
           <div id="seances-map"></div>
         </div>
 
@@ -4589,7 +4672,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Le paiement s'effectue par lien Stripe (carte bancaire), virement ou chèque ANCV (à venir). Il n'y a aucun prélèvement automatique : c'est toi qui gardes le contrôle sur chaque versement.</p>
+              <p>Le paiement s'effectue par lien Stripe (carte bancaire), virement ou chèque ANCV (à venir).</p>
             </div>
           </div>
 
@@ -4609,7 +4692,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>C'est un test qui me permet de définir avec précision ton niveau et tes axes d'amélioration.</p>
+              <p>C'est un test qui me permet de définir tes zones d'entraînement et tes axes d'amélioration.</p>
             </div>
           </div>
         </div>
@@ -4752,7 +4835,6 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
             if (data.success) {
               form.style.display = 'none';
               if (success) { success.style.display = 'block'; success.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-              if (typeof gtag === 'function') { gtag('event', 'generate_lead', { event_category: 'formulaire' }); }
             } else { throw new Error(data.message || 'Erreur'); }
           } catch (e2) {
             if (err) { err.style.display = 'block'; err.textContent = "Une erreur est survenue. Réessaie ou écris-moi à contact@reding-running.fr"; }
@@ -4834,7 +4916,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     </div>
   </footer>
 
-  <!-- Web3Forms + hCaptcha -->
+  <!-- Web3Forms -->
   <script src="https://web3forms.com/client/script.js" async defer></script>
 
 <!-- ===== POLISH GLOBAL : reveal au scroll + retour en haut ===== -->
@@ -4922,82 +5004,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
   </button>
 
-  <!-- ===== GA4 + BANNIÈRE DE CONSENTEMENT (RGPD) ===== -->
-  <style>
-    #cookie-banner {
-      position: fixed; left: 18px; right: 18px; bottom: 18px; z-index: 10000;
-      max-width: 440px; margin: 0 auto;
-      background: rgba(10, 17, 40, 0.97); backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 107, 53, 0.35); border-radius: 16px;
-      padding: 18px 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-      display: none; font-family: 'Barlow', sans-serif;
-    }
-    #cookie-banner.cb-show { display: block; }
-    #cookie-banner p {
-      margin: 0 0 14px; font-size: 13px; line-height: 1.55;
-      color: rgba(255, 255, 255, 0.85);
-    }
-    #cookie-banner p a { color: #FF6B35; }
-    .cb-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
-    .cb-buttons button {
-      flex: 1; min-width: 140px; padding: 11px 16px; border-radius: 50px;
-      font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
-      transition: all 0.25s ease;
-    }
-    #cb-accept { background: #FF6B35; color: #fff; border: none; }
-    #cb-accept:hover { background: #ff7a47; }
-    #cb-refuse { background: transparent; color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.25); }
-    #cb-refuse:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
-  </style>
 
-  <div id="cookie-banner" role="dialog" aria-label="Consentement cookies">
-    <p>Ce site utilise Google Analytics pour mesurer son audience. Les données sont anonymisées. <a href="politique-confidentialite.html" target="_blank" rel="noopener noreferrer">En savoir plus</a></p>
-    <div class="cb-buttons">
-      <button id="cb-accept">Accepter</button>
-      <button id="cb-refuse">Continuer sans accepter</button>
-    </div>
-  </div>
-
-  <script>
-    (function () {
-      /* ⚠️ REMPLACE l'ID ci-dessous par ton ID de mesure GA4 (admin GA4 → Flux de données → G-…).
-         Tant que l'ID contient "XXXX", ni la bannière ni GA ne sont activés. */
-      var GA_ID = 'G-XXXXXXXXXX';
-      if (GA_ID.indexOf('XXXX') !== -1) return;
-
-      var KEY = 'rr-consent-analytics';
-
-      function loadGA() {
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function () { dataLayer.push(arguments); };
-        gtag('js', new Date());
-        gtag('config', GA_ID, { anonymize_ip: true });
-      }
-
-      var banner = document.getElementById('cookie-banner');
-      var choice = null;
-      try { choice = localStorage.getItem(KEY); } catch (e) {}
-
-      if (choice === 'granted') {
-        loadGA();
-      } else if (choice !== 'denied') {
-        banner.classList.add('cb-show');
-        document.getElementById('cb-accept').addEventListener('click', function () {
-          try { localStorage.setItem(KEY, 'granted'); } catch (e) {}
-          banner.classList.remove('cb-show');
-          loadGA();
-        });
-        document.getElementById('cb-refuse').addEventListener('click', function () {
-          try { localStorage.setItem(KEY, 'denied'); } catch (e) {}
-          banner.classList.remove('cb-show');
-        });
-      }
-    })();
-  </script>
 
   <script>
     (function () {
