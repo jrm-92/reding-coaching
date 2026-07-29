@@ -10,6 +10,12 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://reding-running.fr/sessions-collectives.html" />
   <link rel="icon" type="image/png" href="logo_raccourci_orange.png" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#FF6B35" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Sessions Reding" />
   <meta property="og:title" content="Sessions collectives de running — Reding Running" />
   <meta property="og:description" content="Séances de running en groupe encadrées par un coach certifié FFA. Inscris-toi en ligne : lieu, horaire, thématique et places disponibles." />
   <meta property="og:type" content="website" />
@@ -165,40 +171,67 @@
       .lieu-nav { display: none !important; }
     }
 
+    /* Météo style Météo-France */
     .lieu-meteo {
-      display: flex; align-items: center; gap: 18px;
-      margin: 0 4px 18px; padding: 18px 20px;
-      border: 1px solid rgba(255,255,255,0.12); border-radius: 16px;
-      background: linear-gradient(110deg, rgba(255,255,255,0.08), rgba(255,107,53,0.08));
-      color: rgba(255,255,255,0.78);
-      min-height: 140px;
+      margin: 10px 4px 0; padding: 0; border: none;
+      background: linear-gradient(135deg, #0D1B33 0%, #101D38 100%);
+      border-radius: 12px; overflow: hidden; color: #fff;
+      border: 1px solid rgba(255,107,53,0.2);
     }
-    .lieu-meteo-icone { font-size: 30px; line-height: 1; }
-    .lieu-meteo-contenu { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; width: 100%; }
-    .lieu-meteo-titre { color: #fff; font-size: 15px; font-weight: 800; }
-    .lieu-meteo-temp { color: #FF6B35; font-size: 22px; font-weight: 900; font-style: italic; }
-    .lieu-meteo-details { font-size: 13px; color: rgba(255,255,255,0.6); }
-    .lieu-meteo-note { width: 100%; font-size: 11px; color: rgba(255,255,255,0.4); }
-    .lieu-meteo.chargement { opacity: 0.65; }
+    .lieu-meteo.chargement { background: linear-gradient(135deg, #0D1B33 0%, #101D38 100%); opacity: 0.8; }
+    .lieu-meteo-titre { display: none; }
+    .lieu-meteo-icone { display: none; }
+    .lieu-meteo-contenu { display: block; width: 100%; }
+    .lieu-meteo-details { display: none; }
+    .lieu-meteo-note { display: block; padding: 6px 12px; font-size: 9px; color: rgba(255,255,255,0.6); border-top: 1px solid rgba(255,255,255,0.15); }
+    
+    /* Vue principale du jour */
+    .meteo-jour-principal {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 6px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .meteo-jour-principal-titre { grid-column: 1/-1; font-size: 12px; font-weight: 900; margin-bottom: 1px; }
+    .meteo-periode {
+      display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 4px 3px;
+      background: rgba(255,255,255,0.08); border-radius: 6px;
+    }
+    .meteo-periode-label { font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #ffd4be; }
+    .meteo-periode-description { display: none; }
+    .meteo-periode-icone { font-size: 20px; line-height: 1; }
+    .meteo-periode-temp { font-size: 15px; font-weight: 900; color: #fff; }
+    .meteo-periode-vent { font-size: 7px; color: rgba(255,255,255,0.75); margin-top: 0; }
+    
+    /* Grille des 7 jours */
     .lieu-meteo-semaine {
-      display: grid; grid-template-columns: repeat(7, minmax(90px, 1fr)); gap: 10px;
-      width: 100%; margin-top: 12px;
+      display: flex; gap: 3px; overflow-x: auto; overflow-y: hidden; padding: 10px 12px;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-snap-type: x mandatory;
     }
+    .lieu-meteo-semaine::-webkit-scrollbar { display: none; }
     .meteo-jour {
-      min-width: 0; padding: 11px 8px; text-align: center;
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
-      background: rgba(0,0,0,0.12);
+      flex: 0 0 auto; min-width: calc((100% - 21px) / 7); scroll-snap-align: center; cursor: pointer;
+      padding: 7px 5px; text-align: center; border-radius: 6px; border: 1px solid transparent;
+      background: rgba(255,255,255,0.1); transition: all 0.25s ease;
     }
-    .meteo-jour-nom { display: block; color: #fff; font-size: 11px; font-weight: 800; text-transform: uppercase; }
-    .meteo-jour-date { display: block; margin-top: 2px; color: rgba(255,255,255,0.45); font-size: 10px; }
-    .meteo-jour-icone { display: block; margin: 5px 0 3px; font-size: 24px; line-height: 1; }
-    .meteo-jour-temp { display: block; color: #FF6B35; font-size: 13px; font-weight: 800; }
-    .meteo-jour-pluie { display: block; margin-top: 3px; color: #8ed8ff; font-size: 10px; }
+    .meteo-jour:hover, .meteo-jour.active {
+      background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3);
+    }
+    .meteo-jour-nom { display: block; color: #fff; font-size: 9px; font-weight: 700; text-transform: uppercase; }
+    .meteo-jour-date { display: block; margin-top: 1px; color: rgba(255,255,255,0.7); font-size: 8px; }
+    .meteo-jour-icone { display: block; margin: 2px 0; font-size: 22px; line-height: 1; }
+    .meteo-jour-temp { display: block; color: #fff; font-size: 11px; font-weight: 800; }
+    .meteo-jour-temp-min { font-size: 8px; color: rgba(255,255,255,0.6); margin-top: 0; }
+    .meteo-jour-vent { font-size: 10px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+    @media (max-width: 768px) {
+      .meteo-jour-principal { grid-template-columns: 1fr; gap: 4px; padding: 8px 12px; }
+      .meteo-periode { padding: 6px 4px; }
+      .meteo-periode-icone { font-size: 22px; }
+      .meteo-periode-temp { font-size: 16px; }
+    }
     @media (max-width: 480px) {
-      .lieu-meteo { align-items: flex-start; gap: 12px; }
-      .lieu-meteo-contenu { display: block; }
-      .lieu-meteo-temp, .lieu-meteo-details { display: block; margin-top: 3px; }
-      .lieu-meteo-semaine { overflow-x: auto; grid-template-columns: repeat(7, 76px); padding-bottom: 3px; }
+      .meteo-jour-principal { padding: 8px 10px; }
+      .meteo-periode-icone { font-size: 20px; }
+      .meteo-periode-temp { font-size: 14px; }
+      .meteo-jour { flex-basis: 60px; padding: 5px 3px; }
     }
 
     /* Carrousel : 3 cartes visibles par ligne, les suivantes se font défiler */
@@ -471,6 +504,38 @@
     .m-note { text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 12px; }
     .m-message { display: none; margin-top: 14px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 600; font-size: 14px; }
 
+    /* ── Bouton « Enregistrer cette page » ── */
+    .btn-installer {
+      display: inline-flex; align-items: center; gap: 9px; margin-top: 20px;
+      padding: 11px 20px; border-radius: 999px; cursor: pointer;
+      background: rgba(255,107,53,0.12); color: #ff8856;
+      border: 1px solid rgba(255,107,53,0.4);
+      font-family: inherit; font-size: 14.5px; font-weight: 700;
+      transition: background 0.25s ease, transform 0.25s ease, color 0.25s ease;
+    }
+    .btn-installer[hidden] { display: none; }
+    .btn-installer svg { width: 18px; height: 18px; }
+    .btn-installer:hover { background: rgba(255,107,53,0.2); color: #ff9d73; transform: translateY(-1px); }
+
+    /* ── Fenêtre d'instructions d'installation ── */
+    .install-modal { max-width: 460px; }
+    .install-intro { color: rgba(255,255,255,0.7); font-size: 14.5px; margin: 4px 0 18px; }
+    .install-steps { display: flex; flex-direction: column; gap: 14px; }
+    .install-block {
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 14px 16px;
+      background: rgba(255,255,255,0.03);
+    }
+    .install-block h4 {
+      margin: 0 0 6px; font-size: 14px; font-weight: 800; color: #fff;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .install-block h4 svg { width: 17px; height: 17px; color: #FF6B35; flex-shrink: 0; }
+    .install-block p { margin: 0; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.72); }
+    .install-block .ico-inline {
+      display: inline-flex; vertical-align: -3px; margin: 0 2px; color: #ff8856;
+    }
+    .install-block .ico-inline svg { width: 15px; height: 15px; }
+
     footer {
       border-top: 1px solid rgba(255,255,255,0.1); padding: 36px 24px;
       text-align: center; font-size: 13px; color: rgba(255,255,255,0.5);
@@ -515,6 +580,10 @@
       <h1>Sessions <span class="accent">collectives</span></h1>
       <p class="lead">Des séances collectives variées pour progresser en running dans une ambiance conviviale. Développe ta condition physique, ta technique et ton endurance grâce à des entraînements adaptés à tous les niveaux.</p>
       <p class="lead-note" style="margin-top:14px;font-size:15px;color:rgba(255,255,255,0.72);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Nouvelles sessions visibles à une semaine : chaque créneau apparaît dès la fin du précédent.</p>
+      <button type="button" id="btn-installer" class="btn-installer" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+        Enregistrer cette page sur mon appareil
+      </button>
     </div>
 
     <div class="sessions-grid" id="sessions-grid"></div>
@@ -577,6 +646,16 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ── Fenêtre « Enregistrer cette page » (instructions par appareil) ── -->
+  <div class="modal-overlay" id="install-overlay">
+    <div class="modal install-modal">
+      <button class="modal-close" id="install-close" aria-label="Fermer">×</button>
+      <h3>Enregistrer cette page</h3>
+      <p class="install-intro">Garde les sessions à portée de main : ajoute cette page à ton écran d'accueil ou à tes favoris.</p>
+      <div class="install-steps" id="install-steps"><!-- rempli selon l'appareil --></div>
     </div>
   </div>
 
@@ -765,6 +844,7 @@
         'Houilles':              { latitude: 48.9283, longitude: 2.1859 },
         'Bougival':              { latitude: 48.8654, longitude: 2.1428 },
         'Sartrouville':          { latitude: 48.9403, longitude: 2.1631 },
+        'Saint-Germain-en-Laye': { latitude: 48.8990, longitude: 2.0940 },
         // — Paris (75) —
         'Paris':                 { latitude: 48.8566, longitude: 2.3522 },
         'Paris 16e':             { latitude: 48.8637, longitude: 2.2769 },
@@ -797,11 +877,6 @@
                 '</div>'
               : '') +
           '</div>';
-        var meteo = document.createElement('div');
-        meteo.className = 'lieu-meteo chargement';
-        meteo.setAttribute('aria-live', 'polite');
-        meteo.innerHTML = '<span class="lieu-meteo-icone" aria-hidden="true">⛅</span><div class="lieu-meteo-contenu"><strong class="lieu-meteo-titre">Météo du lieu</strong><span class="lieu-meteo-details">Chargement…</span></div>';
-        bloc.appendChild(meteo);
         var cards = document.createElement('div');
         cards.className = 'lieu-cards';
         bloc.appendChild(cards);
@@ -812,13 +887,18 @@
           hint.textContent = '← Fais défiler pour voir toutes les sessions →';
           bloc.appendChild(hint);
         }
+        var meteo = document.createElement('div');
+        meteo.className = 'lieu-meteo chargement';
+        meteo.setAttribute('aria-live', 'polite');
+        meteo.innerHTML = '<span class="lieu-meteo-icone" aria-hidden="true">⛅</span><div class="lieu-meteo-contenu"><strong class="lieu-meteo-titre">Météo du lieu</strong><span class="lieu-meteo-details">Chargement…</span></div>';
+        bloc.appendChild(meteo);
         grid.appendChild(bloc);
         conteneurs[lieu] = cards;
         var coordonnees = meteoLieux[lieu]
           || meteoLieuxNorm[normLieu(lieu)]
           || meteoLieuxNorm[normLieu(String(lieu).split(/[-‐-―−]/)[0])]; // repli : « Ville — détail » → ville
         if (coordonnees) {
-          fetch('https://api.open-meteo.com/v1/forecast?latitude=' + coordonnees.latitude + '&longitude=' + coordonnees.longitude + '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&forecast_days=16&timezone=Europe%2FParis')
+          fetch('https://api.open-meteo.com/v1/forecast?latitude=' + coordonnees.latitude + '&longitude=' + coordonnees.longitude + '&hourly=temperature_2m,weather_code,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&forecast_days=14&timezone=Europe%2FParis')
             .then(function (reponse) { if (!reponse.ok) throw new Error('Météo indisponible'); return reponse.json(); })
             .then(function (donnees) {
               var descriptions = {
@@ -830,23 +910,125 @@
               var jours = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'];
               var aujourdHui = new Date();
               aujourdHui.setHours(0, 0, 0, 0);
-              var joursAvantLundi = (8 - aujourdHui.getDay()) % 7 || 7;
-              var prochainLundi = new Date(aujourdHui);
-              prochainLundi.setDate(aujourdHui.getDate() + joursAvantLundi);
-              var lundiIso = prochainLundi.toISOString().slice(0, 10);
               var previsions = donnees.daily.time.map(function (date, i) {
                 return { date: date, code: donnees.daily.weather_code[i], max: donnees.daily.temperature_2m_max[i], min: donnees.daily.temperature_2m_min[i], pluie: donnees.daily.precipitation_probability_max[i] };
               }).filter(function (jour) {
-                return jour.date >= lundiIso && jour.date < new Date(prochainLundi.getTime() + 7 * 86400000).toISOString().slice(0, 10);
+                var joursApres = Math.floor((new Date(jour.date) - aujourdHui) / 86400000);
+                return joursApres >= 0 && joursApres < 7;
               });
               if (!previsions.length) throw new Error('Prévisions indisponibles');
-              var cartes = previsions.map(function (jour) {
+              var cartes = previsions.map(function (jour, jIdx) {
                 var date = new Date(jour.date + 'T12:00:00');
                 var description = descriptions[jour.code] || ['🌡️', 'Variable'];
-                return '<div class="meteo-jour"><span class="meteo-jour-nom">' + jours[date.getDay()] + '</span><span class="meteo-jour-date">' + date.getDate() + '/' + (date.getMonth() + 1) + '</span><span class="meteo-jour-icone" aria-hidden="true">' + description[0] + '</span><span class="meteo-jour-temp">' + Math.round(jour.max) + '° / ' + Math.round(jour.min) + '°</span><span class="meteo-jour-pluie">Pluie ' + (jour.pluie == null ? 0 : jour.pluie) + '%</span></div>';
+                var heures = donnees.hourly.time || [];
+                var tempsHeures = donnees.hourly.temperature_2m || [];
+                var codesHeures = donnees.hourly.weather_code || [];
+                var pluiesHeures = donnees.hourly.precipitation_probability || [];
+                var slots = [];
+                [6, 12, 18].forEach(function (heureCible, index) {
+                  var valeur = null;
+                  var pluie = null;
+                  var code = null;
+                  for (var k = 0; k < heures.length; k++) {
+                    if (String(heures[k]).slice(0, 10) !== jour.date) continue;
+                    if (new Date(heures[k]).getHours() === heureCible) {
+                      valeur = tempsHeures[k];
+                      pluie = pluiesHeures[k];
+                      code = codesHeures[k];
+                      break;
+                    }
+                  }
+                  var icone = (code != null && descriptions[code]) ? descriptions[code][0] : '🌡️';
+                  var label = index === 0 ? 'Matin' : (index === 1 ? 'Après-midi' : 'Soir');
+                  slots.push({ label: label, icon: icone, temp: valeur == null ? null : Math.round(valeur), pluie: pluie == null ? 0 : pluie });
+                });
+
+                var now = new Date();
+                var isToday = jour.date === now.toISOString().slice(0, 10);
+                var isTomorrow = jour.date === new Date(now.getTime() + 86400000).toISOString().slice(0, 10);
+                var dateStr = date.getDate() + ' ' + ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'][date.getMonth()];
+                
+                var cardData = '<div class="meteo-jour" data-jour="' + jour.date + '" data-slots="' + encodeURIComponent(JSON.stringify(slots)) + '" data-date-str="' + dateStr + '">' +
+                  '<span class="meteo-jour-nom">' + (isToday ? "Aujourd'hui" : (isTomorrow ? 'Demain' : jours[date.getDay()])) + '</span>' +
+                  '<span class="meteo-jour-date">' + date.getDate() + '/' + (date.getMonth() + 1) + '</span>' +
+                  '<span class="meteo-jour-icone" aria-hidden="true">' + description[0] + '</span>' +
+                  '<span class="meteo-jour-temp">' + Math.round(jour.max) + '°</span>' +
+                  '<span class="meteo-jour-temp-min">/' + Math.round(jour.min) + '°</span>' +
+                  '</div>';
+                return cardData;
               }).join('');
+              
+              var indexJourActif = 0;
+              var now = new Date();
+              for (var idx = 0; idx < previsions.length; idx++) {
+                if (previsions[idx].date === now.toISOString().slice(0, 10)) {
+                  indexJourActif = idx;
+                  break;
+                }
+              }
+              var jourActif = previsions[indexJourActif];
+              var dateActif = new Date(jourActif.date + 'T12:00:00');
+              var dateStr = dateActif.getDate() + ' ' + ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'][dateActif.getMonth()];
+              
+              var slotsActif = [];
+              var heures = donnees.hourly.time || [];
+              var tempsHeures = donnees.hourly.temperature_2m || [];
+              var codesHeures = donnees.hourly.weather_code || [];
+              var pluiesHeures = donnees.hourly.precipitation_probability || [];
+              [6, 12, 18].forEach(function (heureCible, index) {
+                var valeur = null, pluie = null, code = null;
+                for (var k = 0; k < heures.length; k++) {
+                  if (String(heures[k]).slice(0, 10) !== jourActif.date) continue;
+                  if (new Date(heures[k]).getHours() === heureCible) { valeur = tempsHeures[k]; pluie = pluiesHeures[k]; code = codesHeures[k]; break; }
+                }
+                var icone = (code != null && descriptions[code]) ? descriptions[code][0] : '🌡️';
+                var label = index === 0 ? 'Matin' : (index === 1 ? 'Après-midi' : 'Soir');
+                slotsActif.push({ label: label, icon: icone, temp: valeur == null ? null : Math.round(valeur), pluie: pluie == null ? 0 : pluie });
+              });
+              
+              var periodHtml = slotsActif.map(function (slot) {
+                return '<div class="meteo-periode"><span class="meteo-periode-label">' + slot.label + '</span><span class="meteo-periode-icone" aria-hidden="true">' + slot.icon + '</span><span class="meteo-periode-temp">' + (slot.temp == null ? '—' : slot.temp + '°') + '</span><span class="meteo-periode-vent">Pluie ' + slot.pluie + '%</span></div>';
+              }).join('');
+              
               meteo.classList.remove('chargement');
-              meteo.innerHTML = '<div class="lieu-meteo-contenu"><div class="lieu-meteo-semaine">' + cartes + '</div><small class="lieu-meteo-note">Prévisions à 7 jours · Open-Meteo</small></div>';
+              meteo.innerHTML = 
+                '<div class="lieu-meteo-contenu">' +
+                '<div class="meteo-jour-principal" id="meteo-principal-' + esc(lieu).replace(/\s+/g, '-') + '">' +
+                '<div class="meteo-jour-principal-titre">' + dateStr + '</div>' +
+                periodHtml +
+                '</div>' +
+                '<div class="lieu-meteo-semaine" id="meteo-semaine-' + esc(lieu).replace(/\s+/g, '-') + '">' + cartes + '</div>' +
+                '<small class="lieu-meteo-note">Prévisions à 7 jours · Open-Meteo</small>' +
+                '</div>';
+              
+              setTimeout(function () {
+                var lieuSafe = esc(lieu).replace(/\s+/g, '-');
+                var semaineEl = document.getElementById('meteo-semaine-' + lieuSafe);
+                var principalEl = document.getElementById('meteo-principal-' + lieuSafe);
+                if (!semaineEl || !principalEl) return;
+                
+                var jours = semaineEl.querySelectorAll('.meteo-jour');
+                if (jours[indexJourActif]) jours[indexJourActif].classList.add('active');
+                
+                jours.forEach(function (jour) {
+                  jour.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var dateJour = jour.getAttribute('data-jour');
+                    var slotsJson = decodeURIComponent(jour.getAttribute('data-slots'));
+                    var slots = JSON.parse(slotsJson);
+                    var dateStr = jour.getAttribute('data-date-str');
+                    
+                    var periodHtml = slots.map(function (slot) {
+                      return '<div class="meteo-periode"><span class="meteo-periode-label">' + slot.label + '</span><span class="meteo-periode-icone" aria-hidden="true">' + slot.icon + '</span><span class="meteo-periode-temp">' + (slot.temp == null ? '—' : slot.temp + '°') + '</span><span class="meteo-periode-vent">Pluie ' + slot.pluie + '%</span></div>';
+                    }).join('');
+                    
+                    principalEl.innerHTML = '<div class="meteo-jour-principal-titre">' + dateStr + '</div>' + periodHtml;
+                    
+                    jours.forEach(function (j) { j.classList.remove('active'); });
+                    jour.classList.add('active');
+                  });
+                });
+              }, 0);
             })
             .catch(function () {
               meteo.classList.remove('chargement');
@@ -883,7 +1065,7 @@
           (s.description ? '<p class="session-desc">' + esc(s.description) + '</p>' : '') +
           (s.deroule ? '<details class="session-deroule"><summary>Déroulé de la séance</summary><ul>' +
             s.deroule.map(function (p) {
-              return '<li><span class="dr-txt"><strong>' + esc(p[0]) + '</strong>' + (p[1] ? ' <em>(' + esc(p[1]) + ')</em>' : '') + '</span>' + (p[2] ? '<span class="dr-duree">' + esc(p[2]) + '</span>' : '') + '</li>';
+              return '<li><span class="dr-txt"><strong>' + esc(p[0]) + '</strong></span>' + (p[2] ? '<span class="dr-duree">' + esc(p[2]) + '</span>' : '') + '</li>';
             }).join('') +
           '</ul></details>' : '') +
           '<div class="session-jauge">' +
@@ -1144,6 +1326,83 @@
         })
         .catch(function () { /* on garde la liste du code en secours */ })
         .then(function () { demarrerSessions(); });
+    })();
+
+    /* ══════════════════════════════════════════════════════════════════════
+       « ENREGISTRER CETTE PAGE » — installation (PWA) + instructions de secours
+       ══════════════════════════════════════════════════════════════════════
+       - Chrome / Edge / Android : installation native en un clic.
+       - iPhone / Safari (et autres) : fenêtre d'instructions adaptée à l'appareil.
+       - Si la page est déjà installée/ouverte en appli, le bouton reste masqué. */
+    (function () {
+      // 1) Enregistre le service worker (rend la page installable et dispo hors-ligne)
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('sw.js').catch(function () { /* silencieux */ });
+        });
+      }
+
+      var btn = document.getElementById('btn-installer');
+      var overlay = document.getElementById('install-overlay');
+      var steps = document.getElementById('install-steps');
+      if (!btn || !overlay || !steps) return;
+
+      var promptEvt = null; // événement d'installation native capturé
+      var ua = navigator.userAgent || '';
+      var estIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var estAndroid = /android/i.test(ua);
+      var dejaInstallee = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+
+      // Déjà ouverte en appli installée → inutile d'afficher le bouton
+      if (dejaInstallee) { btn.hidden = true; return; }
+      btn.hidden = false; // visible par défaut (au pire on montre les instructions)
+
+      // 2) Installation native : on capte l'événement pour la déclencher au clic
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        promptEvt = e;
+      });
+
+      // Icônes utilisées dans les instructions
+      var icoPartage = '<span class="ico-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m8 7 4-4 4 4"/><path d="M5 12H4a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-1"/></svg></span>';
+      var icoPlus   = '<span class="ico-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>';
+      var icoMenu   = '<span class="ico-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></span>';
+      var icoTel    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>';
+      var icoOrdi   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>';
+
+      var blocIOS = '<div class="install-block"><h4>' + icoTel + 'Sur iPhone / iPad (Safari)</h4><p>Appuie sur le bouton <strong>Partager</strong> ' + icoPartage + ' en bas de l’écran, puis choisis <strong>« Sur l’écran d’accueil »</strong> ' + icoPlus + '.</p></div>';
+      var blocAndroid = '<div class="install-block"><h4>' + icoTel + 'Sur Android</h4><p>Ouvre le menu <strong>⋮</strong> ' + icoMenu + ' en haut à droite, puis <strong>« Ajouter à l’écran d’accueil »</strong> (ou « Installer l’application »).</p></div>';
+      var blocOrdi = '<div class="install-block"><h4>' + icoOrdi + 'Sur ordinateur</h4><p><strong>Chrome / Edge :</strong> clique sur l’icône d’installation ' + icoPlus + ' dans la barre d’adresse, ou menu <strong>⋮</strong> → « Installer ».<br><strong>Autres navigateurs :</strong> appuie sur <strong>Ctrl + D</strong> (⌘ + D sur Mac) pour ajouter la page à tes favoris.</p></div>';
+
+      function contenuInstructions() {
+        if (estIOS) return blocIOS;
+        if (estAndroid) return blocAndroid;
+        return blocOrdi; // ordinateur par défaut
+      }
+
+      function ouvrirModale() {
+        steps.innerHTML = contenuInstructions();
+        overlay.classList.add('open');
+      }
+      function fermerModale() { overlay.classList.remove('open'); }
+
+      btn.addEventListener('click', function () {
+        if (promptEvt) {
+          // Installation native disponible → on la déclenche
+          promptEvt.prompt();
+          promptEvt.userChoice.then(function (choix) {
+            if (choix && choix.outcome === 'accepted') btn.hidden = true;
+            promptEvt = null;
+          });
+        } else {
+          // Pas d'installation native (iOS, Safari, etc.) → instructions
+          ouvrirModale();
+        }
+      });
+
+      document.getElementById('install-close').addEventListener('click', fermerModale);
+      overlay.addEventListener('click', function (e) { if (e.target === overlay) fermerModale(); });
+      window.addEventListener('appinstalled', function () { btn.hidden = true; fermerModale(); });
     })();
   </script>
 
