@@ -1406,6 +1406,70 @@
     })();
   </script>
 
+  <!-- =====================================================================
+       COUCHE DE RAFFINEMENT PREMIUM (coherence avec la page d'accueil)
+       Surcouche non destructive : supprimer ce bloc pour revenir en arriere.
+       ===================================================================== -->
+  <style id="premium-refinements">
+    :root {
+      --accent:#FF6B35; --accent-hover:#ff7a47;
+      --ink-1:rgba(255,255,255,0.90); --ink-2:rgba(255,255,255,0.66); --ink-3:rgba(255,255,255,0.45);
+      --surface-1:rgba(255,255,255,0.035); --hairline:rgba(255,255,255,0.09); --hairline-strong:rgba(255,255,255,0.14);
+      --r-sm:12px; --r-md:16px; --r-lg:20px;
+      --shadow-card:0 2px 14px rgba(0,0,0,0.22);
+      --shadow-card-hover:0 22px 48px rgba(0,0,0,0.42);
+      --ease:cubic-bezier(.2,.8,.4,1); --t:.28s var(--ease);
+    }
+
+    ::selection { background: rgba(255,107,53,0.28); color:#fff; }
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible,
+    select:focus-visible, [tabindex]:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px;
+    }
+
+    /* Cartes de session : ombre sombre diffuse + rehaut orange discret au survol */
+    .session-card { box-shadow: var(--shadow-card) !important; }
+    .session-card:hover {
+      box-shadow: var(--shadow-card-hover), 0 8px 26px rgba(255,107,53,0.16) !important;
+    }
+
+    /* Widget meteo : integration plus premium au theme sombre (anthracite + hairline) */
+    .lieu-meteo {
+      background: linear-gradient(135deg, #16181d 0%, #101319 100%) !important;
+      border: 1px solid var(--hairline) !important;
+      border-radius: var(--r-md) !important;
+      box-shadow: 0 14px 36px rgba(0,0,0,0.34) !important;
+    }
+    .meteo-jour, .meteo-periode { background: rgba(255,255,255,0.05) !important; }
+    .meteo-jour { border-radius: var(--r-sm) !important; transition: background var(--t), border-color var(--t) !important; }
+    .meteo-jour:hover, .meteo-jour.active {
+      background: rgba(255,107,53,0.10) !important;
+      border-color: rgba(255,107,53,0.35) !important;
+    }
+
+    /* Boutons : ombres affinees, coherentes avec l'accueil */
+    .btn-inscrire, .btn-payer, .btn-envoyer { box-shadow: 0 6px 18px rgba(255,107,53,0.26) !important; }
+    .btn-inscrire:hover, .btn-payer:hover, .btn-envoyer:hover { box-shadow: 0 12px 30px rgba(255,107,53,0.32) !important; }
+    .lieu-fleche { box-shadow: 0 4px 14px rgba(255,107,53,0.30) !important; }
+
+    /* Champs de formulaire eventuels : anthracite + focus orange discret */
+    #inscription-form input, #inscription-form textarea, #inscription-form select {
+      background: rgba(255,255,255,0.055) !important; color: var(--ink-1) !important;
+      border: 1px solid var(--hairline-strong) !important; border-radius: 10px !important;
+    }
+    #inscription-form input:focus, #inscription-form textarea:focus, #inscription-form select:focus {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 3px rgba(255,107,53,0.16) !important; outline: none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration:.001ms !important; animation-iteration-count:1 !important;
+        transition-duration:.001ms !important; scroll-behavior:auto !important;
+      }
+    }
+  </style>
+
 
 </body>
 </html>

@@ -32,7 +32,7 @@
       font-weight: 900;
       font-style: italic;
       text-transform: uppercase;
-      color: #FFE766;
+      color: #FF6B35;
       margin-bottom: 10px;
     }
 
@@ -44,7 +44,7 @@
     .header .back-link {
       display: inline-block;
       margin-top: 15px;
-      color: #FFE766;
+      color: #FF6B35;
       text-decoration: none;
       font-weight: 600;
       font-size: 14px;
@@ -174,7 +174,7 @@
     }
 
     .footer-links a:hover {
-      color: #FFE766;
+      color: #FF6B35;
     }
 
     .footer-copyright {
@@ -295,7 +295,7 @@
       paiement conditionne l'accès à la prestation.
     </p>
     <div class="example">
-      <strong>Exemple concret :</strong> si le suivi à distance est affiché à 70 € / mois lors de ta commande, ce
+      <strong>Exemple concret :</strong> si le suivi à distance est affiché à 55 € / mois lors de ta commande, ce
       tarif s'applique à cette commande, même si le prix évolue par la suite.
     </div>
 
@@ -423,6 +423,21 @@
       © 2026 Reding Running — Tous droits réservés
     </div>
   </footer>
+
+  <!-- Couche de raffinement premium (polish universel, non destructif) -->
+  <style id="premium-refinements">
+    ::selection { background: rgba(255,107,53,0.22); color:#1a1a1a; }
+    a:focus-visible, button:focus-visible, .back-link:focus-visible {
+      outline: 2px solid #FF6B35; outline-offset: 3px; border-radius: 6px;
+    }
+    .header { box-shadow: 0 10px 30px rgba(0,0,0,0.18); }
+    a { transition: color .2s ease; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration:.001ms !important; transition-duration:.001ms !important; scroll-behavior:auto !important;
+      }
+    }
+  </style>
 
 </body>
 </html>

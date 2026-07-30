@@ -4266,7 +4266,7 @@
       <div class="service-card distance">
         <h3 style="white-space: nowrap; margin: 0; padding: 30px 30px 0; text-align: center;">Suivi à distance</h3>
         <div style="display: flex; align-items: center; justify-content: center; padding: 20px 30px 0;">
-          <a href="#suivi-form" aria-label="Faire ma demande de suivi à distance" style="text-decoration: none;"><span class="price-badge" style="display: inline-flex; flex-direction: column; align-items: center; background: linear-gradient(135deg, #1282A2, #0091B8); color: white; border-radius: 50px; padding: 14px 36px; font-size: 22px; font-weight: 800; box-shadow: 0 6px 20px rgba(18, 130, 162, 0.4); text-align: center; line-height: 1.4; white-space: nowrap; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;" onmouseover="this.style.transform='scale(1.04)';this.style.boxShadow='0 10px 28px rgba(18,130,162,0.55)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 20px rgba(18,130,162,0.4)'"><span>70€ / mois<span style="opacity: 0.85;">&nbsp;*</span></span><span style="font-size: 14px; font-weight: 600; opacity: 0.9; letter-spacing: 0.5px; margin-top: 2px;">Sans engagement</span></span></a>
+          <a href="#suivi-form" aria-label="Faire ma demande de suivi à distance" style="text-decoration: none;"><span class="price-badge" style="display: inline-flex; flex-direction: column; align-items: center; background: linear-gradient(135deg, #1282A2, #0091B8); color: white; border-radius: 50px; padding: 14px 36px; font-size: 22px; font-weight: 800; box-shadow: 0 6px 20px rgba(18, 130, 162, 0.4); text-align: center; line-height: 1.4; white-space: nowrap; cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;" onmouseover="this.style.transform='scale(1.04)';this.style.boxShadow='0 10px 28px rgba(18,130,162,0.55)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 6px 20px rgba(18,130,162,0.4)'"><span>55€ / mois<span style="opacity: 0.85;">&nbsp;*</span></span><span style="font-size: 14px; font-weight: 600; opacity: 0.9; letter-spacing: 0.5px; margin-top: 2px;">Sans engagement</span></span></a>
         </div>
         <p style="text-align: center; margin: 10px 30px 0; font-size: 12px; font-style: italic; color: rgba(255,255,255,0.5); line-height: 1.5;">* Paiement par lien Stripe (CB), virement ou chèque ANCV (à venir).</p>
         <ul class="service-features" style="margin-top: 0; padding-top: 15px;">
@@ -5013,6 +5013,228 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
       }
     })();
   </script>
+
+  <!-- =====================================================================
+       COUCHE DE RAFFINEMENT PREMIUM (design system + polish)
+       Ajoutée en fin de document : surcouche non destructive.
+       Pour revenir en arriere, supprimer uniquement ce bloc de style.
+       ===================================================================== -->
+  <style id="premium-refinements">
+    /* ---------- 1. DESIGN TOKENS ---------- */
+    :root {
+      --accent:        #FF6B35;
+      --accent-soft:   #ff8856;
+      --accent-hover:  #ff7a47;
+      --ink-0:         #ffffff;
+      --ink-1:         rgba(255,255,255,0.90);
+      --ink-2:         rgba(255,255,255,0.66);
+      --ink-3:         rgba(255,255,255,0.45);
+      --surface-1:     rgba(255,255,255,0.035);
+      --surface-2:     rgba(255,255,255,0.06);
+      --hairline:      rgba(255,255,255,0.09);
+      --hairline-strong: rgba(255,255,255,0.14);
+      --accent-line:   rgba(255,107,53,0.35);
+      /* Rayons */
+      --r-sm: 12px;  --r-md: 16px;  --r-lg: 20px;  --r-xl: 28px;
+      /* Ombres — sombres et diffuses (feel premium), l'orange en simple rehaut */
+      --shadow-card:        0 2px 14px rgba(0,0,0,0.22);
+      --shadow-card-hover:  0 22px 48px rgba(0,0,0,0.42);
+      --shadow-accent-hover:0 22px 48px rgba(0,0,0,0.42), 0 8px 26px rgba(255,107,53,0.20);
+      /* Transitions */
+      --ease: cubic-bezier(.2,.8,.4,1);
+      --t: .28s var(--ease);
+    }
+
+    /* ---------- 2. POLISH GLOBAL ---------- */
+    ::selection { background: rgba(255,107,53,0.28); color: #fff; }
+
+    /* État focus accessible et cohérent sur tous les éléments interactifs */
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible,
+    summary:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    /* Rendu typographique légèrement plus net */
+    body { text-rendering: optimizeLegibility; }
+
+    /* Glow du hero adouci (moins « pulsé », plus premium) */
+    @keyframes glowPulse { 0%,100% { opacity:.4; } 50% { opacity:.62; } }
+    .hero-section::before { animation-duration: 12s !important; }
+    /* Halo secondaire du hero : neutralisé (retrait de la teinte turquoise parasite) */
+    .hero-section::after {
+      background: radial-gradient(circle, rgba(255,107,53,0.06) 0%, transparent 65%) !important;
+    }
+
+    /* ---------- 3. RYTHME VERTICAL (desktop : plus d'air) ---------- */
+    @media (min-width: 993px) {
+      .apropos-section { padding-top: 104px !important; padding-bottom: 104px !important; }
+      .about-section   { padding-top: 96px  !important; padding-bottom: 112px !important; }
+      .solo-duo-section{ padding-top: 104px !important; padding-bottom: 104px !important; }
+      .resultats-section { padding-top: 112px !important; padding-bottom: 112px !important; }
+      .faq-section     { padding-top: 104px !important; padding-bottom: 104px !important; }
+      .form-section    { padding-top: 96px  !important; padding-bottom: 104px !important; }
+    }
+
+    /* ---------- 4. UNIFORMISATION DES CARTES ---------- */
+    /* Hover cohérent + ombres sombres diffuses sur toutes les familles de cartes */
+    .service-card,
+    .resultat-card,
+    .ct-card { box-shadow: var(--shadow-card); }
+
+    .service-card:hover,
+    .resultat-card:hover { box-shadow: var(--shadow-card-hover) !important; }
+
+    .ct-card--duo:hover,
+    .ct-card--trio:hover,
+    .ct-card--groupe:hover { box-shadow: var(--shadow-card-hover) !important; }
+    .ct-card--individuel:hover { box-shadow: var(--shadow-accent-hover) !important; }
+
+    /* Résultats : bordure hairline plus discrète, moins « tout orange » au repos */
+    .resultat-card { border-color: var(--hairline-strong) !important; }
+    .resultat-card:hover {
+      border-color: var(--accent-line) !important;
+      box-shadow: var(--shadow-accent-hover) !important;
+    }
+
+    /* Badges du hero : surface sombre + hairline discrète (secondaires, pas d'accent plein) */
+    .hero-badge {
+      background: var(--surface-1) !important;
+      border: 1px solid var(--hairline) !important;
+      border-radius: var(--r-sm) !important;
+    }
+    .hero-badge:hover {
+      background: var(--surface-2) !important;
+      border-color: var(--accent-line) !important;
+      box-shadow: 0 10px 26px rgba(0,0,0,0.30) !important;
+    }
+
+    /* Carte CTA principale du hero : ombre un peu plus sobre au survol */
+    .hcta-card--primary { box-shadow: 0 6px 22px rgba(255,107,53,0.28) !important; }
+    .hcta-card--primary:hover { box-shadow: 0 16px 36px rgba(255,107,53,0.30) !important; }
+
+    /* ---------- 5. BOUTONS — ombres affinées ---------- */
+    .nav-cta { box-shadow: 0 4px 16px rgba(255,107,53,0.30) !important; }
+    .nav-cta:hover { box-shadow: 0 8px 22px rgba(255,107,53,0.34) !important; }
+    .form-submit-btn { box-shadow: 0 6px 18px rgba(255,107,53,0.26) !important; }
+    .form-submit-btn:hover { box-shadow: 0 12px 30px rgba(255,107,53,0.32) !important; }
+
+    /* ---------- 6. IMAGES — rayon & ombre homogènes ---------- */
+    .hero-img-wrap img {
+      border-radius: var(--r-lg) !important;
+      box-shadow: 0 40px 90px rgba(0,0,0,0.60), 0 0 0 1px var(--hairline) !important;
+    }
+    .apropos-image,
+    .apropos-image img { border-radius: var(--r-lg) !important; }
+    .apropos-image { box-shadow: 0 24px 60px rgba(0,0,0,0.42), 0 0 0 1px var(--hairline) !important; }
+
+    /* ---------- 7. FAQ — accordéons sombres premium ---------- */
+    .faq-item {
+      background: var(--surface-1) !important;
+      border: 1px solid var(--hairline) !important;
+      border-radius: var(--r-md) !important;
+      box-shadow: none !important;
+      transition: border-color var(--t), background var(--t), box-shadow var(--t) !important;
+    }
+    .faq-item:hover {
+      border-color: var(--accent-line) !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.28) !important;
+    }
+    .faq-item.active {
+      border-color: rgba(255,107,53,0.45) !important;
+      background: rgba(255,107,53,0.05) !important;
+    }
+    .faq-question {
+      background: transparent !important;
+      color: var(--ink-0) !important;
+      font-weight: 700 !important;
+    }
+    .faq-question:hover { background: rgba(255,255,255,0.03) !important; color: var(--ink-0) !important; }
+    .faq-item.active .faq-question { color: var(--accent) !important; }
+    /* Icône « + » discrète en orange, qui pivote en croix à l'ouverture (comportement conservé) */
+    .faq-icon { color: var(--accent) !important; font-weight: 300 !important; }
+    .faq-answer p {
+      color: var(--ink-2) !important;
+      text-align: left !important;
+    }
+    .faq-answer p strong { color: var(--ink-1) !important; }
+
+    /* ---------- 8. FORMULAIRES — champs anthracite, focus orange discret ---------- */
+    .qf-form .form-group input,
+    .qf-form .form-group textarea,
+    .qf-form .form-group select,
+    .hero-form .form-group input,
+    .hero-form .form-group textarea,
+    .hero-form .form-group select {
+      /* Fond translucide d'origine conservé (voir regles .qf-form / .suivi-form-wrap) */
+      border: 1px solid var(--hairline-strong) !important;
+      border-radius: 10px !important;
+      transition: border-color var(--t), box-shadow var(--t), background var(--t) !important;
+    }
+    .qf-form .form-group input::placeholder,
+    .qf-form .form-group textarea::placeholder,
+    .hero-form .form-group input::placeholder,
+    .hero-form .form-group textarea::placeholder { color: var(--ink-3) !important; }
+    .qf-form .form-group input:focus,
+    .qf-form .form-group textarea:focus,
+    .qf-form .form-group select:focus,
+    .hero-form .form-group input:focus,
+    .hero-form .form-group textarea:focus,
+    .hero-form .form-group select:focus {
+      /* Fond de focus translucide d'origine conserve */
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 3px rgba(255,107,53,0.16) !important;
+      outline: none !important;
+    }
+    /* Flèche de select en orange (retrait du vert lime résiduel) */
+    .qf-form .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23FF6B35' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") !important;
+      background-repeat: no-repeat !important;
+      background-position: right 14px center !important;
+      background-size: 12px !important;
+    }
+    .qf-form .form-group select option { background: #161618 !important; color: var(--ink-1) !important; }
+    /* Barre supérieure du formulaire : dégradé 100 % orange (retrait du stop turquoise) */
+    .qf-form::before { background: linear-gradient(90deg, #FF6B35, #ff8856) !important; }
+
+    /* ---------- 9. WIDGET / CARTE LEAFLET — intégration au thème sombre ---------- */
+    #seances-map {
+      border-radius: var(--r-md) !important;
+      border: 1px solid var(--hairline) !important;
+      box-shadow: 0 18px 44px rgba(0,0,0,0.35) !important;
+      overflow: hidden;
+    }
+    .leaflet-container { background: #0d1424 !important; }
+    /* Tuiles cartographiques légèrement fondues dans le thème sombre */
+    .leaflet-tile-pane { filter: brightness(0.86) contrast(1.02) saturate(0.92); }
+    .leaflet-control-attribution {
+      background: rgba(10,17,40,0.72) !important;
+      color: rgba(255,255,255,0.55) !important;
+    }
+    .leaflet-control-attribution a { color: rgba(255,107,53,0.8) !important; }
+    .leaflet-bar a {
+      background: #161618 !important;
+      color: var(--ink-1) !important;
+      border-bottom-color: var(--hairline) !important;
+    }
+    .leaflet-bar a:hover { background: #222226 !important; }
+
+    /* ---------- 10. MICRO-INTERACTIONS — respect de prefers-reduced-motion ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 
 </body>
 </html>
