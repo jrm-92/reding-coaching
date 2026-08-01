@@ -1231,7 +1231,9 @@
 
        Colonnes attendues dans la feuille (l'ordre n'a pas d'importance) :
          id       — identifiant unique (ex. s21). Obligatoire.
-         type     — « VMA » ou « Endurance » (définit le titre + le déroulé)
+         titre    — titre affiché (ex. « VMA »). Prioritaire sur « type ».
+         sous titre — sous-titre affiché en petit (ex. « vitesse maximale aérobie »).
+         type     — « VMA » ou « Endurance » : secours si « titre » est vide, et choix du déroulé.
          date     — AAAA-MM-JJ  ou  JJ/MM/AAAA
          heure    — ex. 9h30
          duree    — ex. 1h  (défaut : 1h)
@@ -1239,6 +1241,9 @@
          sous lieu— lieu précis affiché sous la ville sur la carte (facultatif)
          places   — nombre total de places (défaut : 10)
          inscrits — nombre d'inscrits (défaut : 0)
+         prix     — ex. « 8 € » (défaut : 8 €)
+         description — court texte affiché sous les infos de la carte (facultatif)
+         deroule  — déroulé perso : « Étape | durée ; Étape | durée … » (sinon selon « type »)
          stripe   — lien de paiement propre à la session (facultatif)
 
        En cas d'échec (pas d'URL, hors ligne, feuille vide), on garde la liste
@@ -1276,15 +1281,36 @@
       return String(v == null ? '' : v).trim();
     }
 
+    /* Déroulé personnalisé depuis la feuille : "Étape | durée ; Étape | durée …"
+       (ou "Étape | description | durée"). Vide → on garde le déroulé prédéfini. */
+    function _parseDeroule(v) {
+      var t = String(v == null ? '' : v).trim();
+      if (!t) return null;
+      var lignes = t.split(/\s*;\s*|\r?\n/).map(function (l) { return l.trim(); }).filter(Boolean);
+      if (!lignes.length) return null;
+      return lignes.map(function (l) {
+        var p = l.split('|').map(function (x) { return x.trim(); });
+        if (p.length >= 3) return [p[0], p[1], p[2]];
+        if (p.length === 2) return [p[0], '', p[1]];
+        return [p[0], '', ''];
+      });
+    }
+
     /* Construit la liste des sessions à partir du texte CSV publié */
     function _construireSessions(txt) {
       var lignes = txt.split(/\r?\n/).filter(function (l) { return l.trim() !== ''; });
       if (lignes.length < 2) return [];
       var head = _cellules(lignes[0]).map(function (h) { return h.trim().toLowerCase(); });
       function col(nom) { return head.indexOf(nom); }
-      var iId = col('id'), iType = col('type'), iDate = col('date'), iHeure = col('heure'),
+      var iId = col('id'), iType = col('type'), iTitre = col('titre'),
+          iSousTitre = (col('sous titre') > -1 ? col('sous titre')
+                        : (col('sous-titre') > -1 ? col('sous-titre') : col('soustitre'))),
+          iDate = col('date'), iHeure = col('heure'),
           iDuree = col('duree'), iLieu = col('lieu'), iSousLieu = col('sous lieu'), iPlaces = col('places'),
-          iIns = col('inscrits'), iStripe = col('stripe');
+          iIns = col('inscrits'), iStripe = col('stripe'),
+          iPrix = col('prix'), iDesc = col('description'),
+          iDeroule = (col('deroule') > -1 ? col('deroule')
+                      : (col('déroulé') > -1 ? col('déroulé') : col('deroulé')));
       var out = [];
       for (var r = 1; r < lignes.length; r++) {
         var c = _cellules(lignes[r]);
@@ -1294,22 +1320,34 @@
         var heure = (iHeure > -1 ? String(c[iHeure] || '') : '').trim();
         if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !heure) continue; /* ligne incomplète → ignorée */
         var type = (iType > -1 ? String(c[iType] || '') : '').trim().toLowerCase();
-        var estVMA = type.indexOf('vma') > -1 || type.indexOf('puiss') > -1 || type.indexOf('maximale') > -1;
+        var titreCell = (iTitre > -1 ? String(c[iTitre] || '') : '').trim();
+        var sousTitreCell = (iSousTitre > -1 ? String(c[iSousTitre] || '') : '').trim();
+        var detecte = (type + ' ' + titreCell).toLowerCase();
+        var estVMA = detecte.indexOf('vma') > -1 || detecte.indexOf('puiss') > -1 || detecte.indexOf('maximale') > -1;
+        /* Titre affiché : priorité aux colonnes « Titre » / « Sous titre » de la feuille ;
+           le format « Titre (Sous-titre) » est ensuite découpé à l'affichage. */
+        var titreAff = titreCell
+          ? (sousTitreCell ? titreCell + ' (' + sousTitreCell + ')' : titreCell)
+          : (estVMA ? 'VMA (vitesse maximale aérobie)' : 'Endurance (capacité de maintien aérobie)');
         var placesN = parseInt(iPlaces > -1 ? c[iPlaces] : '', 10);
         var insN = parseInt(iIns > -1 ? c[iIns] : '', 10);
+        var prixCell = (iPrix > -1 ? String(c[iPrix] || '') : '').trim();
+        var descCell = (iDesc > -1 ? String(c[iDesc] || '') : '').trim();
+        var derouleCustom = _parseDeroule(iDeroule > -1 ? c[iDeroule] : '');
         out.push({
           id: id,
-          titre: estVMA ? 'VMA (vitesse maximale aérobie)' : 'Endurance (capacité de maintien aérobie)',
+          titre: titreAff,
           date: date,
           heure: heure,
           duree: (iDuree > -1 ? String(c[iDuree] || '') : '').trim() || '1h',
           lieu: _lieuFromCode(iLieu > -1 ? c[iLieu] : ''),
           sousLieu: (iSousLieu > -1 ? String(c[iSousLieu] || '') : '').trim(),
-          prix: '8 €',
+          prix: prixCell || '8 €',
+          description: descCell,
           places: isNaN(placesN) ? 10 : placesN,
           inscrits: isNaN(insN) ? 0 : Math.max(0, insN),
           stripe: (iStripe > -1 ? String(c[iStripe] || '') : '').trim(),
-          deroule: estVMA ? DEROULE_PUISSANCE : DEROULE_CAPACITE
+          deroule: derouleCustom || (estVMA ? DEROULE_PUISSANCE : DEROULE_CAPACITE)
         });
       }
       return out;
