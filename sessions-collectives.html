@@ -891,7 +891,7 @@
         meteo.className = 'lieu-meteo chargement';
         meteo.setAttribute('aria-live', 'polite');
         meteo.innerHTML = '<span class="lieu-meteo-icone" aria-hidden="true">⛅</span><div class="lieu-meteo-contenu"><strong class="lieu-meteo-titre">Météo du lieu</strong><span class="lieu-meteo-details">Chargement…</span></div>';
-        bloc.appendChild(meteo);
+        bloc.insertBefore(meteo, cards); /* météo juste sous le titre du lieu, avant les cartes */
         grid.appendChild(bloc);
         conteneurs[lieu] = cards;
         var coordonnees = meteoLieux[lieu]
@@ -1231,9 +1231,8 @@
 
        Colonnes attendues dans la feuille (l'ordre n'a pas d'importance) :
          id       — identifiant unique (ex. s21). Obligatoire.
-         titre    — titre affiché (ex. « VMA »). Prioritaire sur « type ».
+         titre    — titre affiché (ex. « VMA »). Détermine aussi le déroulé (voir « deroule »).
          sous titre — sous-titre affiché en petit (ex. « vitesse maximale aérobie »).
-         type     — « VMA » ou « Endurance » : secours si « titre » est vide, et choix du déroulé.
          date     — AAAA-MM-JJ  ou  JJ/MM/AAAA
          heure    — ex. 9h30
          duree    — ex. 1h  (défaut : 1h)
@@ -1243,7 +1242,7 @@
          inscrits — nombre d'inscrits (défaut : 0)
          prix     — ex. « 8 € » (défaut : 8 €)
          description — court texte affiché sous les infos de la carte (facultatif)
-         deroule  — déroulé perso : « Étape | durée ; Étape | durée … » (sinon selon « type »)
+         deroule  — déroulé perso : « Étape | durée ; Étape | durée … » (sinon déduit du titre : VMA → puissance, sinon endurance)
          stripe   — lien de paiement propre à la session (facultatif)
 
        En cas d'échec (pas d'URL, hors ligne, feuille vide), on garde la liste
@@ -1302,7 +1301,7 @@
       if (lignes.length < 2) return [];
       var head = _cellules(lignes[0]).map(function (h) { return h.trim().toLowerCase(); });
       function col(nom) { return head.indexOf(nom); }
-      var iId = col('id'), iType = col('type'), iTitre = col('titre'),
+      var iId = col('id'), iTitre = col('titre'),
           iSousTitre = (col('sous titre') > -1 ? col('sous titre')
                         : (col('sous-titre') > -1 ? col('sous-titre') : col('soustitre'))),
           iDate = col('date'), iHeure = col('heure'),
@@ -1319,10 +1318,9 @@
         var date = _normDate(iDate > -1 ? c[iDate] : '');
         var heure = (iHeure > -1 ? String(c[iHeure] || '') : '').trim();
         if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !heure) continue; /* ligne incomplète → ignorée */
-        var type = (iType > -1 ? String(c[iType] || '') : '').trim().toLowerCase();
         var titreCell = (iTitre > -1 ? String(c[iTitre] || '') : '').trim();
         var sousTitreCell = (iSousTitre > -1 ? String(c[iSousTitre] || '') : '').trim();
-        var detecte = (type + ' ' + titreCell).toLowerCase();
+        var detecte = titreCell.toLowerCase();
         var estVMA = detecte.indexOf('vma') > -1 || detecte.indexOf('puiss') > -1 || detecte.indexOf('maximale') > -1;
         /* Titre affiché : priorité aux colonnes « Titre » / « Sous titre » de la feuille ;
            le format « Titre (Sous-titre) » est ensuite découpé à l'affichage. */
@@ -1465,18 +1463,31 @@
       outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px;
     }
 
+    /* Fond de page aligne sur l'accueil : quasi-noir premium (au lieu du bleu marine) */
+    body { background: linear-gradient(180deg, #0E1013 0%, #14171C 100%) !important; }
+
     /* Cartes de session : ombre sombre diffuse + rehaut orange discret au survol */
     .session-card { box-shadow: var(--shadow-card) !important; }
     .session-card:hover {
       box-shadow: var(--shadow-card-hover), 0 8px 26px rgba(255,107,53,0.16) !important;
     }
 
-    /* Widget meteo : integration plus premium au theme sombre (anthracite + hairline) */
+    /* Badge "Inscriptions ouvertes" : neutre — l'orange reste reserve a l'urgence
+       ("dernieres places") et aux CTA (harmonisation single-accent). */
+    .statut-ouvert {
+      background: rgba(255,255,255,0.06) !important;
+      color: rgba(255,255,255,0.75) !important;
+      border: 1px solid rgba(255,255,255,0.16) !important;
+    }
+
+    /* Widget meteo : remonte sous le titre du lieu (voir JS insertBefore) +
+       integration premium ; marge basse pour le detacher des cartes qui suivent. */
     .lieu-meteo {
       background: linear-gradient(135deg, #16181d 0%, #101319 100%) !important;
       border: 1px solid var(--hairline) !important;
       border-radius: var(--r-md) !important;
       box-shadow: 0 14px 36px rgba(0,0,0,0.34) !important;
+      margin: 6px 4px 16px !important;
     }
     .meteo-jour, .meteo-periode { background: rgba(255,255,255,0.05) !important; }
     .meteo-jour { border-radius: var(--r-sm) !important; transition: background var(--t), border-color var(--t) !important; }

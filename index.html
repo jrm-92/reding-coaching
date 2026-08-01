@@ -4224,7 +4224,7 @@
 
         <div style="color: rgba(255,255,255,0.78); line-height: 1.9; text-align: justify; hyphens: none; -webkit-hyphens: none;">
           <p style="margin-bottom: 48px; font-size: clamp(17px, 1.6vw, 20px);">
-            Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlétisme depuis plus de 15 ans</strong> — j'ai d'abord commencé par fouler le tartan des pistes d'athlétisme à la recherche de vitesse sur 200&nbsp;m (22"60), avant de tomber amoureux des kilomètres, du bitume et des chemins naturels — avec un record à 35'20" sur 10K.
+            Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlé depuis plus de 15 ans</strong> — j'ai d'abord commencé par fouler le tartan des pistes à la recherche de vitesse sur 200&nbsp;m (22"60), avant de tomber amoureux des kilomètres, du bitume et des chemins naturels — avec notamment un record à 35'20" sur 10K.
           </p>
           <p style="margin-bottom: 48px; font-size: clamp(17px, 1.6vw, 20px);">
              <strong style="color:#fff;">Formé par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux en construisant un entraînement personnalisé : analyse des données, écoute de l'athlète, adaptation continue — pour optimiser la progression à chaque étape.
@@ -4393,7 +4393,7 @@
         </div>
 
         <div class="form-group">
-          <span class="qform-field-label">Entretien téléphonique découverte <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(pour que je te propose des créneaux d'appel)</span></span>
+          <span class="qform-field-label">Entretien téléphonique découverte <span style="display:block;margin-top:3px;color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">(pour que je te propose des créneaux d'appel)</span></span>
           <div class="appel-panel">
             <div class="appel-row">
               <span class="appel-mini-label">Quels jours&nbsp;?</span>
@@ -4409,7 +4409,7 @@
             <div class="appel-row appel-row--last">
               <span class="appel-mini-label">Quel moment&nbsp;?</span>
               <div class="form-group" style="margin-bottom:0;">
-                <input type="text" id="s-moment" name="Moment de la journée" placeholder="Quel moment de la journée ?">
+                <input type="text" id="s-moment" name="Moment de la journée" required placeholder="Quel moment de la journée ?">
               </div>
             </div>
           </div>
@@ -4503,8 +4503,8 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="t-loc">Ta localisation <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(pour définir le lieu)</span></label>
-                  <input type="text" id="t-loc" name="Localisation" placeholder="Ex : Courbevoie, Boulogne-Billancourt, Paris 15e...">
+                  <label for="t-loc">Ta localisation *</label>
+                  <input type="text" id="t-loc" name="Localisation" required placeholder="Ex : Courbevoie, Boulogne-Billancourt, Paris 15e...">
                 </div>
 
                 <div class="form-group">
@@ -4524,25 +4524,32 @@
                   </div>
                 </div>
 
-                <span class="qform-field-label" style="display:block;margin-bottom:12px;">Propose-moi 2 créneaux — je confirme sous 24h</span>
-                <div class="qf-slot-block">
-                  <span class="qf-slot-label">Créneau 1 — Préféré</span>
-                  <div class="form-row" style="margin-bottom:0;">
-                    <div class="form-group" style="margin-bottom:0;"><label for="t-slot1-date">Date</label><input type="date" id="t-slot1-date" name="Créneau 1 — Date"></div>
-                    <div class="form-group" style="margin-bottom:0;"><label for="t-slot1-time">Heure</label><input type="time" id="t-slot1-time" name="Créneau 1 — Heure" min="07:00" max="21:00"></div>
-                  </div>
-                </div>
-                <div class="qf-slot-block">
-                  <span class="qf-slot-label">Créneau 2 — Alternatif</span>
-                  <div class="form-row" style="margin-bottom:0;">
-                    <div class="form-group" style="margin-bottom:0;"><label for="t-slot2-date">Date</label><input type="date" id="t-slot2-date" name="Créneau 2 — Date"></div>
-                    <div class="form-group" style="margin-bottom:0;"><label for="t-slot2-time">Heure</label><input type="time" id="t-slot2-time" name="Créneau 2 — Heure" min="07:00" max="21:00"></div>
+                <div class="form-group">
+                  <span class="qform-field-label">Tes disponibilités <span style="display:block;margin-top:3px;color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;">(pour que je te propose des créneaux)</span></span>
+                  <div class="appel-panel">
+                    <div class="appel-row">
+                      <span class="appel-mini-label">Quels jours&nbsp;?</span>
+                      <div class="pill-group appel-pills">
+                        <div class="pill-option"><input type="checkbox" id="t-jour-sem" name="Jours dispo (séance)" value="Du lundi au vendredi" autocomplete="off"><label for="t-jour-sem">Lun–Ven</label></div>
+                        <div class="pill-option"><input type="checkbox" id="t-jour-we" name="Jours dispo (séance)" value="Week-end" autocomplete="off"><label for="t-jour-we">Week-end</label></div>
+                        <div class="pill-option"><input type="checkbox" id="t-jour-autre" name="Jours dispo (séance)" value="Autre" autocomplete="off"><label for="t-jour-autre">Autre</label></div>
+                      </div>
+                      <div class="qf-subfields" id="t-jour-autre-field">
+                        <div class="form-group" style="margin-bottom:0;"><label for="t-jour-autre-txt">Précise tes jours</label><input type="text" id="t-jour-autre-txt" name="Autre disponibilité (jours)" placeholder="Ex : uniquement le mercredi"></div>
+                      </div>
+                    </div>
+                    <div class="appel-row appel-row--last">
+                      <span class="appel-mini-label">Quel moment&nbsp;?</span>
+                      <div class="form-group" style="margin-bottom:0;">
+                        <input type="text" id="t-moment" name="Moment de la journée" required placeholder="Quel moment de la journée ?">
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 <div class="form-group">
-                  <label for="t-message">Message <span style="color:rgba(255,255,255,0.35);font-weight:400;font-style:italic;">(optionnel)</span></label>
-                  <textarea id="t-message" name="Message" rows="3" placeholder="Précise-moi ton objectif et toute information utile pour le bon déroulement de la séance."></textarea>
+                  <label for="t-message">Message *</label>
+                  <textarea id="t-message" name="Message" rows="3" required placeholder="Précise-moi ton objectif et toute information utile pour le bon déroulement de la séance."></textarea>
                 </div>
 
                 <div class="form-checkbox-group" style="margin-bottom:18px;">
@@ -4888,14 +4895,17 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
 
       // Coaching : sous-champ « nombre de personnes » si Groupe
       var grp = document.getElementById('t-fmt-groupe');
+      var grpNb = document.getElementById('t-groupe-nb');
       document.querySelectorAll('input[name="Format séance"]').forEach(function (r) {
         r.addEventListener('change', function () {
           if (!grp) return;
-          if (this.id === 't-fmt4') {
+          var isGroupe = this.id === 't-fmt4';
+          if (isGroupe) {
             grp.style.display = 'block'; void grp.offsetWidth; grp.classList.add('qf-active');
           } else {
             grp.classList.remove('qf-active'); grp.style.display = 'none';
           }
+          if (grpNb) grpNb.required = isGroupe;
         });
       });
 
@@ -4921,11 +4931,30 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
       // Suivi à distance : champ texte si "Autre" (jours) est coché
       var jourAutre = document.getElementById('s-jour-autre');
       var jourAutreField = document.getElementById('s-jour-autre-field');
+      var jourAutreTxt = document.getElementById('s-jour-autre-txt');
       if (jourAutre) {
-        jourAutre.addEventListener('change', function () { toggleObj(jourAutreField, this.checked); });
+        jourAutre.addEventListener('change', function () {
+          toggleObj(jourAutreField, this.checked);
+          if (jourAutreTxt) jourAutreTxt.required = this.checked;
+        });
         jourAutre.checked = false;
       }
       toggleObj(jourAutreField, false);
+      if (jourAutreTxt) jourAutreTxt.required = false;
+
+      // Coaching terrain : champ texte si "Autre" (jours) est coché
+      var tJourAutre = document.getElementById('t-jour-autre');
+      var tJourAutreField = document.getElementById('t-jour-autre-field');
+      var tJourAutreTxt = document.getElementById('t-jour-autre-txt');
+      if (tJourAutre) {
+        tJourAutre.addEventListener('change', function () {
+          toggleObj(tJourAutreField, this.checked);
+          if (tJourAutreTxt) tJourAutreTxt.required = this.checked;
+        });
+        tJourAutre.checked = false;
+      }
+      toggleObj(tJourAutreField, false);
+      if (tJourAutreTxt) tJourAutreTxt.required = false;
 
       // Envoi partagé pour chaque formulaire intégré
       document.querySelectorAll('form.js-lead-form').forEach(function (form) {
@@ -4936,6 +4965,17 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
           var success = form.parentNode.querySelector('.lead-success');
           var original = btn ? btn.innerHTML : '';
           if (err) err.style.display = 'none';
+          // Validation : champs visibles (natif) + groupes stylisés (manuel, message visible)
+          if (!form.reportValidity()) return;
+          var manque = [];
+          function grpVide(nom){ return form.querySelector('input[name="' + nom + '"]') && !form.querySelector('input[name="' + nom + '"]:checked'); }
+          if (grpVide('Objectif')) manque.push('ton objectif');
+          if (grpVide('Format séance')) manque.push('le format de séance');
+          if (grpVide('Jours dispo (appel)') || grpVide('Jours dispo (séance)')) manque.push('au moins un jour de disponibilité');
+          if (manque.length) {
+            if (err) { err.style.display = 'block'; err.textContent = 'Merci de renseigner : ' + manque.join(', ') + '.'; err.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+            return;
+          }
           if (btn) { btn.disabled = true; btn.textContent = 'Envoi en cours...'; }
           try {
             var res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form) });
@@ -5486,6 +5526,23 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     .appel-pills { margin-bottom: 0; }
     .appel-pills .pill-option label { padding: 8px 13px; font-size: 13px; }
     .appel-pills .pill-option label small { font-size: 10.5px; margin-left: 3px; }
+    /* Mobile : les cases "jours" restent compactes (taille au contenu) au lieu de
+       gros pavés en grille 2 colonnes. */
+    @media (max-width: 600px) {
+      .appel-pills {
+        display: flex !important;
+        grid-template-columns: none !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+      }
+      .appel-pills .pill-option { flex: 0 0 auto !important; }
+      .appel-pills .pill-option label {
+        min-height: 0 !important;
+        padding: 7px 13px !important;
+        font-size: 12.5px !important;
+        border-radius: 30px !important;
+      }
+    }
     .appel-panel .qf-subfields { margin-top: 10px; }
 
     /* Un peu plus d'air entre les grands groupes du formulaire suivi */
@@ -5500,8 +5557,14 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
       padding: 11px 8px !important; line-height: 1.2; white-space: nowrap;
     }
     @media (max-width: 600px) {
-      .pill-group--inline { gap: 6px !important; }
-      .pill-group--inline .pill-option label { padding: 10px 4px !important; font-size: 12.5px !important; }
+      .pill-group--inline { gap: 6px !important; align-items: stretch !important; }
+      .pill-group--inline .pill-option label {
+        padding: 8px 6px !important;
+        font-size: 12px !important;
+        white-space: normal !important;   /* autorise le retour a la ligne (ex : "Premiere course") */
+        line-height: 1.12 !important;
+        min-height: 38px !important;       /* hauteur egale pour toutes les pilules */
+      }
     }
     @media (max-width: 360px) {
       .pill-group--inline .pill-option label { font-size: 11px !important; letter-spacing: 0 !important; }
