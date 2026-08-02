@@ -242,9 +242,23 @@
       -webkit-overflow-scrolling: touch;
       gap: 20px;
       padding: 4px 4px 14px;
-      scrollbar-width: none;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,107,53,0.7) rgba(255,255,255,0.08);
     }
-    .lieu-cards::-webkit-scrollbar { display: none; }
+    .lieu-cards::-webkit-scrollbar {
+      height: 8px;
+    }
+    .lieu-cards::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+    }
+    .lieu-cards::-webkit-scrollbar-thumb {
+      background: rgba(255,107,53,0.7);
+      border-radius: 999px;
+    }
+    .lieu-cards::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,107,53,0.95);
+    }
     .lieu-cards .session-card {
       /* 3 cartes pleines + un aperçu de la 4e qui dépasse → on comprend que ça défile */
       flex: 0 0 calc((100% - 60px) / 3.25);
@@ -263,6 +277,26 @@
       color: rgba(255, 255, 255, 0.35); margin-top: 2px;
     }
     .swipe-hint--desktop { display: block; }
+    .lieu-cards-scrollbar-hint {
+      display: none;
+      margin-top: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+    }
+    .lieu-pack-prix {
+      display: block;
+      margin: 8px 0 0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffd4be;
+      letter-spacing: 0.04em;
+    }
+    .lieu-pack-prix strong { color: #fff; }
 
     /* Mobile : une carte visible + un aperçu de la suivante */
     @media (max-width: 768px) {
@@ -867,10 +901,11 @@
         var n = groupes[lieu].length;
         var bloc = document.createElement('section');
         bloc.className = 'lieu-groupe';
+        var afficherFleches = n > 1 && lieu !== 'Le Vésinet — Stade des Merlettes';
         bloc.innerHTML =
           '<div class="lieu-titre">' +
             '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieu) + '</span>' +
-            (n > 1
+            (afficherFleches
               ? '<div class="lieu-nav">' +
                   '<button type="button" class="lieu-fleche" data-dir="-1" aria-label="Sessions précédentes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' +
                   '<button type="button" class="lieu-fleche" data-dir="1" aria-label="Sessions suivantes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>' +
@@ -880,12 +915,31 @@
         var cards = document.createElement('div');
         cards.className = 'lieu-cards';
         bloc.appendChild(cards);
+
+        var prixPackGroup = [];
+        groupes[lieu].forEach(function (session) {
+          if (session.prixPack && prixPackGroup.indexOf(session.prixPack) === -1) {
+            prixPackGroup.push(session.prixPack);
+          }
+        });
+        if (prixPackGroup.length) {
+          var packPrixEl = document.createElement('div');
+          packPrixEl.className = 'lieu-pack-prix';
+          packPrixEl.innerHTML = '<strong>Pack</strong> : ' + esc(prixPackGroup.join(' · '));
+          bloc.appendChild(packPrixEl);
+        }
+
         if (n > 1) {
           var hint = document.createElement('span');
           hint.className = 'swipe-hint' + (n > 3 ? ' swipe-hint--desktop' : '');
           hint.setAttribute('aria-hidden', 'true');
           hint.textContent = '← Fais défiler pour voir toutes les sessions →';
           bloc.appendChild(hint);
+
+          var scrollbarHint = document.createElement('div');
+          scrollbarHint.className = 'lieu-cards-scrollbar-hint';
+          scrollbarHint.textContent = 'Barre de défilement disponible';
+          bloc.appendChild(scrollbarHint);
         }
         var meteo = document.createElement('div');
         meteo.className = 'lieu-meteo chargement';
@@ -1073,7 +1127,7 @@
             '<div class="jauge-bar"><div class="jauge-fill" style="width:' + Math.round(s.inscrits / s.places * 100) + '%"></div></div>' +
           '</div>' +
           '<div class="session-footer">' +
-            '<div class="session-prix">' + esc(s.prix) + '<small>par personne</small></div>' +
+            '<div class="session-prix">' + (s.prixUnitaire ? esc(s.prixUnitaire) : esc(s.prix)) + '<small>' + (s.prixUnitaire ? 'prix unitaire' : 'par personne') + '</small></div>' +
             '<button class="btn-inscrire" data-i="' + i + '"' + (complet ? ' disabled' : '') + '>' + (complet ? 'Complet' : 'S\'inscrire') + '</button>' +
           '</div>';
         conteneurs[s.lieu].appendChild(card);
@@ -1295,19 +1349,36 @@
       });
     }
 
+    function _formatPrix(v) {
+      var txt = String(v == null ? '' : v).trim();
+      if (!txt) return '';
+      if (/^\d+([.,]\d+)?$/.test(txt)) return txt.replace('.', ',') + ' €';
+      return txt;
+    }
+
     /* Construit la liste des sessions à partir du texte CSV publié */
     function _construireSessions(txt) {
       var lignes = txt.split(/\r?\n/).filter(function (l) { return l.trim() !== ''; });
       if (lignes.length < 2) return [];
       var head = _cellules(lignes[0]).map(function (h) { return h.trim().toLowerCase(); });
       function col(nom) { return head.indexOf(nom); }
+      function colAny(noms) {
+        for (var i = 0; i < noms.length; i++) {
+          var idx = head.indexOf(noms[i]);
+          if (idx > -1) return idx;
+        }
+        return -1;
+      }
       var iId = col('id'), iTitre = col('titre'),
+          iEvenement = colAny(['evenement', 'évènement', 'événement']),
           iSousTitre = (col('sous titre') > -1 ? col('sous titre')
                         : (col('sous-titre') > -1 ? col('sous-titre') : col('soustitre'))),
           iDate = col('date'), iHeure = col('heure'),
           iDuree = col('duree'), iLieu = col('lieu'), iSousLieu = col('sous lieu'), iPlaces = col('places'),
           iIns = col('inscrits'), iStripe = col('stripe'),
-          iPrix = col('prix'), iDesc = col('description'),
+          iPrix = col('prix'), iPrixUnitaire = colAny(['prix unitaire', 'prix_unitaire', 'prixunitaire']),
+          iPrixPack = colAny(['prix pack', 'prix_pack', 'prixpack']),
+          iDesc = col('description'),
           iDeroule = (col('deroule') > -1 ? col('deroule')
                       : (col('déroulé') > -1 ? col('déroulé') : col('deroulé')));
       var out = [];
@@ -1319,17 +1390,24 @@
         var heure = (iHeure > -1 ? String(c[iHeure] || '') : '').trim();
         if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !heure) continue; /* ligne incomplète → ignorée */
         var titreCell = (iTitre > -1 ? String(c[iTitre] || '') : '').trim();
+        var evenementCell = (iEvenement > -1 ? String(c[iEvenement] || '') : '').trim();
         var sousTitreCell = (iSousTitre > -1 ? String(c[iSousTitre] || '') : '').trim();
-        var detecte = titreCell.toLowerCase();
+        var detecte = (evenementCell || titreCell).toLowerCase();
         var estVMA = detecte.indexOf('vma') > -1 || detecte.indexOf('puiss') > -1 || detecte.indexOf('maximale') > -1;
-        /* Titre affiché : priorité aux colonnes « Titre » / « Sous titre » de la feuille ;
+        /* Titre affiché : priorité à la colonne « Evenement » de la feuille ;
            le format « Titre (Sous-titre) » est ensuite découpé à l'affichage. */
-        var titreAff = titreCell
-          ? (sousTitreCell ? titreCell + ' (' + sousTitreCell + ')' : titreCell)
-          : (estVMA ? 'VMA (vitesse maximale aérobie)' : 'Endurance (capacité de maintien aérobie)');
+        var titreAff = evenementCell
+          ? (sousTitreCell ? evenementCell + ' (' + sousTitreCell + ')' : evenementCell)
+          : (titreCell
+            ? (sousTitreCell ? titreCell + ' (' + sousTitreCell + ')' : titreCell)
+            : (estVMA ? 'VMA (vitesse maximale aérobie)' : 'Endurance (capacité de maintien aérobie)'));
         var placesN = parseInt(iPlaces > -1 ? c[iPlaces] : '', 10);
         var insN = parseInt(iIns > -1 ? c[iIns] : '', 10);
         var prixCell = (iPrix > -1 ? String(c[iPrix] || '') : '').trim();
+        var prixUnitaireCell = (iPrixUnitaire > -1 ? String(c[iPrixUnitaire] || '') : '').trim();
+        var prixPackCell = (iPrixPack > -1 ? String(c[iPrixPack] || '') : '').trim();
+        var prix = _formatPrix(prixUnitaireCell || prixCell || '8');
+        var prixPack = _formatPrix(prixPackCell);
         var descCell = (iDesc > -1 ? String(c[iDesc] || '') : '').trim();
         var derouleCustom = _parseDeroule(iDeroule > -1 ? c[iDeroule] : '');
         out.push({
@@ -1340,7 +1418,9 @@
           duree: (iDuree > -1 ? String(c[iDuree] || '') : '').trim() || '1h',
           lieu: _lieuFromCode(iLieu > -1 ? c[iLieu] : ''),
           sousLieu: (iSousLieu > -1 ? String(c[iSousLieu] || '') : '').trim(),
-          prix: prixCell || '8 €',
+          prix: prix,
+          prixUnitaire: prixUnitaireCell ? prix : '',
+          prixPack: prixPack,
           description: descCell,
           places: isNaN(placesN) ? 10 : placesN,
           inscrits: isNaN(insN) ? 0 : Math.max(0, insN),
