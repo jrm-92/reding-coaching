@@ -706,23 +706,11 @@
 
   <script>
     /* ═══════════════════════════════════════════════════════════════════
-       ✏️  TES SESSIONS — C'EST ICI QUE TU AJOUTES / MODIFIES / SUPPRIMES
+       ✏️  GESTION DES SESSIONS — LA GOOGLE SHEET EST LA SOURCE DE VÉRITÉ
        ═══════════════════════════════════════════════════════════════════
-       Pour publier une session : copie un bloc { ... }, colle-le dans la
-       liste, modifie les valeurs, enregistre et pousse sur GitHub.
-
-       - date     : format AAAA-MM-JJ. Les sessions passées disparaissent
-                    automatiquement de la page.
-       - places   : nombre total de places.
-       - inscrits : à mettre à jour À LA MAIN quand tu reçois une
-                    inscription (tu reçois un mail à chaque fois).
-                    Quand inscrits = places, la session s'affiche COMPLET.
-       - stripe   : lien de paiement Stripe SPÉCIFIQUE à cette session
-                    (optionnel). Laisse "" pour utiliser le lien global
-                    LIEN_STRIPE défini juste en dessous.
-
-       ⚠️ Les 2 sessions ci-dessous sont des EXEMPLES : modifie-les ou
-          supprime-les avant de partager la page !
+       Les cartes sont alimentées uniquement par la Google Sheet.
+       La liste écrite dans le code n'est plus utilisée pour l'affichage.
+       Pour ajouter ou modifier des sessions, il faut mettre à jour la feuille.
     */
     /* Déroulé des séances : [phase, détail, durée] — la durée peut rester vide "" */
     var DEROULE_PUISSANCE = [
@@ -752,8 +740,7 @@
 
     /* ── Sessions pilotées par une Google Sheet (sans toucher au code) ───────
        Colle ici l'URL CSV « Publier sur le web » de ta feuille Google.
-       Laisse "" pour utiliser la liste SESSIONS écrite ci-dessus.
-       Quand une URL est renseignée, TOUTE la liste des sessions vient de la
+       Quand une URL est renseignée, la liste des sessions vient uniquement de la
        feuille : ajouter une ligne = ajouter une session sur le site.
        Colonnes de la feuille : id | type | date | heure | duree | lieu |
        places | inscrits | stripe   (voir détails plus bas dans le code).
@@ -762,20 +749,7 @@
        par le site : tu peux en ajouter librement pour ton suivi perso. */
     var SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSggn8BSPm988-wljlbRkksIeveedgJxuZ_VTOzYredPAmfK_t3h0JXV-Ayh6-xM0HPO0SeSn8bMO8T/pub?gid=1222905758&single=true&output=csv";
 
-    var SESSIONS = [
-
-
-      /* ── Le Vésinet, samedis 10h15-11h15, octobre → décembre 2026
-            (hors vacances scolaires zone C : Toussaint 17/10-02/11, Noël dès le 19/12 — aucun férié un samedi) ── */
-      { id: "s13", titre: "VMA (vitesse maximale aérobie)", date: "2026-10-03", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { id: "s14", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-10-10", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { id: "s15", titre: "VMA (vitesse maximale aérobie)", date: "2026-11-07", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { id: "s16", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-11-14", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { id: "s17", titre: "VMA (vitesse maximale aérobie)", date: "2026-11-21", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { id: "s18", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-11-28", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE },
-      { id: "s19", titre: "VMA (vitesse maximale aérobie)", date: "2026-12-05", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_PUISSANCE },
-      { id: "s20", titre: "Endurance (capacité de maintien aérobie)",  date: "2026-12-12", heure: "10h15", duree: "1h", lieu: LIEU1, prix: "8 €", places: 10, inscrits: 0, stripe: "", deroule: DEROULE_CAPACITE }
-    ];
+    var SESSIONS = [];
     /* ═══════════════ FIN DE LA ZONE À ÉDITER ═══════════════ */
 
     /* ── Menu mobile ── */
@@ -894,6 +868,10 @@
           .toLowerCase()
           .replace(/[^a-z0-9]/g, '');
       }
+      function libelleLieu(v) {
+        var txt = String(v == null ? '' : v).trim();
+        return normLieu(txt) === 'courbevoie' ? 'Foulées olympiques colombienne' : txt;
+      }
       var meteoLieuxNorm = {};
       Object.keys(meteoLieux).forEach(function (k) { meteoLieuxNorm[normLieu(k)] = meteoLieux[k]; });
       groupesOrdre.forEach(function (lieu) {
@@ -902,9 +880,10 @@
         var bloc = document.createElement('section');
         bloc.className = 'lieu-groupe';
         var afficherFleches = n > 1 && lieu !== 'Le Vésinet — Stade des Merlettes';
+        var lieuTitre = libelleLieu(lieu);
         bloc.innerHTML =
           '<div class="lieu-titre">' +
-            '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieu) + '</span>' +
+            '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) + '</span>' +
             (afficherFleches
               ? '<div class="lieu-nav">' +
                   '<button type="button" class="lieu-fleche" data-dir="-1" aria-label="Sessions précédentes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' +
@@ -1107,8 +1086,9 @@
           '<div class="session-head">' +
             '<div class="session-date-badge"><span class="jsem">' + JOURS[d.getDay()] + '</span><span class="jour">' + d.getDate() + '</span><span class="mois">' + MOIS[d.getMonth()] + '</span></div>' +
             '<div><div class="session-titre">' + (function () {
-              var t = String(s.titre).match(/^([^(]+?)\s*\((.+)\)\s*$/);
-              return t ? esc(t[1]) + '<span class="titre-sub">' + esc(t[2]) + '</span>' : esc(s.titre);
+              var titreCard = String(s.titre || '').trim();
+              var sousTitreCard = String(s.sousTitre || '').trim();
+              return titreCard ? esc(titreCard) + (sousTitreCard ? '<span class="titre-sub">' + esc(sousTitreCard) + '</span>' : '') : esc(s.evenement || '');
             })() + '</div>' + statut + '</div>' +
           '</div>' +
           '<ul class="session-infos">' +
@@ -1299,8 +1279,8 @@
          deroule  — déroulé perso : « Étape | durée ; Étape | durée … » (sinon déduit du titre : VMA → puissance, sinon endurance)
          stripe   — lien de paiement propre à la session (facultatif)
 
-       En cas d'échec (pas d'URL, hors ligne, feuille vide), on garde la liste
-       SESSIONS écrite dans le code — la page s'affiche quoi qu'il arrive. */
+       En cas d'échec (pas d'URL, hors ligne, feuille vide), la page reste
+       vide et affiche l'état vide, sans revenir à une liste codée en dur. */
 
     /* Découpe une ligne CSV en cellules (gère les guillemets et virgules) */
     function _cellules(l) {
@@ -1394,12 +1374,8 @@
         var sousTitreCell = (iSousTitre > -1 ? String(c[iSousTitre] || '') : '').trim();
         var detecte = (evenementCell || titreCell).toLowerCase();
         var estVMA = detecte.indexOf('vma') > -1 || detecte.indexOf('puiss') > -1 || detecte.indexOf('maximale') > -1;
-        /* Titre affiché : priorité à la colonne « Evenement » de la feuille, puis au type si disponible. */
-        var titreAff = evenementCell
-          ? (sousTitreCell ? evenementCell + ' (' + sousTitreCell + ')' : evenementCell)
-          : (titreCell
-            ? (sousTitreCell ? titreCell + ' (' + sousTitreCell + ')' : titreCell)
-            : (estVMA ? 'VMA (vitesse maximale aérobie)' : 'Endurance (capacité de maintien aérobie)'));
+        var titreCarte = titreCell || (estVMA ? 'VMA' : 'Endurance');
+        var evenementAff = evenementCell || titreCarte;
         var placesN = parseInt(iPlaces > -1 ? c[iPlaces] : '', 10);
         var insN = parseInt(iIns > -1 ? c[iIns] : '', 10);
         var prixCell = (iPrix > -1 ? String(c[iPrix] || '') : '').trim();
@@ -1411,7 +1387,9 @@
         var derouleCustom = _parseDeroule(iDeroule > -1 ? c[iDeroule] : '');
         out.push({
           id: id,
-          titre: titreAff,
+          evenement: evenementAff,
+          titre: titreCarte,
+          sousTitre: sousTitreCell,
           date: date,
           heure: heure,
           duree: (iDuree > -1 ? String(c[iDuree] || '') : '').trim() || '1h',
@@ -1431,15 +1409,20 @@
     }
 
     (function _demarrer() {
-      if (!SHEET_CSV_URL) { demarrerSessions(); return; }
+      if (!SHEET_CSV_URL) {
+        demarrerSessions();
+        return;
+      }
       var url = SHEET_CSV_URL + (SHEET_CSV_URL.indexOf('?') > -1 ? '&' : '?') + '_=' + Date.now();
       fetch(url)
         .then(function (r) { if (!r.ok) throw new Error('http'); return r.text(); })
         .then(function (txt) {
           var liste = _construireSessions(txt);
-          if (liste.length) SESSIONS = liste; /* la feuille remplace la liste du code */
+          SESSIONS = liste;
         })
-        .catch(function () { /* on garde la liste du code en secours */ })
+        .catch(function () {
+          SESSIONS = [];
+        })
         .then(function () { demarrerSessions(); });
     })();
 
