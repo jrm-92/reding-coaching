@@ -1369,13 +1369,13 @@
         }
         return -1;
       }
-      var iId = col('id'), iTitre = col('titre'),
+      var iId = col('id'), iTitre = col('type') > -1 ? col('type') : col('titre'),
           iEvenement = colAny(['evenement', 'évènement', 'événement']),
           iSousTitre = (col('sous titre') > -1 ? col('sous titre')
                         : (col('sous-titre') > -1 ? col('sous-titre') : col('soustitre'))),
           iDate = col('date'), iHeure = col('heure'),
           iDuree = col('duree'), iLieu = col('lieu'), iSousLieu = col('sous lieu'), iPlaces = col('places'),
-          iIns = col('inscrits'), iStripe = col('stripe'),
+          iIns = col('inscrits'), iStripe = col('stripe') > -1 ? col('stripe') : col('paye'),
           iPrix = col('prix'), iPrixUnitaire = colAny(['prix unitaire', 'prix_unitaire', 'prixunitaire']),
           iPrixPack = colAny(['prix pack', 'prix_pack', 'prixpack']),
           iDesc = col('description'),
@@ -1394,8 +1394,7 @@
         var sousTitreCell = (iSousTitre > -1 ? String(c[iSousTitre] || '') : '').trim();
         var detecte = (evenementCell || titreCell).toLowerCase();
         var estVMA = detecte.indexOf('vma') > -1 || detecte.indexOf('puiss') > -1 || detecte.indexOf('maximale') > -1;
-        /* Titre affiché : priorité à la colonne « Evenement » de la feuille ;
-           le format « Titre (Sous-titre) » est ensuite découpé à l'affichage. */
+        /* Titre affiché : priorité à la colonne « Evenement » de la feuille, puis au type si disponible. */
         var titreAff = evenementCell
           ? (sousTitreCell ? evenementCell + ' (' + sousTitreCell + ')' : evenementCell)
           : (titreCell
