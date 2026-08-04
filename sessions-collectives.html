@@ -153,11 +153,11 @@
       white-space: nowrap;
     }
 
-    /* Flèches de défilement (desktop) */
-    .lieu-nav { display: flex; gap: 8px; flex-shrink: 0; }
+    /* Flèches de défilement latérales (desktop) */
+    .lieu-carrousel { position: relative; }
     .lieu-fleche {
       width: 40px; height: 40px; border-radius: 50%;
-      border: none;
+      border: 2px solid rgba(255, 255, 255, 0.85);
       background: #FF6B35;
       color: #ffffff; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
@@ -165,10 +165,20 @@
       transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
     }
     .lieu-fleche svg { width: 18px; height: 18px; }
-    .lieu-fleche:hover:not(:disabled) { background: #ff7a47; transform: translateY(-1px); }
+    /* Une flèche de chaque côté, dans une marge réservée : elles ne touchent jamais les cartes */
+    @media (min-width: 769px) {
+      .lieu-carrousel { padding: 0 56px; }
+    }
+    .lieu-fleche--prev, .lieu-fleche--next {
+      position: absolute; top: 50%; transform: translateY(-50%); z-index: 6;
+    }
+    .lieu-fleche--prev { left: 6px; }
+    .lieu-fleche--next { right: 6px; }
+    .lieu-fleche--prev:hover:not(:disabled),
+    .lieu-fleche--next:hover:not(:disabled) { background: #ff7a47; transform: translateY(-50%) scale(1.07); }
     .lieu-fleche:disabled { opacity: 0.3; cursor: default; box-shadow: none; }
     @media (max-width: 768px) {
-      .lieu-nav { display: none !important; }
+      .lieu-fleche--prev, .lieu-fleche--next { display: none !important; }
     }
 
     /* Météo style Météo-France */
@@ -191,6 +201,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.15);
     }
     .meteo-jour-principal-titre { grid-column: 1/-1; font-size: 12px; font-weight: 900; margin-bottom: 1px; }
+    .meteo-principal-lieu { font-weight: 700; color: #FF6B35; }
     .meteo-periode {
       display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 4px 3px;
       background: rgba(255,255,255,0.08); border-radius: 6px;
@@ -297,6 +308,23 @@
       letter-spacing: 0.04em;
     }
     .lieu-pack-prix strong { color: #fff; }
+
+    /* Bloc pack : prix + bouton d'achat unique sous les cartes */
+    .lieu-pack {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      margin: 16px 0 0;
+    }
+    .lieu-pack .lieu-pack-prix { margin: 0; }
+    .btn-pack {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 14px 30px; border: none; border-radius: 999px; cursor: pointer;
+      background: #FF6B35; color: #fff;
+      font-family: inherit; font-size: 15px; font-weight: 800; font-style: italic;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      box-shadow: 0 8px 22px rgba(255,107,53,0.4);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .btn-pack:hover { background: #ff7a47; transform: translateY(-2px); }
 
     /* Mobile : une carte visible + un aperçu de la suivante */
     @media (max-width: 768px) {
@@ -443,6 +471,12 @@
       display: flex; align-items: center; justify-content: space-between; gap: 14px;
       padding: 18px 24px 24px; margin-top: auto;
     }
+    .session-footer--pack { justify-content: center; }
+    .session-pack-note {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13.5px; font-weight: 700; font-style: italic; color: #ffd4be;
+    }
+    .session-pack-note svg { width: 16px; height: 16px; color: #FF6B35; flex-shrink: 0; }
     .session-prix { font-size: 28px; font-weight: 900; font-style: italic; color: #FF6B35; line-height: 1; }
     .session-prix small { font-size: 12px; font-weight: 600; font-style: normal; color: rgba(255,255,255,0.5); display: block; margin-top: 3px; }
     .btn-inscrire {
@@ -612,8 +646,8 @@
   <main>
     <div class="page-intro">
       <h1>Sessions <span class="accent">collectives</span></h1>
-      <p class="lead">Des séances collectives variées pour progresser en running dans une ambiance conviviale. Développe ta condition physique, ta technique et ton endurance grâce à des entraînements adaptés à tous les niveaux.</p>
-      <p class="lead-note" style="margin-top:14px;font-size:15px;color:rgba(255,255,255,0.72);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Nouvelles sessions visibles à une semaine : chaque créneau apparaît dès la fin du précédent.</p>
+      <p class="lead">Des séances collectives variées pour progresser en running dans une ambiance conviviale. Prépare une course ou développe ta condition physique, ta technique et ton endurance grâce à des entraînements adaptés à tous les niveaux.</p>
+      <p class="lead-note" style="margin-top:14px;font-size:15px;color:rgba(255,255,255,0.72);"></p>
       <button type="button" id="btn-installer" class="btn-installer" hidden>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
         Enregistrer cette page sur mon appareil
@@ -879,34 +913,23 @@
         var n = groupes[lieu].length;
         var bloc = document.createElement('section');
         bloc.className = 'lieu-groupe';
-        var afficherFleches = n > 1 && lieu !== 'Le Vésinet — Stade des Merlettes';
         var lieuTitre = libelleLieu(lieu);
+        var afficherFleches = n > 1 && lieu !== 'Le Vésinet — Stade des Merlettes';
         bloc.innerHTML =
           '<div class="lieu-titre">' +
             '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) + '</span>' +
-            (afficherFleches
-              ? '<div class="lieu-nav">' +
-                  '<button type="button" class="lieu-fleche" data-dir="-1" aria-label="Sessions précédentes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' +
-                  '<button type="button" class="lieu-fleche" data-dir="1" aria-label="Sessions suivantes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>' +
-                '</div>'
-              : '') +
           '</div>';
+        var carrousel = document.createElement('div');
+        carrousel.className = 'lieu-carrousel';
         var cards = document.createElement('div');
         cards.className = 'lieu-cards';
-        bloc.appendChild(cards);
-
-        var prixPackGroup = [];
-        groupes[lieu].forEach(function (session) {
-          if (session.prixPack && prixPackGroup.indexOf(session.prixPack) === -1) {
-            prixPackGroup.push(session.prixPack);
-          }
-        });
-        if (prixPackGroup.length) {
-          var packPrixEl = document.createElement('div');
-          packPrixEl.className = 'lieu-pack-prix';
-          packPrixEl.innerHTML = '<strong>Pack</strong> : ' + esc(prixPackGroup.join(' · '));
-          bloc.appendChild(packPrixEl);
+        carrousel.appendChild(cards);
+        if (afficherFleches) {
+          carrousel.insertAdjacentHTML('beforeend',
+            '<button type="button" class="lieu-fleche lieu-fleche--prev" data-dir="-1" aria-label="Sessions précédentes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' +
+            '<button type="button" class="lieu-fleche lieu-fleche--next" data-dir="1" aria-label="Sessions suivantes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>');
         }
+        bloc.appendChild(carrousel);
 
         if (n > 1) {
           var hint = document.createElement('span');
@@ -914,7 +937,47 @@
           hint.setAttribute('aria-hidden', 'true');
           hint.textContent = '← Fais défiler pour voir toutes les sessions →';
           bloc.appendChild(hint);
+        }
 
+        var prixPackGroup = [];
+        var stripePackGroup = '';
+        groupes[lieu].forEach(function (session) {
+          if (session.prixPack && prixPackGroup.indexOf(session.prixPack) === -1) {
+            prixPackGroup.push(session.prixPack);
+          }
+          if (!stripePackGroup && session.stripePack) stripePackGroup = session.stripePack;
+        });
+        if (prixPackGroup.length) {
+          /* Une donnée « prix pack » est présente → un seul bouton d'achat (le pack),
+             et les boutons unitaires des cartes sont retirés (voir plus bas). */
+          var sessionsTri = groupes[lieu].slice().sort(function (a, b) {
+            return (a.date + a.heure) < (b.date + b.heure) ? -1 : 1;
+          });
+          var packInfo = {
+            libelle: libelleLieu(lieu),
+            lieu: sessionsTri[0].lieu,
+            prix: prixPackGroup.join(' · '),
+            stripe: stripePackGroup,
+            premiere: sessionsTri[0],
+            derniere: sessionsTri[sessionsTri.length - 1],
+            nb: sessionsTri.length
+          };
+          var packWrap = document.createElement('div');
+          packWrap.className = 'lieu-pack';
+          packWrap.innerHTML =
+            '<button type="button" class="btn-pack">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' +
+              'Acheter le pack — ' + esc(prixPackGroup.join(' · ')) +
+            '</button>';
+          bloc.appendChild(packWrap);
+          (function (info) {
+            packWrap.querySelector('.btn-pack').addEventListener('click', function () {
+              ouvrirModalePack(info);
+            });
+          })(packInfo);
+        }
+
+        if (n > 1) {
           var scrollbarHint = document.createElement('div');
           scrollbarHint.className = 'lieu-cards-scrollbar-hint';
           scrollbarHint.textContent = 'Barre de défilement disponible';
@@ -924,7 +987,7 @@
         meteo.className = 'lieu-meteo chargement';
         meteo.setAttribute('aria-live', 'polite');
         meteo.innerHTML = '<span class="lieu-meteo-icone" aria-hidden="true">⛅</span><div class="lieu-meteo-contenu"><strong class="lieu-meteo-titre">Météo du lieu</strong><span class="lieu-meteo-details">Chargement…</span></div>';
-        bloc.insertBefore(meteo, cards); /* météo juste sous le titre du lieu, avant les cartes */
+        bloc.insertBefore(meteo, carrousel); /* météo juste sous le titre du lieu, avant les cartes */
         grid.appendChild(bloc);
         conteneurs[lieu] = cards;
         var coordonnees = meteoLieux[lieu]
@@ -1027,7 +1090,7 @@
               meteo.innerHTML = 
                 '<div class="lieu-meteo-contenu">' +
                 '<div class="meteo-jour-principal" id="meteo-principal-' + esc(lieu).replace(/\s+/g, '-') + '">' +
-                '<div class="meteo-jour-principal-titre">' + dateStr + '</div>' +
+                '<div class="meteo-jour-principal-titre">' + dateStr + '<span class="meteo-principal-lieu"> · ' + esc(lieu) + '</span></div>' +
                 periodHtml +
                 '</div>' +
                 '<div class="lieu-meteo-semaine" id="meteo-semaine-' + esc(lieu).replace(/\s+/g, '-') + '">' + cartes + '</div>' +
@@ -1055,7 +1118,7 @@
                       return '<div class="meteo-periode"><span class="meteo-periode-label">' + slot.label + '</span><span class="meteo-periode-icone" aria-hidden="true">' + slot.icon + '</span><span class="meteo-periode-temp">' + (slot.temp == null ? '—' : slot.temp + '°') + '</span><span class="meteo-periode-vent">Pluie ' + slot.pluie + '%</span></div>';
                     }).join('');
                     
-                    principalEl.innerHTML = '<div class="meteo-jour-principal-titre">' + dateStr + '</div>' + periodHtml;
+                    principalEl.innerHTML = '<div class="meteo-jour-principal-titre">' + dateStr + '<span class="meteo-principal-lieu"> · ' + esc(lieu) + '</span></div>' + periodHtml;
                     
                     jours.forEach(function (j) { j.classList.remove('active'); });
                     jour.classList.add('active');
@@ -1106,9 +1169,11 @@
             '<div class="jauge-label"><span>Places</span><span class="restantes">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
             '<div class="jauge-bar"><div class="jauge-fill" style="width:' + Math.round(s.inscrits / s.places * 100) + '%"></div></div>' +
           '</div>' +
-          '<div class="session-footer">' +
-            '<div class="session-prix">' + (s.prixUnitaire ? esc(s.prixUnitaire) : esc(s.prix)) + '<small>' + (s.prixUnitaire ? 'prix unitaire' : 'par personne') + '</small></div>' +
-            '<button class="btn-inscrire" data-i="' + i + '"' + (complet ? ' disabled' : '') + '>' + (complet ? 'Complet' : 'S\'inscrire') + '</button>' +
+          '<div class="session-footer' + (s.prixPack ? ' session-footer--pack' : '') + '">' +
+            (s.prixPack
+              ? '<span class="session-pack-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Séance incluse dans le pack</span>'
+              : '<div class="session-prix">' + (s.prixUnitaire ? esc(s.prixUnitaire) : esc(s.prix)) + '<small>' + (s.prixUnitaire ? 'prix unitaire' : 'par personne') + '</small></div>' +
+                '<button class="btn-inscrire" data-i="' + i + '"' + (complet ? ' disabled' : '') + '>' + (complet ? 'Complet' : 'S\'inscrire') + '</button>') +
           '</div>';
         conteneurs[s.lieu].appendChild(card);
       });
@@ -1116,15 +1181,15 @@
       /* ── Flèches de défilement des carrousels (souris / clavier) ── */
       document.querySelectorAll('.lieu-groupe').forEach(function (bloc) {
         var cards = bloc.querySelector('.lieu-cards');
-        var nav = bloc.querySelector('.lieu-nav');
-        if (!cards || !nav) return;
-        var prev = nav.querySelector('[data-dir="-1"]');
-        var next = nav.querySelector('[data-dir="1"]');
+        var prev = bloc.querySelector('[data-dir="-1"]');
+        var next = bloc.querySelector('[data-dir="1"]');
+        if (!cards || !prev || !next) return;
 
         function maj() {
           var deborde = cards.scrollWidth > cards.clientWidth + 5;
           var fin = cards.scrollLeft >= cards.scrollWidth - cards.clientWidth - 5;
-          nav.style.display = deborde ? '' : 'none';
+          prev.style.display = deborde ? '' : 'none';
+          next.style.display = deborde ? '' : 'none';
           prev.disabled = cards.scrollLeft <= 5;
           next.disabled = fin;
           cards.classList.toggle('a-suite', deborde && !fin);
@@ -1161,6 +1226,30 @@
         b.disabled = false; b.textContent = 'Réserver ma place';
         overlay.classList.add('open');
       });
+
+      /* Ouvre la modale de réservation pour un PACK (une seule demande pour toutes les séances) */
+      function ouvrirModalePack(info) {
+        var dP = new Date(info.premiere.date + 'T12:00:00');
+        var dD = new Date(info.derniere.date + 'T12:00:00');
+        var periode = 'Du ' + dP.getDate() + ' ' + MOIS[dP.getMonth()].toLowerCase() +
+                      ' au ' + dD.getDate() + ' ' + MOIS[dD.getMonth()].toLowerCase();
+        var libellePack = 'Pack ' + info.libelle + ' (' + info.nb + ' séances)';
+        current = {
+          titre: libellePack,
+          date: info.premiere.date, heure: info.premiere.heure, duree: info.premiere.duree, /* pour l'export calendrier */
+          lieu: info.lieu, prix: info.prix, stripe: info.stripe, estPack: true
+        };
+        document.getElementById('modal-session-info').textContent =
+          libellePack + ' — ' + periode + ' · ' + info.lieu + ' · ' + info.prix;
+        document.getElementById('f-session').value = libellePack;
+        document.getElementById('f-date').value = periode;
+        document.getElementById('f-lieu').value = info.lieu;
+        document.getElementById('m-message').style.display = 'none';
+        document.getElementById('m-actions').classList.remove('visible');
+        var b = document.getElementById('btn-envoyer');
+        b.disabled = false; b.textContent = 'Réserver le pack';
+        overlay.classList.add('open');
+      }
 
       document.getElementById('modal-close').addEventListener('click', function () { overlay.classList.remove('open'); });
       overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.classList.remove('open'); });
@@ -1356,6 +1445,7 @@
           iDate = col('date'), iHeure = col('heure'),
           iDuree = col('duree'), iLieu = col('lieu'), iSousLieu = col('sous lieu'), iPlaces = col('places'),
           iIns = col('inscrits'), iStripe = col('stripe') > -1 ? col('stripe') : col('paye'),
+          iStripePack = colAny(['stripe pack', 'pack stripe', 'stripe_pack', 'stripepack']),
           iPrix = col('prix'), iPrixUnitaire = colAny(['prix unitaire', 'prix_unitaire', 'prixunitaire']),
           iPrixPack = colAny(['prix pack', 'prix_pack', 'prixpack']),
           iDesc = col('description'),
@@ -1402,10 +1492,36 @@
           places: isNaN(placesN) ? 10 : placesN,
           inscrits: isNaN(insN) ? 0 : Math.max(0, insN),
           stripe: (iStripe > -1 ? String(c[iStripe] || '') : '').trim(),
+          stripePack: (iStripePack > -1 ? String(c[iStripePack] || '') : '').trim(),
           deroule: derouleCustom || (estVMA ? DEROULE_PUISSANCE : DEROULE_CAPACITE)
         });
       }
       return out;
+    }
+
+    function _chargerCsv(url) {
+      return new Promise(function (resolve, reject) {
+        if (window.fetch) {
+          fetch(url, { cache: 'no-store', credentials: 'omit' })
+            .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.text(); })
+            .then(resolve)
+            .catch(reject);
+          return;
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState !== 4) return;
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(xhr.responseText);
+          } else {
+            reject(new Error('http ' + xhr.status));
+          }
+        };
+        xhr.onerror = function () { reject(new Error('network')); };
+        xhr.send();
+      });
     }
 
     (function _demarrer() {
@@ -1414,14 +1530,14 @@
         return;
       }
       var url = SHEET_CSV_URL + (SHEET_CSV_URL.indexOf('?') > -1 ? '&' : '?') + '_=' + Date.now();
-      fetch(url)
-        .then(function (r) { if (!r.ok) throw new Error('http'); return r.text(); })
+      _chargerCsv(url)
         .then(function (txt) {
-          var liste = _construireSessions(txt);
-          SESSIONS = liste;
+          SESSIONS = _construireSessions(txt) || [];
+          console.info('✔ ' + SESSIONS.length + ' sessions chargées depuis la Google Sheet');
         })
-        .catch(function () {
+        .catch(function (err) {
           SESSIONS = [];
+          console.error('✖ Impossible de charger la Google Sheet — aucune session affichée. Cause :', err);
         })
         .then(function () { demarrerSessions(); });
     })();
