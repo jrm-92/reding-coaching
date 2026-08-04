@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.web3forms.com https://docs.google.com https://*.googleusercontent.com https://api.open-meteo.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.web3forms.com https://lacvhcuqkzsrojgcsjfj.supabase.co https://api.open-meteo.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
   <title>Sessions collectives de running — Reding Running | La Défense</title>
   <meta name="description" content="Rejoins une session collective de running encadrée par un coach certifié FFA : fractionné, technique de course, renforcement. Inscription en ligne, à La Défense et alentours." />
   <meta name="robots" content="index, follow" />
@@ -772,16 +772,13 @@
        Elle sert de lien de paiement par défaut pour TOUTES les sessions. */
     var LIEN_STRIPE = "https://buy.stripe.com/dRm6oI7IPfYd6ZneTk8bS00";
 
-    /* ── Sessions pilotées par une Google Sheet (sans toucher au code) ───────
-       Colle ici l'URL CSV « Publier sur le web » de ta feuille Google.
-       Quand une URL est renseignée, la liste des sessions vient uniquement de la
-       feuille : ajouter une ligne = ajouter une session sur le site.
-       Colonnes de la feuille : id | type | date | heure | duree | lieu |
-       places | inscrits | stripe   (voir détails plus bas dans le code).
-       Colonne « lieu » : écris le nom complet du lieu (recommandé, lisible)
-       ou un code L1 / L2 / L3. Toute autre colonne (ex. « paye ») est ignorée
-       par le site : tu peux en ajouter librement pour ton suivi perso. */
-    var SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSggn8BSPm988-wljlbRkksIeveedgJxuZ_VTOzYredPAmfK_t3h0JXV-Ayh6-xM0HPO0SeSn8bMO8T/pub?gid=1222905758&single=true&output=csv";
+    /* ── Sessions pilotées par Supabase (source de vérité, mise à jour instantanée) ──
+       Les sessions sont lues en direct depuis la table « sessions » de Supabase.
+       Pour ajouter/modifier une session : Supabase → Table Editor → table "sessions".
+       La clé ci-dessous est la clé PUBLIQUE (publishable) : sans danger dans le code,
+       la lecture seule est garantie par la policy RLS côté base. */
+    var SUPABASE_URL = "https://lacvhcuqkzsrojgcsjfj.supabase.co";
+    var SUPABASE_KEY = "sb_publishable_EuJgwlBxaDTSfmKGM43oLw_BNmnkTkg";
 
     var SESSIONS = [];
     /* ═══════════════ FIN DE LA ZONE À ÉDITER ═══════════════ */
@@ -913,7 +910,12 @@
         var n = groupes[lieu].length;
         var bloc = document.createElement('section');
         bloc.className = 'lieu-groupe';
-        var lieuTitre = libelleLieu(lieu);
+        /* Titre du groupe = colonne « Evenement » de la feuille (repli : ancien libellé par lieu) */
+        var evenementsGroupe = [];
+        groupes[lieu].forEach(function (s) {
+          if (s.evenementBrut && evenementsGroupe.indexOf(s.evenementBrut) === -1) evenementsGroupe.push(s.evenementBrut);
+        });
+        var lieuTitre = evenementsGroupe.length ? evenementsGroupe.join(' · ') : libelleLieu(lieu);
         var afficherFleches = n > 1 && lieu !== 'Le Vésinet — Stade des Merlettes';
         bloc.innerHTML =
           '<div class="lieu-titre">' +
@@ -954,7 +956,7 @@
             return (a.date + a.heure) < (b.date + b.heure) ? -1 : 1;
           });
           var packInfo = {
-            libelle: libelleLieu(lieu),
+            libelle: lieuTitre,
             lieu: sessionsTri[0].lieu,
             prix: prixPackGroup.join(' · '),
             stripe: stripePackGroup,
@@ -1478,6 +1480,7 @@
         out.push({
           id: id,
           evenement: evenementAff,
+          evenementBrut: evenementCell, /* valeur exacte de la colonne « Evenement » (vide si non renseignée) */
           titre: titreCarte,
           sousTitre: sousTitreCell,
           date: date,
@@ -1524,20 +1527,53 @@
       });
     }
 
+    /* Transforme les lignes JSON de Supabase en objets session pour l'affichage */
+    function _sessionsDepuisSupabase(rows) {
+      if (!Array.isArray(rows)) return [];
+      return rows.map(function (r) {
+        var evenementCell = String(r.evenement == null ? '' : r.evenement).trim();
+        var titreCell = String(r.titre == null ? '' : r.titre).trim();
+        var detecte = (evenementCell || titreCell).toLowerCase();
+        var estVMA = detecte.indexOf('vma') > -1 || detecte.indexOf('puiss') > -1 || detecte.indexOf('maximale') > -1;
+        var titreCarte = titreCell || (estVMA ? 'VMA' : 'Endurance');
+        var prixU = String(r.prix_unitaire == null ? '' : r.prix_unitaire).trim();
+        var placesN = parseInt(r.places, 10);
+        var insN = parseInt(r.inscrits, 10);
+        return {
+          id: String(r.id == null ? '' : r.id).trim(),
+          evenement: evenementCell || titreCarte,
+          evenementBrut: evenementCell,
+          titre: titreCarte,
+          sousTitre: String(r.sous_titre == null ? '' : r.sous_titre).trim(),
+          date: String(r.date == null ? '' : r.date).trim(),
+          heure: String(r.heure == null ? '' : r.heure).trim(),
+          duree: String(r.duree == null ? '' : r.duree).trim() || '1h',
+          lieu: _lieuFromCode(r.lieu),
+          sousLieu: String(r.sous_lieu == null ? '' : r.sous_lieu).trim(),
+          prix: _formatPrix(prixU || '8'),
+          prixUnitaire: prixU ? _formatPrix(prixU) : '',
+          prixPack: _formatPrix(r.prix_pack),
+          description: String(r.description == null ? '' : r.description).trim(),
+          places: isNaN(placesN) ? 10 : placesN,
+          inscrits: isNaN(insN) ? 0 : Math.max(0, insN),
+          stripe: String(r.stripe == null ? '' : r.stripe).trim(),
+          stripePack: String(r.stripe_pack == null ? '' : r.stripe_pack).trim(),
+          deroule: estVMA ? DEROULE_PUISSANCE : DEROULE_CAPACITE
+        };
+      }).filter(function (s) { return s.id && /^\d{4}-\d{2}-\d{2}$/.test(s.date) && s.heure; });
+    }
+
     (function _demarrer() {
-      if (!SHEET_CSV_URL) {
-        demarrerSessions();
-        return;
-      }
-      var url = SHEET_CSV_URL + (SHEET_CSV_URL.indexOf('?') > -1 ? '&' : '?') + '_=' + Date.now();
-      _chargerCsv(url)
-        .then(function (txt) {
-          SESSIONS = _construireSessions(txt) || [];
-          console.info('✔ ' + SESSIONS.length + ' sessions chargées depuis la Google Sheet');
+      var url = SUPABASE_URL + '/rest/v1/sessions?select=*&order=date.asc,heure.asc';
+      fetch(url, { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY }, cache: 'no-store' })
+        .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+        .then(function (rows) {
+          SESSIONS = _sessionsDepuisSupabase(rows) || [];
+          console.info('✔ ' + SESSIONS.length + ' sessions chargées depuis Supabase');
         })
         .catch(function (err) {
           SESSIONS = [];
-          console.error('✖ Impossible de charger la Google Sheet — aucune session affichée. Cause :', err);
+          console.error('✖ Impossible de charger Supabase — aucune session affichée. Cause :', err);
         })
         .then(function () { demarrerSessions(); });
     })();
