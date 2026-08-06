@@ -91,7 +91,7 @@
     }
 
     .logo-img {
-      height: 80px;
+      height: 72px;
       width: auto;
       transition: all 0.3s ease;
     }
@@ -285,7 +285,7 @@
 
       /* Mobile : pas de déroulant — les 3 liens redeviennent des liens de nav normaux (comme avant) */
       .nav-dropdown { display: contents; }
-      .nav-dropdown-menu { display: contents; visibility: visible; }
+      .nav-dropdown-menu { display: contents; visibility: visible; opacity: 1; pointer-events: auto; }
       .nav-dropdown-toggle { display: none; }
     }
 
@@ -549,7 +549,7 @@
       .hero-left { display: contents; }
 
       /* Ordre de lecture empilé : titre → accent → texte → photo → CTA → badges */
-      .hero-main-title  { order: 1; margin-bottom: 14px; font-size: clamp(32px, 8vw, 46px); }
+      .hero-main-title  { order: 1; margin-bottom: 14px; font-size: clamp(29px, 7vw, 40px); }
       .hero-accent-line { order: 2; margin-top: 0; margin-bottom: 22px; }
       .hero-value-prop  { order: 3; margin-bottom: 28px; font-size: 16px; line-height: 1.65; }
       .hero-img-col     { order: 4; padding-top: 0; margin-bottom: 28px; }
@@ -3383,7 +3383,7 @@
       .contact-section { padding-left: 14px; padding-right: 14px; }
 
       .section-title { font-size: 24px !important; }
-      .hero-main-title { font-size: clamp(23px, 9.5vw, 33px) !important; }
+      .hero-main-title { font-size: clamp(21px, 8.5vw, 30px) !important; }
 
       .hero-btn-primary { padding: 15px 20px; font-size: 14px; width: 100%; justify-content: center; }
       .hero-btn-secondary { padding: 13px 20px; font-size: 13px; width: 100%; justify-content: center; }
@@ -3397,7 +3397,7 @@
         height: 72px;
       }
       .logo-img {
-        height: 60px;
+        height: 52px;
       }
       .mobile-menu-toggle {
         padding: 8px;
@@ -5573,10 +5573,10 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
       /* Logo plus present qu'avant, mais mesure */
       html { scroll-padding-top: 132px; }
       .site-header { height: 110px !important; }
-      .logo-img { height: 98px !important; }
+      .logo-img { height: 84px !important; }
 
       /* Titre contenu pour ne pas empieter sur la photo */
-      .hero-main-title { font-size: clamp(42px, 4.7vw, 62px) !important; }
+      .hero-main-title { font-size: clamp(38px, 4.2vw, 54px) !important; }
 
       /* Hero plein ecran (A propos ne depasse plus) MAIS contenu centre
          verticalement -> le vide est reparti, plus de trou en bas. */
