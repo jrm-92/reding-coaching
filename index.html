@@ -283,10 +283,21 @@
         pointer-events: all;
       }
 
-      /* Mobile : pas de déroulant — les 3 liens redeviennent des liens de nav normaux (comme avant) */
-      .nav-dropdown { display: contents; }
-      .nav-dropdown-menu { display: contents; visibility: visible; opacity: 1; pointer-events: auto; }
+      /* Mobile : pas de déroulant — les 3 liens s'affichent à plat et restent cliquables.
+         (On évite display:contents, qui casse la détection du tap sur Safari iOS.) */
+      .nav-dropdown {
+        display: flex; flex-direction: column;
+        position: static; width: 100%; gap: 0;
+      }
       .nav-dropdown-toggle { display: none; }
+      .nav-dropdown-menu {
+        position: static; display: flex; flex-direction: column; gap: 0;
+        width: 100%; min-width: 0; padding: 0; margin: 0;
+        background: none; border: none; box-shadow: none; border-radius: 0;
+        transform: none; opacity: 1; visibility: visible; pointer-events: auto;
+      }
+      .nav-dropdown-menu::before { display: none; }
+      .nav-dropdown-menu a { width: 100%; }
     }
 
 
