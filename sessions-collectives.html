@@ -48,11 +48,24 @@
       z-index: 9999;
     }
     .brand { display: flex; align-items: center; z-index: 10; margin-right: 60px; padding-left: 16px; }
-    .logo-img { height: 66px; width: auto; }
+    .logo-img { height: 72px; width: auto; transition: all 0.3s ease; }
+    @media (min-width: 993px) {
+      .site-header { height: 110px; }
+      .logo-img { height: 84px; }
+    }
     nav.main-nav { display: flex; align-items: center; flex: 1; }
-    .nav-left  { flex: 1; display: flex; align-items: center; gap: 50px; justify-content: flex-start; }
-    .nav-center{ flex: 1; display: flex; align-items: center; gap: 50px; justify-content: center; }
-    .nav-right { flex: 1; display: flex; align-items: center; gap: 40px; justify-content: flex-end; }
+    .nav-center {
+      --nav-gap: 40px;
+      flex: 1; display: flex; align-items: center; gap: var(--nav-gap); justify-content: center;
+    }
+    /* Petits séparateurs verticaux entre les onglets (desktop) */
+    .nav-center > * { position: relative; }
+    .nav-center > * + *::before {
+      content: ''; position: absolute; top: 50%; left: calc(var(--nav-gap) / -2);
+      transform: translateY(-50%); width: 1px; height: 14px;
+      background: rgba(255, 255, 255, 0.22); pointer-events: none;
+    }
+    .nav-right { flex: 0 0 auto; display: flex; align-items: center; justify-content: flex-end; }
     nav.main-nav a {
       color: #ffffff; text-decoration: none; font-size: 13px; font-weight: 700;
       padding: 8px 0; position: relative; transition: color 0.3s ease;
@@ -75,6 +88,38 @@
     .nav-cta:hover { background: #ff7a47 !important; color: #ffffff !important; }
     .nav-cta::after { display: none !important; }
 
+    /* ── Menu déroulant « Coachings » (desktop) ── */
+    .nav-dropdown { position: relative; display: flex; align-items: center; }
+    .nav-dropdown-toggle {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: none; border: none; cursor: pointer;
+      color: #ffffff; font-family: inherit; font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 0;
+      transition: color 0.3s ease;
+    }
+    .nav-dropdown-toggle.active-page { color: #FF6B35; }
+    .nav-dropdown-chevron { width: 12px; height: 12px; transition: transform 0.25s ease; }
+    .nav-dropdown:hover .nav-dropdown-toggle,
+    .nav-dropdown:focus-within .nav-dropdown-toggle { color: #ff8856; }
+    .nav-dropdown:hover .nav-dropdown-chevron,
+    .nav-dropdown:focus-within .nav-dropdown-chevron { transform: rotate(180deg); }
+    .nav-dropdown-menu {
+      position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-6px);
+      display: flex; flex-direction: column; gap: 2px; min-width: 220px; padding: 10px;
+      background: rgba(10, 14, 22, 0.98); border: 1px solid rgba(255, 107, 53, 0.28);
+      border-radius: 12px; box-shadow: 0 22px 46px rgba(0, 0, 0, 0.55);
+      opacity: 0; visibility: hidden; pointer-events: none; z-index: 200;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .nav-dropdown-menu::before { content: ''; position: absolute; left: 0; right: 0; top: -14px; height: 14px; }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu {
+      opacity: 1; visibility: visible; pointer-events: all; transform: translateX(-50%) translateY(0);
+    }
+    .nav-dropdown-menu a { white-space: nowrap; padding: 10px 12px; border-radius: 8px; font-size: 12.5px; }
+    .nav-dropdown-menu a::after { display: none; }
+    .nav-dropdown-menu a:hover { background: rgba(255, 107, 53, 0.12); color: #ff8856; }
+
     .mobile-menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 11; padding: 8px; }
     .mobile-menu-toggle span {
       width: 25px; height: 3px; background: #ffffff; border-radius: 2px;
@@ -85,15 +130,16 @@
     .mobile-menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
     @media (max-width: 1100px) and (min-width: 769px) {
-      .nav-left, .nav-center { gap: 24px; }
+      .nav-center { --nav-gap: 24px; }
       .nav-right { gap: 20px; }
       nav.main-nav a { font-size: 11px; }
+      .nav-dropdown-toggle { font-size: 11px; }
       .nav-cta { padding: 8px 16px !important; font-size: 11px !important; }
     }
 
     @media (max-width: 768px) {
       .site-header { padding: 0 20px; height: 72px; }
-      .logo-img { height: 48px; }
+      .logo-img { height: 58px; }
       .brand { margin-right: auto; }
       .mobile-menu-toggle { display: flex; }
       nav.main-nav {
@@ -107,7 +153,7 @@
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
       }
       nav.main-nav.active { transform: translateY(0); opacity: 1; pointer-events: all; }
-      .nav-left, .nav-center, .nav-right {
+      .nav-center, .nav-right {
         flex-direction: column; gap: 4px; width: 100%;
       }
       nav.main-nav a {
@@ -117,10 +163,26 @@
       }
       nav.main-nav a:hover { background: rgba(255, 107, 53, 0.08); color: #ff8856; }
       .nav-cta { margin-top: 8px; text-align: center !important; border-bottom: none !important; }
+
+      /* Pas de séparateurs verticaux en menu mobile (empilé) */
+      .nav-center > * + *::before { display: none; }
+
+      /* Mobile : « Coachings » s'affiche à plat, liens cliquables (pas de display:contents) */
+      .nav-dropdown { display: flex; flex-direction: column; position: static; width: 100%; gap: 0; }
+      .nav-dropdown-toggle { display: none; }
+      .nav-dropdown-menu {
+        position: static; display: flex; flex-direction: column; gap: 0;
+        width: 100%; min-width: 0; padding: 0; margin: 0;
+        background: none; border: none; box-shadow: none; border-radius: 0;
+        transform: none; opacity: 1; visibility: visible; pointer-events: auto;
+      }
+      .nav-dropdown-menu::before { display: none; }
+      .nav-dropdown-menu a { width: 100%; }
     }
 
     /* ── En-tête de page ── */
-    main { max-width: 1100px; margin: 0 auto; padding: 150px 24px 80px; }
+    main { max-width: 1440px; margin: 0 auto; padding: 150px 40px 80px; }
+    @media (max-width: 768px) { main { padding: 100px 16px 60px; } }
     .page-intro { text-align: center; margin-bottom: 56px; }
     .eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
@@ -660,19 +722,25 @@
     </a>
 
     <nav class="main-nav">
-      <div class="nav-left">
+      <div class="nav-center">
         <a href="index.html">Accueil</a>
         <a href="index.html#apropos">À propos</a>
-      </div>
-      <div class="nav-center">
-        <a href="index.html#suivi-personnalise">Suivi à distance</a>
-        <a href="index.html#solo-duo-trio">Coaching terrain</a>
-        <a href="sessions-collectives.html" class="active-page">Sessions collectives</a>
-      </div>
-      <div class="nav-right">
+        <div class="nav-dropdown">
+          <button type="button" class="nav-dropdown-toggle active-page" aria-haspopup="true" aria-expanded="false">
+            Coachings
+            <svg class="nav-dropdown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="nav-dropdown-menu">
+            <a href="index.html#suivi-personnalise">Suivi à distance</a>
+            <a href="index.html#solo-duo-trio">Coaching terrain</a>
+            <a href="sessions-collectives.html" class="active-page">Sessions collectives</a>
+          </div>
+        </div>
         <a href="index.html#temoignages">Témoignages</a>
         <a href="index.html#faq">FAQ</a>
-        <a href="index.html#contactForm" class="nav-cta">Me contacter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;vertical-align:-1.5px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+      <div class="nav-right">
+        <a href="mailto:contact@reding-running.fr?subject=Demande%20de%20contact" class="nav-cta">Me contacter <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;vertical-align:-2px;"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></a>
       </div>
     </nav>
 
