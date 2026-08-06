@@ -37,6 +37,7 @@
       background: linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden; /* garde-fou : aucun débordement horizontal sur mobile */
     }
 
     /* ── Header (identique à la page d'accueil) ── */
@@ -153,19 +154,18 @@
     }
     .pack-course-info:hover { background: rgba(255,107,53,0.14); }
     .pack-course-tip {
-      position: absolute; top: calc(100% + 8px); right: 0; width: 270px;
+      position: absolute; top: calc(100% + 8px); right: 0; width: 270px; max-width: calc(100vw - 40px);
       padding: 11px 13px; border-radius: 10px; z-index: 30;
       background: #101823; border: 1px solid rgba(255,107,53,0.35);
       color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 500; font-style: normal;
       line-height: 1.5; text-align: left; box-shadow: 0 12px 34px rgba(0,0,0,0.45);
-      opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.15s ease;
+      display: none; /* retirée du flux quand cachée → pas de débordement horizontal */
     }
     .pack-course-info:hover .pack-course-tip,
     .pack-course-info:focus .pack-course-tip,
-    .pack-course-info:focus-within .pack-course-tip { opacity: 1; visibility: visible; }
+    .pack-course-info:focus-within .pack-course-tip { display: block; }
     @media (max-width: 768px) {
       .lieu-titre-row { flex-direction: column; gap: 12px; margin-bottom: 12px; }
-      .pack-course-tip { right: auto; left: 50%; transform: translateX(-50%); }
     }
     .lieu-titre {
       display: flex; align-items: center; gap: 16px;
