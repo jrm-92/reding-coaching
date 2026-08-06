@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.web3forms.com https://lacvhcuqkzsrojgcsjfj.supabase.co https://api.open-meteo.com; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.web3forms.com https://lacvhcuqkzsrojgcsjfj.supabase.co; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
   <title>Sessions collectives de running — Reding Running | La Défense</title>
   <meta name="description" content="Rejoins une session collective de running encadrée par un coach certifié FFA : fractionné, technique de course, renforcement. Inscription en ligne, à La Défense et alentours." />
   <meta name="robots" content="index, follow" />
@@ -140,6 +140,33 @@
 
     /* ── Groupes par lieu ── */
     .lieu-groupe { margin-bottom: 52px; }
+    /* Ligne titre : nom de la course (gauche/centre) + action « M'inscrire à la course » + ⓘ (droite) */
+    .lieu-titre-row { display: flex; align-items: center; gap: 18px; margin-bottom: 4px; }
+    .lieu-titre-row .lieu-titre { flex: 1 1 auto; margin-bottom: 0; }
+    .pack-course-action { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    /* Petit ⓘ avec bulle d'info (survol / focus) */
+    .pack-course-info {
+      position: relative; display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      border: 1px solid rgba(255,107,53,0.55); color: #ff8856;
+      font-size: 13px; font-weight: 800; font-style: italic; cursor: help; user-select: none;
+    }
+    .pack-course-info:hover { background: rgba(255,107,53,0.14); }
+    .pack-course-tip {
+      position: absolute; top: calc(100% + 8px); right: 0; width: 270px;
+      padding: 11px 13px; border-radius: 10px; z-index: 30;
+      background: #101823; border: 1px solid rgba(255,107,53,0.35);
+      color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 500; font-style: normal;
+      line-height: 1.5; text-align: left; box-shadow: 0 12px 34px rgba(0,0,0,0.45);
+      opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.15s ease;
+    }
+    .pack-course-info:hover .pack-course-tip,
+    .pack-course-info:focus .pack-course-tip,
+    .pack-course-info:focus-within .pack-course-tip { opacity: 1; visibility: visible; }
+    @media (max-width: 768px) {
+      .lieu-titre-row { flex-direction: column; gap: 12px; margin-bottom: 12px; }
+      .pack-course-tip { right: auto; left: 50%; transform: translateX(-50%); }
+    }
     .lieu-titre {
       display: flex; align-items: center; gap: 16px;
       margin-bottom: 22px;
@@ -150,7 +177,13 @@
     .lieu-titre span {
       font-size: clamp(18px, 2.2vw, 23px); font-weight: 900; font-style: italic;
       text-transform: uppercase; letter-spacing: 0.04em; color: #FF6B35;
-      white-space: nowrap;
+      white-space: normal; text-align: center;
+    }
+    .lieu-sous-titre {
+      margin: 2px 0 24px; text-align: center;
+      font-size: 13.5px; font-weight: 600; font-style: italic;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
     }
 
     /* Flèches de défilement latérales (desktop) */
@@ -179,70 +212,6 @@
     .lieu-fleche:disabled { opacity: 0.3; cursor: default; box-shadow: none; }
     @media (max-width: 768px) {
       .lieu-fleche--prev, .lieu-fleche--next { display: none !important; }
-    }
-
-    /* Météo style Météo-France */
-    .lieu-meteo {
-      margin: 10px 4px 0; padding: 0; border: none;
-      background: linear-gradient(135deg, #0D1B33 0%, #101D38 100%);
-      border-radius: 12px; overflow: hidden; color: #fff;
-      border: 1px solid rgba(255,107,53,0.2);
-    }
-    .lieu-meteo.chargement { background: linear-gradient(135deg, #0D1B33 0%, #101D38 100%); opacity: 0.8; }
-    .lieu-meteo-titre { display: none; }
-    .lieu-meteo-icone { display: none; }
-    .lieu-meteo-contenu { display: block; width: 100%; }
-    .lieu-meteo-details { display: none; }
-    .lieu-meteo-note { display: block; padding: 6px 12px; font-size: 9px; color: rgba(255,255,255,0.6); border-top: 1px solid rgba(255,255,255,0.15); }
-    
-    /* Vue principale du jour */
-    .meteo-jour-principal {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 6px 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-    .meteo-jour-principal-titre { grid-column: 1/-1; font-size: 12px; font-weight: 900; margin-bottom: 1px; }
-    .meteo-principal-lieu { font-weight: 700; color: #FF6B35; }
-    .meteo-periode {
-      display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 4px 3px;
-      background: rgba(255,255,255,0.08); border-radius: 6px;
-    }
-    .meteo-periode-label { font-size: 7px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #ffd4be; }
-    .meteo-periode-description { display: none; }
-    .meteo-periode-icone { font-size: 20px; line-height: 1; }
-    .meteo-periode-temp { font-size: 15px; font-weight: 900; color: #fff; }
-    .meteo-periode-vent { font-size: 7px; color: rgba(255,255,255,0.75); margin-top: 0; }
-    
-    /* Grille des 7 jours */
-    .lieu-meteo-semaine {
-      display: flex; gap: 3px; overflow-x: auto; overflow-y: hidden; padding: 10px 12px;
-      -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-snap-type: x mandatory;
-    }
-    .lieu-meteo-semaine::-webkit-scrollbar { display: none; }
-    .meteo-jour {
-      flex: 0 0 auto; min-width: calc((100% - 21px) / 7); scroll-snap-align: center; cursor: pointer;
-      padding: 7px 5px; text-align: center; border-radius: 6px; border: 1px solid transparent;
-      background: rgba(255,255,255,0.1); transition: all 0.25s ease;
-    }
-    .meteo-jour:hover, .meteo-jour.active {
-      background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.3);
-    }
-    .meteo-jour-nom { display: block; color: #fff; font-size: 9px; font-weight: 700; text-transform: uppercase; }
-    .meteo-jour-date { display: block; margin-top: 1px; color: rgba(255,255,255,0.7); font-size: 8px; }
-    .meteo-jour-icone { display: block; margin: 2px 0; font-size: 22px; line-height: 1; }
-    .meteo-jour-temp { display: block; color: #fff; font-size: 11px; font-weight: 800; }
-    .meteo-jour-temp-min { font-size: 8px; color: rgba(255,255,255,0.6); margin-top: 0; }
-    .meteo-jour-vent { font-size: 10px; color: rgba(255,255,255,0.7); margin-top: 4px; }
-    @media (max-width: 768px) {
-      .meteo-jour-principal { grid-template-columns: 1fr; gap: 4px; padding: 8px 12px; }
-      .meteo-periode { padding: 6px 4px; }
-      .meteo-periode-icone { font-size: 22px; }
-      .meteo-periode-temp { font-size: 16px; }
-    }
-    @media (max-width: 480px) {
-      .meteo-jour-principal { padding: 8px 10px; }
-      .meteo-periode-icone { font-size: 20px; }
-      .meteo-periode-temp { font-size: 14px; }
-      .meteo-jour { flex-basis: 60px; padding: 5px 3px; }
     }
 
     /* Carrousel : 3 cartes visibles par ligne, les suivantes se font défiler */
@@ -309,22 +278,84 @@
     }
     .lieu-pack-prix strong { color: #fff; }
 
-    /* Bloc pack : prix + bouton d'achat unique sous les cartes */
+    /* ── Mise en page pack : séances (gauche) + bloc d'achat (droite) ── */
+    .pack-layout { display: flex; align-items: flex-start; gap: 28px; margin-top: 24px; }
+    .pack-main { flex: 1 1 0%; min-width: 0; } /* min-width:0 : indispensable pour que le carrousel défile dans une colonne flex */
+
+    /* Bloc d'achat (buy box) à droite : inclus + prix + places + bouton */
     .lieu-pack {
-      display: flex; flex-direction: column; align-items: center; gap: 12px;
-      margin: 16px 0 0;
+      flex: 0 0 380px;
+      display: flex; flex-direction: column; gap: 16px;
     }
-    .lieu-pack .lieu-pack-prix { margin: 0; }
+
+    /* Encart « Ce qui est inclus dans le pack » */
+    .pack-inclus {
+      width: 100%;
+      background: linear-gradient(135deg, rgba(255,107,53,0.10), rgba(255,107,53,0.04));
+      border: 1px solid rgba(255,107,53,0.35);
+      border-radius: 16px; padding: 22px 24px;
+    }
+    .pack-inclus-titre {
+      margin: 0 0 16px; font-size: 15px; font-weight: 800; color: #fff;
+      text-align: center; line-height: 1.5;
+    }
+    .pack-inclus-titre span { color: #FF6B35; font-style: italic; white-space: nowrap; }
+    .pack-inclus-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px; }
+    .pack-inclus-liste li { display: flex; align-items: flex-start; gap: 13px; }
+    .pack-inclus-ico {
+      flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 19px; line-height: 1;
+      background: rgba(255,107,53,0.14); border: 1px solid rgba(255,107,53,0.3);
+    }
+    .pack-inclus-txt strong { display: block; color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .pack-inclus-txt p { margin: 0; font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.72); }
+
     .btn-pack {
-      display: inline-flex; align-items: center; gap: 9px;
-      padding: 14px 30px; border: none; border-radius: 999px; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      padding: 15px 24px; border: none; border-radius: 999px; cursor: pointer;
       background: #FF6B35; color: #fff;
       font-family: inherit; font-size: 15px; font-weight: 800; font-style: italic;
       text-transform: uppercase; letter-spacing: 0.04em;
       box-shadow: 0 8px 22px rgba(255,107,53,0.4);
       transition: background 0.2s ease, transform 0.2s ease;
     }
-    .btn-pack:hover { background: #ff7a47; transform: translateY(-2px); }
+    .btn-pack:hover:not(:disabled) { background: #ff7a47; transform: translateY(-2px); }
+    .btn-pack:disabled { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.45); cursor: not-allowed; box-shadow: none; }
+
+    /* Bouton d'achat + places : sous les cartes, centrés */
+    .pack-cta { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 16px; }
+    .pack-cta .btn-pack { width: 100%; max-width: 520px; }
+    .pack-places { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.78); text-align: center; }
+    .pack-places strong { color: #FF6B35; }
+    .pack-attente { display: block; text-align: center; font-size: 14px; font-weight: 700; color: #FF6B35; text-decoration: underline; }
+    .pack-attente:hover { color: #ff9d73; }
+    /* Barre « course » (sous le titre) : lien d'inscription + mention dossard */
+    .pack-course-bar {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      max-width: 640px; margin: 2px auto 26px;
+    }
+    /* Lien vers l'inscription à la course + mention « dossard non inclus » */
+    .pack-course-lien {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      margin-top: 4px; padding: 9px 18px; border-radius: 999px;
+      border: 1px solid rgba(255,107,53,0.45); color: #ff8856;
+      font-size: 13.5px; font-weight: 700; text-decoration: none;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+    .pack-course-lien:hover { background: rgba(255,107,53,0.12); color: #ff9d73; }
+    .pack-course-note {
+      display: block; max-width: 480px; margin-top: 2px;
+      font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.55); text-align: center;
+    }
+
+    /* Empilement dès qu'on n'a plus assez de large (tablette / mobile) */
+    @media (max-width: 1024px) {
+      .pack-layout { flex-direction: column; gap: 22px; }
+      .lieu-pack { flex-basis: auto; width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .pack-inclus { padding: 18px 16px; }
+    }
 
     /* Mobile : une carte visible + un aperçu de la suivante */
     @media (max-width: 768px) {
@@ -570,6 +601,14 @@
     .btn-envoyer:hover { transform: translateY(-2px); }
     .btn-envoyer:disabled { opacity: 0.6; cursor: wait; transform: none; }
     .m-note { text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 12px; }
+    /* Case à cocher « inscription à la course » (obligatoire pour un pack) */
+    .m-course-ack {
+      display: flex; align-items: flex-start; gap: 10px; margin-top: 14px;
+      padding: 12px 14px; border: 1px solid rgba(255,107,53,0.4); border-radius: 12px;
+      background: rgba(255,107,53,0.06); cursor: pointer;
+      font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.85);
+    }
+    .m-course-ack input { margin: 2px 0 0; width: 18px; height: 18px; accent-color: #FF6B35; flex-shrink: 0; cursor: pointer; }
     .m-message { display: none; margin-top: 14px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 600; font-size: 14px; }
 
     /* ── Bouton « Enregistrer cette page » ── */
@@ -699,6 +738,11 @@
           </div>
         </div>
 
+        <label class="m-course-ack" id="course-ack-wrap" style="display:none;">
+          <input type="checkbox" id="course-ack" name="Engagement inscription course" value="Oui">
+          <span id="course-ack-txt">Je suis inscrit(e) à la course.</span>
+        </label>
+
         <button type="submit" class="btn-envoyer" id="btn-envoyer">Réserver ma place</button>
         <p class="m-note">Ta place n'est confirmée qu'une fois le paiement effectué (paiement sécurisé Stripe, à l'étape suivante). Annulation gratuite jusqu'à 24h avant la séance.</p>
         <p class="m-message" id="m-message"></p>
@@ -759,11 +803,36 @@
       ["Corps de séance", "développer la capacité aérobie, sous forme ludique", "20'"],
       ["Retour au calme", "footing léger et débriefing", "10'"]
     ];
-    /* Tes lieux — l'ordre de LIEUX_ORDRE définit l'ordre des groupes sur la page */
+    /* ── Encart « Ce qui est inclus dans le pack » (affiché au-dessus du bouton d'achat) ──
+       Modifie le titre et la liste ci-dessous pour ajuster le contenu du pack. */
+    var PACK_TITRE = "Préparation 10k — 12 semaines";
+    var PACK_INCLUS = [
+      {
+        icone: "🎯",
+        titre: "La définition de ton objectif chrono",
+        texte: "Un temps cible réaliste sur ton 10 km, fixé ensemble, qui sert de cap à toute la préparation."
+      },
+      {
+        icone: "📊",
+        titre: "L'établissement de tes zones d'entraînement",
+        texte: "Une évaluation de départ pour caler tes allures et tes zones cardio sur ton niveau réel."
+      },
+      {
+        icone: "📋",
+        titre: "Un plan d'entraînement sur 12 semaines",
+        texte: "Un programme progressif, structuré pour arriver prêt(e) le jour J."
+      },
+      {
+        icone: "👥",
+        titre: "12 séances collectives encadrées (1h15 · 8 pers. max)",
+        texte: "Une séance par semaine en petit comité : l'énergie du collectif et des corrections personnalisées."
+      }
+    ];
+
+    /* Codes de lieu raccourcis, utilisables dans la colonne « lieu » (facultatif) */
     var LIEU1 = "Le Vésinet — Stade des Merlettes";
     var LIEU2 = "Nanterre — Bords de Seine";
     var LIEU3 = "Nanterre — Parc André Malraux";
-    var LIEUX_ORDRE = [LIEU1];
 
     /* ── Lien de paiement Stripe (à créer une seule fois) ─────────────────
        Dashboard Stripe → Paiements → Liens de paiement → « Créer un lien »
@@ -836,91 +905,54 @@
         return s.heure + ' – ' + enHeure(enMinutes(s.heure) + enMinutes(s.duree)) + ' (' + s.duree + ')';
       }
 
-      /* Regroupement par lieu : un bloc titre + carrousel de cartes pour chaque lieu.
-         L'ordre des groupes suit LIEUX_ORDRE ; un lieu inconnu est ajouté à la fin. */
+      /* Regroupement par ÉVÉNEMENT (colonne « evenement ») : un bloc par événement.
+         Un nom d'événement différent = un nouveau bloc. Sans nom d'événement,
+         on retombe sur le lieu (la ville). */
+      function cleGroupe(s) { return (s.evenementBrut && s.evenementBrut.trim()) || s.lieu; }
       var groupes = {};
-      var groupesOrdre = LIEUX_ORDRE.slice();
+      var groupesOrdre = [];
       visibles.forEach(function (s) {
-        if (!groupes[s.lieu]) {
-          groupes[s.lieu] = [];
-          if (groupesOrdre.indexOf(s.lieu) === -1) groupesOrdre.push(s.lieu);
+        var k = cleGroupe(s);
+        if (!groupes[k]) {
+          groupes[k] = [];
+          groupesOrdre.push(k);
         }
-        groupes[s.lieu].push(s);
+        groupes[k].push(s);
       });
 
       var conteneurs = {};
-      // Météo par VILLE (colonne « lieu »). Le « sous lieu » ne sert pas ici.
-      // Couvre toute la zone de déplacement (~8 km autour de La Défense).
-      // Ajouter une ville : 'Nom exact': { latitude: .., longitude: .. }.
-      var meteoLieux = {
-        // — Hauts-de-Seine (92) —
-        'La Défense':            { latitude: 48.8917, longitude: 2.2396 },
-        'Puteaux':               { latitude: 48.8846, longitude: 2.2389 },
-        'Courbevoie':            { latitude: 48.8973, longitude: 2.2569 },
-        'Nanterre':              { latitude: 48.8924, longitude: 2.2065 },
-        'La Garenne-Colombes':   { latitude: 48.9047, longitude: 2.2447 },
-        'Bois-Colombes':         { latitude: 48.9172, longitude: 2.2686 },
-        'Colombes':              { latitude: 48.9236, longitude: 2.2544 },
-        'Neuilly-sur-Seine':     { latitude: 48.8846, longitude: 2.2685 },
-        'Levallois-Perret':      { latitude: 48.8933, longitude: 2.2874 },
-        'Suresnes':              { latitude: 48.8709, longitude: 2.2296 },
-        'Rueil-Malmaison':       { latitude: 48.8776, longitude: 2.1889 },
-        'Asnières-sur-Seine':    { latitude: 48.9156, longitude: 2.2850 },
-        'Gennevilliers':         { latitude: 48.9291, longitude: 2.2977 },
-        'Clichy':                { latitude: 48.9044, longitude: 2.3064 },
-        'Saint-Cloud':           { latitude: 48.8459, longitude: 2.2119 },
-        'Garches':               { latitude: 48.8447, longitude: 2.1856 },
-        'Vaucresson':            { latitude: 48.8383, longitude: 2.1594 },
-        'Ville-d\'Avray':        { latitude: 48.8236, longitude: 2.1922 },
-        'Sèvres':                { latitude: 48.8237, longitude: 2.2115 },
-        'Boulogne-Billancourt':  { latitude: 48.8352, longitude: 2.2409 },
-        // — Yvelines (78) —
-        'Carrières-sur-Seine':   { latitude: 48.9100, longitude: 2.1780 },
-        'Chatou':                { latitude: 48.8894, longitude: 2.1567 },
-        'Montesson':             { latitude: 48.9061, longitude: 2.1447 },
-        'Croissy-sur-Seine':     { latitude: 48.8767, longitude: 2.1437 },
-        'Le Vésinet':            { latitude: 48.8925, longitude: 2.1319 },
-        'Houilles':              { latitude: 48.9283, longitude: 2.1859 },
-        'Bougival':              { latitude: 48.8654, longitude: 2.1428 },
-        'Sartrouville':          { latitude: 48.9403, longitude: 2.1631 },
-        'Saint-Germain-en-Laye': { latitude: 48.8990, longitude: 2.0940 },
-        // — Paris (75) —
-        'Paris':                 { latitude: 48.8566, longitude: 2.3522 },
-        'Paris 16e':             { latitude: 48.8637, longitude: 2.2769 },
-        'Paris 17e':             { latitude: 48.8872, longitude: 2.3070 }
-      };
-      // Normalisation : insensible à la casse, aux accents, aux tirets,
-      // apostrophes et espaces, pour que la météo se trouve quelle que soit
-      // la façon dont le lieu est écrit dans le Google Sheet.
-      // Ex. « Neuilly-sur-Seine », « neuilly sur seine », « Ville-d’Avray »…
-      function normLieu(v) {
-        return String(v == null ? '' : v)
-          .normalize('NFD').replace(/[̀-ͯ]/g, '')
-          .toLowerCase()
-          .replace(/[^a-z0-9]/g, '');
-      }
       function libelleLieu(v) {
-        var txt = String(v == null ? '' : v).trim();
-        return normLieu(txt) === 'courbevoie' ? 'Foulées olympiques colombienne' : txt;
+        return String(v == null ? '' : v).trim();
       }
-      var meteoLieuxNorm = {};
-      Object.keys(meteoLieux).forEach(function (k) { meteoLieuxNorm[normLieu(k)] = meteoLieux[k]; });
       groupesOrdre.forEach(function (lieu) {
         if (!groupes[lieu] || !groupes[lieu].length) return;
         var n = groupes[lieu].length;
+        var ville = groupes[lieu][0].lieu; /* la VILLE des séances (repli pour le titre du groupe) */
         var bloc = document.createElement('section');
         bloc.className = 'lieu-groupe';
-        /* Titre du groupe = colonne « Evenement » de la feuille (repli : ancien libellé par lieu) */
+        /* Titre du groupe = colonne « Evenement » (repli : ville) */
         var evenementsGroupe = [];
         groupes[lieu].forEach(function (s) {
           if (s.evenementBrut && evenementsGroupe.indexOf(s.evenementBrut) === -1) evenementsGroupe.push(s.evenementBrut);
         });
-        var lieuTitre = evenementsGroupe.length ? evenementsGroupe.join(' · ') : libelleLieu(lieu);
-        var afficherFleches = n > 1 && lieu !== 'Le Vésinet — Stade des Merlettes';
+        var lieuTitre = evenementsGroupe.length ? evenementsGroupe.join(' · ') : libelleLieu(ville);
+        var afficherFleches = n > 1 && ville !== 'Le Vésinet — Stade des Merlettes';
+        var aPack = groupes[lieu].some(function (s) { return s.prixPack; });
+        /* Sous-titre de l'événement : colonne Supabase « duree_prepa », sinon repli sur PACK_TITRE */
+        var sousTitrePack = (groupes[lieu][0] && groupes[lieu][0].dureePrepa) || PACK_TITRE || '';
+        var lienCourse = '';
+        groupes[lieu].forEach(function (s) { if (!lienCourse && s.lienCourse) lienCourse = s.lienCourse; });
         bloc.innerHTML =
-          '<div class="lieu-titre">' +
-            '<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) + '</span>' +
-          '</div>';
+          '<div class="lieu-titre-row">' +
+            '<div class="lieu-titre"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) + '</span></div>' +
+            (aPack
+              ? '<div class="pack-course-action">' +
+                  (lienCourse ? '<a class="pack-course-lien" href="' + esc(lienCourse) + '" target="_blank" rel="noopener noreferrer">M\'inscrire à la course ↗</a>' : '') +
+                  '<span class="pack-course-info" tabindex="0" role="button" aria-label="Information sur l\'inscription à la course">i<span class="pack-course-tip">⚠️ Le dossard n\'est pas inclus : l\'inscription à la course se fait séparément, sur le site de l\'organisateur.</span></span>' +
+                '</div>'
+              : '') +
+          '</div>' +
+          (aPack && sousTitrePack ? '<div class="lieu-sous-titre">' + esc(sousTitrePack) + '</div>' : '');
         var carrousel = document.createElement('div');
         carrousel.className = 'lieu-carrousel';
         var cards = document.createElement('div');
@@ -931,23 +963,31 @@
             '<button type="button" class="lieu-fleche lieu-fleche--prev" data-dir="-1" aria-label="Sessions précédentes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' +
             '<button type="button" class="lieu-fleche lieu-fleche--next" data-dir="1" aria-label="Sessions suivantes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>');
         }
-        bloc.appendChild(carrousel);
-
+        /* Colonne « séances » : le carrousel + les indications de défilement */
+        var colonneSeances = document.createElement('div');
+        colonneSeances.className = 'pack-main';
+        colonneSeances.appendChild(carrousel);
         if (n > 1) {
           var hint = document.createElement('span');
           hint.className = 'swipe-hint' + (n > 3 ? ' swipe-hint--desktop' : '');
           hint.setAttribute('aria-hidden', 'true');
           hint.textContent = '← Fais défiler pour voir toutes les sessions →';
-          bloc.appendChild(hint);
+          colonneSeances.appendChild(hint);
+          var scrollbarHint = document.createElement('div');
+          scrollbarHint.className = 'lieu-cards-scrollbar-hint';
+          scrollbarHint.textContent = 'Barre de défilement disponible';
+          colonneSeances.appendChild(scrollbarHint);
         }
 
         var prixPackGroup = [];
         var stripePackGroup = '';
+        var lienCourseGroup = '';
         groupes[lieu].forEach(function (session) {
           if (session.prixPack && prixPackGroup.indexOf(session.prixPack) === -1) {
             prixPackGroup.push(session.prixPack);
           }
           if (!stripePackGroup && session.stripePack) stripePackGroup = session.stripePack;
+          if (!lienCourseGroup && session.lienCourse) lienCourseGroup = session.lienCourse;
         });
         if (prixPackGroup.length) {
           /* Une donnée « prix pack » est présente → un seul bouton d'achat (le pack),
@@ -960,190 +1000,82 @@
             lieu: sessionsTri[0].lieu,
             prix: prixPackGroup.join(' · '),
             stripe: stripePackGroup,
+            lienCourse: lienCourseGroup,
             premiere: sessionsTri[0],
             derniere: sessionsTri[sessionsTri.length - 1],
             nb: sessionsTri.length
           };
+          var inclusHtml = (PACK_INCLUS && PACK_INCLUS.length)
+            ? '<div class="pack-inclus">' +
+                '<h4 class="pack-inclus-titre">Ce qui est inclus dans ' +
+                  (sousTitrePack ? '<span>« ' + esc(sousTitrePack) + ' »</span>' : '') + '</h4>' +
+                '<ul class="pack-inclus-liste">' +
+                  PACK_INCLUS.map(function (it) {
+                    return '<li>' +
+                      '<span class="pack-inclus-ico" aria-hidden="true">' + esc(it.icone || '✓') + '</span>' +
+                      '<div class="pack-inclus-txt"><strong>' + esc(it.titre || '') + '</strong>' +
+                      (it.texte ? '<p>' + esc(it.texte) + '</p>' : '') + '</div>' +
+                    '</li>';
+                  }).join('') +
+                '</ul>' +
+              '</div>'
+            : '';
+          /* Places restantes du pack : depuis « places » et « inscrits » des séances (même groupe) */
+          var placesPack = sessionsTri[0].places;
+          var inscritsPack = sessionsTri.reduce(function (m, s) { return Math.max(m, s.inscrits); }, 0);
+          var restantesPack = Math.max(0, placesPack - inscritsPack);
+          var packComplet = restantesPack === 0;
+          var mailAttente = 'mailto:contact@reding-running.fr' +
+            '?subject=' + encodeURIComponent('Liste d\'attente — ' + lieuTitre) +
+            '&body=' + encodeURIComponent('Bonjour, je souhaite être placé(e) en liste d\'attente pour la course « ' + lieuTitre + ' »' + (sousTitrePack ? ' (préparation ' + sousTitrePack + ')' : '') + '. Merci !');
+          /* Bloc de droite = uniquement l'encart « inclus » */
           var packWrap = document.createElement('div');
           packWrap.className = 'lieu-pack';
-          packWrap.innerHTML =
-            '<button type="button" class="btn-pack">' +
+          packWrap.innerHTML = inclusHtml;
+
+          /* Bouton d'achat + places : sous les cartes, dans la colonne de gauche */
+          var cta = document.createElement('div');
+          cta.className = 'pack-cta';
+          cta.innerHTML =
+            '<button type="button" class="btn-pack"' + (packComplet ? ' disabled' : '') + '>' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' +
-              'Acheter le pack — ' + esc(prixPackGroup.join(' · ')) +
-            '</button>';
-          bloc.appendChild(packWrap);
+              (packComplet ? 'Complet' : 'S\'inscrire à la préparation — ' + esc(prixPackGroup.join(' · '))) +
+            '</button>' +
+            (packComplet
+              ? '<a class="pack-attente" href="' + mailAttente + '">Demander à être en liste d\'attente</a>'
+              : '<span class="pack-places">Il reste <strong>' + restantesPack + '</strong> place' + (restantesPack > 1 ? 's' : '') + '</span>');
+          colonneSeances.appendChild(cta);
+
+          /* Séances + bouton à gauche, encart « inclus » à droite (empilés sur mobile) */
+          var layout = document.createElement('div');
+          layout.className = 'pack-layout';
+          layout.appendChild(colonneSeances);
+          layout.appendChild(packWrap);
+          bloc.appendChild(layout);
           (function (info) {
-            packWrap.querySelector('.btn-pack').addEventListener('click', function () {
+            cta.querySelector('.btn-pack').addEventListener('click', function () {
               ouvrirModalePack(info);
             });
           })(packInfo);
+        } else {
+          bloc.appendChild(colonneSeances);
         }
 
-        if (n > 1) {
-          var scrollbarHint = document.createElement('div');
-          scrollbarHint.className = 'lieu-cards-scrollbar-hint';
-          scrollbarHint.textContent = 'Barre de défilement disponible';
-          bloc.appendChild(scrollbarHint);
-        }
-        var meteo = document.createElement('div');
-        meteo.className = 'lieu-meteo chargement';
-        meteo.setAttribute('aria-live', 'polite');
-        meteo.innerHTML = '<span class="lieu-meteo-icone" aria-hidden="true">⛅</span><div class="lieu-meteo-contenu"><strong class="lieu-meteo-titre">Météo du lieu</strong><span class="lieu-meteo-details">Chargement…</span></div>';
-        bloc.insertBefore(meteo, carrousel); /* météo juste sous le titre du lieu, avant les cartes */
         grid.appendChild(bloc);
         conteneurs[lieu] = cards;
-        var coordonnees = meteoLieux[lieu]
-          || meteoLieuxNorm[normLieu(lieu)]
-          || meteoLieuxNorm[normLieu(String(lieu).split(/[-‐-―−]/)[0])]; // repli : « Ville — détail » → ville
-        if (coordonnees) {
-          fetch('https://api.open-meteo.com/v1/forecast?latitude=' + coordonnees.latitude + '&longitude=' + coordonnees.longitude + '&hourly=temperature_2m,weather_code,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&forecast_days=14&timezone=Europe%2FParis')
-            .then(function (reponse) { if (!reponse.ok) throw new Error('Météo indisponible'); return reponse.json(); })
-            .then(function (donnees) {
-              var descriptions = {
-                0: ['☀️', 'Ciel dégagé'], 1: ['🌤️', 'Peu nuageux'], 2: ['⛅', 'Partiellement nuageux'], 3: ['☁️', 'Couvert'],
-                45: ['🌫️', 'Brouillard'], 48: ['🌫️', 'Brouillard givrant'], 51: ['🌦️', 'Bruine légère'], 53: ['🌦️', 'Bruine'], 55: ['🌧️', 'Bruine forte'],
-                61: ['🌦️', 'Pluie légère'], 63: ['🌧️', 'Pluie'], 65: ['🌧️', 'Pluie forte'], 71: ['🌨️', 'Neige légère'], 73: ['🌨️', 'Neige'],
-                75: ['❄️', 'Neige forte'], 80: ['🌦️', 'Averses'], 81: ['🌧️', 'Averses'], 82: ['🌧️', 'Averses fortes'], 95: ['⛈️', 'Orage'], 96: ['⛈️', 'Orage avec grêle'], 99: ['⛈️', 'Orage avec grêle']
-              };
-              var jours = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'];
-              var aujourdHui = new Date();
-              aujourdHui.setHours(0, 0, 0, 0);
-              var previsions = donnees.daily.time.map(function (date, i) {
-                return { date: date, code: donnees.daily.weather_code[i], max: donnees.daily.temperature_2m_max[i], min: donnees.daily.temperature_2m_min[i], pluie: donnees.daily.precipitation_probability_max[i] };
-              }).filter(function (jour) {
-                var joursApres = Math.floor((new Date(jour.date) - aujourdHui) / 86400000);
-                return joursApres >= 0 && joursApres < 7;
-              });
-              if (!previsions.length) throw new Error('Prévisions indisponibles');
-              var cartes = previsions.map(function (jour, jIdx) {
-                var date = new Date(jour.date + 'T12:00:00');
-                var description = descriptions[jour.code] || ['🌡️', 'Variable'];
-                var heures = donnees.hourly.time || [];
-                var tempsHeures = donnees.hourly.temperature_2m || [];
-                var codesHeures = donnees.hourly.weather_code || [];
-                var pluiesHeures = donnees.hourly.precipitation_probability || [];
-                var slots = [];
-                [6, 12, 18].forEach(function (heureCible, index) {
-                  var valeur = null;
-                  var pluie = null;
-                  var code = null;
-                  for (var k = 0; k < heures.length; k++) {
-                    if (String(heures[k]).slice(0, 10) !== jour.date) continue;
-                    if (new Date(heures[k]).getHours() === heureCible) {
-                      valeur = tempsHeures[k];
-                      pluie = pluiesHeures[k];
-                      code = codesHeures[k];
-                      break;
-                    }
-                  }
-                  var icone = (code != null && descriptions[code]) ? descriptions[code][0] : '🌡️';
-                  var label = index === 0 ? 'Matin' : (index === 1 ? 'Après-midi' : 'Soir');
-                  slots.push({ label: label, icon: icone, temp: valeur == null ? null : Math.round(valeur), pluie: pluie == null ? 0 : pluie });
-                });
-
-                var now = new Date();
-                var isToday = jour.date === now.toISOString().slice(0, 10);
-                var isTomorrow = jour.date === new Date(now.getTime() + 86400000).toISOString().slice(0, 10);
-                var dateStr = date.getDate() + ' ' + ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'][date.getMonth()];
-                
-                var cardData = '<div class="meteo-jour" data-jour="' + jour.date + '" data-slots="' + encodeURIComponent(JSON.stringify(slots)) + '" data-date-str="' + dateStr + '">' +
-                  '<span class="meteo-jour-nom">' + (isToday ? "Aujourd'hui" : (isTomorrow ? 'Demain' : jours[date.getDay()])) + '</span>' +
-                  '<span class="meteo-jour-date">' + date.getDate() + '/' + (date.getMonth() + 1) + '</span>' +
-                  '<span class="meteo-jour-icone" aria-hidden="true">' + description[0] + '</span>' +
-                  '<span class="meteo-jour-temp">' + Math.round(jour.max) + '°</span>' +
-                  '<span class="meteo-jour-temp-min">/' + Math.round(jour.min) + '°</span>' +
-                  '</div>';
-                return cardData;
-              }).join('');
-              
-              var indexJourActif = 0;
-              var now = new Date();
-              for (var idx = 0; idx < previsions.length; idx++) {
-                if (previsions[idx].date === now.toISOString().slice(0, 10)) {
-                  indexJourActif = idx;
-                  break;
-                }
-              }
-              var jourActif = previsions[indexJourActif];
-              var dateActif = new Date(jourActif.date + 'T12:00:00');
-              var dateStr = dateActif.getDate() + ' ' + ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'][dateActif.getMonth()];
-              
-              var slotsActif = [];
-              var heures = donnees.hourly.time || [];
-              var tempsHeures = donnees.hourly.temperature_2m || [];
-              var codesHeures = donnees.hourly.weather_code || [];
-              var pluiesHeures = donnees.hourly.precipitation_probability || [];
-              [6, 12, 18].forEach(function (heureCible, index) {
-                var valeur = null, pluie = null, code = null;
-                for (var k = 0; k < heures.length; k++) {
-                  if (String(heures[k]).slice(0, 10) !== jourActif.date) continue;
-                  if (new Date(heures[k]).getHours() === heureCible) { valeur = tempsHeures[k]; pluie = pluiesHeures[k]; code = codesHeures[k]; break; }
-                }
-                var icone = (code != null && descriptions[code]) ? descriptions[code][0] : '🌡️';
-                var label = index === 0 ? 'Matin' : (index === 1 ? 'Après-midi' : 'Soir');
-                slotsActif.push({ label: label, icon: icone, temp: valeur == null ? null : Math.round(valeur), pluie: pluie == null ? 0 : pluie });
-              });
-              
-              var periodHtml = slotsActif.map(function (slot) {
-                return '<div class="meteo-periode"><span class="meteo-periode-label">' + slot.label + '</span><span class="meteo-periode-icone" aria-hidden="true">' + slot.icon + '</span><span class="meteo-periode-temp">' + (slot.temp == null ? '—' : slot.temp + '°') + '</span><span class="meteo-periode-vent">Pluie ' + slot.pluie + '%</span></div>';
-              }).join('');
-              
-              meteo.classList.remove('chargement');
-              meteo.innerHTML = 
-                '<div class="lieu-meteo-contenu">' +
-                '<div class="meteo-jour-principal" id="meteo-principal-' + esc(lieu).replace(/\s+/g, '-') + '">' +
-                '<div class="meteo-jour-principal-titre">' + dateStr + '<span class="meteo-principal-lieu"> · ' + esc(lieu) + '</span></div>' +
-                periodHtml +
-                '</div>' +
-                '<div class="lieu-meteo-semaine" id="meteo-semaine-' + esc(lieu).replace(/\s+/g, '-') + '">' + cartes + '</div>' +
-                '<small class="lieu-meteo-note">Prévisions à 7 jours · Open-Meteo</small>' +
-                '</div>';
-              
-              setTimeout(function () {
-                var lieuSafe = esc(lieu).replace(/\s+/g, '-');
-                var semaineEl = document.getElementById('meteo-semaine-' + lieuSafe);
-                var principalEl = document.getElementById('meteo-principal-' + lieuSafe);
-                if (!semaineEl || !principalEl) return;
-                
-                var jours = semaineEl.querySelectorAll('.meteo-jour');
-                if (jours[indexJourActif]) jours[indexJourActif].classList.add('active');
-                
-                jours.forEach(function (jour) {
-                  jour.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    var dateJour = jour.getAttribute('data-jour');
-                    var slotsJson = decodeURIComponent(jour.getAttribute('data-slots'));
-                    var slots = JSON.parse(slotsJson);
-                    var dateStr = jour.getAttribute('data-date-str');
-                    
-                    var periodHtml = slots.map(function (slot) {
-                      return '<div class="meteo-periode"><span class="meteo-periode-label">' + slot.label + '</span><span class="meteo-periode-icone" aria-hidden="true">' + slot.icon + '</span><span class="meteo-periode-temp">' + (slot.temp == null ? '—' : slot.temp + '°') + '</span><span class="meteo-periode-vent">Pluie ' + slot.pluie + '%</span></div>';
-                    }).join('');
-                    
-                    principalEl.innerHTML = '<div class="meteo-jour-principal-titre">' + dateStr + '<span class="meteo-principal-lieu"> · ' + esc(lieu) + '</span></div>' + periodHtml;
-                    
-                    jours.forEach(function (j) { j.classList.remove('active'); });
-                    jour.classList.add('active');
-                  });
-                });
-              }, 0);
-            })
-            .catch(function () {
-              meteo.classList.remove('chargement');
-              meteo.innerHTML = '<span class="lieu-meteo-icone" aria-hidden="true">🌤️</span><div class="lieu-meteo-contenu"><strong class="lieu-meteo-titre">Météo du lieu</strong><span class="lieu-meteo-details">Prévisions momentanément indisponibles</span></div>';
-            });
-        }
       });
 
       visibles.forEach(function (s, i) {
         var d = new Date(s.date + 'T12:00:00');
         var restantes = Math.max(0, s.places - s.inscrits);
         var complet = restantes === 0;
-        var statut = complet
-          ? '<span class="session-badge-statut statut-complet">Complet</span>'
-          : (restantes <= 2
-            ? '<span class="session-badge-statut statut-dernieres">Plus que ' + restantes + ' place' + (restantes > 1 ? 's' : '') + ' !</span>'
-            : '<span class="session-badge-statut statut-ouvert">Inscriptions ouvertes</span>');
+        var statut = s.prixPack
+          ? ''
+          : (complet
+            ? '<span class="session-badge-statut statut-complet">Complet</span>'
+            : (restantes <= 2
+              ? '<span class="session-badge-statut statut-dernieres">Plus que ' + restantes + ' place' + (restantes > 1 ? 's' : '') + ' !</span>'
+              : '<span class="session-badge-statut statut-ouvert">Inscriptions ouvertes</span>'));
 
         var card = document.createElement('article');
         card.className = 'session-card' + (complet ? ' complet' : '');
@@ -1159,7 +1091,7 @@
           '<ul class="session-infos">' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>' + esc(s.lieu) + '</strong>' + (s.sousLieu ? '<span class="session-souslieu">' + esc(s.sousLieu) + '</span>' : '') + '</span></li>' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>' + esc(creneau(s)) + '</span></li>' +
-            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>' + s.inscrits + ' inscrit' + (s.inscrits > 1 ? 's' : '') + ' / ' + s.places + ' places</span></li>' +
+            (s.prixPack ? '' : '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>' + s.inscrits + ' inscrit' + (s.inscrits > 1 ? 's' : '') + ' / ' + s.places + ' places</span></li>') +
           '</ul>' +
           (s.description ? '<p class="session-desc">' + esc(s.description) + '</p>' : '') +
           (s.deroule ? '<details class="session-deroule"><summary>Déroulé de la séance</summary><ul>' +
@@ -1167,17 +1099,18 @@
               return '<li><span class="dr-txt"><strong>' + esc(p[0]) + '</strong></span>' + (p[2] ? '<span class="dr-duree">' + esc(p[2]) + '</span>' : '') + '</li>';
             }).join('') +
           '</ul></details>' : '') +
+          (s.prixPack ? '' :
           '<div class="session-jauge">' +
             '<div class="jauge-label"><span>Places</span><span class="restantes">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
             '<div class="jauge-bar"><div class="jauge-fill" style="width:' + Math.round(s.inscrits / s.places * 100) + '%"></div></div>' +
-          '</div>' +
+          '</div>') +
           '<div class="session-footer' + (s.prixPack ? ' session-footer--pack' : '') + '">' +
             (s.prixPack
-              ? '<span class="session-pack-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Séance incluse dans le pack</span>'
+              ? '<span class="session-pack-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Séance incluse dans la préparation</span>'
               : '<div class="session-prix">' + (s.prixUnitaire ? esc(s.prixUnitaire) : esc(s.prix)) + '<small>' + (s.prixUnitaire ? 'prix unitaire' : 'par personne') + '</small></div>' +
                 '<button class="btn-inscrire" data-i="' + i + '"' + (complet ? ' disabled' : '') + '>' + (complet ? 'Complet' : 'S\'inscrire') + '</button>') +
           '</div>';
-        conteneurs[s.lieu].appendChild(card);
+        conteneurs[cleGroupe(s)].appendChild(card);
       });
 
       /* ── Flèches de défilement des carrousels (souris / clavier) ── */
@@ -1224,6 +1157,10 @@
         document.getElementById('f-lieu').value = current.lieu;
         document.getElementById('m-message').style.display = 'none';
         document.getElementById('m-actions').classList.remove('visible');
+        /* Séance individuelle : pas de case « inscription course » */
+        var ack = document.getElementById('course-ack');
+        ack.required = false; ack.checked = false;
+        document.getElementById('course-ack-wrap').style.display = 'none';
         var b = document.getElementById('btn-envoyer');
         b.disabled = false; b.textContent = 'Réserver ma place';
         overlay.classList.add('open');
@@ -1235,7 +1172,7 @@
         var dD = new Date(info.derniere.date + 'T12:00:00');
         var periode = 'Du ' + dP.getDate() + ' ' + MOIS[dP.getMonth()].toLowerCase() +
                       ' au ' + dD.getDate() + ' ' + MOIS[dD.getMonth()].toLowerCase();
-        var libellePack = 'Pack ' + info.libelle + ' (' + info.nb + ' séances)';
+        var libellePack = 'Préparation ' + info.libelle + ' (' + info.nb + ' séances)';
         current = {
           titre: libellePack,
           date: info.premiere.date, heure: info.premiere.heure, duree: info.premiere.duree, /* pour l'export calendrier */
@@ -1248,13 +1185,24 @@
         document.getElementById('f-lieu').value = info.lieu;
         document.getElementById('m-message').style.display = 'none';
         document.getElementById('m-actions').classList.remove('visible');
+        /* Case à cocher « inscription à la course » obligatoire pour un pack */
+        var ack = document.getElementById('course-ack');
+        document.getElementById('course-ack-txt').textContent =
+          'Je suis inscrit(e) à la course « ' + info.libelle + ' ».';
+        ack.checked = false; ack.required = true;
+        document.getElementById('course-ack-wrap').style.display = '';
         var b = document.getElementById('btn-envoyer');
-        b.disabled = false; b.textContent = 'Réserver le pack';
+        b.textContent = 'Réserver la préparation';
+        b.disabled = true; /* débloqué une fois la case cochée */
         overlay.classList.add('open');
       }
 
       document.getElementById('modal-close').addEventListener('click', function () { overlay.classList.remove('open'); });
       overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.classList.remove('open'); });
+      /* La case « inscription course » débloque le bouton (uniquement quand elle est requise = pack) */
+      document.getElementById('course-ack').addEventListener('change', function () {
+        if (this.required) document.getElementById('btn-envoyer').disabled = !this.checked;
+      });
 
       /* ── Fichier .ics « Ajouter à mon calendrier » ── */
       function pad2(n) { return (n < 10 ? '0' : '') + n; }
@@ -1347,55 +1295,6 @@
       });
     }
 
-    /* ══════════════════════════════════════════════════════════════════════
-       LECTURE DE LA GOOGLE SHEET → CONSTRUCTION DES SESSIONS
-       ══════════════════════════════════════════════════════════════════════
-       Si SHEET_CSV_URL est renseignée, la liste des sessions est construite
-       ENTIÈREMENT à partir de la feuille : ajouter une ligne = ajouter une
-       session sur le site, sans toucher au code ni redéployer.
-
-       Colonnes attendues dans la feuille (l'ordre n'a pas d'importance) :
-         id       — identifiant unique (ex. s21). Obligatoire.
-         titre    — titre affiché (ex. « VMA »). Détermine aussi le déroulé (voir « deroule »).
-         sous titre — sous-titre affiché en petit (ex. « vitesse maximale aérobie »).
-         date     — AAAA-MM-JJ  ou  JJ/MM/AAAA
-         heure    — ex. 9h30
-         duree    — ex. 1h  (défaut : 1h)
-         lieu     — la VILLE (sert à la météo). Ex. Nanterre, Courbevoie…
-         sous lieu— lieu précis affiché sous la ville sur la carte (facultatif)
-         places   — nombre total de places (défaut : 10)
-         inscrits — nombre d'inscrits (défaut : 0)
-         prix     — ex. « 8 € » (défaut : 8 €)
-         description — court texte affiché sous les infos de la carte (facultatif)
-         deroule  — déroulé perso : « Étape | durée ; Étape | durée … » (sinon déduit du titre : VMA → puissance, sinon endurance)
-         stripe   — lien de paiement propre à la session (facultatif)
-
-       En cas d'échec (pas d'URL, hors ligne, feuille vide), la page reste
-       vide et affiche l'état vide, sans revenir à une liste codée en dur. */
-
-    /* Découpe une ligne CSV en cellules (gère les guillemets et virgules) */
-    function _cellules(l) {
-      var out = [], cur = '', q = false, i, c;
-      for (i = 0; i < l.length; i++) {
-        c = l[i];
-        if (c === '"') { if (q && l[i + 1] === '"') { cur += '"'; i++; } else { q = !q; } }
-        else if (c === ',' && !q) { out.push(cur); cur = ''; }
-        else { cur += c; }
-      }
-      out.push(cur);
-      return out;
-    }
-
-    /* Normalise une date « JJ/MM/AAAA » ou « AAAA-MM-JJ » → « AAAA-MM-JJ » */
-    function _normDate(v) {
-      v = String(v == null ? '' : v).trim();
-      var m = v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
-      if (m) return m[1] + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[3]).slice(-2);
-      m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-      if (m) return m[3] + '-' + ('0' + m[2]).slice(-2) + '-' + ('0' + m[1]).slice(-2);
-      return v;
-    }
-
     /* Code de lieu L1/L2/L3 → nom complet ; sinon renvoie la valeur telle quelle */
     function _lieuFromCode(v) {
       var k = String(v == null ? '' : v).trim().toLowerCase().replace(/\s+/g, '');
@@ -1405,126 +1304,11 @@
       return String(v == null ? '' : v).trim();
     }
 
-    /* Déroulé personnalisé depuis la feuille : "Étape | durée ; Étape | durée …"
-       (ou "Étape | description | durée"). Vide → on garde le déroulé prédéfini. */
-    function _parseDeroule(v) {
-      var t = String(v == null ? '' : v).trim();
-      if (!t) return null;
-      var lignes = t.split(/\s*;\s*|\r?\n/).map(function (l) { return l.trim(); }).filter(Boolean);
-      if (!lignes.length) return null;
-      return lignes.map(function (l) {
-        var p = l.split('|').map(function (x) { return x.trim(); });
-        if (p.length >= 3) return [p[0], p[1], p[2]];
-        if (p.length === 2) return [p[0], '', p[1]];
-        return [p[0], '', ''];
-      });
-    }
-
     function _formatPrix(v) {
       var txt = String(v == null ? '' : v).trim();
       if (!txt) return '';
       if (/^\d+([.,]\d+)?$/.test(txt)) return txt.replace('.', ',') + ' €';
       return txt;
-    }
-
-    /* Construit la liste des sessions à partir du texte CSV publié */
-    function _construireSessions(txt) {
-      var lignes = txt.split(/\r?\n/).filter(function (l) { return l.trim() !== ''; });
-      if (lignes.length < 2) return [];
-      var head = _cellules(lignes[0]).map(function (h) { return h.trim().toLowerCase(); });
-      function col(nom) { return head.indexOf(nom); }
-      function colAny(noms) {
-        for (var i = 0; i < noms.length; i++) {
-          var idx = head.indexOf(noms[i]);
-          if (idx > -1) return idx;
-        }
-        return -1;
-      }
-      var iId = col('id'), iTitre = col('type') > -1 ? col('type') : col('titre'),
-          iEvenement = colAny(['evenement', 'évènement', 'événement']),
-          iSousTitre = (col('sous titre') > -1 ? col('sous titre')
-                        : (col('sous-titre') > -1 ? col('sous-titre') : col('soustitre'))),
-          iDate = col('date'), iHeure = col('heure'),
-          iDuree = col('duree'), iLieu = col('lieu'), iSousLieu = col('sous lieu'), iPlaces = col('places'),
-          iIns = col('inscrits'), iStripe = col('stripe') > -1 ? col('stripe') : col('paye'),
-          iStripePack = colAny(['stripe pack', 'pack stripe', 'stripe_pack', 'stripepack']),
-          iPrix = col('prix'), iPrixUnitaire = colAny(['prix unitaire', 'prix_unitaire', 'prixunitaire']),
-          iPrixPack = colAny(['prix pack', 'prix_pack', 'prixpack']),
-          iDesc = col('description'),
-          iDeroule = (col('deroule') > -1 ? col('deroule')
-                      : (col('déroulé') > -1 ? col('déroulé') : col('deroulé')));
-      var out = [];
-      for (var r = 1; r < lignes.length; r++) {
-        var c = _cellules(lignes[r]);
-        var id = iId > -1 ? String(c[iId] || '').trim() : '';
-        if (!id) continue;
-        var date = _normDate(iDate > -1 ? c[iDate] : '');
-        var heure = (iHeure > -1 ? String(c[iHeure] || '') : '').trim();
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !heure) continue; /* ligne incomplète → ignorée */
-        var titreCell = (iTitre > -1 ? String(c[iTitre] || '') : '').trim();
-        var evenementCell = (iEvenement > -1 ? String(c[iEvenement] || '') : '').trim();
-        var sousTitreCell = (iSousTitre > -1 ? String(c[iSousTitre] || '') : '').trim();
-        var detecte = (evenementCell || titreCell).toLowerCase();
-        var estVMA = detecte.indexOf('vma') > -1 || detecte.indexOf('puiss') > -1 || detecte.indexOf('maximale') > -1;
-        var titreCarte = titreCell || (estVMA ? 'VMA' : 'Endurance');
-        var evenementAff = evenementCell || titreCarte;
-        var placesN = parseInt(iPlaces > -1 ? c[iPlaces] : '', 10);
-        var insN = parseInt(iIns > -1 ? c[iIns] : '', 10);
-        var prixCell = (iPrix > -1 ? String(c[iPrix] || '') : '').trim();
-        var prixUnitaireCell = (iPrixUnitaire > -1 ? String(c[iPrixUnitaire] || '') : '').trim();
-        var prixPackCell = (iPrixPack > -1 ? String(c[iPrixPack] || '') : '').trim();
-        var prix = _formatPrix(prixUnitaireCell || prixCell || '8');
-        var prixPack = _formatPrix(prixPackCell);
-        var descCell = (iDesc > -1 ? String(c[iDesc] || '') : '').trim();
-        var derouleCustom = _parseDeroule(iDeroule > -1 ? c[iDeroule] : '');
-        out.push({
-          id: id,
-          evenement: evenementAff,
-          evenementBrut: evenementCell, /* valeur exacte de la colonne « Evenement » (vide si non renseignée) */
-          titre: titreCarte,
-          sousTitre: sousTitreCell,
-          date: date,
-          heure: heure,
-          duree: (iDuree > -1 ? String(c[iDuree] || '') : '').trim() || '1h',
-          lieu: _lieuFromCode(iLieu > -1 ? c[iLieu] : ''),
-          sousLieu: (iSousLieu > -1 ? String(c[iSousLieu] || '') : '').trim(),
-          prix: prix,
-          prixUnitaire: prixUnitaireCell ? prix : '',
-          prixPack: prixPack,
-          description: descCell,
-          places: isNaN(placesN) ? 10 : placesN,
-          inscrits: isNaN(insN) ? 0 : Math.max(0, insN),
-          stripe: (iStripe > -1 ? String(c[iStripe] || '') : '').trim(),
-          stripePack: (iStripePack > -1 ? String(c[iStripePack] || '') : '').trim(),
-          deroule: derouleCustom || (estVMA ? DEROULE_PUISSANCE : DEROULE_CAPACITE)
-        });
-      }
-      return out;
-    }
-
-    function _chargerCsv(url) {
-      return new Promise(function (resolve, reject) {
-        if (window.fetch) {
-          fetch(url, { cache: 'no-store', credentials: 'omit' })
-            .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.text(); })
-            .then(resolve)
-            .catch(reject);
-          return;
-        }
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState !== 4) return;
-          if (xhr.status >= 200 && xhr.status < 300) {
-            resolve(xhr.responseText);
-          } else {
-            reject(new Error('http ' + xhr.status));
-          }
-        };
-        xhr.onerror = function () { reject(new Error('network')); };
-        xhr.send();
-      });
     }
 
     /* Transforme les lignes JSON de Supabase en objets session pour l'affichage */
@@ -1558,6 +1342,8 @@
           inscrits: isNaN(insN) ? 0 : Math.max(0, insN),
           stripe: String(r.stripe == null ? '' : r.stripe).trim(),
           stripePack: String(r.stripe_pack == null ? '' : r.stripe_pack).trim(),
+          lienCourse: String(r.lien_course == null ? '' : r.lien_course).trim(),
+          dureePrepa: String(r.duree_prepa == null ? '' : r.duree_prepa).trim(),
           deroule: estVMA ? DEROULE_PUISSANCE : DEROULE_CAPACITE
         };
       }).filter(function (s) { return s.id && /^\d{4}-\d{2}-\d{2}$/.test(s.date) && s.heure; });
@@ -1692,22 +1478,6 @@
       background: rgba(255,255,255,0.06) !important;
       color: rgba(255,255,255,0.75) !important;
       border: 1px solid rgba(255,255,255,0.16) !important;
-    }
-
-    /* Widget meteo : remonte sous le titre du lieu (voir JS insertBefore) +
-       integration premium ; marge basse pour le detacher des cartes qui suivent. */
-    .lieu-meteo {
-      background: linear-gradient(135deg, #16181d 0%, #101319 100%) !important;
-      border: 1px solid var(--hairline) !important;
-      border-radius: var(--r-md) !important;
-      box-shadow: 0 14px 36px rgba(0,0,0,0.34) !important;
-      margin: 6px 4px 16px !important;
-    }
-    .meteo-jour, .meteo-periode { background: rgba(255,255,255,0.05) !important; }
-    .meteo-jour { border-radius: var(--r-sm) !important; transition: background var(--t), border-color var(--t) !important; }
-    .meteo-jour:hover, .meteo-jour.active {
-      background: rgba(255,107,53,0.10) !important;
-      border-color: rgba(255,107,53,0.35) !important;
     }
 
     /* Boutons : ombres affinees, coherentes avec l'accueil */
