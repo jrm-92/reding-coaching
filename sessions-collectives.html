@@ -10,11 +10,7 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://reding-running.fr/sessions-collectives.html" />
   <link rel="icon" type="image/png" href="logo_raccourci_orange.png" />
-  <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#FF6B35" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Sessions Reding" />
   <meta property="og:title" content="Sessions collectives de running — Reding Running" />
   <meta property="og:description" content="Séances de running en groupe encadrées par un coach certifié FFA. Inscris-toi en ligne : lieu, horaire, thématique et places disponibles." />
@@ -204,8 +200,11 @@
     /* ── Groupes par lieu ── */
     .lieu-groupe { margin-bottom: 52px; }
     /* Ligne titre : nom de la course (gauche/centre) + action « M'inscrire à la course » + ⓘ (droite) */
-    .lieu-titre-row { display: flex; align-items: center; gap: 18px; margin-bottom: 4px; }
-    .lieu-titre-row .lieu-titre { flex: 1 1 auto; margin-bottom: 0; }
+    .lieu-titre-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 4px; }
+    .lieu-titre-row .lieu-titre { flex: 0 1 auto; margin-bottom: 0; }
+    /* Dans la ligne titre + « M'inscrire », on retire les traits décoratifs
+       (qui étiraient le titre sur toute la largeur et créaient un grand vide). */
+    .lieu-titre-row .lieu-titre::before, .lieu-titre-row .lieu-titre::after { display: none; }
     .pack-course-action { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     /* Petit ⓘ avec bulle d'info (survol / focus) */
     .pack-course-info {
@@ -243,9 +242,9 @@
     }
     .lieu-sous-titre {
       margin: 2px 0 24px; text-align: center;
-      font-size: 13.5px; font-weight: 600; font-style: italic;
+      font-size: 14px; font-weight: 600; font-style: italic;
       letter-spacing: 0.06em; text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
+      color: rgba(255,255,255,0.82);
     }
 
     /* Flèches de défilement latérales (desktop) */
@@ -316,7 +315,7 @@
     .swipe-hint {
       display: none; text-align: center;
       font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.35); margin-top: 2px;
+      color: rgba(255, 255, 255, 0.6); margin-top: 2px;
     }
     .swipe-hint--desktop { display: block; }
     .lieu-cards-scrollbar-hint {
@@ -326,7 +325,7 @@
       font-weight: 600;
       letter-spacing: 1.2px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.65);
       text-align: center;
     }
     .lieu-pack-prix {
@@ -365,12 +364,13 @@
     .pack-inclus-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px; }
     .pack-inclus-liste li { display: flex; align-items: flex-start; gap: 13px; }
     .pack-inclus-ico {
-      flex-shrink: 0; width: 36px; height: 36px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center; font-size: 19px; line-height: 1;
-      background: rgba(255,107,53,0.14); border: 1px solid rgba(255,107,53,0.3);
+      flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; line-height: 1;
+      background: rgba(255,107,53,0.16); border: 1px solid rgba(255,107,53,0.38);
     }
+    .pack-inclus-ico svg { width: 20px; height: 20px; color: #FF8C5A; }
     .pack-inclus-txt strong { display: block; color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 2px; }
-    .pack-inclus-txt p { margin: 0; font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.72); }
+    .pack-inclus-txt p { margin: 0; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.88); }
 
     .btn-pack {
       display: inline-flex; align-items: center; justify-content: center; gap: 9px;
@@ -387,7 +387,22 @@
     /* Bouton d'achat + places : sous les cartes, centrés */
     .pack-cta { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 16px; }
     .pack-cta .btn-pack { width: 100%; max-width: 520px; }
-    .pack-places { font-size: 14px; font-weight: 700; color: rgba(255,255,255,0.78); text-align: center; }
+    .pack-places {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-size: 14.5px; font-weight: 700; color: rgba(255,255,255,0.92); text-align: center;
+    }
+    .pack-places strong { color: #FF6B35; }
+    .pack-places-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #4ade80; box-shadow: 0 0 0 4px rgba(74,222,128,0.16); flex-shrink: 0;
+    }
+    .pack-places--urgent { color: #ffd9a8; }
+    .pack-places--urgent strong { color: #ffb020; }
+    .pack-places--urgent .pack-places-dot {
+      background: #ffb020; box-shadow: 0 0 0 4px rgba(255,176,32,0.18);
+      animation: dotPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes dotPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     .pack-places strong { color: #FF6B35; }
     .pack-attente { display: block; text-align: center; font-size: 14px; font-weight: 700; color: #FF6B35; text-decoration: underline; }
     .pack-attente:hover { color: #ff9d73; }
@@ -418,6 +433,71 @@
     }
     @media (max-width: 480px) {
       .pack-inclus { padding: 18px 16px; }
+    }
+
+    /* ═══ Mise en page 1 colonne : en-tête → offre pleine largeur → programme ═══ */
+    .pack-badges {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      margin: 2px 0 30px;
+    }
+    .pack-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 14px; border-radius: 999px;
+      background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.38);
+      color: #ffd9c7; font-size: 13.5px; font-weight: 700; white-space: nowrap;
+    }
+    .pack-badge svg { width: 16px; height: 16px; color: #FF6B35; flex-shrink: 0; }
+
+    /* Carte d'offre : pleine largeur (centrée, largeur de lecture confortable) */
+    .pack-offre { width: 100%; max-width: 1080px; margin: 0 auto 44px; }
+    .pack-offre .pack-inclus { padding: 28px 30px; }
+    /* Les 4 points : 2 colonnes en desktop, 1 colonne en mobile */
+    .pack-offre .pack-inclus-liste {
+      display: grid; grid-template-columns: 1.15fr 1fr; gap: 18px 26px; align-items: stretch;
+    }
+    /* Plan mis en avant : colonne gauche, sur les 2 rangées, plus gros */
+    /* Bloc mis en avant à gauche : plus grand, icône à gauche du texte, sans cadre */
+    .pack-offre .pack-inclus-liste li:nth-child(1) {
+      grid-column: 1; grid-row: 1 / span 2;
+      align-self: center; gap: 16px;
+    }
+    .pack-offre .pack-inclus-liste li:nth-child(1) .pack-inclus-ico { width: 48px; height: 48px; }
+    .pack-offre .pack-inclus-liste li:nth-child(1) .pack-inclus-ico svg { width: 25px; height: 25px; }
+    .pack-offre .pack-inclus-liste li:nth-child(1) .pack-inclus-txt strong { font-size: 18px; margin-bottom: 6px; line-height: 1.3; }
+    .pack-offre .pack-inclus-liste li:nth-child(1) .pack-inclus-txt p { font-size: 15px; line-height: 1.65; }
+    .pack-offre .pack-inclus-liste li:nth-child(2) { grid-column: 2; grid-row: 1; }
+    .pack-offre .pack-inclus-liste li:nth-child(3) { grid-column: 2; grid-row: 2; }
+    .pack-offre .pack-cta {
+      margin-top: 24px; padding-top: 22px;
+      border-top: 1px solid rgba(255,107,53,0.22);
+    }
+    .pack-offre .pack-cta .btn-pack {
+      width: 100%; max-width: 560px; font-size: 16px; padding: 17px 24px;
+    }
+
+    /* En-tête intégré en haut de la carte d'offre (titre, lien course, sous-titre, badges) */
+    .pack-entete {
+      text-align: center; margin-bottom: 22px; padding-bottom: 22px;
+      border-bottom: 1px solid rgba(255,107,53,0.2);
+    }
+    .pack-entete .lieu-titre-row { margin-bottom: 2px; }
+    .pack-entete .lieu-sous-titre { margin: 4px 0 0; }
+    .pack-entete .pack-badges { margin: 16px 0 0; }
+
+    /* Titre de la section programme (au-dessus du carrousel) */
+    .prog-titre {
+      margin: 10px 0 22px; text-align: center;
+      font-size: clamp(20px, 2.4vw, 26px); font-weight: 900; font-style: italic;
+      text-transform: uppercase; letter-spacing: 0.02em; color: #fff;
+    }
+
+    @media (max-width: 640px) {
+      .pack-offre .pack-inclus-liste { grid-template-columns: 1fr; gap: 15px; }
+      .pack-offre .pack-inclus-liste li:nth-child(1),
+      .pack-offre .pack-inclus-liste li:nth-child(2),
+      .pack-offre .pack-inclus-liste li:nth-child(3) { grid-column: auto; grid-row: auto; }
+      .pack-offre .pack-inclus { padding: 20px 18px; }
+      .pack-badge { font-size: 12.5px; padding: 7px 12px; }
     }
 
     /* Mobile : une carte visible + un aperçu de la suivante */
@@ -505,11 +585,11 @@
     .session-infos li { display: flex; align-items: flex-start; gap: 10px; font-size: 14.5px; color: rgba(255,255,255,0.8); }
     .session-infos svg { flex-shrink: 0; width: 17px; height: 17px; color: #FF6B35; margin-top: 3px; }
     .session-infos strong { color: #fff; font-weight: 700; }
-    .session-souslieu { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.55); }
+    .session-souslieu { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.72); }
 
     .session-desc {
       padding: 14px 24px 0; font-size: 13.5px; font-style: italic;
-      color: rgba(255,255,255,0.55); line-height: 1.6;
+      color: rgba(255,255,255,0.78); line-height: 1.6;
     }
 
     /* ── Déroulé de la séance (repliable) ── */
@@ -674,38 +754,6 @@
     .m-course-ack input { margin: 2px 0 0; width: 18px; height: 18px; accent-color: #FF6B35; flex-shrink: 0; cursor: pointer; }
     .m-message { display: none; margin-top: 14px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 600; font-size: 14px; }
 
-    /* ── Bouton « Enregistrer cette page » ── */
-    .btn-installer {
-      display: inline-flex; align-items: center; gap: 9px; margin-top: 20px;
-      padding: 11px 20px; border-radius: 999px; cursor: pointer;
-      background: rgba(255,107,53,0.12); color: #ff8856;
-      border: 1px solid rgba(255,107,53,0.4);
-      font-family: inherit; font-size: 14.5px; font-weight: 700;
-      transition: background 0.25s ease, transform 0.25s ease, color 0.25s ease;
-    }
-    .btn-installer[hidden] { display: none; }
-    .btn-installer svg { width: 18px; height: 18px; }
-    .btn-installer:hover { background: rgba(255,107,53,0.2); color: #ff9d73; transform: translateY(-1px); }
-
-    /* ── Fenêtre d'instructions d'installation ── */
-    .install-modal { max-width: 460px; }
-    .install-intro { color: rgba(255,255,255,0.7); font-size: 14.5px; margin: 4px 0 18px; }
-    .install-steps { display: flex; flex-direction: column; gap: 14px; }
-    .install-block {
-      border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 14px 16px;
-      background: rgba(255,255,255,0.03);
-    }
-    .install-block h4 {
-      margin: 0 0 6px; font-size: 14px; font-weight: 800; color: #fff;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .install-block h4 svg { width: 17px; height: 17px; color: #FF6B35; flex-shrink: 0; }
-    .install-block p { margin: 0; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.72); }
-    .install-block .ico-inline {
-      display: inline-flex; vertical-align: -3px; margin: 0 2px; color: #ff8856;
-    }
-    .install-block .ico-inline svg { width: 15px; height: 15px; }
-
     footer {
       border-top: 1px solid rgba(255,255,255,0.1); padding: 36px 24px;
       text-align: center; font-size: 13px; color: rgba(255,255,255,0.5);
@@ -754,12 +802,8 @@
   <main>
     <div class="page-intro">
       <h1>Sessions <span class="accent">collectives</span></h1>
-      <p class="lead">Des séances collectives variées pour progresser en running dans une ambiance conviviale. Prépare une course ou développe ta condition physique, ta technique et ton endurance grâce à des entraînements adaptés à tous les niveaux.</p>
+      <p class="lead">Prépare ta prochaine course en groupe, guidé(e) par un coach. Endurance, vitesse, technique, motivation : on progresse ensemble, dans une ambiance conviviale. Ouvert à tous les niveaux.</p>
       <p class="lead-note" style="margin-top:14px;font-size:15px;color:rgba(255,255,255,0.72);"></p>
-      <button type="button" id="btn-installer" class="btn-installer" hidden>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m8 11 4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
-        Enregistrer cette page sur mon appareil
-      </button>
     </div>
 
     <div class="sessions-grid" id="sessions-grid"></div>
@@ -831,16 +875,6 @@
     </div>
   </div>
 
-  <!-- ── Fenêtre « Enregistrer cette page » (instructions par appareil) ── -->
-  <div class="modal-overlay" id="install-overlay">
-    <div class="modal install-modal">
-      <button class="modal-close" id="install-close" aria-label="Fermer">×</button>
-      <h3>Enregistrer cette page</h3>
-      <p class="install-intro">Garde les sessions à portée de main : ajoute cette page à ton écran d'accueil ou à tes favoris.</p>
-      <div class="install-steps" id="install-steps"><!-- rempli selon l'appareil --></div>
-    </div>
-  </div>
-
   <footer>
     <div>
       <a href="index.html">Accueil</a>
@@ -864,13 +898,13 @@
     var DEROULE_PUISSANCE = [
       ["Échauffement", "footing, activation musculaire et articulaire", "15'"],
       ["Exercices spécifiques", "proprioception, gammes athlétiques", "15'"],
-      ["Corps de séance", "développer la puissance aérobie, sous forme ludique", "20'"],
+      ["Corps de séance", "développer la puissance aérobie, sous forme ludique", "35'"],
       ["Retour au calme", "footing léger et débriefing", "10'"]
     ];
     var DEROULE_CAPACITE = [
       ["Échauffement", "footing, activation musculaire et articulaire", "15'"],
       ["Exercices spécifiques", "proprioception, gammes athlétiques", "15'"],
-      ["Corps de séance", "développer la capacité aérobie, sous forme ludique", "20'"],
+      ["Corps de séance", "développer la capacité aérobie, sous forme ludique", "35'"],
       ["Retour au calme", "footing léger et débriefing", "10'"]
     ];
     /* ── Encart « Ce qui est inclus dans le pack » (affiché au-dessus du bouton d'achat) ──
@@ -878,24 +912,19 @@
     var PACK_TITRE = "Préparation 10k — 12 semaines";
     var PACK_INCLUS = [
       {
-        icone: "🎯",
-        titre: "La définition de ton objectif chrono",
-        texte: "Un temps cible réaliste sur ton 10 km, fixé ensemble, qui sert de cap à toute la préparation."
+        icone: "👥",
+        titre: "12 séances collectives encadrées (1h15 · 8 pers. max)",
+        texte: "Une séance par semaine en petit groupe : l'énergie du collectif et des corrections personnalisées."
       },
       {
         icone: "📊",
         titre: "L'établissement de tes zones d'entraînement",
-        texte: "Une évaluation de départ pour caler tes allures et tes zones cardio sur ton niveau réel."
+        texte: "Une évaluation de départ pour calibrer tes allures d'entraînement."
       },
       {
         icone: "📋",
         titre: "Un plan d'entraînement sur 12 semaines",
         texte: "Un programme progressif, structuré pour arriver prêt(e) le jour J."
-      },
-      {
-        icone: "👥",
-        titre: "12 séances collectives encadrées (1h15 · 8 pers. max)",
-        texte: "Une séance par semaine en petit comité : l'énergie du collectif et des corrections personnalisées."
       }
     ];
 
@@ -1012,7 +1041,7 @@
         var sousTitrePack = (groupes[lieu][0] && groupes[lieu][0].dureePrepa) || PACK_TITRE || '';
         var lienCourse = '';
         groupes[lieu].forEach(function (s) { if (!lienCourse && s.lienCourse) lienCourse = s.lienCourse; });
-        bloc.innerHTML =
+        var enteteHtml =
           '<div class="lieu-titre-row">' +
             '<div class="lieu-titre"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) + '</span></div>' +
             (aPack
@@ -1041,7 +1070,7 @@
           var hint = document.createElement('span');
           hint.className = 'swipe-hint' + (n > 3 ? ' swipe-hint--desktop' : '');
           hint.setAttribute('aria-hidden', 'true');
-          hint.textContent = '← Fais défiler pour voir toutes les sessions →';
+          hint.textContent = '← Fais défiler pour voir toutes les séances →';
           colonneSeances.appendChild(hint);
           var scrollbarHint = document.createElement('div');
           scrollbarHint.className = 'lieu-cards-scrollbar-hint';
@@ -1075,14 +1104,21 @@
             derniere: sessionsTri[sessionsTri.length - 1],
             nb: sessionsTri.length
           };
+          /* Icônes SVG cohérentes (remplacent les emoji) — dans l'ordre des points inclus */
+          var ICONES_INCLUS = [
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/></svg>'
+          ];
+          var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
           var inclusHtml = (PACK_INCLUS && PACK_INCLUS.length)
             ? '<div class="pack-inclus">' +
                 '<h4 class="pack-inclus-titre">Ce qui est inclus dans ' +
                   (sousTitrePack ? '<span>« ' + esc(sousTitrePack) + ' »</span>' : '') + '</h4>' +
                 '<ul class="pack-inclus-liste">' +
-                  PACK_INCLUS.map(function (it) {
+                  PACK_INCLUS.map(function (it, i) {
                     return '<li>' +
-                      '<span class="pack-inclus-ico" aria-hidden="true">' + esc(it.icone || '✓') + '</span>' +
+                      '<span class="pack-inclus-ico" aria-hidden="true">' + (ICONES_INCLUS[i] || CHECK_SVG) + '</span>' +
                       '<div class="pack-inclus-txt"><strong>' + esc(it.titre || '') + '</strong>' +
                       (it.texte ? '<p>' + esc(it.texte) + '</p>' : '') + '</div>' +
                     '</li>';
@@ -1098,12 +1134,24 @@
           var mailAttente = 'mailto:contact@reding-running.fr' +
             '?subject=' + encodeURIComponent('Liste d\'attente — ' + lieuTitre) +
             '&body=' + encodeURIComponent('Bonjour, je souhaite être placé(e) en liste d\'attente pour la course « ' + lieuTitre + ' »' + (sousTitrePack ? ' (préparation ' + sousTitrePack + ')' : '') + '. Merci !');
-          /* Bloc de droite = uniquement l'encart « inclus » */
-          var packWrap = document.createElement('div');
-          packWrap.className = 'lieu-pack';
-          packWrap.innerHTML = inclusHtml;
+          /* ── En-tête intégré DANS la carte : titre + « M'inscrire » + sous-titre + badges ── */
+          var dDebut = new Date(sessionsTri[0].date + 'T12:00:00');
+          var badgesHtml =
+            '<div class="pack-badges">' +
+              '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Début le ' + esc(dDebut.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })) + '</span>' +
+              '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Groupe de ' + esc(String(placesPack)) + ' max</span>' +
+              '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(sessionsTri[0].lieu) + (sessionsTri[0].sousLieu ? ' — ' + esc(sessionsTri[0].sousLieu) : '') + '</span>' +
+            '</div>';
+          var enteteBloc = document.createElement('div');
+          enteteBloc.className = 'pack-entete';
+          enteteBloc.innerHTML = enteteHtml + badgesHtml;
 
-          /* Bouton d'achat + places : sous les cartes, dans la colonne de gauche */
+          /* ── Carte d'offre : en-tête + « inclus » + CTA, le tout dans une seule carte ── */
+          var packWrap = document.createElement('div');
+          packWrap.className = 'pack-offre';
+          packWrap.innerHTML = inclusHtml;
+          var carte = packWrap.querySelector('.pack-inclus') || packWrap;
+          carte.insertBefore(enteteBloc, carte.firstChild);
           var cta = document.createElement('div');
           cta.className = 'pack-cta';
           cta.innerHTML =
@@ -1113,21 +1161,24 @@
             '</button>' +
             (packComplet
               ? '<a class="pack-attente" href="' + mailAttente + '">Demander à être en liste d\'attente</a>'
-              : '<span class="pack-places">Il reste <strong>' + restantesPack + '</strong> place' + (restantesPack > 1 ? 's' : '') + '</span>');
-          colonneSeances.appendChild(cta);
+              : '<span class="pack-places' + (restantesPack <= 3 ? ' pack-places--urgent' : '') + '"><span class="pack-places-dot" aria-hidden="true"></span>Il reste <strong>' + restantesPack + '</strong> place' + (restantesPack > 1 ? 's' : '') + '</span>');
+          carte.appendChild(cta);
+          bloc.appendChild(packWrap);
 
-          /* Séances + bouton à gauche, encart « inclus » à droite (empilés sur mobile) */
-          var layout = document.createElement('div');
-          layout.className = 'pack-layout';
-          layout.appendChild(colonneSeances);
-          layout.appendChild(packWrap);
-          bloc.appendChild(layout);
+          /* ── Programme : titre + carrousel pleine largeur (plus de chevauchement) ── */
+          var progTitre = document.createElement('h3');
+          progTitre.className = 'prog-titre';
+          progTitre.textContent = 'Le programme de tes ' + sessionsTri.length + ' séances';
+          bloc.appendChild(progTitre);
+          bloc.appendChild(colonneSeances);
+
           (function (info) {
             cta.querySelector('.btn-pack').addEventListener('click', function () {
               ouvrirModalePack(info);
             });
           })(packInfo);
         } else {
+          bloc.innerHTML = enteteHtml;
           bloc.appendChild(colonneSeances);
         }
 
@@ -1434,82 +1485,6 @@
         .then(function () { demarrerSessions(); });
     })();
 
-    /* ══════════════════════════════════════════════════════════════════════
-       « ENREGISTRER CETTE PAGE » — installation (PWA) + instructions de secours
-       ══════════════════════════════════════════════════════════════════════
-       - Chrome / Edge / Android : installation native en un clic.
-       - iPhone / Safari (et autres) : fenêtre d'instructions adaptée à l'appareil.
-       - Si la page est déjà installée/ouverte en appli, le bouton reste masqué. */
-    (function () {
-      // 1) Enregistre le service worker (rend la page installable et dispo hors-ligne)
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function () {
-          navigator.serviceWorker.register('sw.js').catch(function () { /* silencieux */ });
-        });
-      }
-
-      var btn = document.getElementById('btn-installer');
-      var overlay = document.getElementById('install-overlay');
-      var steps = document.getElementById('install-steps');
-      if (!btn || !overlay || !steps) return;
-
-      var promptEvt = null; // événement d'installation native capturé
-      var ua = navigator.userAgent || '';
-      var estIOS = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-      var estAndroid = /android/i.test(ua);
-      var dejaInstallee = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-
-      // Déjà ouverte en appli installée → inutile d'afficher le bouton
-      if (dejaInstallee) { btn.hidden = true; return; }
-      btn.hidden = false; // visible par défaut (au pire on montre les instructions)
-
-      // 2) Installation native : on capte l'événement pour la déclencher au clic
-      window.addEventListener('beforeinstallprompt', function (e) {
-        e.preventDefault();
-        promptEvt = e;
-      });
-
-      // Icônes utilisées dans les instructions
-      var icoPartage = '<span class="ico-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m8 7 4-4 4 4"/><path d="M5 12H4a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-1"/></svg></span>';
-      var icoPlus   = '<span class="ico-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span>';
-      var icoMenu   = '<span class="ico-inline"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></span>';
-      var icoTel    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>';
-      var icoOrdi   = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>';
-
-      var blocIOS = '<div class="install-block"><h4>' + icoTel + 'Sur iPhone / iPad (Safari)</h4><p>Appuie sur le bouton <strong>Partager</strong> ' + icoPartage + ' en bas de l’écran, puis choisis <strong>« Sur l’écran d’accueil »</strong> ' + icoPlus + '.</p></div>';
-      var blocAndroid = '<div class="install-block"><h4>' + icoTel + 'Sur Android</h4><p>Ouvre le menu <strong>⋮</strong> ' + icoMenu + ' en haut à droite, puis <strong>« Ajouter à l’écran d’accueil »</strong> (ou « Installer l’application »).</p></div>';
-      var blocOrdi = '<div class="install-block"><h4>' + icoOrdi + 'Sur ordinateur</h4><p><strong>Chrome / Edge :</strong> clique sur l’icône d’installation ' + icoPlus + ' dans la barre d’adresse, ou menu <strong>⋮</strong> → « Installer ».<br><strong>Autres navigateurs :</strong> appuie sur <strong>Ctrl + D</strong> (⌘ + D sur Mac) pour ajouter la page à tes favoris.</p></div>';
-
-      function contenuInstructions() {
-        if (estIOS) return blocIOS;
-        if (estAndroid) return blocAndroid;
-        return blocOrdi; // ordinateur par défaut
-      }
-
-      function ouvrirModale() {
-        steps.innerHTML = contenuInstructions();
-        overlay.classList.add('open');
-      }
-      function fermerModale() { overlay.classList.remove('open'); }
-
-      btn.addEventListener('click', function () {
-        if (promptEvt) {
-          // Installation native disponible → on la déclenche
-          promptEvt.prompt();
-          promptEvt.userChoice.then(function (choix) {
-            if (choix && choix.outcome === 'accepted') btn.hidden = true;
-            promptEvt = null;
-          });
-        } else {
-          // Pas d'installation native (iOS, Safari, etc.) → instructions
-          ouvrirModale();
-        }
-      });
-
-      document.getElementById('install-close').addEventListener('click', fermerModale);
-      overlay.addEventListener('click', function (e) { if (e.target === overlay) fermerModale(); });
-      window.addEventListener('appinstalled', function () { btn.hidden = true; fermerModale(); });
-    })();
   </script>
 
   <!-- =====================================================================

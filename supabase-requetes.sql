@@ -82,7 +82,7 @@ update public.sessions set prix_unitaire = '8 €';
 -- Vider :
 update public.sessions set prix_pack = '';
 -- Remplir :
-update public.sessions set prix_pack = '90 €';
+update public.sessions set prix_pack = '130 €';
 
 
 -- ══════════════ STRIPE (lien de paiement d'une séance individuelle) ══════════════
@@ -96,7 +96,7 @@ update public.sessions set stripe = 'https://buy.stripe.com/XXXXXXXX';
 -- Vider :
 update public.sessions set stripe_pack = '';
 -- Remplir :
-update public.sessions set stripe_pack = 'https://buy.stripe.com/5kQ6oI0gn3br0AZ5iK8bS01';
+update public.sessions set stripe_pack = 'https://buy.stripe.com/fZu6oI7IP4fvbfDh1s8bS02';
 
 
 -- ══════════════ DESCRIPTION ══════════════

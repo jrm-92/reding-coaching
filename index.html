@@ -595,7 +595,7 @@
 
       /* Photo en dernier */
       .hero-img-wrap img {
-        height: 300px;
+        height: 220px;
         max-width: 100%;
         object-position: center 10%;
         border-radius: 20px;
@@ -607,20 +607,27 @@
 
     /* ─── HERO MOBILE PETIT (≤ 480px) — photo remontée, rythme resserré ─── */
     @media (max-width: 480px) {
-      .hero-section { padding: 90px 18px 40px; }
+      /* Objectif : tout le hero (titre → boutons → badges) visible sans scroll */
+      .hero-section { padding: 80px 18px 18px; }
 
       /* Taille de titre adaptée */
-      .hero-main-title { font-size: clamp(30px, 10vw, 44px); margin-bottom: 10px; }
+      .hero-main-title { font-size: clamp(30px, 10vw, 44px); margin-bottom: 8px; }
 
-      /* Rythme vertical : chaque espace est justifié par la relation entre blocs */
-      .hero-accent-line { margin-bottom: 14px; }   /* serré : trait lié au titre     */
-      .hero-value-prop  { margin-bottom: 20px; }   /* modéré : intro avant la photo  */
+      /* Rythme vertical resserré */
+      .hero-accent-line { margin-bottom: 10px; }
+      .hero-value-prop  { margin-bottom: 12px; font-size: 14px; line-height: 1.45; }
 
       /* Ordre : titre → accent → texte → photo → CTA → badges */
-      .hero-img-col { order: 4; margin-bottom: 24px; }
-      .hcta-section { order: 5; margin-bottom: 20px; }
+      .hero-img-col { order: 4; margin-bottom: 12px; }
+      .hcta-section { order: 5; margin-bottom: 12px; }
       .hero-badges  { order: 6; margin-bottom: 0; }
-      .hero-img-wrap img { height: 260px; }
+      .hero-img-wrap img { height: 150px; }
+
+      /* Boutons et badges compacts pour tout faire tenir */
+      .hcta-label-row { margin-bottom: 10px; }
+      .hero-cta-duo { gap: 8px; margin-bottom: 0; }
+      .hero-badges { gap: 7px; }
+      .hero-badge { padding: 9px 10px; gap: 8px; }
     }
 
     @media (min-width: 993px) { .hero-break-mobile { display: none; } }
@@ -3445,13 +3452,13 @@
     /* ── Boutons plus compacts sur mobile ── */
     @media (max-width: 768px) {
       /* Cartes CTA du hero (Suivi à distance / Coaching terrain) */
-      .hcta-card { padding: 13px 15px; gap: 12px; }
-      .hcta-icon { width: 38px; height: 38px; }
-      .hcta-icon svg { width: 19px; height: 19px; }
-      .hcta-arrow-circle { width: 30px; height: 30px; }
-      .hcta-arrow-circle svg { width: 15px; height: 15px; }
-      .hcta-card-title { font-size: 13.5px; }
-      .hcta-card-cta { font-size: 10px; }
+      .hcta-card { padding: 7px 12px; gap: 9px; }
+      .hcta-icon { width: 22px; height: 22px; }
+      .hcta-icon svg { width: 12px; height: 12px; }
+      .hcta-arrow-circle { width: 20px; height: 20px; }
+      .hcta-arrow-circle svg { width: 11px; height: 11px; }
+      .hcta-card-title { font-size: 12px; }
+      .hcta-card-cta { font-size: 9px; }
 
       /* Bouton « Réserver » (coaching terrain) */
       .ct-card-cta { padding: 11px 16px; font-size: 11.5px; letter-spacing: 0.6px; }
@@ -4049,6 +4056,36 @@
       }
     }
 
+    /* Téléphone : photo du hero en bannière compacte (recadrée) pour voir
+       les boutons ET les badges sans scroll. Placée en dernier = prioritaire. */
+    @media (max-width: 480px) {
+      .hero-img-wrap img {
+        height: 292px !important;
+        width: auto !important;
+        max-width: 100% !important;
+        object-fit: contain !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: block !important;
+      }
+    }
+
+    /* Téléphone : cartes CTA très compactes (placé en fin de CSS = prioritaire
+       sur les règles de base .hcta-* définies plus haut). */
+    @media (max-width: 768px) {
+      .hcta-card { padding: 7px 12px; gap: 9px; }
+      .hcta-card-body { gap: 1px; }
+      .hcta-icon { width: 22px; height: 22px; }
+      .hcta-icon svg { width: 12px; height: 12px; }
+      .hcta-arrow-circle { width: 20px; height: 20px; }
+      .hcta-arrow-circle svg { width: 11px; height: 11px; }
+      .hcta-card-title { font-size: 12px; }
+      .hcta-card-cta { font-size: 9px; }
+      .hcta-label-text { font-size: 10px; letter-spacing: 0.08em; }
+      .hcta-label-row { margin-bottom: 8px; gap: 10px; }
+      .hero-cta-duo { margin-bottom: 0; }
+    }
+
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 
@@ -4179,8 +4216,8 @@
       <div class="hero-left">
 
         <h1 class="hero-main-title">
-          <span class="line-orange">Coach running</span>
-          <span class="line-white">tous niveaux</span>
+          <span class="line-white">Coach running</span>
+          <span class="line-orange">tous niveaux</span>
           <span class="line-outline">Courir encadré</span>
         </h1>
 
@@ -4288,7 +4325,7 @@
 
         <div style="color: rgba(255,255,255,0.78); line-height: 1.9; text-align: justify; hyphens: none; -webkit-hyphens: none;">
           <p style="margin-bottom: 48px; font-size: clamp(17px, 1.6vw, 20px);">
-            Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlé depuis plus de 15 ans</strong> — j'ai d'abord commencé par fouler le tartan des pistes à la recherche de vitesse sur 200&nbsp;m (22"60), avant de tomber amoureux des kilomètres, du bitume et des chemins naturels — avec notamment un record à 35'20" sur 10K.
+            Je m'appelle Jérémy, <strong style="color:#fff;">je pratique l'athlé depuis plus de 15 ans</strong> — j'ai d'abord commencé par le sprint à la recherche de vitesse sur 200&nbsp;m (22"60), avant de me lancer de nouveaux défis dans les courses de fond — avec notamment un record à 35'20" sur 10K.
           </p>
           <p style="margin-bottom: 48px; font-size: clamp(17px, 1.6vw, 20px);">
              <strong style="color:#fff;">Formé par la Fédération Française d'Athlétisme</strong>, j'accompagne les coureurs de tous niveaux en construisant un entraînement personnalisé : analyse des données, écoute de l'athlète, adaptation continue — pour optimiser la progression à chaque étape.
@@ -4349,7 +4386,16 @@
               <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
               <line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>
             </svg>
-            Plan d'entraînement individualisé via Nolio
+            Plan d'entraînement personnnalisé
+          </li>
+          <li class="has-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+              <path d="M21 3v5h-5"/>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+              <path d="M8 16H3v5"/>
+            </svg>
+            Ajustement du plan en fonction de l'évolution
           </li>
           <li class="has-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
@@ -4379,27 +4425,11 @@
           </li>
           <li class="has-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
-              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
-              <path d="M21 3v5h-5"/>
-              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
-              <path d="M8 16H3v5"/>
-            </svg>
-            Ajustement du plan en fonction de l'évolution
-          </li>
-          <li class="has-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
             Communication via WhatsApp
           </li>
         </ul>
-        <div class="ct-bridge" style="margin-top: 8px; padding: 22px 20px; border-top: 1px solid rgba(255, 107, 53, 0.25); background: rgba(255, 107, 53, 0.06); display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;">
-          <div style="flex: 1; min-width: 220px;">
-            <h4 style="font-size: 16px; font-weight: 900; font-style: italic; text-transform: uppercase; letter-spacing: 0.5px; color: #FF6B35; margin: 0 0 6px;">Envie d'aller plus loin ?</h4>
-            <p style="margin: 0; color: rgba(255, 255, 255, 0.78); font-size: 14px; line-height: 1.6;">Tu peux compléter ton suivi à distance par des séances de <strong style="color:#fff;">coaching terrain</strong> : technique de course, renforcement et séances clés encadrées.</p>
-          </div>
-          <a href="#solo-duo-trio" style="display: inline-flex; align-items: center; gap: 8px; background: #FF6B35; color: #fff; padding: 13px 26px; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; box-shadow: 0 6px 20px rgba(255, 107, 53, 0.35); flex-shrink: 0; transition: background 0.25s ease;" onmouseover="this.style.background='#ff7a47'" onmouseout="this.style.background='#FF6B35'">Découvrir le coaching terrain <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-        </div>
       </div>
 
     <!-- Formulaire dédié : démarrer le suivi à distance -->
@@ -4518,8 +4548,6 @@
                 <ul class="service-features" style="margin-top:0;padding-top:15px;">
                   <li class="has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Séance d'1h minimum</li>
                   <li class="has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Lieu défini ensemble, dans la zone de déplacement</li>
-                  <li class="has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><strong>+10 € par personne supplémentaire</strong></li>
-                  <li class="has-icon"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Duo 60 € · Trio 70 € · Quatuor 80 € · Groupe (5 +) : sur devis</li>
                 </ul>
               </div>
             </div>
@@ -4921,7 +4949,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Le rendez-vous (départ et arrivée) est fixé à Courbevoie (Faubourg de l'Arche) ; le lieu d'entraînement lui-même peut varier d'une séance à l'autre. Les séances ont lieu le samedi à 10h00 (durée 1h15 environ). Seule exception : la dernière séance est programmée en début de semaine (le lundi par défaut, mais ajustable selon la décision du groupe) — puisque la course se déroule le week-end. Le détail des dates est disponible sur la page <a href="sessions-collectives.html" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">Sessions collectives</a>.</p>
+              <p>Retrouvez les informations de rendez-vous (départ et arrivée) directement sur la fiche de chaque événement. Le lieu d'entraînement peut varier en fonction de la séance. Les séances ont lieu chaque samedi à 10 h 00 pour une durée d'environ 1 h 15. L'intégralité du planning est accessible sur la page <a href="sessions-collectives.html" target="_blank" rel="noopener noreferrer" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">Sessions collectives</a>.</p>
             </div>
           </div>
 
@@ -4932,16 +4960,6 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
             </button>
             <div class="faq-answer">
               <p>Le groupe est limité à 8 personnes.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
-              <span>Qu'est-ce qui est inclus dans le pack ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Le pack « Préparation 10k — 12 semaines » comprend 12 séances collectives encadrées (1h15 environ), en petit groupe de 8 personnes maximum.</p>
             </div>
           </div>
 
@@ -4961,13 +4979,13 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Rends-toi sur la page <a href="sessions-collectives.html" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">Sessions collectives</a> et clique sur « Acheter le pack ». Ta place n'est confirmée qu'une fois le paiement effectué (paiement en ligne sécurisé par Stripe).</p>
+              <p>Rends-toi sur la page <a href="sessions-collectives.html" target="_blank" rel="noopener noreferrer" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">Sessions collectives</a> et clique sur « S'inscrire à la préparation ». Ta place n'est confirmée qu'une fois le paiement effectué (paiement en ligne sécurisé par Stripe).</p>
             </div>
           </div>
 
           <div class="faq-item">
             <button class="faq-question">
-              <span>Que se passe-t-il si le pack est complet ?</span>
+              <span>Que faire si la préparation est complète ?</span>
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
@@ -5124,16 +5142,23 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
       question.addEventListener('click', function() {
         const faqItem = this.closest('.faq-item');
         const isActive = faqItem.classList.contains('active');
-        
+
+        // Position de la question à l'écran AVANT de replier/déplier
+        const topBefore = this.getBoundingClientRect().top;
+
         // Close all FAQ items
         document.querySelectorAll('.faq-item').forEach(item => {
           item.classList.remove('active');
         });
-        
+
         // Open clicked item if it wasn't active
         if (!isActive) {
           faqItem.classList.add('active');
         }
+
+        // Empêche la page de « sauter » : on garde la question sous le doigt
+        const topAfter = this.getBoundingClientRect().top;
+        window.scrollBy(0, topAfter - topBefore);
       });
     });
   </script>
@@ -5146,8 +5171,6 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
         <p class="footer-tagline">Coach Running · Île-de-France</p>
       </div>
       <div class="footer-links">
-        <a href="sessions-collectives.html">Sessions collectives</a>
-        <a href="https://billing.stripe.com/p/login/dRm6oI7IPfYd6ZneTk8bS00" target="_blank" rel="noopener">Gérer mon abonnement</a>
         <a href="mentions-legales.html">Mentions légales</a>
         <a href="cgv.html">CGV / CGU</a>
         <a href="politique-confidentialite.html">Politique de confidentialité</a>
@@ -5209,8 +5232,8 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     @media (max-width: 768px) {
       /* Hero plus compact : moins de vide avant le premier contenu */
       .hero-section { padding: 88px 18px 40px; }
-      .hero-accent-line { margin-bottom: 18px; }
-      .hcta-section { margin-bottom: 20px; }
+      .hero-accent-line { margin-bottom: 12px; }
+      .hcta-section { margin-bottom: 11px; }
 
       /* Badges hero : plus fins, mieux alignés */
       .hero-badge { padding: 10px 11px; gap: 8px; border-radius: 10px; }
@@ -5725,6 +5748,16 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     .footer-links a, .footer-copyright { color: rgba(255,255,255,0.75) !important; }
     .footer-tagline { color: rgba(255,255,255,0.62) !important; }
     .appel-mini-label { color: rgba(255,255,255,0.66) !important; }
+
+    /* ─── Mobile : compacter « À propos » pour la voir en entier (au mieux) sur un écran ─── */
+    @media (max-width: 768px) {
+      .apropos-section { padding-top: 80px !important; padding-bottom: 34px !important; }
+      .hero-title-section { margin-bottom: 12px !important; }
+      .apropos-container { gap: 14px !important; }
+      .apropos-image { max-width: 250px !important; }
+      .about-content p { margin-bottom: 12px !important; font-size: 14.5px !important; line-height: 1.5 !important; }
+      .about-content { gap: 0 !important; }
+    }
   </style>
 
 </body>
