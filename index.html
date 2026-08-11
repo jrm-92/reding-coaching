@@ -99,15 +99,20 @@
       --offer-terrain-soft:    rgba(255, 107, 53, 0.12);
       --offer-terrain-border:  rgba(255, 107, 53, 0.38);
       --offer-terrain-glow:    rgba(255, 107, 53, 0.22);
-      /* Surfaces orange pleines : texte blanc (choix valide). L'orange vif
+      /* Surfaces orange pleines portant du texte blanc. L'orange vif
          #FF6B35 ne donne que 2.84 avec du blanc, tres sous le seuil AA de
          4.5 ; on utilise donc la premiere nuance plus dense de la meme
-         teinte, #BF5028, ou le blanc atteint 4.78. Le survol descend a
-         #A64622 (5.96). L'orange vif reste --offer-terrain pour les
-         bordures, filets et textes poses sur le navy. */
-      --offer-terrain-fill:    #BF5028;
-      --offer-terrain-on:      #ffffff;
-      --offer-terrain-hover:   #A64622;
+         teinte, #BF5028, ou le blanc atteint 4.78 (survol #A64622 : 5.96).
+         L'orange vif reste --color-accent / --offer-terrain pour les
+         bordures, filets et textes poses sur le navy.
+         Paire generique, valable hors contexte d'offre (bouton du header). */
+      --accent-fill:       #BF5028;
+      --accent-on:         #ffffff;
+      --accent-fill-hover: #A64622;
+
+      --offer-terrain-fill:    var(--accent-fill);
+      --offer-terrain-on:      var(--accent-on);
+      --offer-terrain-hover:   var(--accent-fill-hover);
       --color-alert: #f87171;
       --color-line: rgba(10, 17, 40, 0.10);
       --color-line-dark: rgba(255, 255, 255, 0.14);
@@ -236,15 +241,15 @@
     .nav-dropdown-menu a:hover { background: var(--color-accent-soft); color: var(--color-accent-light); }
 
     .nav-cta {
-      background: transparent !important; color:#fff !important;
-      border: 1.5px solid var(--color-accent);
+      background: var(--accent-fill) !important; color: var(--accent-on) !important;
+      border: 1.5px solid var(--accent-fill);
       padding: var(--space-2) var(--space-4) !important;
       border-radius: var(--radius-sm) !important;
       font-weight:700 !important; font-size: var(--fs-small) !important; letter-spacing:.06em !important;
-      transition: background .25s ease, color .25s ease !important;
+      transition: background .25s ease, border-color .25s ease !important;
       white-space:nowrap;
     }
-    .nav-cta:hover { background: var(--color-accent) !important; }
+    .nav-cta:hover { background: var(--accent-fill-hover) !important; border-color: var(--accent-fill-hover); }
     .nav-cta::after { display:none !important; }
 
     .mobile-menu-toggle { display:none; flex-direction:column; gap:5px; cursor:pointer; }
