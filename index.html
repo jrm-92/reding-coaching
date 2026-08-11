@@ -1490,8 +1490,12 @@
       margin-top: 2px;
     }
     .feature-bonus-txt { display: block; line-height: 1.55; }
+    /* En bloc et non en ligne : une marge droite sur un element en ligne est
+       supprimee en fin de ligne, la separation avec le texte dependait donc
+       de la largeur de l'ecran. En bloc, le texte recupere aussi toute la
+       largeur disponible au lieu d'etre decale sur sa premiere ligne. */
     .feature-bonus-badge {
-      display: inline-block; vertical-align: 1px; margin-right: 7px; white-space: nowrap;
+      display: block; width: fit-content; margin: 0 0 6px; white-space: nowrap;
       padding: 2px 9px; border-radius: var(--radius-pill);
       /* Fond et texte pris dans l'offre courante (contraste garanti par
          le couple --offer-fill / --offer-on). */
@@ -3137,7 +3141,7 @@
           </li>
           <li class="has-icon feature-bonus">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            <span class="feature-bonus-txt"><span class="feature-bonus-badge">En option:</span>La séance de coaching terrain individuel : <strong>35&nbsp;€</strong></span>
+            <span class="feature-bonus-txt"><span class="feature-bonus-badge">En option</span>La séance de coaching terrain individuel : <strong>35&nbsp;€</strong></span>
           </li>
         </ul>
         <p class="service-card-note">* Évaluation en présence du coach, uniquement dans <a href="#zone-deplacement" class="link-accent-blue">la zone de déplacement</a>.</p>
