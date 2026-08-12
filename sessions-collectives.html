@@ -323,7 +323,22 @@
     }
 
     /* ── Groupes par lieu ── */
-    .lieu-groupe { margin-bottom: 52px; }
+    /* ═══ MODULE « UNE PREPARATION » ═══════════════════════════════════
+       Ce conteneur englobait deja l'offre, le titre du programme et le
+       carrousel, mais ne portait aucun style : le module etait invisible, et
+       seule la carte interne se voyait — en se fermant avant le programme.
+       On lui transfere le fond, la bordure et le rayon qui appartenaient a
+       .pack-inclus : une seule enveloppe, et tout se trouve dedans.
+       Le margin-bottom fait l'espace net entre deux preparations. */
+    .lieu-groupe {
+      max-width: 1080px;
+      margin: 0 auto var(--space-8);
+      padding: var(--space-5) var(--space-5) var(--space-6);
+      background: linear-gradient(135deg, rgba(255,107,53,0.10), rgba(255,107,53,0.04));
+      border: 1px solid rgba(255,107,53,0.35);
+      border-radius: 16px;
+    }
+    .lieu-groupe:last-child { margin-bottom: 0; }
     /* Ligne titre : nom de la course (gauche/centre) + action « M'inscrire à la course » + ⓘ (droite) */
     .lieu-titre-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 4px; }
     .lieu-titre-row .lieu-titre { flex: 0 1 auto; margin-bottom: 0; }
@@ -360,16 +375,34 @@
     .lieu-titre::before, .lieu-titre::after {
       content: ''; flex: 1; height: 1px; background: rgba(255, 107, 53, 0.25);
     }
+    /* Sur-titre et date : meme registre exact, en miroir de part et d'autre
+       du nom de course, et centres sur le titre lui-meme puisqu'ils sont
+       imbriques dans son bloc (et non sur toute la ligne, bouton compris).
+       Double classe pour passer devant « .lieu-titre span ». */
+    .lieu-titre .lieu-titre-kicker,
+    .lieu-titre .lieu-titre-date {
+      display: block;
+      font-size: var(--fs-small); font-weight: 700; font-style: normal;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.75);
+    }
+    .lieu-titre .lieu-titre-kicker { margin-bottom: var(--space-1); text-transform: uppercase; }
+    .lieu-titre .lieu-titre-date   { margin-top: var(--space-1);    text-transform: none; }
+    /* Epingle du titre : elle heritait du blanc via currentColor et se
+       confondait avec le texte. En accent, elle signale le type d'information
+       et fait echo aux icones du bandeau juste en dessous. */
+    .lieu-titre > span > svg { color: var(--color-accent); }
     .lieu-titre span {
-      font-size: clamp(18px, 2.2vw, 23px); font-weight: 900; font-style: italic;
-      text-transform: uppercase; letter-spacing: 0.04em; color: #FF6B35;
+      font-size: var(--fs-h4); font-weight: 900; font-style: italic;
+      text-transform: uppercase; letter-spacing: 0.04em; color: #ffffff;
       white-space: normal; text-align: center;
     }
+    /* Sur-titre (kicker) : situe la preparation au-dessus du nom de course. */
     .lieu-sous-titre {
-      margin: 2px 0 24px; text-align: center;
-      font-size: 14px; font-weight: 600; font-style: italic;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      color: rgba(255,255,255,0.82);
+      margin: 0 0 var(--space-2); text-align: center;
+      font-size: var(--fs-micro); font-weight: 700; font-style: normal;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
     }
 
     /* Flèches de défilement latérales (desktop) */
@@ -388,8 +421,11 @@
     @media (min-width: 769px) {
       .lieu-carrousel { padding: 0 56px; }
     }
+    /* .lieu-cards reserve 14px de padding bas pour sa barre de defilement :
+       centrer sur le conteneur decalait les fleches de 7px sous le milieu
+       reel des cartes. On compense. */
     .lieu-fleche--prev, .lieu-fleche--next {
-      position: absolute; top: 50%; transform: translateY(-50%); z-index: 6;
+      position: absolute; top: calc(50% - 7px); transform: translateY(-50%); z-index: 6;
     }
     .lieu-fleche--prev { left: 6px; }
     .lieu-fleche--next { right: 6px; }
@@ -403,6 +439,7 @@
     /* Carrousel : 3 cartes visibles par ligne, les suivantes se font défiler */
     .lieu-cards {
       display: flex;
+      align-items: stretch;   /* hauteurs strictement egales */
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
@@ -426,22 +463,28 @@
       background: rgba(255,107,53,0.95);
     }
     .lieu-cards .session-card {
-      /* 3 cartes pleines + un aperçu de la 4e qui dépasse → on comprend que ça défile */
-      flex: 0 0 calc((100% - 60px) / 3.25);
-      /* 290px debordait sous 330px de viewport (320 - 2x20 de gouttiere = 280) */
-      min-width: min(290px, 100%);
+      /* Exactement 3 cartes visibles des que la place le permet (2 gouttieres
+         de 20px). En dessous, le plancher de 240px prend le relais et le
+         carrousel defile plutot que d'ecraser les cartes — aucun seuil de
+         rupture supplementaire n'est necessaire.
+         L'indication de defilement passe par le voile degrade .a-suite, deja
+         present et plus discret que l'ancien quart de 4e carte. */
+      flex: 0 0 max(240px, calc((100% - 40px) / 3));
+      min-width: 0;
       scroll-snap-align: start;
     }
     /* Voile dégradé sur le bord droit tant qu'il reste des sessions à voir */
+    /* Le voile porte desormais seul l'indication de defilement (l'apercu de
+       4e carte a ete retire) : on l'etend legerement pour rester lisible. */
     .lieu-cards.a-suite {
-      -webkit-mask-image: linear-gradient(90deg, #000 90%, transparent 99%);
-      mask-image: linear-gradient(90deg, #000 90%, transparent 99%);
+      -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
+      mask-image: linear-gradient(90deg, #000 86%, transparent 100%);
     }
 
     .swipe-hint {
       display: none; text-align: center;
       font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.6); margin-top: 2px;
+      color: rgba(255, 255, 255, 0.75); margin-top: 2px;
     }
     .swipe-hint--desktop { display: block; }
     .lieu-cards-scrollbar-hint {
@@ -451,7 +494,7 @@
       font-weight: 600;
       letter-spacing: 1.2px;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.65);
+      color: rgba(255,255,255,0.75);
       text-align: center;
     }
     .lieu-pack-prix {
@@ -476,25 +519,26 @@
     }
 
     /* Encart « Ce qui est inclus dans le pack » */
+    /* Plus de carte ici : le module porte l'enveloppe. Ce bloc n'est plus
+       qu'un groupe interne, delimite par les filets. */
     .pack-inclus {
       width: 100%;
-      background: linear-gradient(135deg, rgba(255,107,53,0.10), rgba(255,107,53,0.04));
-      border: 1px solid rgba(255,107,53,0.35);
-      border-radius: 16px; padding: 22px 24px;
+      background: none; border: none; border-radius: 0; padding: 0;
     }
     .pack-inclus-titre {
-      margin: 0 0 16px; font-size: 15px; font-weight: 800; color: #fff;
+      margin: 0 0 var(--space-4); font-size: 15px; font-weight: 800; color: #fff;
       text-align: center; line-height: 1.5;
     }
-    .pack-inclus-titre span { color: #FF6B35; font-style: italic; white-space: nowrap; }
     .pack-inclus-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px; }
     .pack-inclus-liste li { display: flex; align-items: flex-start; gap: 13px; }
+    /* Fond carre discret + icone en accent vif : le carre s'effac,
+       l'icone porte la couleur. */
     .pack-inclus-ico {
-      flex-shrink: 0; width: 38px; height: 38px; border-radius: 10px;
+      flex-shrink: 0; width: 38px; height: 38px; border-radius: var(--radius-sm);
       display: flex; align-items: center; justify-content: center; line-height: 1;
-      background: rgba(255,107,53,0.16); border: 1px solid rgba(255,107,53,0.38);
+      background: rgba(255,255,255,0.05); border: 1px solid var(--color-line-dark);
     }
-    .pack-inclus-ico svg { width: 20px; height: 20px; color: #FF8C5A; }
+    .pack-inclus-ico svg { width: 20px; height: 20px; color: var(--color-accent); }
     .pack-inclus-txt strong { display: block; color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 2px; }
     .pack-inclus-txt p { margin: 0; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.88); }
 
@@ -511,7 +555,7 @@
     .btn-pack:disabled { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.45); cursor: not-allowed; box-shadow: none; }
 
     /* Bouton d'achat + places : sous les cartes, centrés */
-    .pack-cta { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 16px; }
+    .pack-cta { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); margin-top: var(--space-3); }
     .pack-cta .btn-pack { width: 100%; max-width: 520px; }
     .pack-places {
       display: inline-flex; align-items: center; gap: 9px;
@@ -538,17 +582,23 @@
       max-width: 640px; margin: 2px auto 26px;
     }
     /* Lien vers l'inscription à la course + mention « dossard non inclus » */
+    /* Bouton secondaire standard : filet hairline neutre (l'ancien contour
+       orange a 38% se lisait brun sur le fond teinte du module), geometrie et
+       typographie alignees sur les autres boutons du site. L'action reste
+       secondaire face au CTA principal d'inscription a la preparation. */
     .pack-course-lien {
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      margin-top: 4px; padding: 9px 18px; border-radius: var(--radius-md);
-      border: 1px solid var(--offer-border); color: var(--offer-light);
-      font-size: var(--fs-small); font-weight: 700; text-decoration: none;
-      transition: background 0.2s ease, color 0.2s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--color-line-dark); color: #ffffff;
+      font-size: var(--fs-small); font-weight: 700; letter-spacing: .04em;
+      text-transform: uppercase; text-decoration: none; white-space: nowrap;
+      transition: background .2s ease, border-color .2s ease;
     }
-    .pack-course-lien:hover { background: rgba(255,107,53,0.12); color: #ff9d73; }
+    .pack-course-lien:hover { background: var(--offer-soft); border-color: var(--offer); color: #ffffff; }
     .pack-course-note {
       display: block; max-width: 480px; margin-top: 2px;
-      font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.55); text-align: center;
+      font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.75); text-align: center;
     }
 
     /* Empilement dès qu'on n'a plus assez de large (tablette / mobile) */
@@ -558,44 +608,56 @@
       .lieu-pack { flex-basis: auto; width: 100%; min-width: 0; }
     }
     @media (max-width: 480px) {
-      .pack-inclus { padding: 18px 16px; }
+      .pack-inclus { padding: 0; }
     }
 
     /* ═══ Mise en page 1 colonne : en-tête → offre pleine largeur → programme ═══ */
+    /* ── Bandeau d'informations (remplace 3 pilules distinctes) ──
+       Une seule boite, filet hairline, rayon sobre. Les trois donnees sont
+       separees par des filets internes plutot que par des contours propres :
+       elles se lisent comme un ensemble et non comme trois etiquettes. */
     .pack-badges {
-      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-      margin: 2px 0 30px;
+      display: flex; flex-wrap: wrap;
+      border: 1px solid var(--color-line-dark);
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.03);
+      margin: 2px 0 var(--space-5);
+      overflow: hidden;
     }
     .pack-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 8px 14px; border-radius: var(--radius-pill);
-      background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.38);
-      color: #ffd9c7; font-size: 13.5px; font-weight: 700; white-space: nowrap;
+      flex: 1 1 0; min-width: 0;
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      padding: var(--space-3) var(--space-4);
+      background: none; border: none; border-radius: 0;
+      color: rgba(255,255,255,0.85);
+      font-size: var(--fs-small); font-weight: 600; white-space: nowrap;
     }
-    .pack-badge svg { width: 16px; height: 16px; color: #FF6B35; flex-shrink: 0; }
+    /* Filet de separation entre les donnees, jamais avant la premiere */
+    .pack-badge + .pack-badge { border-left: 1px solid var(--color-line-dark); }
+    .pack-badge svg { width: 16px; height: 16px; color: var(--color-accent); flex-shrink: 0; }
 
     /* Carte d'offre : pleine largeur (centrée, largeur de lecture confortable) */
-    .pack-offre { width: 100%; max-width: 1080px; margin: 0 auto 44px; }
-    .pack-offre .pack-inclus { padding: 28px 30px; }
+    /* Le module fixe la largeur et le padding : ce bloc s'y conforme,
+       le carrousel s'aligne donc exactement sur la carte d'offre. */
+    .pack-offre { width: 100%; max-width: none; margin: 0; }
+    .pack-offre .pack-inclus { padding: 0; }
     /* Les 4 points : 2 colonnes en desktop, 1 colonne en mobile */
+    /* Colonnes egales. auto-fit gere seul le passage a une colonne sous
+       ~640px, sans media query. L'ancienne composition placait le 1er
+       element seul a gauche sur deux lignes, les deux autres empiles a
+       droite, et le sur-hierarchisait (icone 48px, titre 18px). */
     .pack-offre .pack-inclus-liste {
-      display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 18px 26px; align-items: stretch;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-5) var(--space-4);
+      align-items: start;
     }
-    /* Plan mis en avant : colonne gauche, sur les 2 rangées, plus gros */
-    /* Bloc mis en avant à gauche : plus grand, icône à gauche du texte, sans cadre */
-    .pack-offre .pack-inclus-liste li:nth-child(1) {
-      grid-column: 1; grid-row: 1 / span 2;
-      align-self: center; gap: 16px;
-    }
-    .pack-offre .pack-inclus-liste li:nth-child(1) .pack-inclus-ico { width: 48px; height: 48px; }
-    .pack-offre .pack-inclus-liste li:nth-child(1) .pack-inclus-ico svg { width: 25px; height: 25px; }
-    .pack-offre .pack-inclus-liste li:nth-child(1) .pack-inclus-txt strong { font-size: 18px; margin-bottom: 6px; line-height: 1.3; }
-    .pack-offre .pack-inclus-liste li:nth-child(1) .pack-inclus-txt p { font-size: 15px; line-height: 1.65; }
-    .pack-offre .pack-inclus-liste li:nth-child(2) { grid-column: 2; grid-row: 1; }
-    .pack-offre .pack-inclus-liste li:nth-child(3) { grid-column: 2; grid-row: 2; }
+    /* CTA isole : l'espace avant et apres le detache du contenu, et la
+       ligne « places » se resserre contre le bouton pour former un couple. */
     .pack-offre .pack-cta {
-      margin-top: 24px; padding-top: 22px;
+      margin-top: var(--space-4); padding-top: var(--space-4);
       border-top: 1px solid rgba(255,107,53,0.22);
+      gap: var(--space-2);
     }
     .pack-offre .pack-cta .btn-pack {
       width: 100%; max-width: 560px; font-size: 16px; padding: 17px 24px;
@@ -611,19 +673,39 @@
     .pack-entete .pack-badges { margin: 16px 0 0; }
 
     /* Titre de la section programme (au-dessus du carrousel) */
+    /* Troisieme sous-partie du module : meme logique de filet que l'en-tete
+       et le CTA. Le titre reste plus proche du carrousel qu'il introduit
+       (space-4 dessous) que du bloc precedent (space-6 dessus). */
     .prog-titre {
-      margin: 10px 0 22px; text-align: center;
+      margin: var(--space-4) 0 var(--space-4);
+      padding-top: var(--space-4);
+      border-top: 1px solid rgba(255,107,53,0.22);
+      text-align: center;
       font-size: clamp(20px, 2.4vw, 26px); font-weight: 900; font-style: italic;
       text-transform: uppercase; letter-spacing: 0.02em; color: #fff;
     }
 
     @media (max-width: 640px) {
-      .pack-offre .pack-inclus-liste { grid-template-columns: minmax(0, 1fr); gap: 15px; }
-      .pack-offre .pack-inclus-liste li:nth-child(1),
-      .pack-offre .pack-inclus-liste li:nth-child(2),
-      .pack-offre .pack-inclus-liste li:nth-child(3) { grid-column: auto; grid-row: auto; }
-      .pack-offre .pack-inclus { padding: 20px 18px; }
-      .pack-badge { font-size: 12.5px; padding: 7px 12px; }
+      /* auto-fit replie seul la grille en une colonne : ces surcharges de
+         placement n'ont plus d'objet. Reste la gouttiere, resserree. */
+      .pack-offre .pack-inclus-liste { gap: var(--space-4); }
+      .pack-offre .pack-inclus { padding: 0; }
+      /* Empile en liste : les filets de separation basculent a l'horizontale.
+         Le texte heritait du text-align:center de l'en-tete, donc ses lignes
+         de renvoi se centraient sous l'icone ; et align-items:center placait
+         l'icone au milieu des deux lignes au lieu de la premiere. */
+      .pack-badges { flex-direction: column; }
+      .pack-badge {
+        flex: 1 1 auto;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+        white-space: normal;
+        gap: var(--space-2);
+        padding: var(--space-3);
+      }
+      .pack-badge svg { margin-top: 2px; }   /* alignement optique sur la 1re ligne */
+      .pack-badge + .pack-badge { border-left: none; border-top: 1px solid var(--color-line-dark); }
     }
 
     /* Mobile : une carte visible + un aperçu de la suivante */
@@ -730,7 +812,7 @@
     .session-deroule summary {
       list-style: none; cursor: pointer;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 11px 14px;
+      padding: var(--space-2) var(--space-3);
       font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
       color: #FF6B35; user-select: none;
     }
@@ -743,7 +825,7 @@
     }
     .session-deroule[open] summary::after { transform: rotate(-135deg); margin-top: 3px; }
     .session-deroule summary:hover { background: rgba(255,107,53,0.06); }
-    .session-deroule ul { list-style: none; margin: 0; padding: 2px 14px 12px; }
+    .session-deroule ul { list-style: none; margin: 0; padding: 2px var(--space-3) var(--space-3); }
     .session-deroule li {
       display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
       padding: 7px 0; font-size: 13px; line-height: 1.5;
@@ -758,7 +840,8 @@
     }
 
     /* jauge de places */
-    .session-jauge { padding: 16px 24px 0; }
+    /* Aligne sur la gouttiere laterale commune des autres blocs de la carte. */
+    .session-jauge { padding: var(--space-3) var(--space-4) 0; }
     .jauge-label {
       display: flex; justify-content: space-between;
       font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
@@ -869,7 +952,12 @@
       box-shadow: 0 6px 18px rgba(255,107,53,0.3); transition: all 0.25s ease;
     }
     .btn-envoyer:hover { transform: translateY(-2px); }
-    .btn-envoyer:disabled { opacity: 0.6; cursor: wait; transform: none; }
+    /* Desactive par defaut = un prerequis manque (case a cocher) : le
+       curseur doit dire « indisponible », pas « patiente ». Coherent avec
+       .btn-pack:disabled et .btn-inscrire:disabled, deja en not-allowed. */
+    .btn-envoyer:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    /* Seul l'envoi reel justifie un curseur d'attente. */
+    .btn-envoyer.is-sending { cursor: progress; }
     .m-note { text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 12px; }
     /* Case à cocher « inscription à la course » (obligatoire pour un pack) */
     .m-course-ack {
@@ -999,9 +1087,9 @@
         </label>
 
         <button type="submit" class="btn-envoyer" id="btn-envoyer">Réserver ma place</button>
-        <p class="m-note">Ta place n'est confirmée qu'une fois le paiement effectué (paiement sécurisé Stripe, à l'étape suivante). Annulation gratuite jusqu'à 24h avant la séance.</p>
+        <p class="m-note">Ta place n'est confirmée qu'une fois le paiement effectué.<br> (paiement sécurisé Stripe, à l'étape suivante).</p>
         <p class="m-message" id="m-message"></p>
-        <p class="m-fallback" style="margin-top:6px;text-align:center;font-size:12.5px;line-height:1.5;color:rgba(255,255,255,0.55);">Le formulaire ne fonctionne pas ? Écris-moi directement à <a href="mailto:contact@reding-running.fr?subject=R%C3%A9servation%20session%20collective" style="color:#FF6B35;font-weight:600;text-decoration:underline;">contact@reding-running.fr</a></p>
+        <p class="m-fallback" style="margin-top:6px;text-align:center;font-size:12.5px;line-height:1.5;color:rgba(255,255,255,0.55);">Le formulaire ne fonctionne pas ?<br> Écris-moi directement à <a href="mailto:contact@reding-running.fr?subject=R%C3%A9servation%20session%20collective" style="color:#FF6B35;font-weight:600;text-decoration:underline;">contact@reding-running.fr</a></p>
 
         <div class="m-actions" id="m-actions">
           <a href="#" id="btn-payer" class="btn-payer" target="_blank" rel="noopener noreferrer">
@@ -1179,6 +1267,16 @@
           if (s.evenementBrut && evenementsGroupe.indexOf(s.evenementBrut) === -1) evenementsGroupe.push(s.evenementBrut);
         });
         var lieuTitre = evenementsGroupe.length ? evenementsGroupe.join(' · ') : libelleLieu(ville);
+        /* Le libelle d'evenement contient souvent la date en fin de chaine
+           (« ... 13/12/2026 »). Laissee dans le titre, elle se retrouve seule
+           et centree sur une 2e ligne des que le titre passe a la ligne.
+           On la detache pour en faire un element propre — contenu inchange. */
+        var lieuTitreDate = '';
+        var mDateTitre = lieuTitre.match(/\s*(\d{1,2}\/\d{1,2}\/\d{2,4})\s*$/);
+        if (mDateTitre) {
+          lieuTitreDate = mDateTitre[1];
+          lieuTitre = lieuTitre.slice(0, mDateTitre.index).trim();
+        }
         var afficherFleches = n > 1 && ville !== 'Le Vésinet — Stade des Merlettes';
         var aPack = groupes[lieu].some(function (s) { return s.prixPack; });
         /* Sous-titre de l'événement : colonne Supabase « duree_prepa », sinon repli sur PACK_TITRE */
@@ -1187,15 +1285,18 @@
         groupes[lieu].forEach(function (s) { if (!lienCourse && s.lienCourse) lienCourse = s.lienCourse; });
         var enteteHtml =
           '<div class="lieu-titre-row">' +
-            '<div class="lieu-titre"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) + '</span></div>' +
+            '<div class="lieu-titre"><span>' +
+              (aPack && sousTitrePack ? '<span class="lieu-titre-kicker">' + esc(sousTitrePack) + '</span>' : '') +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) +
+              (lieuTitreDate ? '<span class="lieu-titre-date">' + esc(lieuTitreDate) + '</span>' : '') +
+            '</span></div>' +
             (aPack
               ? '<div class="pack-course-action">' +
                   (lienCourse ? '<a class="pack-course-lien" href="' + esc(lienCourse) + '" target="_blank" rel="noopener noreferrer">M\'inscrire à la course ↗</a>' : '') +
                   '<span class="pack-course-info" tabindex="0" role="button" aria-label="Information sur l\'inscription à la course">i<span class="pack-course-tip">⚠️ Le dossard n\'est pas inclus : l\'inscription à la course se fait séparément, sur le site de l\'organisateur.</span></span>' +
                 '</div>'
               : '') +
-          '</div>' +
-          (aPack && sousTitrePack ? '<div class="lieu-sous-titre">' + esc(sousTitrePack) + '</div>' : '');
+          '</div>';
         var carrousel = document.createElement('div');
         carrousel.className = 'lieu-carrousel';
         var cards = document.createElement('div');
@@ -1257,8 +1358,7 @@
           var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
           var inclusHtml = (PACK_INCLUS && PACK_INCLUS.length)
             ? '<div class="pack-inclus">' +
-                '<h4 class="pack-inclus-titre">Ce qui est inclus dans ' +
-                  (sousTitrePack ? '<span>« ' + esc(sousTitrePack) + ' »</span>' : '') + '</h4>' +
+                '<h4 class="pack-inclus-titre">Ce qui est inclus</h4>' +
                 '<ul class="pack-inclus-liste">' +
                   PACK_INCLUS.map(function (it, i) {
                     return '<li>' +
@@ -1528,12 +1628,13 @@
         e.preventDefault();
         var btn = document.getElementById('btn-envoyer');
         var msg = document.getElementById('m-message');
-        btn.disabled = true; btn.textContent = 'Envoi en cours…';
+        btn.disabled = true; btn.classList.add('is-sending'); btn.textContent = 'Envoi en cours…';
         try {
           var resp = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: new FormData(form) });
           var data = await resp.json();
           if (!data.success) throw new Error(data.message || 'Erreur lors de l\'envoi');
           msg.style.display = 'block';
+          btn.classList.remove('is-sending');
           btn.textContent = 'Demande envoyée ✓';
           var actions = document.getElementById('m-actions');
           var payer = document.getElementById('btn-payer');
@@ -1555,6 +1656,7 @@
           msg.style.display = 'block';
           msg.style.background = 'rgba(248,113,113,0.15)'; msg.style.color = '#f87171';
           msg.textContent = 'Une erreur est survenue. Réessaie ou écris-moi à contact@reding-running.fr';
+          btn.classList.remove('is-sending');
           btn.disabled = false; btn.textContent = 'Réserver ma place';
         }
       });
