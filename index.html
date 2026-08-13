@@ -1092,6 +1092,12 @@
         padding: 20px 20px 24px !important;
       }
 
+      #suivi-personnalise .service-card-precision,
+      #suivi-personnalise .service-card-note {
+        margin-left: 20px !important;
+        margin-right: 20px !important;
+      }
+
       #suivi-personnalise .service-features li {
         font-size: 14px !important;
         gap: 10px !important;
@@ -1149,6 +1155,12 @@
 
       #suivi-personnalise .service-features {
         padding: 18px 16px 22px !important;
+      }
+
+      #suivi-personnalise .service-card-precision,
+      #suivi-personnalise .service-card-note {
+        margin-left: 16px !important;
+        margin-right: 16px !important;
       }
 
       #suivi-personnalise .service-features li {
@@ -1383,13 +1395,13 @@
 
     .service-card-title { margin: 0; padding: var(--space-6) var(--space-6) 0; text-align: center; }
     .service-card-price-row { display: flex; align-items: center; justify-content: center; padding: var(--space-5) var(--space-6) 0; }
-    .service-card-note { text-align: center; margin: var(--space-2) var(--space-6) 0; font-size: var(--fs-micro); font-style: italic; line-height: 1.5; color: rgba(255,255,255,.55); }
+    .service-card-note { text-align: center; margin: var(--space-2) 30px 0; font-size: var(--fs-micro); font-style: italic; line-height: 1.5; color: rgba(255,255,255,.55); }
     .service-card-note:last-child { margin-bottom: var(--space-5); }
-    /* Precision en fin de carte : meme gouttiere que la note, mais alignee a
-       gauche comme la liste au-dessus — trois lignes de prose centrees se
-       lisent mal. Corps intermediaire entre la liste et la note. */
+    /* Precision en fin de carte : meme gouttiere que la liste de fonctionnalites
+       au-dessus (.service-features, 30px de chaque cote, 18px sous 600px) —
+       alignee a gauche, trois lignes de prose centrees se lisent mal. */
     .service-card-precision {
-      margin: var(--space-4) var(--space-6) 0;
+      margin: var(--space-4) 30px 0;
       font-size: var(--fs-small);
       line-height: 1.6;
       color: rgba(255,255,255,.78);
@@ -1643,12 +1655,6 @@
         padding: 25px 30px 30px !important;
       }
 
-      .service-card-precision,
-      .service-card-note {
-        margin-left: 18px !important;
-        margin-right: 18px !important;
-      }
-
       .service-features li {
         font-size: 15px !important;
         padding: 10px 0 !important;
@@ -1744,12 +1750,6 @@
 
       .service-features {
         padding: 18px 18px 22px !important;
-      }
-
-      .service-card-precision,
-      .service-card-note {
-        margin-left: 20px !important;
-        margin-right: 20px !important;
       }
 
       .service-features li {
