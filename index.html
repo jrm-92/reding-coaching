@@ -618,7 +618,7 @@
 
 /* Seul seuil d'empilement de la section À propos (contre 3 fragments avant refonte) */
 @media (max-width: 600px) {
-  .apropos-section { padding: var(--space-6) var(--container-pad) var(--space-5); }
+  .apropos-section { padding: var(--space-6) max(28px, var(--container-pad)) var(--space-5); }
   .apropos-container { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
   .apropos-image { max-width: 320px; margin-inline: auto; }
 }
