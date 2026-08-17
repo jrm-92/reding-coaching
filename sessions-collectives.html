@@ -287,8 +287,12 @@
       .nav-dropdown-menu {
         position:static; display:flex; flex-direction:column; gap:0; width:100%; min-width:0;
         padding:0; margin:0; background:none; border:none; box-shadow:none; border-radius:0;
-        transform:none; opacity:1; visibility:visible; pointer-events:auto;
+        transform:none; opacity:1; visibility:visible; pointer-events:none;
       }
+      /* Les liens du sous-menu ne redeviennent cliquables que si le menu
+         mobile est réellement ouvert : sinon ils héritaient d'un pointer-events
+         forcé à "auto", cliquable en fixed sous le header même menu fermé. */
+      nav.main-nav.active .nav-dropdown-menu { pointer-events:auto; }
       .nav-dropdown-menu::before { display:none; }
       .nav-dropdown-menu a { width:100%; }
       .nav-cta { margin-top: var(--space-2); text-align:center !important; width:100%; }
