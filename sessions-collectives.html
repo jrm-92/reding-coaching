@@ -972,6 +972,14 @@
       font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.85);
     }
     .m-course-ack input { margin: 2px 0 0; width: 18px; height: 18px; accent-color: #FF6B35; flex-shrink: 0; cursor: pointer; }
+    /* Consentement RGPD : obligatoire, base légale de la collecte */
+    .m-rgpd {
+      display: flex; align-items: flex-start; gap: 10px; margin-top: 14px;
+      font-size: 12.5px; line-height: 1.5; color: rgba(255,255,255,0.7);
+    }
+    .m-rgpd input { margin: 1px 0 0; width: 16px; height: 16px; accent-color: #FF6B35; flex-shrink: 0; cursor: pointer; }
+    .m-rgpd label { cursor: pointer; }
+    .m-rgpd a { color: #FF6B35; text-decoration: underline; }
     .m-message { display: none; margin-top: 14px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 600; font-size: 14px; }
 
     /* ── Pied de page : meme traitement que l'accueil ── */
@@ -1090,6 +1098,11 @@
           <input type="checkbox" id="course-ack" name="Engagement inscription course" value="Oui">
           <span id="course-ack-txt">Je suis inscrit(e) à la course.</span>
         </label>
+
+        <div class="m-rgpd">
+          <input type="checkbox" id="f-rgpd" name="RGPD_Consent" value="Oui" required>
+          <label for="f-rgpd">J'accepte que mes données soient traitées conformément à la <a href="politique-confidentialite.html" target="_blank" rel="noopener noreferrer">politique de confidentialité</a> *</label>
+        </div>
 
         <button type="submit" class="btn-envoyer" id="btn-envoyer">Réserver ma place</button>
         <p class="m-note">Ta place n'est confirmée qu'une fois le paiement effectué.<br> (paiement sécurisé Stripe, à l'étape suivante).</p>
