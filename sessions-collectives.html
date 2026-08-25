@@ -1165,7 +1165,7 @@
       {
         icone: "👥",
         titre: "12 séances collectives encadrées (1h15 · 8 pers. max)",
-        texte: "Une séance par semaine en petit groupe. Le samedi de {{HORAIRE}} · {{LIEU}}."
+        texte: "Une séance par semaine en petit groupe. Le samedi de {{HORAIRE}}."
       },
       {
         icone: "📊",
@@ -1381,17 +1381,12 @@
           var horairePack = (sessionsTri[0].heure && sessionsTri[0].duree)
             ? enHeure(enMinutes(sessionsTri[0].heure)) + ' à ' + enHeure(enMinutes(sessionsTri[0].heure) + enMinutes(sessionsTri[0].duree))
             : '10h00 à 11h15';
-          /* Lieu réel de la 1ère séance du pack (colonnes « lieu » / « sous_lieu »
-             de Supabase), même format que le badge lieu affiché plus haut. */
-          var lieuPack = sessionsTri[0].lieu
-            ? sessionsTri[0].lieu + (sessionsTri[0].sousLieu ? ' — ' + sessionsTri[0].sousLieu : '')
-            : 'Le Vésinet — Les Ibis';
           var inclusHtml = (PACK_INCLUS && PACK_INCLUS.length)
             ? '<div class="pack-inclus">' +
                 '<h4 class="pack-inclus-titre">Ce qui est inclus</h4>' +
                 '<ul class="pack-inclus-liste">' +
                   PACK_INCLUS.map(function (it, i) {
-                    var texte = (it.texte || '').replace('{{HORAIRE}}', horairePack).replace('{{LIEU}}', lieuPack);
+                    var texte = (it.texte || '').replace('{{HORAIRE}}', horairePack);
                     return '<li>' +
                       '<span class="pack-inclus-ico" aria-hidden="true">' + (ICONES_INCLUS[i] || CHECK_SVG) + '</span>' +
                       '<div class="pack-inclus-txt"><strong>' + esc(it.titre || '') + '</strong>' +
