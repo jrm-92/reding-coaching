@@ -1165,7 +1165,7 @@
       {
         icone: "👥",
         titre: "12 séances collectives encadrées (1h15 · 8 pers. max)",
-        texte: "Une séance par semaine en petit groupe. Le samedi de 10h00 à 11h15."
+        texte: "Une séance par semaine en petit groupe. Le samedi de {{HORAIRE}}."
       },
       {
         icone: "📊",
@@ -1375,15 +1375,22 @@
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="10" y2="18"/></svg>'
           ];
           var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+          /* Créneau réel de la 1ère séance du pack (colonne « heure » de Supabase),
+             injecté dans PACK_INCLUS à la place du jeton {{HORAIRE}} — repli sur
+             10h00 à 11h15 si la donnée est absente. */
+          var horairePack = (sessionsTri[0].heure && sessionsTri[0].duree)
+            ? enHeure(enMinutes(sessionsTri[0].heure)) + ' à ' + enHeure(enMinutes(sessionsTri[0].heure) + enMinutes(sessionsTri[0].duree))
+            : '10h00 à 11h15';
           var inclusHtml = (PACK_INCLUS && PACK_INCLUS.length)
             ? '<div class="pack-inclus">' +
                 '<h4 class="pack-inclus-titre">Ce qui est inclus</h4>' +
                 '<ul class="pack-inclus-liste">' +
                   PACK_INCLUS.map(function (it, i) {
+                    var texte = (it.texte || '').replace('{{HORAIRE}}', horairePack);
                     return '<li>' +
                       '<span class="pack-inclus-ico" aria-hidden="true">' + (ICONES_INCLUS[i] || CHECK_SVG) + '</span>' +
                       '<div class="pack-inclus-txt"><strong>' + esc(it.titre || '') + '</strong>' +
-                      (it.texte ? '<p>' + esc(it.texte) + '</p>' : '') + '</div>' +
+                      (texte ? '<p>' + esc(texte) + '</p>' : '') + '</div>' +
                     '</li>';
                   }).join('') +
                 '</ul>' +
