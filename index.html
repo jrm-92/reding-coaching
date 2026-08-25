@@ -567,17 +567,6 @@
       box-shadow: 0 4px 16px var(--offer-glow, rgba(255,107,53,.4));
     }
 
-    .hero-title {
-      font-size: clamp(38px, 4.5vw, 52px);
-      font-weight: 900;
-      line-height: 1.15;
-      color: #ffffff;
-      margin-bottom: 0px;
-      letter-spacing: 0.5px;
-      max-width: 100%;
-      width: 100%;
-    }
-
     /* ===== À PROPOS SECTION ===== */
 .apropos-section {
   padding: var(--space-8) var(--container-pad);
@@ -799,107 +788,6 @@
 
     .about-content strong { font-weight: 600; }
 
-    /* ===== ÉTAPES — CARD "PARCOURS D'ACCOMPAGNEMENT" ===== */
-    .steps-list {
-      list-style: none;
-      margin: 0;
-      counter-reset: step;
-    }
-
-    .step-item {
-      display: block !important;
-      align-items: unset !important;
-      gap: unset !important;
-      text-align: left;
-      padding: 22px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .step-item--last {
-      border-bottom: none;
-      padding-bottom: 18px;
-    }
-
-    .step-item::before {
-      display: none !important;
-    }
-
-    .step-header {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 10px;
-    }
-
-    .step-number {
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 46px;
-      height: 46px;
-      padding: 0 10px;
-      background: rgba(255, 107, 53, 0.12);
-      border: 1px solid rgba(255, 107, 53, 0.4);
-      border-radius: 10px;
-      font-size: 18px;
-      font-weight: 900;
-      font-style: italic;
-      color: #FF6B35;
-      letter-spacing: 0.5px;
-      line-height: 1;
-    }
-
-    .step-title {
-      margin: 0;
-      font-size: 15px;
-      font-weight: 800;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      line-height: 1.3;
-    }
-
-    .step-text {
-      margin: 0;
-      padding-left: 64px;
-      font-size: 14.5px;
-      font-weight: 400;
-      line-height: 1.7;
-      color: rgba(255, 255, 255, 0.72);
-    }
-
-    @media (max-width: 600px) {
-      .step-item {
-        padding: 18px 0;
-      }
-      .step-header {
-        gap: 14px;
-        margin-bottom: 8px;
-      }
-      .step-number {
-        min-width: 40px;
-        height: 40px;
-        font-size: 16px;
-      }
-      .step-title {
-        font-size: 13.5px;
-        letter-spacing: 1px;
-      }
-      .step-text {
-        padding-left: 54px;
-        font-size: 13.5px;
-      }
-    }
-
-
-    @media (max-width: 420px) {
-      .step-text {
-        padding-left: 0;
-      }
-    }
-
-
     /* ===== SUIVI À DISTANCE — EN-TÊTE PREMIUM ===== */
     .suivi-distance-header {
       max-width: 1080px;
@@ -929,18 +817,6 @@
       border-radius: 2px;
     }
 
-    /* 120 caracteres par ligne : c'etait le bloc le plus fatigant de la
-       section, alors qu'il porte l'argument principal. */
-    .suivi-distance-sub {
-      font-size: clamp(16px, 1.5vw, 18px);
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.78);
-      line-height: 1.7;
-      margin: 0 auto var(--space-5);
-      max-width: 66ch;
-      text-wrap: balance;
-    }
-
     /* 26px sur 1080px donnait 83 caracteres par ligne, au-dela de l'empan
        de lecture confortable (45-75) : le corps etait gros mais la ligne
        trop longue. On reduit le corps a ~1.2x le texte courant et on limite
@@ -966,7 +842,7 @@
     /* Retours à la ligne plus équilibrés / propres (surtout mobile) */
     h1, h2, h3,
     .ct-title, .section-title,
-    .suivi-distance-lead, .suivi-distance-sub,
+    .suivi-distance-lead,
     .section-subtitle, .hero-value-prop {
       text-wrap: balance;
     }
@@ -975,61 +851,13 @@
     /* Intros un peu plus compactes sur petit écran */
     @media (max-width: 600px) {
       .suivi-distance-lead { font-size: 14.5px; line-height: 1.5; margin-bottom: 14px; }
-      .suivi-distance-sub { font-size: 15px; line-height: 1.55; }
       .section-subtitle { font-size: 14.5px; }
-    }
-
-
-    .suivi-distance-meta {
-      display: inline-flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 10px 22px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .suivi-distance-meta li {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.78);
-    }
-
-    .suivi-distance-meta .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #FF6B35;
-      box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.18);
-      flex-shrink: 0;
     }
 
     @media (max-width: 640px) {
       .suivi-distance-header {
         padding: 12px 20px 0;
         margin-bottom: 48px;
-      }
-      .suivi-distance-meta {
-        gap: 8px 10px;
-        width: 100%;
-      }
-      .suivi-distance-meta li {
-        flex: 0 1 auto;
-        justify-content: center;
-        background: rgba(255, 107, 53, 0.06);
-        border: 1px solid rgba(255, 107, 53, 0.2);
-        gap: 7px;
-        padding: 7px 12px;
-        border-radius: var(--radius-pill);
-        font-size: 11px;
-        letter-spacing: 0.04em;
       }
     }
 
@@ -1170,16 +998,6 @@
     }
 
 
-    /* Responsive promo-banner */
-    @media (max-width: 768px) {
-      .promo-banner {
-        padding: 15px 25px;
-        margin: 40px 15px;
-        border-radius: 10px;
-      }
-    }
-
-
     /* ===== SOLO-DUO/TRIO SECTION ===== */
     .solo-duo-section {
       padding: 48px 60px 100px 60px;
@@ -1278,10 +1096,6 @@
       .solo-duo-section {
         padding: 80px 30px;
       }
-      .seances-cards-col {
-        grid-template-columns: repeat(4, 1fr);
-        margin-bottom: 20px;
-      }
     }
 
     @media (max-width: 600px) {
@@ -1296,16 +1110,6 @@
       }
     }
 
-
-    /* Forcer 2 cards côte à côte sur petits paysages mais 1 sur très petits */
-    @media (min-width: 480px) and (max-width: 768px) {
-      .seances-cards-col {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .seances-price-card {
-        flex: 1 1 240px;
-      }
-    }
 
     .section-header {
       text-align: center;
@@ -1599,17 +1403,6 @@
     .faq-answer p { font-size: var(--fs-body); line-height: 1.8; color: rgba(255,255,255,.82); margin: 0; text-align: left; }
 
 
-    /* Responsive contact section */
-    @media (max-width: 768px) {
-      .contact-section {
-        padding: 80px 20px;
-      }
-
-      .contact-item {
-        font-size: 16px;
-      }
-    }
-
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1200px) {
       .about-container {
@@ -1716,13 +1509,6 @@
         padding: 60px 20px;
       }
 
-
-      .services-grid {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 20px;
-        padding: 0 20px;
-      }
-
       .service-card {
         padding: 0 !important;
       }
@@ -1738,15 +1524,6 @@
         padding: 0 18px !important;
         margin-bottom: 12px !important;
         line-height: 1.5 !important;
-      }
-
-      .service-price {
-        font-size: 28px !important;
-        padding: 0 18px !important;
-      }
-
-      .service-period {
-        font-size: 13px !important;
       }
 
       .service-features {
@@ -1801,21 +1578,6 @@
         font-size: 28px !important;
       }
 
-      .btn-primary,
-      .btn-secondary {
-        padding: 14px 25px;
-        font-size: 12px;
-      }
-      
-      .services-grid {
-        padding: 0 15px;
-        gap: 15px;
-      }
-
-      .service-card {
-        padding: 0 !important;
-      }
-
       .service-card h3 {
         font-size: 18px !important;
         padding: 16px 14px 0 !important;
@@ -1828,16 +1590,6 @@
         padding: 0 14px !important;
         margin-bottom: 10px !important;
         line-height: 1.5 !important;
-      }
-
-      .service-price {
-        font-size: 26px !important;
-        padding: 0 14px !important;
-        margin-bottom: 6px !important;
-      }
-
-      .service-period {
-        font-size: 12px !important;
       }
 
       .service-features {
@@ -1890,24 +1642,14 @@
     
     /* Breakpoint 500-768px - 2 colonnes pour mieux utiliser l'espace */
     @media (min-width: 500px) and (max-width: 768px) {
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 18px !important;
-        padding: 0 20px !important;
-      }
-      
       .service-card h3 {
         font-size: 17px !important;
       }
-      
+
       .service-card p {
         font-size: 12px !important;
       }
-      
-      .service-price {
-        font-size: 24px !important;
-      }
-      
+
       .service-features li {
         font-size: 11px !important;
       }
@@ -1926,21 +1668,6 @@
         margin-top: 0 !important;
       }
       
-    }
-
-    /* Breakpoint 992px - Tablet/Medium Screens */
-    @media (max-width: 992px) and (min-width: 769px) {
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 0 30px;
-      }
-    }
-
-    /* Breakpoint 1200px - Large Tablets */
-    @media (max-width: 1200px) and (min-width: 993px) {
-      .services-grid {
-        padding: 0 40px;
-      }
     }
 
     /* Smooth Scroll Animation */
@@ -2018,83 +1745,6 @@
     @media (min-width: 641px) { .resultat-card { flex-basis: 360px; } }
 
 
-    /* ===== FORMULAIRE SECTION ===== */
-    .form-section {
-      background: linear-gradient(180deg, #0A1128 0%, #0D1B33 100%);
-      padding: 80px 60px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .form-section .section-title {
-      font-size: clamp(32px, 4vw, 48px);
-      font-weight: 900;
-      font-style: italic;
-      text-transform: uppercase;
-      color: #FF6B35;
-      margin: 0 0 60px 0;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      text-align: center;
-      align-self: center;
-      width: 100%;
-    }
-
-    .form-section .section-title::after {
-      content: '';
-      display: block;
-      width: 70px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #FF6B35, transparent);
-      margin: 12px auto 0;
-    }
-
-    .form-section-inner {
-      width: 100%;
-      max-width: 1200px;
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .form-section-inner > form {
-      width: 100%;
-    }
-
-    @media (max-width: 992px) {
-      .form-section {
-        padding: 60px 40px;
-      }
-
-      .form-section-inner {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 40px;
-      }
-
-      .form-section-inner > form {
-        grid-column: 1;
-      }
-    }
-
-
-    @media (max-width: 768px) {
-      .form-section {
-        padding: 50px 20px;
-      }
-
-      .form-section .section-title {
-        margin-bottom: 40px;
-      }
-
-      .form-section-inner > form {
-        padding: 30px 20px;
-      }
-    }
-
-
     /* ===== FOOTER ===== */
     .site-footer {
       background: var(--filet) top center / 100% 1px no-repeat, #070C18;
@@ -2123,10 +1773,7 @@
     /* ===== BOLD TEXT VISIBILITY ===== */
     .apropos-section p strong,
     .about-section p strong,
-    .etapes-section p strong,
-    .tarifs-section p strong,
     .solo-duo-section p strong,
-    .contact-section p strong,
     .faq-section p strong {
       color: #FFFFFF !important;
       font-weight: 800;
@@ -2134,10 +1781,7 @@
 
     .apropos-section p,
     .about-section p,
-    .etapes-section p,
-    .tarifs-section p,
     .solo-duo-section p,
-    .contact-section p,
     .faq-section p:not(.faq-answer p) {
       color: rgba(255, 255, 255, 0.75) !important;
     }
@@ -2177,50 +1821,6 @@
 
     .form-checkbox-group label a:hover {
       color: var(--offer, var(--color-accent));
-    }
-    .qform-block {
-      margin-bottom: 0;
-    }
-    .qform-block-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-    .qform-block-num {
-      flex-shrink: 0;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--offer, var(--color-accent));
-      color: #fff;
-      font-size: 13px;
-      font-weight: 900;
-      font-style: italic;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 14px rgba(255,107,53,0.4);
-    }
-    .qform-block-title {
-      font-size: 17px;
-      font-weight: 800;
-      font-style: italic;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      line-height: 1.2;
-    }
-    .qform-block-sub {
-      font-size: 12px;
-      color: rgba(255,255,255,0.45);
-      font-weight: 500;
-      margin-top: 2px;
-    }
-    .qform-divider {
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--offer-border, rgba(255,107,53,.35)), transparent);
-      margin: 32px 0;
     }
     .qform-field-label {
       display: block;
@@ -2274,23 +1874,11 @@
       color: rgba(255,255,255,0.9) !important;
       background: var(--offer-soft, rgba(255,107,53,.1));
     }
-    @media (max-width: 600px) {
-      .qform-block-header { gap: 12px; }
-      .qform-block-num { width: 34px; height: 34px; font-size: 12px; }
-      .qform-block-title { font-size: 15px; }
-    }
-
-
     /* .qf-form est utilise dans les deux sections : son filet et ses pastilles
        prennent la couleur de l'offre courante (le degrade precedent melangeait
        orange et bleu, donc se contredisait dans les deux cas). */
     .qf-form::before {
       background: var(--offer) !important;
-    }
-    .qf-form .qform-block-num {
-      background: var(--offer);
-      color: #fff;
-      box-shadow: 0 4px 14px var(--offer-glow);
     }
     /* Libelles poses sur le navy : la nuance claire est la plus lisible
        (8.13 pour le bleu clair, 8.16 pour l'orange clair). */
@@ -2300,9 +1888,6 @@
     .qf-form .form-group textarea:focus {
       border-color: var(--offer);
       box-shadow: 0 0 0 4px var(--offer-glow), 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .qf-form .qform-divider {
-      background: linear-gradient(to right, transparent, var(--offer-border), transparent);
     }
     .qf-form .pill-option input:checked + label {
       background: var(--offer-fill);
@@ -2326,96 +1911,6 @@
       color: var(--offer-on) !important;
       box-shadow: 0 18px 50px var(--offer-glow);
     }
-    .qf-choice-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 12px;
-    }
-    .qf-choice-card {
-      position: relative;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-      padding: 24px 16px 20px;
-      border: 2px solid rgba(255,255,255,0.1);
-      border-radius: 16px;
-      background: rgba(255,255,255,0.03);
-      transition: all 0.25s ease;
-      text-align: center;
-      user-select: none;
-    }
-    .qf-choice-card input[type="radio"] {
-      position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .qf-choice-card:hover {
-      border-color: var(--offer-border, rgba(255,107,53,.35));
-      background: var(--offer-soft, rgba(255,107,53,.04));
-    }
-    .qf-choice-card:has(input:checked) {
-      border-color: var(--offer);
-      background: var(--offer-soft);
-      box-shadow: 0 0 30px var(--offer-glow);
-    }
-    .qf-choice-dot {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.18);
-      transition: all 0.2s ease;
-      background: transparent;
-    }
-    .qf-choice-card:has(input:checked) .qf-choice-dot {
-      background: var(--offer);
-      border-color: var(--offer);
-      box-shadow: 0 0 10px var(--offer-glow);
-    }
-    .qf-choice-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #fff;
-      font-style: italic;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      line-height: 1.3;
-    }
-    .qf-choice-desc {
-      font-size: 11px;
-      color: rgba(255,255,255,0.4);
-      font-weight: 500;
-      line-height: 1.4;
-    }
-    /* Branches conditionnelles */
-    .qf-branch {
-      display: none;
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.35s ease, transform 0.35s ease;
-    }
-    .qf-branch.qf-active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    @media (max-width: 580px) {
-      .qf-choice-grid { grid-template-columns: minmax(0, 1fr); }
-      .qf-choice-card {
-        flex-direction: row;
-        text-align: left;
-        padding: 16px 44px 16px 16px;
-        gap: 12px;
-      }
-      .qf-choice-dot { top: 50%; transform: translateY(-50%); right: 14px; }
-      .qf-choice-card:has(input:checked) .qf-choice-dot { transform: translateY(-50%); }
-    }
-
-
     /* ===== FORMULAIRE DUAL-PATH — OVERRIDES DARK ===== */
     /* Inputs sombres */
     .qf-form .form-group input,
@@ -2451,46 +1946,6 @@
       background: #0d1630;
       color: rgba(255, 255, 255, 0.88);
     }
-    /* Alerte GPS */
-    .qf-alert {
-      display: none;
-      padding: 13px 16px;
-      border-radius: 10px;
-      background: rgba(255, 107, 53, 0.1);
-      border: 1px solid rgba(255, 107, 53, 0.4);
-      color: #ff8c5a;
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 1.6;
-      margin-top: 12px;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    .qf-alert.qf-active { opacity: 1; transform: translateY(0); }
-    /* Blocs créneaux */
-    .qf-slot-block {
-      background: var(--offer-soft, rgba(255,107,53,.04));
-      border: 1px solid var(--offer-border, rgba(255,107,53,.1));
-      border-radius: 12px;
-      padding: 16px 16px 8px;
-      margin-bottom: 12px;
-    }
-    .qf-slot-label {
-      display: block;
-      font-size: 10px;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.38);
-      text-transform: uppercase;
-      letter-spacing: 1.8px;
-      margin-bottom: 10px;
-    }
-    /* Objective pills — légèrement plus grandes */
-    .qf-form .pill-option.pill-lg label {
-      padding: 10px 20px;
-      font-size: 14px;
-    }
-
     /* Petits écrans : pills alignées en grille 2 colonnes de largeur égale */
     @media (max-width: 600px) {
       .pill-group {
@@ -2509,14 +1964,6 @@
         padding: 10px 8px;
         border-radius: 16px;
       }
-      .qf-form .pill-option.pill-lg label {
-        padding: 12px 10px;
-        font-size: 13.5px;
-        line-height: 1.3;
-      }
-      .qf-form .pill-option.pill-lg label small {
-        font-size: 11.5px;
-      }
     }
     /* Sous-questions conditionnelles */
     .qf-subfields {
@@ -2531,70 +1978,6 @@
       margin-top: 14px;
     }
     .qf-subfields.qf-active { opacity: 1; transform: translateY(0); }
-
-    /* ── Overlay succès formulaire ─────────────────────── */
-    #qf-success {
-      display: none;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-      text-align: center;
-      padding: 60px 24px 72px;
-    }
-    #qf-success.qf-active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    #qf-success .qf-check-circle {
-      width: 88px;
-      height: 88px;
-      margin: 0 auto 28px;
-    }
-    #qf-success .qf-check-circle circle {
-      fill: none;
-      stroke: var(--offer, var(--color-accent));
-      stroke-width: 3;
-      stroke-dasharray: 251.2;
-      stroke-dashoffset: 251.2;
-      animation: none;
-    }
-    #qf-success.qf-active .qf-check-circle circle {
-      animation: qf-circle-draw 0.55s cubic-bezier(0.4,0,0.2,1) 0.1s forwards;
-    }
-    #qf-success .qf-check-circle polyline {
-      fill: none;
-      stroke: var(--offer, var(--color-accent));
-      stroke-width: 3;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 60;
-      stroke-dashoffset: 60;
-      animation: none;
-    }
-    #qf-success.qf-active .qf-check-circle polyline {
-      animation: qf-check-draw 0.35s cubic-bezier(0.4,0,0.2,1) 0.55s forwards;
-    }
-    @keyframes qf-circle-draw {
-      to { stroke-dashoffset: 0; }
-    }
-    @keyframes qf-check-draw {
-      to { stroke-dashoffset: 0; }
-    }
-    #qf-success h3 {
-      font-family: 'Barlow', sans-serif;
-      font-size: clamp(22px, 2.4vw, 28px);
-      font-weight: 800;
-      color: var(--offer-light, var(--color-accent));
-      margin: 0 0 12px;
-      letter-spacing: -0.3px;
-    }
-    #qf-success p {
-      font-size: 15px;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.7;
-      max-width: 340px;
-      margin: 0 auto;
-    }
 
     /* =====================================================
        AMÉLIORATIONS RESPONSIVES GLOBALES
@@ -2627,9 +2010,7 @@
     /* Tablette (≤992px) — resserrement des paddings de section */
     @media (max-width: 992px) {
       .about-section,
-      .solo-duo-section,
-      .form-section,
-      .contact-section {
+      .solo-duo-section {
         padding-left: 30px;
         padding-right: 30px;
       }
@@ -2639,8 +2020,6 @@
     @media (max-width: 640px) {
       .about-section,
       .solo-duo-section { padding: 60px 18px; }
-      .form-section { padding: 50px 18px; }
-      .contact-section { padding: 60px 18px; }
 
       .section-title { font-size: clamp(26px, 7vw, 36px) !important; }
       .section-subtitle { font-size: 15px; }
@@ -2664,9 +2043,7 @@
     /* Très petits écrans (≤380px) — derniers ajustements */
     @media (max-width: 380px) {
       .about-section,
-      .solo-duo-section,
-      .form-section,
-      .contact-section { padding-left: 14px; padding-right: 14px; }
+      .solo-duo-section { padding-left: 14px; padding-right: 14px; }
 
       .section-title { font-size: 24px !important; }
     }
@@ -2675,7 +2052,6 @@
     @media (hover: none) and (pointer: coarse) {
       nav.main-nav a,
       .footer-links a,
-      .contact-item a,
       .faq-question {
         min-height: 44px;
       }
@@ -2685,11 +2061,6 @@
     @media (max-width: 768px) {
       /* Bouton d'envoi du formulaire */
       .form-submit-btn { padding: 13px 18px; font-size: 12.5px; letter-spacing: 1px; }
-
-      /* Choix du formulaire (Suivi à distance / Coaching terrain) */
-      .qf-choice-title { font-size: 14.5px; }
-      .qf-choice-desc { font-size: 10.5px; }
-
     }
 
 
@@ -2700,11 +2071,6 @@
       font-size: clamp(40px, 5.5vw, 68px); font-weight: 900; font-style: italic;
       text-transform: uppercase; letter-spacing: -0.02em;
       color: #ffffff; line-height: 1; margin-bottom: 16px;
-    }
-    .ct-exemples {
-      font-size: 14px; color: rgba(255,255,255,0.45);
-      font-style: italic; text-align: center;
-      margin: 0 auto 48px; max-width: 1200px; line-height: 1.6;
     }
 
     .ct-offer-cols {
@@ -3921,22 +3287,10 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
   <!-- Web3Forms -->
   <script src="https://web3forms.com/client/script.js" async defer></script>
 
-<!-- ===== POLISH GLOBAL : reveal au scroll + retour en haut ===== -->
+<!-- ===== POLISH GLOBAL : retour en haut ===== -->
   <style>
     .service-card { transition: transform .3s ease, box-shadow .3s ease; }
     .service-card:hover { transform: translateY(-4px); }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .7s cubic-bezier(.16,.84,.44,1), transform .7s cubic-bezier(.16,.84,.44,1);
-      will-change: opacity, transform;
-    }
-    .reveal.is-visible { opacity: 1; transform: none; }
-    @media (prefers-reduced-motion: reduce) {
-      .reveal, .reveal.is-visible { opacity: 1 !important; transform: none !important; transition: none !important; }
-    }
-
 
     #toTop {
       position: fixed; right: 22px; bottom: 22px; z-index: 90;
@@ -4093,7 +3447,6 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     @media (min-width: 993px) {
       .about-section   { padding-top: 96px  !important; padding-bottom: 112px !important; }
       .solo-duo-section{ padding-top: 104px !important; padding-bottom: 104px !important; }
-      .form-section    { padding-top: 96px  !important; padding-bottom: 104px !important; }
     }
 
     /* ---------- 5. BOUTONS — ombres affinées ---------- */

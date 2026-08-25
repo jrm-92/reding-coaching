@@ -184,7 +184,6 @@
       z-index: 9999;
       transition: background .25s ease;
     }
-    .site-header.scrolled { background: rgba(10, 17, 40, .97); border-bottom-color: rgba(255,255,255,.14); }
 
     .brand { display:flex; align-items:center; margin-right: var(--space-6); }
     .logo-img { height: var(--logo-h); width:auto; transition: height .25s ease; }
@@ -310,12 +309,6 @@
       padding: calc(var(--header-h) + var(--space-6)) var(--container-pad) var(--space-7);
     }
     .page-intro { text-align: center; margin-bottom: 56px; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.3);
-      color: #FF6B35; font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 2px; padding: 7px 16px; border-radius: var(--radius-pill); margin-bottom: var(--space-4);
-    }
     h1 {
       font-size: clamp(34px, 6vw, 56px); font-weight: 900; font-style: italic;
       text-transform: uppercase; letter-spacing: -0.02em; line-height: 1.05;
@@ -347,9 +340,6 @@
     /* Ligne titre : nom de la course (gauche/centre) + action « M'inscrire à la course » + ⓘ (droite) */
     .lieu-titre-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 4px; }
     .lieu-titre-row .lieu-titre { flex: 0 1 auto; margin-bottom: 0; }
-    /* Dans la ligne titre + « M'inscrire », on retire les traits décoratifs
-       (qui étiraient le titre sur toute la largeur et créaient un grand vide). */
-    .lieu-titre-row .lieu-titre::before, .lieu-titre-row .lieu-titre::after { display: none; }
     .pack-course-action { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     /* Petit ⓘ avec bulle d'info (survol / focus) */
     .pack-course-info {
@@ -378,9 +368,6 @@
       display: flex; align-items: center; gap: 16px;
       margin-bottom: 22px;
     }
-    .lieu-titre::before, .lieu-titre::after {
-      content: ''; flex: 1; height: 1px; background: rgba(255, 107, 53, 0.25);
-    }
     /* Sur-titre et date : meme registre exact, en miroir de part et d'autre
        du nom de course, et centres sur le titre lui-meme puisqu'ils sont
        imbriques dans son bloc (et non sur toute la ligne, bouton compris).
@@ -403,14 +390,6 @@
       text-transform: uppercase; letter-spacing: 0.04em; color: #ffffff;
       white-space: normal; text-align: center;
     }
-    /* Sur-titre (kicker) : situe la preparation au-dessus du nom de course. */
-    .lieu-sous-titre {
-      margin: 0 0 var(--space-2); text-align: center;
-      font-size: var(--fs-micro); font-weight: 700; font-style: normal;
-      letter-spacing: 0.16em; text-transform: uppercase;
-      color: rgba(255,255,255,0.75);
-    }
-
     /* Flèches de défilement latérales (desktop) */
     .lieu-carrousel { position: relative; }
     .lieu-fleche {
@@ -493,36 +472,7 @@
       color: rgba(255, 255, 255, 0.75); margin-top: 2px;
     }
     .swipe-hint--desktop { display: block; }
-    .lieu-cards-scrollbar-hint {
-      display: none;
-      margin-top: 6px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.75);
-      text-align: center;
-    }
-    .lieu-pack-prix {
-      display: block;
-      margin: 8px 0 0;
-      text-align: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: #ffd4be;
-      letter-spacing: 0.04em;
-    }
-    .lieu-pack-prix strong { color: #fff; }
-
-    /* ── Mise en page pack : séances (gauche) + bloc d'achat (droite) ── */
-    .pack-layout { display: flex; align-items: flex-start; gap: 28px; margin-top: 24px; }
     .pack-main { flex: 1 1 0%; min-width: 0; } /* min-width:0 : indispensable pour que le carrousel défile dans une colonne flex */
-
-    /* Bloc d'achat (buy box) à droite : inclus + prix + places + bouton */
-    .lieu-pack {
-      flex: 0 0 380px;
-      display: flex; flex-direction: column; gap: 16px;
-    }
 
     /* Encart « Ce qui est inclus dans le pack » */
     /* Plus de carte ici : le module porte l'enveloppe. Ce bloc n'est plus
@@ -579,14 +529,8 @@
       animation: dotPulse 1.6s ease-in-out infinite;
     }
     @keyframes dotPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-    .pack-places strong { color: #FF6B35; }
     .pack-attente { display: block; text-align: center; font-size: 14px; font-weight: 700; color: #FF6B35; text-decoration: underline; }
     .pack-attente:hover { color: #ff9d73; }
-    /* Barre « course » (sous le titre) : lien d'inscription + mention dossard */
-    .pack-course-bar {
-      display: flex; flex-direction: column; align-items: center; gap: 8px;
-      max-width: 640px; margin: 2px auto 26px;
-    }
     /* Lien vers l'inscription à la course + mention « dossard non inclus » */
     /* Bouton secondaire standard : filet hairline neutre (l'ancien contour
        orange a 38% se lisait brun sur le fond teinte du module), geometrie et
@@ -602,19 +546,10 @@
       transition: background .2s ease, border-color .2s ease;
     }
     .pack-course-lien:hover { background: var(--offer-soft); border-color: var(--offer); color: #ffffff; }
-    .pack-course-note {
-      display: block; max-width: 480px; margin-top: 2px;
-      font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.75); text-align: center;
-    }
 
     /* Empilement dès qu'on n'a plus assez de large (tablette / mobile) */
     @media (max-width: 1024px) {
-      .pack-layout { flex-direction: column; gap: 22px; align-items: stretch; }
       .pack-main { width: 100%; min-width: 0; }
-      .lieu-pack { flex-basis: auto; width: 100%; min-width: 0; }
-    }
-    @media (max-width: 480px) {
-      .pack-inclus { padding: 0; }
     }
 
     /* ═══ Mise en page 1 colonne : en-tête → offre pleine largeur → programme ═══ */
@@ -646,7 +581,6 @@
     /* Le module fixe la largeur et le padding : ce bloc s'y conforme,
        le carrousel s'aligne donc exactement sur la carte d'offre. */
     .pack-offre { width: 100%; max-width: none; margin: 0; }
-    .pack-offre .pack-inclus { padding: 0; }
     /* Les 4 points : 2 colonnes en desktop, 1 colonne en mobile */
     /* Colonnes egales. auto-fit gere seul le passage a une colonne sous
        ~640px, sans media query. L'ancienne composition placait le 1er
@@ -675,7 +609,6 @@
       border-bottom: 1px solid rgba(255,107,53,0.2);
     }
     .pack-entete .lieu-titre-row { margin-bottom: 2px; }
-    .pack-entete .lieu-sous-titre { margin: 4px 0 0; }
     .pack-entete .pack-badges { margin: 16px 0 0; }
 
     /* Titre de la section programme (au-dessus du carrousel) */
@@ -695,7 +628,6 @@
       /* auto-fit replie seul la grille en une colonne : ces surcharges de
          placement n'ont plus d'objet. Reste la gouttiere, resserree. */
       .pack-offre .pack-inclus-liste { gap: var(--space-4); }
-      .pack-offre .pack-inclus { padding: 0; }
       /* Empile en liste : les filets de separation basculent a l'horizontale.
          Le texte heritait du text-align:center de l'en-tete, donc ses lignes
          de renvoi se centraient sous l'icone ; et align-items:center placait
@@ -1138,13 +1070,6 @@
   </footer>
 
   <script>
-    /* ═══════════════════════════════════════════════════════════════════
-       ✏️  GESTION DES SESSIONS — LA GOOGLE SHEET EST LA SOURCE DE VÉRITÉ
-       ═══════════════════════════════════════════════════════════════════
-       Les cartes sont alimentées uniquement par la Google Sheet.
-       La liste écrite dans le code n'est plus utilisée pour l'affichage.
-       Pour ajouter ou modifier des sessions, il faut mettre à jour la feuille.
-    */
     /* Déroulé des séances : [phase, détail, durée] — la durée peut rester vide "" */
     var DEROULE_PUISSANCE = [
       ["Échauffement", "footing, activation musculaire et articulaire", "15'"],
@@ -1336,10 +1261,6 @@
           hint.setAttribute('aria-hidden', 'true');
           hint.textContent = '← Fais défiler pour voir toutes les séances →';
           colonneSeances.appendChild(hint);
-          var scrollbarHint = document.createElement('div');
-          scrollbarHint.className = 'lieu-cards-scrollbar-hint';
-          scrollbarHint.textContent = 'Barre de défilement disponible';
-          colonneSeances.appendChild(scrollbarHint);
         }
 
         var prixPackGroup = [];
