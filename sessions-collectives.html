@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" href="logo_raccourci_orange.png" />
   <link rel="apple-touch-icon" href="logo_accueil_blanc.png" />
   <meta name="theme-color" content="#FF6B35" />
-  <meta name="apple-mobile-web-app-title" content="Sessions Reding" />
+  <meta name="apple-mobile-web-app-title" content="Séances Reding" />
   <meta property="og:title" content="Séances collectives de running — Reding Running" />
   <meta property="og:description" content="Séances de running en groupe encadrées par un coach certifié FFA. Inscris-toi en ligne : lieu, horaire, thématique et places disponibles." />
   <meta property="og:type" content="website" />
@@ -977,8 +977,8 @@
 
   <main>
     <div class="page-intro">
-      <h1>Sessions <span class="accent">collectives</span></h1>
-      <p class="lead">Prépare ta prochaine course en groupe, guidé(e) par un coach. Endurance, vitesse, technique, motivation : on progresse ensemble, dans une ambiance conviviale. Ouvert à tous les niveaux.</p>
+      <h1>Séances <span class="accent">collectives</span></h1>
+      <p class="lead"><strong>Prépare ta prochaine course en petit groupe.</strong><br> Endurance, vitesse, technique, motivation : on progresse ensemble, dans une ambiance conviviale.<strong> Ouvert à tous les niveaux.</strong></p>
       <p class="lead-note" style="margin-top:14px;font-size:15px;color:rgba(255,255,255,0.72);"></p>
     </div>
 
@@ -1325,11 +1325,16 @@
           var mailAttente = 'mailto:contact@reding-running.fr' +
             '?subject=' + encodeURIComponent('Liste d\'attente — ' + lieuTitre) +
             '&body=' + encodeURIComponent('Bonjour, je souhaite être placé(e) en liste d\'attente pour la course « ' + lieuTitre + ' »' + (sousTitrePack ? ' (préparation ' + sousTitrePack + ')' : '') + '. Merci !');
+          
           /* ── En-tête intégré DANS la carte : titre + « M'inscrire » + sous-titre + badges ── */
           var dDebut = new Date(sessionsTri[0].date + 'T12:00:00');
+          var dFin = new Date(sessionsTri[sessionsTri.length - 1].date + 'T12:00:00');
+          var dateDebutStr = dDebut.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+          var dateFinStr = dFin.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+
           var badgesHtml =
             '<div class="pack-badges">' +
-              '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Début le ' + esc(dDebut.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })) + '</span>' +
+              '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Du ' + esc(dateDebutStr) + ' au ' + esc(dateFinStr) + '</span>' +
               '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Groupe de ' + esc(String(placesPack)) + ' max</span>' +
               '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(sessionsTri[0].lieu) + (sessionsTri[0].sousLieu ? ' — ' + esc(sessionsTri[0].sousLieu) : '') + '</span>' +
             '</div>';
