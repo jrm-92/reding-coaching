@@ -1417,7 +1417,7 @@
         card.innerHTML =
           '<div class="session-head">' +
             '<div class="session-date-badge"><span class="jsem">' + JOURS[d.getDay()] + '</span><span class="jour">' + d.getDate() + '</span><span class="mois">' + MOIS[d.getMonth()] + '</span></div>' +
-            '<div><div class="session-titre">' + (function () {
+            '<div><div class="session-titre" style="font-size: 0.9rem;">' + (function () {
               var titreCard = String(s.titre || '').trim();
               var sousTitreCard = String(s.sousTitre || '').trim();
               return titreCard ? esc(titreCard) + (sousTitreCard ? '<span class="titre-sub">' + esc(sousTitreCard) + '</span>' : '') : esc(s.evenement || '');
