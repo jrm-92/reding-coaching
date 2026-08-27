@@ -1687,7 +1687,8 @@
     }
 
     (function _demarrer() {
-      var url = SUPABASE_URL + '/rest/v1/sessions?select=*&order=date.asc,heure.asc';
+      /* Ne charge que les séances actives (colonne "actif" dans Supabase) */
+      var url = SUPABASE_URL + '/rest/v1/sessions?select=*&actif=eq.true&order=date.asc,heure.asc';
       fetch(url, { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY }, cache: 'no-store' })
         .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
         .then(function (rows) {
