@@ -585,7 +585,10 @@
   align-items: center;
 }
 
-.apropos-image-wrapper { order: 1; }
+.apropos-image-wrapper { 
+  order: 1; 
+  align-self: start; /* Aligne l'image en haut de la colonne */
+}
 .about-content { order: 2; }
 
 .apropos-image {
@@ -2471,17 +2474,11 @@
         <h3 class="service-card-title">Planification &amp; suivi</h3>
         <div class="service-card-price-row">
           <a href="#suivi-form" class="price-badge price-badge--blue" aria-label="Faire ma demande de suivi à distance">
-            <span class="price-badge-amount">60&nbsp;€ / mois</span>
+            <span class="price-badge-amount">70&nbsp;€ / mois</span>
             <span class="price-badge-sub">Sans engagement</span>
           </a>
         </div>
         <ul class="service-features" style="margin-top: 0; padding-top: 15px;">
-          <li class="has-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
-            Entretien téléphonique découverte
-          </li>
           <li class="has-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="8" y="2" width="8" height="4" rx="1"/>
@@ -2541,7 +2538,7 @@
           </li>
           <li class="has-icon feature-bonus">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.6a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82Z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            <span class="feature-bonus-txt"><span class="feature-bonus-badge">En option</span>La séance de coaching terrain individuel : <strong>35&nbsp;€</strong></span>
+            <span class="feature-bonus-txt"><span class="feature-bonus-badge">En option</span>La séance de coaching terrain individuel : <strong>45&nbsp;€</strong></span>
           </li>
         </ul>
         <p class="service-card-precision"><strong>Le premier coaching terrain est inclus dans le suivi</strong>, il sert à évaluer ton profil et cibler les axes d'amélioration. Par la suite, tu pourras ajouter à ta convenance des séances à tarif réduit.</p>
@@ -2660,7 +2657,7 @@
                 <h3 class="service-card-title">La séance</h3>
                 <div class="service-card-price-row">
                   <a href="#coaching-form" class="price-badge price-badge--orange" aria-label="Programmer une séance de coaching terrain">
-                    <span class="price-badge-amount">50&nbsp;€ la séance</span>
+                    <span class="price-badge-amount">70&nbsp;€ la séance</span>
                     <span class="price-badge-sub">En individuel</span>
                   </a>
                 </div>
