@@ -14,8 +14,13 @@
   <meta name="author" content="Jérémy Reding" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://reding-running.fr/" />
-  <link rel="icon" type="image/png" href="logo_raccourci_orange.png" />
-  <link rel="apple-touch-icon" href="logo_accueil_blanc.png" />
+  <!-- Icônes du site. Google lit /favicon.ico et les <link rel="icon"> de
+       la page d'accueil ; il lui faut une image CARRÉE, de préférence un
+       multiple de 48 px. L'ancien logo_raccourci_orange.png faisait
+       1322 × 1372 — ni carré, ni au format attendu. -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/favicon-192.png" />
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
   <!-- Open Graph -->
   <meta property="og:title" content="Jérémy Reding – Coach Running | Île-de-France" />
   <meta property="og:description" content="Coach running en Île-de-France. Suivi personnalisé à distance et coaching terrain pour coureur de tous niveaux." />
