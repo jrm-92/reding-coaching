@@ -1,33 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Ne listent ici que les pages qu'on veut voir dans les résultats de
+  recherche. Les pages légales — mentions légales, CGV, politique de
+  confidentialité — portent une balise « noindex » : les déclarer ici
+  reviendrait à demander à Google de les indexer tout en lui interdisant
+  de le faire. C'est cette contradiction qui les laissait remonter.
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://reding-running.fr/</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://reding-running.fr/sessions-collectives.html</loc>
-    <lastmod>2026-07-08</lastmod>
+    <loc>https://reding-running.fr/seances-collectives.html</loc>
+    <lastmod>2026-09-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://reding-running.fr/mentions-legales.html</loc>
-    <lastmod>2026-06-09</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://reding-running.fr/politique-confidentialite.html</loc>
-    <lastmod>2026-06-09</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://reding-running.fr/cgv.html</loc>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
   </url>
 </urlset>
