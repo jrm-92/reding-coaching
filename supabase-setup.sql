@@ -18,10 +18,14 @@ create table if not exists public.sessions (
   prix_pack     text default '',   -- ex. "90 €" ; rempli => bouton pack unique
   stripe        text default '',   -- lien de paiement Stripe de la séance (optionnel)
   stripe_pack   text default '',   -- lien de paiement Stripe du pack (optionnel)
+  ancv          text default '',   -- lien de paiement ANCV / Chèques-Vacances (optionnel)
   description   text default '',
   places        int  default 10,
   inscrits      int  default 0
 );
+
+-- 1 bis) Table déjà créée ? Ajoute seulement la colonne manquante :
+alter table public.sessions add column if not exists ancv text default '';
 
 -- 2) Sécurité : lecture publique autorisée, écriture interdite depuis le site
 alter table public.sessions enable row level security;
