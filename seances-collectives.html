@@ -1112,19 +1112,18 @@
     var LIEU2 = "Nanterre — Bords de Seine";
     var LIEU3 = "Nanterre — Parc André Malraux";
 
-    /* ── Lien de paiement Stripe à 8 € ───────────────────────────────────
-       Dashboard Stripe → Paiements → Liens de paiement → « Créer un lien »
-       (produit « Session collective », montant 8 €).
+    /* ── Ancien lien de paiement Stripe, à 8 € ───────────────────────────
+       PLUS UTILISÉ PAR LA PAGE. Le tarif à l'unité est passé à 13 € ; ce
+       lien pointe encore sur le produit à 8 €. Il reste ici au cas où tu
+       voudrais une séance découverte à ce prix : dans ce cas, recopie
+       l'URL dans la colonne « stripe » de cette séance-là.
 
-       CE N'EST PAS UN REPLI. Un lien de paiement Stripe porte un montant
-       figé : servir celui-ci à une séance dont la colonne « stripe » est
-       vide, c'est encaisser 8 € pour une séance qui en vaut peut-être
-       quinze — et l'oubli de saisie ne se voit jamais. Une séance sans
-       lien n'a donc pas de bouton de règlement : la demande est reçue, et
-       le visiteur lit qu'il recevra le lien par mail.
-
-       Cette URL est ici pour être recopiée dans la colonne « stripe » des
-       séances qui sont bien à 8 €. */
+       Rien ne s'en sert automatiquement, et c'est voulu. Un lien de
+       paiement Stripe porte un montant figé : le servir par défaut à une
+       séance dont la colonne « stripe » est vide, c'était encaisser 8 €
+       pour une séance qui en vaut treize, sans que l'oubli se voie. Une
+       séance sans lien n'a pas de bouton de règlement : la demande est
+       reçue, et le visiteur lit qu'il recevra le lien par mail. */
     var LIEN_STRIPE = "https://buy.stripe.com/dRm6oI7IPfYd6ZneTk8bS00";
 
     /* ── Lien de paiement ANCV (Chèques-Vacances) ─────────────────────────
@@ -1480,7 +1479,7 @@
           '<div class="session-footer' + (s.prixPack ? ' session-footer--pack' : '') + '">' +
             (s.prixPack
               ? '<span class="session-pack-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Séance incluse dans la préparation</span>'
-              : '<div class="session-prix">' + (s.prixUnitaire ? esc(s.prixUnitaire) : esc(s.prix)) + '<small>' + (s.prixUnitaire ? 'prix unitaire' : 'par personne') + '</small></div>' +
+              : (s.prixUnitaire ? '<div class="session-prix">' + esc(s.prixUnitaire) + '<small>par personne</small></div>' : '') +
                 '<button class="btn-inscrire" data-i="' + i + '"' + (complet ? ' disabled' : '') + '>' + (complet ? 'Complet' : 'S\'inscrire') + '</button>') +
           '</div>';
         conteneurs[cleGroupe(s)].appendChild(card);
@@ -1752,7 +1751,6 @@
           duree: String(r.duree == null ? '' : r.duree).trim() || '1h',
           lieu: _lieuFromCode(r.lieu),
           sousLieu: String(r.sous_lieu == null ? '' : r.sous_lieu).trim(),
-          prix: _formatPrix(prixU || '8'),
           prixUnitaire: prixU ? _formatPrix(prixU) : '',
           prixPack: _formatPrix(r.prix_pack),
           description: String(r.description == null ? '' : r.description).trim(),
