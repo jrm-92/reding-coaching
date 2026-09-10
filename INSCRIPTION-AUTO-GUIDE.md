@@ -1,5 +1,13 @@
 # Inscription automatique — mise en place
 
+> **Ce guide décrit la mise en place initiale, faite une fois pour toutes.**
+> Le modèle de comptage a changé depuis : une préparation est maintenant une
+> ligne de `preparations` avec son propre compteur, et non plus douze lignes
+> de `sessions` incrémentées ensemble. Les étapes de déploiement de la
+> fonction Edge ci-dessous restent exactes ; le SQL, lui, est repris et
+> complété par **`supabase-preparations.sql`**.
+> Pour les manipulations du quotidien, voir **`supabase-recettes.sql`**.
+
 Objectif : quand quelqu'un paie le pack sur Stripe, le compteur `inscrits`
 augmente **tout seul** ; et quand tu **rembourses** un client dans Stripe, la
 place se **rouvre** automatiquement. Plus rien à faire à la main dans Supabase.
