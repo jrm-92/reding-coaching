@@ -1163,11 +1163,19 @@
     var LIEU2 = "Nanterre — Bords de Seine";
     var LIEU3 = "Nanterre — Parc André Malraux";
 
-    /* ── Lien de paiement Stripe (à créer une seule fois) ─────────────────
+    /* ── Lien de paiement Stripe à 8 € ───────────────────────────────────
        Dashboard Stripe → Paiements → Liens de paiement → « Créer un lien »
-       (produit « Session collective », montant 8 €). Colle l'URL obtenue
-       ci-dessous (ex. "https://buy.stripe.com/xxxxxxxx").
-       Elle sert de lien de paiement par défaut pour TOUTES les sessions. */
+       (produit « Session collective », montant 8 €).
+
+       CE N'EST PAS UN REPLI. Un lien de paiement Stripe porte un montant
+       figé : servir celui-ci à une séance dont la colonne « stripe » est
+       vide, c'est encaisser 8 € pour une séance qui en vaut peut-être
+       quinze — et l'oubli de saisie ne se voit jamais. Une séance sans
+       lien n'a donc pas de bouton de règlement : la demande est reçue, et
+       le visiteur lit qu'il recevra le lien par mail.
+
+       Cette URL est ici pour être recopiée dans la colonne « stripe » des
+       séances qui sont bien à 8 €. */
     var LIEN_STRIPE = "https://buy.stripe.com/dRm6oI7IPfYd6ZneTk8bS00";
 
     /* ── Lien de paiement ANCV (Chèques-Vacances) ─────────────────────────
@@ -1708,7 +1716,9 @@
             return lien + (lien.indexOf('?') > -1 ? '&' : '?') + 'client_reference_id=' + propre;
           }
           var reference = (current && (current.ref || (!current.estPack && current.id))) || '';
-          var lienPaiement = avecReference((current && current.stripe) || LIEN_STRIPE, reference);
+          /* Pas de repli sur LIEN_STRIPE : sans lien propre, la séance n'a
+             pas de bouton de règlement (voir la branche « else » plus bas). */
+          var lienPaiement = avecReference(current && current.stripe, reference);
           var lienAncv = avecReference((current && current.ancv) || LIEN_ANCV, reference);
           var ancv = document.getElementById('btn-ancv');
           /* Le bouton Chèques-Vacances n'apparaît que si un lien existe. */
