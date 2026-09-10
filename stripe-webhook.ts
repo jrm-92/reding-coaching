@@ -77,19 +77,43 @@ Deno.serve(async (req) => {
   if (!ins.ok) return new Response("Erreur base : " + (await ins.text()), { status: 500 });
 
   const obj = event.data?.object ?? {};
-  const evenement = obj?.metadata?.evenement || null;
+  const meta = obj?.metadata ?? {};
+
+  /* Qui a été payé ? Trois façons de le dire, de la plus précise à la plus
+     ancienne :
+
+       preparation=<id>  la préparation : un seul compteur, celui de sa ligne
+       session=<id>      une séance vendue à l'unité : son compteur à elle
+       evenement=<nom>   l'ancienne façon, conservée pour les liens de
+                         paiement déjà en circulation
+
+     Sans aucune de ces métadonnées, on retombe sur incr_inscrits_pack(),
+     qui incrémente TOUTES les séances portant un lien pack. C'était le
+     comportement d'origine ; il ne vaut que tant qu'une seule préparation
+     est en vente. Renseigne « preparation » sur tes liens Stripe et ce
+     repli ne servira plus. */
+  const preparation = meta.preparation || null;
+  const session = meta.session || null;
+  const evenement = meta.evenement || null;
+
+  async function compter(sens: "incr" | "decr") {
+    if (preparation) return rpc(sens + "_inscrits_preparation", { p_id: preparation });
+    if (session) return rpc(sens + "_inscrits_session", { p_id: session });
+    if (evenement) return rpc(sens + "_inscrits_evenement", { p_evenement: evenement });
+    return rpc(sens + "_inscrits_pack", {});
+  }
 
   // Paiement réussi → +1 inscrit (uniquement checkout.session.completed pour ne jamais compter deux fois)
   if (event.type === "checkout.session.completed") {
-    if (evenement) await rpc("incr_inscrits_evenement", { p_evenement: evenement });
-    else await rpc("incr_inscrits_pack", {});
+    await compter("incr");
   } // Remboursement TOTAL → -1 inscrit (la place se rouvre)
   else if (event.type === "charge.refunded") {
     const rembTotal = (obj.amount_refunded ?? 0) >= (obj.amount ?? 0);
-    if (rembTotal) {
-      if (evenement) await rpc("decr_inscrits_evenement", { p_evenement: evenement });
-      else await rpc("decr_inscrits_pack", {});
-    }
+    /* Attention : l'objet reçu ici est le DÉBIT, pas la session de paiement.
+       Rien ne garantit que les métadonnées du lien l'aient suivi. Si elles
+       manquent, on retombe sur le repli — d'où l'intérêt de tester un
+       remboursement et de vérifier quel compteur bouge. */
+    if (rembTotal) await compter("decr");
   }
 
   return new Response("ok", { status: 200 });

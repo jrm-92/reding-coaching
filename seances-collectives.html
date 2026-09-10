@@ -1249,7 +1249,11 @@
       /* Regroupement par ÉVÉNEMENT (colonne « evenement ») : un bloc par événement.
          Un nom d'événement différent = un nouveau bloc. Sans nom d'événement,
          on retombe sur le lieu (la ville). */
-      function cleGroupe(s) { return (s.evenementBrut && s.evenementBrut.trim()) || s.lieu; }
+      /* Le rattachement prime sur le nom : deux préparations pourraient
+         porter le même libellé d'événement sans être la même chose. */
+      function cleGroupe(s) {
+        return s.prepaId || (s.evenementBrut && s.evenementBrut.trim()) || s.lieu;
+      }
       var groupes = {};
       var groupesOrdre = [];
       visibles.forEach(function (s) {
@@ -1766,6 +1770,7 @@
           stripe: String(r.stripe == null ? '' : r.stripe).trim(),
           ancv: String(r.ancv == null ? '' : r.ancv).trim(),
           stripePack: String(r.stripe_pack == null ? '' : r.stripe_pack).trim(),
+          prepaId: String(r.preparation_id == null ? '' : r.preparation_id).trim(),
           lienCourse: String(r.lien_course == null ? '' : r.lien_course).trim(),
           dureePrepa: String(r.duree_prepa == null ? '' : r.duree_prepa).trim(),
           deroule: estVMA ? DEROULE_PUISSANCE : DEROULE_CAPACITE
@@ -1773,14 +1778,69 @@
       }).filter(function (s) { return s.id && /^\d{4}-\d{2}-\d{2}$/.test(s.date) && s.heure; });
     }
 
+    /* ── Une préparation, ses séances ──────────────────────────────────
+       La préparation porte désormais ce qui lui appartient : son nom, son
+       prix, son lien de paiement, ses places et — surtout — son unique
+       compteur d'inscrits. Les séances ne portent plus que leur date, leur
+       titre et leur sous-titre.
+
+       Plutôt que de réécrire tout l'affichage, on recopie les champs de la
+       préparation sur chacune de ses séances au chargement. Le rendu, lui,
+       ne change pas : il lit les mêmes propriétés qu'avant, mais elles
+       viennent maintenant d'un seul endroit. Deux séances d'une même
+       préparation ne peuvent plus se contredire.
+
+       Une séance sans preparation_id est une séance à l'unité : on n'y
+       touche pas, elle garde son prix et son compteur. */
+    function _hydraterPreparations(sessions, preps) {
+      if (!Array.isArray(preps) || !preps.length) return sessions;
+      var parId = {};
+      preps.forEach(function (p) {
+        var id = String(p.id == null ? '' : p.id).trim();
+        if (id) parId[id] = p;
+      });
+      return sessions.map(function (s) {
+        var p = s.prepaId && parId[s.prepaId];
+        if (!p) return s;
+        var placesN = parseInt(p.places, 10), insN = parseInt(p.inscrits, 10);
+        var ev = String(p.evenement == null ? '' : p.evenement).trim();
+        s.evenementBrut = ev || s.evenementBrut;
+        s.evenement     = ev || s.evenement;
+        s.prixPack      = _formatPrix(p.prix);
+        s.stripePack    = String(p.stripe == null ? '' : p.stripe).trim();
+        s.ancv          = String(p.ancv == null ? '' : p.ancv).trim();
+        s.dureePrepa    = String(p.duree_prepa == null ? '' : p.duree_prepa).trim();
+        s.lienCourse    = String(p.lien_course == null ? '' : p.lien_course).trim() || s.lienCourse;
+        s.places        = isNaN(placesN) ? s.places : placesN;
+        s.inscrits      = isNaN(insN) ? s.inscrits : Math.max(0, insN);
+        var lieu = _lieuFromCode(p.lieu);
+        if (lieu) s.lieu = lieu;
+        var sl = String(p.sous_lieu == null ? '' : p.sous_lieu).trim();
+        if (sl) s.sousLieu = sl;
+        return s;
+      });
+    }
+
     (function _demarrer() {
+      var entetes = { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY };
       /* Ne charge que les séances actives (colonne "actif" dans Supabase) */
       var url = SUPABASE_URL + '/rest/v1/sessions?select=*&actif=eq.true&order=date.asc,heure.asc';
-      fetch(url, { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY }, cache: 'no-store' })
-        .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
-        .then(function (rows) {
-          SESSIONS = _sessionsDepuisSupabase(rows) || [];
-          console.info('✔ ' + SESSIONS.length + ' sessions chargées depuis Supabase');
+      /* Les préparations : facultatives. Tant que la migration n'a pas été
+         passée, la table n'existe pas — la requête échoue, on l'ignore, et
+         la page se comporte exactement comme avant. Le déploiement ne
+         dépend donc pas du moment où le SQL est lancé. */
+      var urlPreps = SUPABASE_URL + '/rest/v1/preparations?select=*&actif=eq.true';
+      Promise.all([
+        fetch(url, { headers: entetes, cache: 'no-store' })
+          .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); }),
+        fetch(urlPreps, { headers: entetes, cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : []; })
+          .catch(function () { return []; })
+      ])
+        .then(function (res) {
+          SESSIONS = _hydraterPreparations(_sessionsDepuisSupabase(res[0]) || [], res[1]);
+          console.info('✔ ' + SESSIONS.length + ' sessions chargées depuis Supabase'
+            + (res[1] && res[1].length ? ' · ' + res[1].length + ' préparation(s)' : ''));
         })
         .catch(function (err) {
           SESSIONS = [];
