@@ -197,7 +197,42 @@ grant execute on function public.decr_inscrits_preparation(text) to service_role
 grant execute on function public.incr_inscrits_session(text)     to service_role;
 grant execute on function public.decr_inscrits_session(text)     to service_role;
 
--- ── 7) Vérification ─────────────────────────────────────────────────────
+-- ── 7) L'identifiant doit rester utilisable comme référence de paiement ─
+--     La page accroche l'identifiant à l'URL du lien Stripe, sous
+--     « client_reference_id », qui n'accepte que lettres, chiffres, tiret et
+--     souligné. Un identifiant contenant un espace ou un accent partirait
+--     donc transformé, ne correspondrait plus à aucune ligne, et le compteur
+--     resterait immobile SANS le moindre message d'erreur.
+--
+--     Mieux vaut une erreur à l'insertion, tout de suite, qu'un compteur
+--     faux découvert trois semaines plus tard. Si des identifiants déjà en
+--     base ne respectent pas la règle, la contrainte n'est pas posée et ils
+--     sont énumérés : à corriger avant de relancer.
+do $$
+declare fautifs text;
+begin
+  select string_agg(quote_literal(id), ', ') into fautifs
+    from public.preparations where id !~ '^[A-Za-z0-9_-]+$';
+  if fautifs is not null then
+    raise warning 'preparations : identifiants à corriger avant de poser la contrainte → %', fautifs;
+  else
+    alter table public.preparations drop constraint if exists preparations_id_reference;
+    alter table public.preparations add  constraint preparations_id_reference
+      check (id ~ '^[A-Za-z0-9_-]+$');
+  end if;
+
+  select string_agg(quote_literal(id), ', ') into fautifs
+    from public.sessions where id !~ '^[A-Za-z0-9_-]+$';
+  if fautifs is not null then
+    raise warning 'sessions : identifiants à corriger avant de poser la contrainte → %', fautifs;
+  else
+    alter table public.sessions drop constraint if exists sessions_id_reference;
+    alter table public.sessions add  constraint sessions_id_reference
+      check (id ~ '^[A-Za-z0-9_-]+$');
+  end if;
+end $$;
+
+-- ── 8) Vérification ─────────────────────────────────────────────────────
 --
 --   select p.id, p.evenement, p.prix, p.places, p.inscrits,
 --          count(ps.id) as seances
@@ -210,6 +245,11 @@ grant execute on function public.decr_inscrits_session(text)     to service_role
 --     from public.sessions order by date;   -- uniquement les séances à l'unité
 --
 -- ── Au quotidien ────────────────────────────────────────────────────────
+--
+--   L'identifiant d'une préparation sert de référence de paiement : garde-le
+--   court, en minuscules, sans espace ni accent — « marathon-paris-2028 ».
+--   Deux préparations au même prix peuvent partager le même lien Stripe : la
+--   page y accroche des références différentes, le comptage reste juste.
 --
 --   Ajouter une séance au programme :
 --     insert into public.preparation_seances
