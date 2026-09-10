@@ -1249,7 +1249,11 @@
       /* Regroupement par ÉVÉNEMENT (colonne « evenement ») : un bloc par événement.
          Un nom d'événement différent = un nouveau bloc. Sans nom d'événement,
          on retombe sur le lieu (la ville). */
-      function cleGroupe(s) { return (s.evenementBrut && s.evenementBrut.trim()) || s.lieu; }
+      /* Le rattachement prime sur le nom : deux préparations pourraient
+         porter le même libellé d'événement sans être la même chose. */
+      function cleGroupe(s) {
+        return s.prepaId || (s.evenementBrut && s.evenementBrut.trim()) || s.lieu;
+      }
       var groupes = {};
       var groupesOrdre = [];
       visibles.forEach(function (s) {
@@ -1766,6 +1770,7 @@
           stripe: String(r.stripe == null ? '' : r.stripe).trim(),
           ancv: String(r.ancv == null ? '' : r.ancv).trim(),
           stripePack: String(r.stripe_pack == null ? '' : r.stripe_pack).trim(),
+          prepaId: String(r.preparation_id == null ? '' : r.preparation_id).trim(),
           lienCourse: String(r.lien_course == null ? '' : r.lien_course).trim(),
           dureePrepa: String(r.duree_prepa == null ? '' : r.duree_prepa).trim(),
           deroule: estVMA ? DEROULE_PUISSANCE : DEROULE_CAPACITE
@@ -1773,14 +1778,91 @@
       }).filter(function (s) { return s.id && /^\d{4}-\d{2}-\d{2}$/.test(s.date) && s.heure; });
     }
 
+    /* ── Une préparation, ses séances ──────────────────────────────────
+       Trois tables, trois rôles :
+
+         preparations        le produit : nom, prix, lien, places, et UN
+                             compteur d'inscrits
+         preparation_seances son programme, une ligne par séance — date,
+                             horaire, intitulé, et rien d'autre
+         sessions            les séances vendues à l'unité, et elles seules
+
+       L'affichage, lui, ne connaît qu'une sorte d'objet. On reconstitue
+       donc chaque séance de programme en lui adjoignant les champs de sa
+       préparation, puis on la fait passer par le même normaliseur que les
+       séances à l'unité. Le rendu n'a pas à savoir d'où vient la ligne, et
+       deux séances d'une même préparation ne peuvent plus se contredire :
+       leur prix et leur compteur ont une seule source. */
+    function _lignesDuProgramme(programme, preps) {
+      if (!Array.isArray(programme) || !programme.length) return [];
+      var parId = {};
+      (preps || []).forEach(function (p) {
+        var id = String(p && p.id != null ? p.id : '').trim();
+        if (id) parId[id] = p;
+      });
+      return programme.map(function (ps) {
+        var p = parId[String(ps.preparation_id == null ? '' : ps.preparation_id).trim()];
+        /* Séance rattachée à une préparation absente ou inactive : on la
+           laisse de côté plutôt que d'afficher une séance sans prix. */
+        if (!p) return null;
+        return {
+          id: ps.id,
+          evenement: p.evenement,
+          titre: ps.titre,
+          sous_titre: ps.sous_titre,
+          date: ps.date,
+          heure: ps.heure,
+          duree: ps.duree,
+          lieu: p.lieu,
+          sous_lieu: p.sous_lieu,
+          prix_unitaire: '',            // une séance de programme ne se vend pas seule
+          prix_pack: p.prix,
+          stripe: '',
+          stripe_pack: p.stripe,
+          ancv: p.ancv,
+          description: ps.description,
+          places: p.places,
+          inscrits: p.inscrits,
+          duree_prepa: p.duree_prepa,
+          lien_course: p.lien_course,
+          preparation_id: p.id
+        };
+      }).filter(Boolean);
+    }
+
     (function _demarrer() {
+      var entetes = { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY };
       /* Ne charge que les séances actives (colonne "actif" dans Supabase) */
       var url = SUPABASE_URL + '/rest/v1/sessions?select=*&actif=eq.true&order=date.asc,heure.asc';
-      fetch(url, { headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY }, cache: 'no-store' })
-        .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
-        .then(function (rows) {
-          SESSIONS = _sessionsDepuisSupabase(rows) || [];
-          console.info('✔ ' + SESSIONS.length + ' sessions chargées depuis Supabase');
+      /* Les préparations : facultatives. Tant que la migration n'a pas été
+         passée, la table n'existe pas — la requête échoue, on l'ignore, et
+         la page se comporte exactement comme avant. Le déploiement ne
+         dépend donc pas du moment où le SQL est lancé. */
+      var urlPreps = SUPABASE_URL + '/rest/v1/preparations?select=*&actif=eq.true';
+      var urlProg  = SUPABASE_URL + '/rest/v1/preparation_seances?select=*&actif=eq.true&order=date.asc';
+      /* Facultatif() : tant que la migration n'a pas été passée, ces tables
+         n'existent pas. La requête échoue, on l'ignore, et la page se
+         comporte comme avant — les séances portaient alors elles-mêmes le
+         prix et le lien du pack. Le déploiement ne dépend donc pas du
+         moment où le SQL est lancé. */
+      function facultatif(u) {
+        return fetch(u, { headers: entetes, cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : []; })
+          .catch(function () { return []; });
+      }
+      Promise.all([
+        fetch(url, { headers: entetes, cache: 'no-store' })
+          .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); }),
+        facultatif(urlPreps),
+        facultatif(urlProg)
+      ])
+        .then(function (res) {
+          var unitaires = _sessionsDepuisSupabase(res[0]) || [];
+          var programme = _sessionsDepuisSupabase(_lignesDuProgramme(res[2], res[1])) || [];
+          SESSIONS = programme.concat(unitaires);
+          console.info('✔ ' + SESSIONS.length + ' séances chargées depuis Supabase · '
+            + unitaires.length + ' à l\'unité · ' + programme.length + ' de programme'
+            + (res[1] && res[1].length ? ' (' + res[1].length + ' préparation(s))' : ''));
         })
         .catch(function (err) {
           SESSIONS = [];
