@@ -33,8 +33,14 @@
 -- ── 0) Colonnes que le site attend, au cas où elles manqueraient ────────
 --     « ancv » est arrivée avec le bouton Chèques-Vacances ; si sa migration
 --     n'a jamais été lancée, la table ne l'a pas et la suite échouerait.
-alter table public.sessions add column if not exists ancv        text default '';
-alter table public.sessions add column if not exists duree_prepa text default '';
+--
+--     « actif » est le cas le plus grave : la page interroge « sessions »
+--     avec le filtre actif=eq.true, et cette requête-là n'est pas
+--     facultative. Sans la colonne, PostgREST répond 400, la promesse est
+--     rejetée et la page n'affiche RIEN — pas même les préparations.
+alter table public.sessions add column if not exists ancv        text    default '';
+alter table public.sessions add column if not exists duree_prepa text    default '';
+alter table public.sessions add column if not exists actif       boolean default true;
 
 -- ── 1) Les préparations ─────────────────────────────────────────────────
 create table if not exists public.preparations (

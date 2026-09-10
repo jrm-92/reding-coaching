@@ -198,6 +198,34 @@ update public.sessions set actif = false where id = 'U10';
 update public.sessions set actif = true  where id = 'U10';
 
 
+-- ═══ 3 bis. TOUT MASQUER D'UN COUP ══════════════════════════════════════
+--     Vider la page des séances collectives sans rien effacer. On ne
+--     touche pas à « preparation_seances » : le programme ne s'affiche
+--     jamais sans sa prépa, donc masquer la prépa suffit — et la rallumer
+--     ramène ses douze séances d'un seul geste.
+
+-- ── 3bis.1 D'ABORD : note ce qui est allumé aujourd'hui ────────────────
+--     Sans cette liste, tu ne sauras plus quoi rallumer : un « set actif
+--     = true » sans where réveillerait aussi ce que tu avais masqué exprès.
+select 'preparation' as table_, id, evenement from public.preparations where actif
+union all
+select 'session',           id, evenement from public.sessions      where actif
+order by table_, id;
+
+-- ── 3bis.2 Tout masquer ────────────────────────────────────────────────
+update public.preparations set actif = false where actif;
+update public.sessions      set actif = false where actif;
+
+-- ── 3bis.3 Vérifier : les deux compteurs à 0 ───────────────────────────
+select
+  (select count(*) from public.preparations where actif) as prepas_visibles,
+  (select count(*) from public.sessions      where actif) as seances_visibles;
+
+-- ── 3bis.4 Rallumer — un id à la fois, depuis la liste de 3bis.1 ───────
+-- update public.preparations set actif = true where id = 'marathon-paris-2028';
+-- update public.sessions      set actif = true where id in ('U10','U11');
+
+
 -- ═══ 4. VÉRIFIER ════════════════════════════════════════════════════════
 
 -- ── 4.1 Vue d'ensemble des préparations ────────────────────────────────
