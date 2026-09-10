@@ -1354,6 +1354,11 @@
             lieu: sessionsTri[0].lieu,
             prix: prixPackGroup.join(' · '),
             stripe: stripePackGroup,
+            /* Le lien Chèques-Vacances de la préparation : sans lui, le
+               second bouton de règlement ne s'affichait jamais sur une
+               préparation, seulement sur une séance à l'unité. */
+            ancv: sessionsTri[0].ancv || '',
+            ref: sessionsTri[0].prepaId || '',
             lienCourse: lienCourseGroup,
             premiere: sessionsTri[0],
             derniere: sessionsTri[sessionsTri.length - 1],
@@ -1585,7 +1590,8 @@
         current = {
           titre: libellePack,
           date: info.premiere.date, heure: info.premiere.heure, duree: info.premiere.duree, /* pour l'export calendrier */
-          lieu: info.lieu, prix: info.prix, stripe: info.stripe, estPack: true
+          lieu: info.lieu, prix: info.prix, stripe: info.stripe, ancv: info.ancv,
+          ref: info.ref, estPack: true
         };
         document.getElementById('modal-session-info').textContent =
           libellePack + ' — ' + periode + ' · ' + info.lieu + ' · ' + info.prix;
@@ -1682,8 +1688,28 @@
           btn.textContent = 'Demande envoyée ✓';
           var actions = document.getElementById('m-actions');
           var payer = document.getElementById('btn-payer');
-          var lienPaiement = (current && current.stripe) || LIEN_STRIPE;
-          var lienAncv = (current && current.ancv) || LIEN_ANCV;
+          /* Ce que Stripe renverra dans l'événement de paiement : l'identifiant
+             de la préparation, ou celui de la séance quand elle se vend à
+             l'unité. Le webhook s'en sert pour n'incrémenter que le bon
+             compteur — sans quoi il retombe sur un repli qui touche toutes
+             les préparations en vente.
+
+             On passe par « client_reference_id », que Stripe accepte dans
+             l'URL d'un lien de paiement et recopie dans la session. C'est la
+             page qui l'ajoute, depuis la base : rien à saisir dans Stripe, et
+             une nouvelle préparation est correctement comptée le jour même de
+             sa création. */
+          function avecReference(lien, ref) {
+            if (!lien || !ref) return lien;
+            if (/[?&]client_reference_id=/.test(lien)) return lien;
+            /* Stripe n'accepte que lettres, chiffres, tiret et souligné. */
+            var propre = String(ref).replace(/[^A-Za-z0-9_-]/g, '-').slice(0, 200);
+            if (!propre) return lien;
+            return lien + (lien.indexOf('?') > -1 ? '&' : '?') + 'client_reference_id=' + propre;
+          }
+          var reference = (current && (current.ref || (!current.estPack && current.id))) || '';
+          var lienPaiement = avecReference((current && current.stripe) || LIEN_STRIPE, reference);
+          var lienAncv = avecReference((current && current.ancv) || LIEN_ANCV, reference);
           var ancv = document.getElementById('btn-ancv');
           /* Le bouton Chèques-Vacances n'apparaît que si un lien existe. */
           actions.classList.toggle('has-ancv', !!(lienPaiement && lienAncv));

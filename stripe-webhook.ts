@@ -92,6 +92,13 @@ Deno.serve(async (req) => {
      comportement d'origine ; il ne vaut que tant qu'une seule préparation
      est en vente. Renseigne « preparation » sur tes liens Stripe et ce
      repli ne servira plus. */
+  /* « client_reference_id » est ajouté à l'URL du lien par la page elle-même,
+     depuis l'identifiant en base : c'est la voie qui ne demande aucune
+     saisie dans Stripe et qui vaut donc pour toute nouvelle préparation.
+     Une préparation et une séance à l'unité ne peuvent pas porter le même
+     identifiant — l'une est dans « preparations », l'autre dans « sessions » —
+     alors on essaie les deux, la première qui existe l'emporte. */
+  const ref = obj?.client_reference_id || null;
   const preparation = meta.preparation || null;
   const session = meta.session || null;
   const evenement = meta.evenement || null;
@@ -99,6 +106,13 @@ Deno.serve(async (req) => {
   async function compter(sens: "incr" | "decr") {
     if (preparation) return rpc(sens + "_inscrits_preparation", { p_id: preparation });
     if (session) return rpc(sens + "_inscrits_session", { p_id: session });
+    if (ref) {
+      // Les RPC ne touchent que la ligne dont l'identifiant correspond :
+      // celle qui n'existe pas ne bouge rien.
+      await rpc(sens + "_inscrits_preparation", { p_id: ref });
+      await rpc(sens + "_inscrits_session", { p_id: ref });
+      return;
+    }
     if (evenement) return rpc(sens + "_inscrits_evenement", { p_evenement: evenement });
     return rpc(sens + "_inscrits_pack", {});
   }
