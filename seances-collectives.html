@@ -921,6 +921,10 @@
     }
     .btn-ancv:hover { background: rgba(255,107,53,0.20); transform: translateY(-2px); }
     .btn-envoyer {
+      /* Les cases à cocher touchaient le bouton : on lisait « accepte » et on
+         cliquait dans le même geste, sans marquer la case. Une respiration
+         sépare ce qu'on déclare de ce qu'on valide. */
+      margin-top: 22px;
       width: 100%; padding: 15px; border: none; border-radius: var(--radius-md); cursor: pointer;
       background: var(--offer-fill); color: var(--offer-on);
       font-family: inherit; font-size: 14px; font-weight: 800;
@@ -951,6 +955,9 @@
     .m-rgpd input { margin: 1px 0 0; width: 16px; height: 16px; accent-color: #FF6B35; flex-shrink: 0; cursor: pointer; }
     .m-rgpd label { cursor: pointer; }
     .m-rgpd a { color: #FF6B35; text-decoration: underline; }
+    /* Deux consentements qui se suivent forment un bloc : moins d'écart entre
+       eux qu'avec ce qui les entoure. */
+    .m-rgpd + .m-rgpd { margin-top: 9px; }
     .m-message { display: none; margin-top: 14px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 600; font-size: 14px; }
 
     /* ── Pied de page : meme traitement que l'accueil ── */
@@ -1073,6 +1080,11 @@
         <div class="m-rgpd">
           <input type="checkbox" id="f-rgpd" name="RGPD_Consent" value="Oui" required>
           <label for="f-rgpd">J'accepte que mes données soient traitées conformément à la <a href="politique-confidentialite.html" target="_blank" rel="noopener noreferrer">politique de confidentialité</a> *</label>
+        </div>
+
+        <div class="m-rgpd">
+          <input type="checkbox" id="f-cgv" name="CGV_Consent" value="Oui" required>
+          <label for="f-cgv">J'ai lu et j'accepte les <a href="cgv.html" target="_blank" rel="noopener noreferrer">conditions générales de vente</a> *</label>
         </div>
 
         <button type="submit" class="btn-envoyer" id="btn-envoyer">Réserver ma place</button>
