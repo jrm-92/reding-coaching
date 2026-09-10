@@ -1779,46 +1779,55 @@
     }
 
     /* ── Une préparation, ses séances ──────────────────────────────────
-       La préparation porte désormais ce qui lui appartient : son nom, son
-       prix, son lien de paiement, ses places et — surtout — son unique
-       compteur d'inscrits. Les séances ne portent plus que leur date, leur
-       titre et leur sous-titre.
+       Trois tables, trois rôles :
 
-       Plutôt que de réécrire tout l'affichage, on recopie les champs de la
-       préparation sur chacune de ses séances au chargement. Le rendu, lui,
-       ne change pas : il lit les mêmes propriétés qu'avant, mais elles
-       viennent maintenant d'un seul endroit. Deux séances d'une même
-       préparation ne peuvent plus se contredire.
+         preparations        le produit : nom, prix, lien, places, et UN
+                             compteur d'inscrits
+         preparation_seances son programme, une ligne par séance — date,
+                             horaire, intitulé, et rien d'autre
+         sessions            les séances vendues à l'unité, et elles seules
 
-       Une séance sans preparation_id est une séance à l'unité : on n'y
-       touche pas, elle garde son prix et son compteur. */
-    function _hydraterPreparations(sessions, preps) {
-      if (!Array.isArray(preps) || !preps.length) return sessions;
+       L'affichage, lui, ne connaît qu'une sorte d'objet. On reconstitue
+       donc chaque séance de programme en lui adjoignant les champs de sa
+       préparation, puis on la fait passer par le même normaliseur que les
+       séances à l'unité. Le rendu n'a pas à savoir d'où vient la ligne, et
+       deux séances d'une même préparation ne peuvent plus se contredire :
+       leur prix et leur compteur ont une seule source. */
+    function _lignesDuProgramme(programme, preps) {
+      if (!Array.isArray(programme) || !programme.length) return [];
       var parId = {};
-      preps.forEach(function (p) {
-        var id = String(p.id == null ? '' : p.id).trim();
+      (preps || []).forEach(function (p) {
+        var id = String(p && p.id != null ? p.id : '').trim();
         if (id) parId[id] = p;
       });
-      return sessions.map(function (s) {
-        var p = s.prepaId && parId[s.prepaId];
-        if (!p) return s;
-        var placesN = parseInt(p.places, 10), insN = parseInt(p.inscrits, 10);
-        var ev = String(p.evenement == null ? '' : p.evenement).trim();
-        s.evenementBrut = ev || s.evenementBrut;
-        s.evenement     = ev || s.evenement;
-        s.prixPack      = _formatPrix(p.prix);
-        s.stripePack    = String(p.stripe == null ? '' : p.stripe).trim();
-        s.ancv          = String(p.ancv == null ? '' : p.ancv).trim();
-        s.dureePrepa    = String(p.duree_prepa == null ? '' : p.duree_prepa).trim();
-        s.lienCourse    = String(p.lien_course == null ? '' : p.lien_course).trim() || s.lienCourse;
-        s.places        = isNaN(placesN) ? s.places : placesN;
-        s.inscrits      = isNaN(insN) ? s.inscrits : Math.max(0, insN);
-        var lieu = _lieuFromCode(p.lieu);
-        if (lieu) s.lieu = lieu;
-        var sl = String(p.sous_lieu == null ? '' : p.sous_lieu).trim();
-        if (sl) s.sousLieu = sl;
-        return s;
-      });
+      return programme.map(function (ps) {
+        var p = parId[String(ps.preparation_id == null ? '' : ps.preparation_id).trim()];
+        /* Séance rattachée à une préparation absente ou inactive : on la
+           laisse de côté plutôt que d'afficher une séance sans prix. */
+        if (!p) return null;
+        return {
+          id: ps.id,
+          evenement: p.evenement,
+          titre: ps.titre,
+          sous_titre: ps.sous_titre,
+          date: ps.date,
+          heure: ps.heure,
+          duree: ps.duree,
+          lieu: p.lieu,
+          sous_lieu: p.sous_lieu,
+          prix_unitaire: '',            // une séance de programme ne se vend pas seule
+          prix_pack: p.prix,
+          stripe: '',
+          stripe_pack: p.stripe,
+          ancv: p.ancv,
+          description: ps.description,
+          places: p.places,
+          inscrits: p.inscrits,
+          duree_prepa: p.duree_prepa,
+          lien_course: p.lien_course,
+          preparation_id: p.id
+        };
+      }).filter(Boolean);
     }
 
     (function _demarrer() {
@@ -1830,17 +1839,30 @@
          la page se comporte exactement comme avant. Le déploiement ne
          dépend donc pas du moment où le SQL est lancé. */
       var urlPreps = SUPABASE_URL + '/rest/v1/preparations?select=*&actif=eq.true';
+      var urlProg  = SUPABASE_URL + '/rest/v1/preparation_seances?select=*&actif=eq.true&order=date.asc';
+      /* Facultatif() : tant que la migration n'a pas été passée, ces tables
+         n'existent pas. La requête échoue, on l'ignore, et la page se
+         comporte comme avant — les séances portaient alors elles-mêmes le
+         prix et le lien du pack. Le déploiement ne dépend donc pas du
+         moment où le SQL est lancé. */
+      function facultatif(u) {
+        return fetch(u, { headers: entetes, cache: 'no-store' })
+          .then(function (r) { return r.ok ? r.json() : []; })
+          .catch(function () { return []; });
+      }
       Promise.all([
         fetch(url, { headers: entetes, cache: 'no-store' })
           .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); }),
-        fetch(urlPreps, { headers: entetes, cache: 'no-store' })
-          .then(function (r) { return r.ok ? r.json() : []; })
-          .catch(function () { return []; })
+        facultatif(urlPreps),
+        facultatif(urlProg)
       ])
         .then(function (res) {
-          SESSIONS = _hydraterPreparations(_sessionsDepuisSupabase(res[0]) || [], res[1]);
-          console.info('✔ ' + SESSIONS.length + ' sessions chargées depuis Supabase'
-            + (res[1] && res[1].length ? ' · ' + res[1].length + ' préparation(s)' : ''));
+          var unitaires = _sessionsDepuisSupabase(res[0]) || [];
+          var programme = _sessionsDepuisSupabase(_lignesDuProgramme(res[2], res[1])) || [];
+          SESSIONS = programme.concat(unitaires);
+          console.info('✔ ' + SESSIONS.length + ' séances chargées depuis Supabase · '
+            + unitaires.length + ' à l\'unité · ' + programme.length + ' de programme'
+            + (res[1] && res[1].length ? ' (' + res[1].length + ' préparation(s))' : ''));
         })
         .catch(function (err) {
           SESSIONS = [];
