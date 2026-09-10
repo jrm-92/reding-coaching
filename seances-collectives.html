@@ -882,21 +882,18 @@
       letter-spacing: 0.2px; padding-left: 10px; padding-right: 10px;
       font-size: 11.5px; gap: 6px; min-width: 0;
     }
-    .m-actions.has-ancv .pay-badge { min-width: 30px; font-size: 10px; }
-    /* Pastille du moyen de paiement. Ce sont des libellés typographiques, pas
-       les logos officiels de CB et de l'ANCV : ces marques fournissent leurs
-       propres fichiers, à substituer ici le jour où on les a. */
-    .pay-badge {
-      display: inline-flex; align-items: center; justify-content: center;
-      min-width: 34px; height: 20px; padding: 0 6px; border-radius: 4px;
-      font-size: 10.5px; font-weight: 900; letter-spacing: 0.5px;
-      font-family: inherit; flex-shrink: 0; line-height: 1;
-    }
-    .btn-payer .pay-badge {
-      background: var(--offer-on); color: var(--offer-fill);
-    }
-    .btn-ancv .pay-badge {
-      background: var(--offer); color: #0B1220;
+    .m-actions.has-ancv .pay-logo--cb { height: 18px; }
+    .m-actions.has-ancv .pay-logo--ancv { height: 18px; padding: 3px 4px; }
+    /* Logos officiels des deux moyens de paiement, recadrés sur la marque. */
+    .pay-logo { display: block; flex-shrink: 0; width: auto; }
+    /* La carte CB est une tuile de couleur autonome : elle tient telle quelle
+       sur le fond sombre du bouton. */
+    .pay-logo--cb { height: 20px; border-radius: 3px; }
+    /* Le bleu de l'« ancv » se perdrait sur ce même fond : on le pose sur une
+       pastille blanche, comme le font les sélecteurs de paiement. */
+    .pay-logo--ancv {
+      height: 20px; background: #fff; border-radius: 3px;
+      padding: 3px 5px; box-sizing: content-box;
     }
     .btn-payer, .btn-ics, .btn-ancv {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -1085,11 +1082,11 @@
 
         <div class="m-actions" id="m-actions">
           <a href="#" id="btn-payer" class="btn-payer" target="_blank" rel="noopener noreferrer">
-            <span class="pay-badge">CB</span>
+            <img class="pay-logo pay-logo--cb" src="logo_cb.png" alt="CB" width="32" height="20" decoding="async">
             Régler ma place
           </a>
           <a href="#" id="btn-ancv" class="btn-ancv" target="_blank" rel="noopener noreferrer" style="display:none">
-            <span class="pay-badge">ANCV</span>
+            <img class="pay-logo pay-logo--ancv" src="logo_ancv.png" alt="ANCV" width="26" height="14" decoding="async">
             Chèques-Vacances
           </a>
           <button type="button" id="btn-ics" class="btn-ics">
@@ -1690,7 +1687,8 @@
             payer.href = lienPaiement;
             /* Seule, la carte garde son libellé d'action (« Valider et régler ma
                place ») : c'est le bouton principal, pas un choix entre deux. */
-            payer.innerHTML = '<span class="pay-badge">CB</span> ' + (lienAncv ? 'Carte bancaire' : 'Valider et régler ma place');
+            payer.innerHTML = '<img class="pay-logo pay-logo--cb" src="logo_cb.png" alt="CB" width="32" height="20" decoding="async"> '
+              + (lienAncv ? 'Carte bancaire' : 'Valider et régler ma place');
             payer.style.display = '';
           } else {
             msg.style.background = 'rgba(251,191,36,0.15)'; msg.style.color = '#FBBF24';
