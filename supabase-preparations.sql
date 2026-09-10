@@ -58,7 +58,10 @@ create table if not exists public.preparations (
 --     préparation.
 create table if not exists public.preparation_seances (
   id             text primary key,
-  preparation_id text not null references public.preparations(id) on delete cascade,
+  -- « on update cascade » : renommer l'identifiant d'une préparation
+  -- entraîne ses séances avec lui, en une seule requête.
+  preparation_id text not null references public.preparations(id)
+                 on update cascade on delete cascade,
   date           date not null,
   heure          text not null,     -- ex. "09h30"
   duree          text default '1h15',
@@ -68,6 +71,22 @@ create table if not exists public.preparation_seances (
   actif          boolean default true
 );
 create index if not exists preparation_seances_prep_idx on public.preparation_seances(preparation_id);
+
+--     Table déjà créée sans « on update cascade » ? On refait le lien, sinon
+--     renommer une préparation serait refusé par la clé étrangère.
+do $$
+begin
+  if exists (select 1 from pg_constraint c
+              where c.conname = 'preparation_seances_preparation_id_fkey'
+                and c.confupdtype <> 'c') then
+    alter table public.preparation_seances
+      drop constraint preparation_seances_preparation_id_fkey;
+    alter table public.preparation_seances
+      add  constraint preparation_seances_preparation_id_fkey
+      foreign key (preparation_id) references public.preparations(id)
+      on update cascade on delete cascade;
+  end if;
+end $$;
 create index if not exists preparation_seances_date_idx on public.preparation_seances(date);
 
 -- ── 3) Sécurité : lecture publique, écriture interdite depuis le site ───
