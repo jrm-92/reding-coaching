@@ -1092,7 +1092,7 @@
     var PACK_INCLUS = [
       {
         icone: "👥",
-        titre: "12 séances collectives encadrées (1h15 · 8 pers. max)",
+        titre: "12 séances collectives encadrées (1h15 · {{PLACES}} pers. max)",
         texte: "Une séance par semaine en petit groupe. Le samedi de {{HORAIRE}}."
       },
       {
@@ -1334,15 +1334,27 @@
           var horairePack = (sessionsTri[0].heure && sessionsTri[0].duree)
             ? enHeure(enMinutes(sessionsTri[0].heure)) + ' à ' + enHeure(enMinutes(sessionsTri[0].heure) + enMinutes(sessionsTri[0].duree))
             : '10h00 à 11h15';
+          /* Taille du groupe : la valeur de Supabase, injectée dans PACK_INCLUS
+             à la place du jeton {{PLACES}}. Sans ce jeton le nombre restait
+             écrit en dur dans « Ce qui est inclus » pendant que le badge
+             juste au-dessus lisait la base : passer « places » à 10 dans
+             Supabase affichait « Groupe de 10 max » et, deux lignes plus
+             bas, « 8 pers. max ». */
+          var placesPack = sessionsTri[0].places;
+          var jetons = function (t) {
+            return String(t == null ? '' : t)
+              .replace('{{HORAIRE}}', horairePack)
+              .replace('{{PLACES}}', String(placesPack));
+          };
           var inclusHtml = (PACK_INCLUS && PACK_INCLUS.length)
             ? '<div class="pack-inclus">' +
                 '<h4 class="pack-inclus-titre">Ce qui est inclus</h4>' +
                 '<ul class="pack-inclus-liste">' +
                   PACK_INCLUS.map(function (it, i) {
-                    var texte = (it.texte || '').replace('{{HORAIRE}}', horairePack);
+                    var texte = jetons(it.texte);
                     return '<li>' +
                       '<span class="pack-inclus-ico" aria-hidden="true">' + (ICONES_INCLUS[i] || CHECK_SVG) + '</span>' +
-                      '<div class="pack-inclus-txt"><strong>' + esc(it.titre || '') + '</strong>' +
+                      '<div class="pack-inclus-txt"><strong>' + esc(jetons(it.titre)) + '</strong>' +
                       (texte ? '<p>' + esc(texte) + '</p>' : '') + '</div>' +
                     '</li>';
                   }).join('') +
@@ -1350,7 +1362,6 @@
               '</div>'
             : '';
           /* Places restantes du pack : depuis « places » et « inscrits » des séances (même groupe) */
-          var placesPack = sessionsTri[0].places;
           var inscritsPack = sessionsTri.reduce(function (m, s) { return Math.max(m, s.inscrits); }, 0);
           var restantesPack = Math.max(0, placesPack - inscritsPack);
           var packComplet = restantesPack === 0;

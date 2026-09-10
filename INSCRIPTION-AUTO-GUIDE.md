@@ -68,7 +68,7 @@ pack** (la fonction incrémente alors toutes les séances qui ont un lien pack).
 - Fais un **paiement test** (mode test Stripe, ou un vrai petit paiement que tu
   rembourseras) via le bouton « Acheter le pack ».
 - Vérifie dans Supabase que `inscrits` est passé à 1 sur les séances du pack.
-- Le site affichera alors « Il reste 7 places » au lieu de 8.
+- Le site affichera alors « Il reste 9 places » au lieu de 10.
 - Puis **rembourse** ce paiement dans Stripe → `inscrits` doit revenir à 0
   (la place se rouvre). Seul un remboursement **total** rouvre la place.
 
