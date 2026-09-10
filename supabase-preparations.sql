@@ -25,6 +25,13 @@
 --  seul cas où plusieurs lignes se justifient.
 -- ═══════════════════════════════════════════════════════════════════════
 
+-- ── 0) Colonnes que le site attend, au cas où elles manqueraient ────────
+--     « ancv » est arrivée avec le bouton Chèques-Vacances ; si sa migration
+--     n'a jamais été lancée, la table ne l'a pas et tout ce qui suit échoue.
+--     « add column if not exists » ne coûte rien quand elle est déjà là.
+alter table public.sessions add column if not exists ancv        text default '';
+alter table public.sessions add column if not exists duree_prepa text default '';
+
 -- ── 1) La table des préparations ────────────────────────────────────────
 create table if not exists public.preparations (
   id           text primary key,   -- ex. 'chatou-2027' ; c'est lui qui ira dans Stripe
@@ -83,7 +90,11 @@ select
   max(s.ancv)                                          as ancv,
   max(s.lieu)                                          as lieu,
   max(s.sous_lieu)                                     as sous_lieu,
-  max(s.lien_course)                                   as lien_course,
+  -- Selon l'ancienneté de ta base, la colonne s'appelle « lien_course » ou
+  -- « lien_cours ». to_jsonb() lit la ligne comme un objet : une clé absente
+  -- vaut NULL au lieu de faire échouer la requête.
+  max(coalesce(to_jsonb(s) ->> 'lien_course',
+               to_jsonb(s) ->> 'lien_cours'))          as lien_course,
   -- Les places étaient recopiées sur chaque ligne : on prend la valeur la
   -- plus grande, et le compteur le plus avancé — c'est déjà ainsi que la
   -- page lisait « inscrits » (le maximum du groupe).
