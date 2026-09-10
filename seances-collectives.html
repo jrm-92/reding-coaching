@@ -744,44 +744,6 @@
       color: rgba(255,255,255,0.78); line-height: 1.6;
     }
 
-    /* ── Déroulé de la séance (repliable) ── */
-    .session-deroule {
-      margin: var(--space-3) var(--space-4) 0;
-      border: 1px solid var(--color-line-dark);
-      border-radius: var(--radius-sm);
-      background: rgba(10, 17, 40, 0.35);
-      overflow: hidden;
-    }
-    .session-deroule summary {
-      list-style: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: var(--space-2) var(--space-3);
-      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-      color: #FF6B35; user-select: none;
-    }
-    .session-deroule summary::-webkit-details-marker { display: none; }
-    .session-deroule summary::after {
-      content: ''; width: 8px; height: 8px; flex-shrink: 0;
-      border-right: 2px solid #FF6B35; border-bottom: 2px solid #FF6B35;
-      transform: rotate(45deg); transition: transform 0.25s ease;
-      margin-left: 10px; margin-top: -3px;
-    }
-    .session-deroule[open] summary::after { transform: rotate(-135deg); margin-top: 3px; }
-    .session-deroule summary:hover { background: rgba(255,107,53,0.06); }
-    .session-deroule ul { list-style: none; margin: 0; padding: 2px var(--space-3) var(--space-3); }
-    .session-deroule li {
-      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
-      padding: 7px 0; font-size: 13px; line-height: 1.5;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .session-deroule li:first-child { border-top: none; }
-    .dr-txt { color: rgba(255,255,255,0.8); }
-    .dr-txt strong { color: #fff; font-weight: 700; }
-    .dr-txt em { font-style: normal; color: rgba(255,255,255,0.55); font-size: 12.5px; }
-    .dr-duree {
-      flex-shrink: 0; font-weight: 900; font-style: italic; color: #FF6B35; font-size: 14px;
-    }
-
     /* jauge de places */
     /* Aligne sur la gouttiere laterale commune des autres blocs de la carte. */
     .session-jauge { padding: var(--space-3) var(--space-4) 0; }
@@ -1124,26 +1086,13 @@
   </footer>
 
   <script>
-    /* Déroulé des séances : [phase, détail, durée] — la durée peut rester vide "" */
-    var DEROULE_PUISSANCE = [
-      ["Échauffement", "footing, activation musculaire et articulaire", "15'"],
-      ["Exercices spécifiques", "proprioception, gammes athlétiques", "15'"],
-      ["Corps de séance", "développer la puissance aérobie, sous forme ludique", "35'"],
-      ["Retour au calme", "footing léger et débriefing", "10'"]
-    ];
-    var DEROULE_CAPACITE = [
-      ["Échauffement", "footing, activation musculaire et articulaire", "15'"],
-      ["Exercices spécifiques", "proprioception, gammes athlétiques", "15'"],
-      ["Corps de séance", "développer la capacité aérobie, sous forme ludique", "35'"],
-      ["Retour au calme", "footing léger et débriefing", "10'"]
-    ];
     /* ── Encart « Ce qui est inclus dans le pack » (affiché au-dessus du bouton d'achat) ──
        Modifie le titre et la liste ci-dessous pour ajuster le contenu du pack. */
     var PACK_TITRE = "Préparation 10k — 12 semaines";
     var PACK_INCLUS = [
       {
         icone: "👥",
-        titre: "12 séances collectives encadrées (1h15 · 8 pers. max)",
+        titre: "12 séances collectives encadrées (1h15 · {{PLACES}} pers. max)",
         texte: "Une séance par semaine en petit groupe. Le samedi de {{HORAIRE}}."
       },
       {
@@ -1163,11 +1112,19 @@
     var LIEU2 = "Nanterre — Bords de Seine";
     var LIEU3 = "Nanterre — Parc André Malraux";
 
-    /* ── Lien de paiement Stripe (à créer une seule fois) ─────────────────
+    /* ── Lien de paiement Stripe à 8 € ───────────────────────────────────
        Dashboard Stripe → Paiements → Liens de paiement → « Créer un lien »
-       (produit « Session collective », montant 8 €). Colle l'URL obtenue
-       ci-dessous (ex. "https://buy.stripe.com/xxxxxxxx").
-       Elle sert de lien de paiement par défaut pour TOUTES les sessions. */
+       (produit « Session collective », montant 8 €).
+
+       CE N'EST PAS UN REPLI. Un lien de paiement Stripe porte un montant
+       figé : servir celui-ci à une séance dont la colonne « stripe » est
+       vide, c'est encaisser 8 € pour une séance qui en vaut peut-être
+       quinze — et l'oubli de saisie ne se voit jamais. Une séance sans
+       lien n'a donc pas de bouton de règlement : la demande est reçue, et
+       le visiteur lit qu'il recevra le lien par mail.
+
+       Cette URL est ici pour être recopiée dans la colonne « stripe » des
+       séances qui sont bien à 8 €. */
     var LIEN_STRIPE = "https://buy.stripe.com/dRm6oI7IPfYd6ZneTk8bS00";
 
     /* ── Lien de paiement ANCV (Chèques-Vacances) ─────────────────────────
@@ -1377,15 +1334,27 @@
           var horairePack = (sessionsTri[0].heure && sessionsTri[0].duree)
             ? enHeure(enMinutes(sessionsTri[0].heure)) + ' à ' + enHeure(enMinutes(sessionsTri[0].heure) + enMinutes(sessionsTri[0].duree))
             : '10h00 à 11h15';
+          /* Taille du groupe : la valeur de Supabase, injectée dans PACK_INCLUS
+             à la place du jeton {{PLACES}}. Sans ce jeton le nombre restait
+             écrit en dur dans « Ce qui est inclus » pendant que le badge
+             juste au-dessus lisait la base : passer « places » à 10 dans
+             Supabase affichait « Groupe de 10 max » et, deux lignes plus
+             bas, « 8 pers. max ». */
+          var placesPack = sessionsTri[0].places;
+          var jetons = function (t) {
+            return String(t == null ? '' : t)
+              .replace('{{HORAIRE}}', horairePack)
+              .replace('{{PLACES}}', String(placesPack));
+          };
           var inclusHtml = (PACK_INCLUS && PACK_INCLUS.length)
             ? '<div class="pack-inclus">' +
                 '<h4 class="pack-inclus-titre">Ce qui est inclus</h4>' +
                 '<ul class="pack-inclus-liste">' +
                   PACK_INCLUS.map(function (it, i) {
-                    var texte = (it.texte || '').replace('{{HORAIRE}}', horairePack);
+                    var texte = jetons(it.texte);
                     return '<li>' +
                       '<span class="pack-inclus-ico" aria-hidden="true">' + (ICONES_INCLUS[i] || CHECK_SVG) + '</span>' +
-                      '<div class="pack-inclus-txt"><strong>' + esc(it.titre || '') + '</strong>' +
+                      '<div class="pack-inclus-txt"><strong>' + esc(jetons(it.titre)) + '</strong>' +
                       (texte ? '<p>' + esc(texte) + '</p>' : '') + '</div>' +
                     '</li>';
                   }).join('') +
@@ -1393,7 +1362,6 @@
               '</div>'
             : '';
           /* Places restantes du pack : depuis « places » et « inscrits » des séances (même groupe) */
-          var placesPack = sessionsTri[0].places;
           var inscritsPack = sessionsTri.reduce(function (m, s) { return Math.max(m, s.inscrits); }, 0);
           var restantesPack = Math.max(0, placesPack - inscritsPack);
           var packComplet = restantesPack === 0;
@@ -1504,11 +1472,6 @@
             (s.prixPack ? '' : '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>' + s.inscrits + ' inscrit' + (s.inscrits > 1 ? 's' : '') + ' / ' + s.places + ' places</span></li>') +
           '</ul>' +
           (s.description ? '<p class="session-desc">' + esc(s.description) + '</p>' : '') +
-          (s.deroule ? '<details class="session-deroule"><summary>Déroulé de la séance</summary><ul>' +
-            s.deroule.map(function (p) {
-              return '<li><span class="dr-txt"><strong>' + esc(p[0]) + '</strong></span>' + (p[2] ? '<span class="dr-duree">' + esc(p[2]) + '</span>' : '') + '</li>';
-            }).join('') +
-          '</ul></details>' : '') +
           (s.prixPack ? '' :
           '<div class="session-jauge">' +
             '<div class="jauge-label"><span>Places</span><span class="restantes">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
@@ -1708,7 +1671,9 @@
             return lien + (lien.indexOf('?') > -1 ? '&' : '?') + 'client_reference_id=' + propre;
           }
           var reference = (current && (current.ref || (!current.estPack && current.id))) || '';
-          var lienPaiement = avecReference((current && current.stripe) || LIEN_STRIPE, reference);
+          /* Pas de repli sur LIEN_STRIPE : sans lien propre, la séance n'a
+             pas de bouton de règlement (voir la branche « else » plus bas). */
+          var lienPaiement = avecReference(current && current.stripe, reference);
           var lienAncv = avecReference((current && current.ancv) || LIEN_ANCV, reference);
           var ancv = document.getElementById('btn-ancv');
           /* Le bouton Chèques-Vacances n'apparaît que si un lien existe. */
@@ -1798,8 +1763,7 @@
           stripePack: String(r.stripe_pack == null ? '' : r.stripe_pack).trim(),
           prepaId: String(r.preparation_id == null ? '' : r.preparation_id).trim(),
           lienCourse: String(r.lien_course == null ? '' : r.lien_course).trim(),
-          dureePrepa: String(r.duree_prepa == null ? '' : r.duree_prepa).trim(),
-          deroule: estVMA ? DEROULE_PUISSANCE : DEROULE_CAPACITE
+          dureePrepa: String(r.duree_prepa == null ? '' : r.duree_prepa).trim()
         };
       }).filter(function (s) { return s.id && /^\d{4}-\d{2}-\d{2}$/.test(s.date) && s.heure; });
     }

@@ -35,7 +35,7 @@ values
    'Nanterre',                               -- la VILLE
    'Bords de Seine',                         -- le point de rendez-vous
    'https://www.schneiderelectricparismarathon.com',  -- page d'inscription à la course
-   8);                                       -- places
+   10);                                      -- places
 
 -- ── 1.2 Changer le nom affiché ─────────────────────────────────────────
 update public.preparations
@@ -81,7 +81,7 @@ update public.preparations
 
 -- ── 1.9 Changer le nombre de places ────────────────────────────────────
 update public.preparations
-   set places = 10
+   set places = 12
  where id = 'marathon-paris-2028';
 
 -- ── 1.10 Corriger le compteur d'inscrits ───────────────────────────────

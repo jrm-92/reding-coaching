@@ -47,7 +47,7 @@ create table if not exists public.preparations (
   lieu         text default '',    -- la VILLE (sert à la météo)
   sous_lieu    text default '',    -- lieu précis
   lien_course  text default '',    -- page d'inscription à la course visée
-  places       int  default 8,
+  places       int  default 10,
   inscrits     int  default 0,     -- LE compteur : un seul, ici
   actif        boolean default true
 );
@@ -129,7 +129,7 @@ select
   -- Les places étaient recopiées sur chaque ligne : on prend la plus grande,
   -- et le compteur le plus avancé — c'est déjà ainsi que la page lisait
   -- « inscrits » (le maximum du groupe).
-  coalesce(max(s.places), 8)                   as places,
+  coalesce(max(s.places), 10)                  as places,
   coalesce(max(s.inscrits), 0)                 as inscrits
 from public.sessions s
 where coalesce(s.stripe_pack, '') <> ''
