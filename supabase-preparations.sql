@@ -190,23 +190,31 @@ delete from public.sessions s
    and coalesce(s.stripe_pack,'') <> '';
 
 -- ── 6) Le comptage, enfin ciblé ─────────────────────────────────────────
+--     « pg_temp » est écrit EN DERNIER dans le search_path, à dessein. Sans
+--     lui, PostgreSQL fouille quand même le schéma temporaire — et le fouille
+--     en PREMIER. Or n'importe qui peut y créer une table. Une requête non
+--     qualifiée irait alors la lire à la place de la vraie. Les requêtes
+--     ci-dessous nomment « public.preparations », donc elles ne tombaient pas
+--     dans le piège ; le jour où l'une perdrait son préfixe, elle y tomberait.
+--     C'est la convention posée par securite-lot1.sql sur les quatre fonctions
+--     de la génération précédente.
 create or replace function public.incr_inscrits_preparation(p_id text)
-returns void language sql security definer set search_path = public as $$
+returns void language sql security definer set search_path = public, pg_temp as $$
   update public.preparations set inscrits = least(places, inscrits + 1) where id = p_id;
 $$;
 
 create or replace function public.decr_inscrits_preparation(p_id text)
-returns void language sql security definer set search_path = public as $$
+returns void language sql security definer set search_path = public, pg_temp as $$
   update public.preparations set inscrits = greatest(0, inscrits - 1) where id = p_id;
 $$;
 
 create or replace function public.incr_inscrits_session(p_id text)
-returns void language sql security definer set search_path = public as $$
+returns void language sql security definer set search_path = public, pg_temp as $$
   update public.sessions set inscrits = least(places, inscrits + 1) where id = p_id;
 $$;
 
 create or replace function public.decr_inscrits_session(p_id text)
-returns void language sql security definer set search_path = public as $$
+returns void language sql security definer set search_path = public, pg_temp as $$
   update public.sessions set inscrits = greatest(0, inscrits - 1) where id = p_id;
 $$;
 
