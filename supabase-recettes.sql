@@ -274,6 +274,60 @@ select ps.id, ps.preparation_id, ps.date
  where p.id is null
  order by ps.date;
 
+-- ── 4.6 L'état de la plomberie ─────────────────────────────────────────
+--     Deux réglages qu'on ne voit nulle part dans les tables, et dont
+--     dépend le reste. Tu n'as pas à les comprendre pour t'en servir : si
+--     la requête répond les deux lignes attendues, tout va bien.
+--
+--     · « clé étrangère du programme » — elle dit si les séances suivent
+--       automatiquement quand tu renommes une préparation. Sans elle, la
+--       recette 5.1 n'échoue pas à moitié : PostgreSQL REFUSE carrément le
+--       renommage, avec une erreur. Attendu : « CASCADE — conforme ».
+--
+--     · « search_path des 8 compteurs » — les huit fonctions qui ajoutent
+--       ou retirent 1 à « inscrits » quand un paiement arrive. Elles
+--       tournent avec les pleins pouvoirs sur la base, donc on leur impose
+--       de chercher leurs tables dans « public », et dans le schéma
+--       temporaire seulement EN DERNIER. Sans cette consigne, PostgreSQL
+--       fouille quand même le schéma temporaire, et le fouille en PREMIER —
+--       où n'importe qui peut poser une fausse table du même nom. Nos huit
+--       fonctions nomment « public.preparations » en toutes lettres, donc
+--       elles ne tombent pas dans le piège aujourd'hui ; la consigne est la
+--       ceinture en plus des bretelles. Attendu : « 8 / 8 conformes ».
+--
+--     Quand la lancer : après avoir rejoué un vieux script, ou modifié une
+--     fonction dans l'interface Supabase. C'est un contrôle de régression,
+--     pas une routine — si tu ne touches à rien, rien ne bouge.
+select 'clé étrangère du programme' as controle,
+       coalesce((select case when confupdtype = 'c'
+                             then 'CASCADE — conforme'
+                             else 'PAS de cascade — à réparer' end
+                   from pg_constraint
+                  where conname = 'preparation_seances_preparation_id_fkey'),
+                'contrainte introuvable') as verdict
+union all
+select 'search_path des 8 compteurs',
+       (select count(*) filter (where proconfig @> array['search_path=public, pg_temp'])
+               || ' / ' || count(*) || ' conformes'
+          from pg_proc
+         where pronamespace = 'public'::regnamespace
+           and proname like '%\_inscrits\_%');
+--     Si un verdict n'est pas celui attendu, le script qui répare dépend
+--     de ce qui cloche — les huit compteurs ne viennent pas du même fichier :
+--       · « PAS de cascade »  → relancer supabase-preparations.sql (ce dépôt).
+--       · moins de 8 / 8      → les quatre compteurs _preparation et _session
+--                               viennent de supabase-preparations.sql ;
+--                               les quatre _evenement et _pack viennent de
+--                               supabase/securite-lot1.sql, dans le dépôt
+--                               REDLAB. Relancer celui qui correspond.
+--     Pour voir lesquels sont en cause, les huit avec leur réglage :
+--         select proname, coalesce(array_to_string(proconfig, ', '),
+--                                  '(aucun réglage)') as search_path
+--           from pg_proc
+--          where pronamespace = 'public'::regnamespace
+--            and proname like '%\_inscrits\_%'
+--          order by proname;
+
 
 -- ═══ 5. CE QUI NE SE DÉFAIT PAS ═════════════════════════════════════════
 --     Regroupé ici à dessein : ces requêtes détruisent, et on ne tombe pas
