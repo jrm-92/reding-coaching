@@ -282,10 +282,26 @@ select ps.id, ps.preparation_id, ps.date
 --     disparaît du site et reste en base.
 
 -- ── 5.1 Renommer l'identifiant d'une préparation ───────────────────────
---     Les séances suivent toutes seules (« on update cascade »). Mais les
---     liens de paiement déjà diffusés portent l'ANCIENNE référence : une
---     inscription venue d'un vieux lien ne serait plus comptée. À ne faire
---     que sur une préparation pas encore mise en vente.
+--     Les séances suivent toutes seules (« on update cascade »).
+--
+--     La référence de paiement, elle, n'est PAS gravée dans le lien : la
+--     page lit l'identifiant en base et l'accroche à l'URL au moment du
+--     clic (preparations.id → prepaId → ref → client_reference_id). Une
+--     inscription faite DEPUIS LE SITE reste donc comptée après un
+--     renommage, même par un athlète à qui tu avais donné l'adresse de la
+--     page il y a des mois.
+--
+--     Le seul cas perdant est une URL qui porte DÉJÀ « client_reference_id » :
+--     la page n'y touche pas, et elle continue de désigner l'ancien
+--     identifiant. Cela arrive si tu as recopié le lien depuis la page pour
+--     l'envoyer à la main, ou si la colonne « stripe » contient un lien
+--     paramétré. Le second cas se vérifie :
+--
+--         select id, stripe from public.preparations
+--          where stripe like '%client_reference_id%';
+--
+--     Aucune ligne, et aucun lien recopié à la main en circulation : tu peux
+--     renommer sans rien perdre.
 update public.preparations
    set id = 'marathon-paris-28'
  where id = 'marathon-paris-2028';
