@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src https://api.web3forms.com https://lacvhcuqkzsrojgcsjfj.supabase.co; form-action 'self' https://api.web3forms.com; base-uri 'self'; object-src 'none'; upgrade-insecure-requests" />
-  <title>Séances collectives de running — Reding Running | La Défense</title>
+  <title>Courir en groupe — séances collectives de running | Reding Running</title>
   <meta name="description" content="Rejoins une session collective de running encadrée par un coach certifié FFA : fractionné, technique de course, renforcement. Inscription en ligne, à La Défense et alentours." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://reding-running.fr/seances-collectives.html" />
@@ -17,8 +17,8 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/favicon-192.png" />
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
   <meta name="theme-color" content="#FF6B35" />
-  <meta name="apple-mobile-web-app-title" content="Séances Reding" />
-  <meta property="og:title" content="Séances collectives de running — Reding Running" />
+  <meta name="apple-mobile-web-app-title" content="Courir en groupe" />
+  <meta property="og:title" content="Courir en groupe — séances collectives de running | Reding Running" />
   <meta property="og:description" content="Séances de running en groupe encadrées par un coach certifié FFA. Inscris-toi en ligne : lieu, horaire, thématique et places disponibles." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://reding-running.fr/seances-collectives.html" />
@@ -425,6 +425,20 @@
     @media (max-width: 768px) {
       .lieu-fleche--prev, .lieu-fleche--next { display: none !important; }
     }
+
+    /* Titre de famille : « Séances collectives » / « Prépa collectives ». */
+    .famille-titre {
+      font-size: var(--fs-h3);
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      margin: 0 0 var(--space-4);
+      text-align: center;
+    }
+    .famille-titre + .lieu-groupe { margin-top: 0; }
+    .lieu-groupe + .famille-titre { margin-top: var(--space-7); }
 
     /* Carrousel : 3 cartes visibles par ligne, les suivantes se font défiler */
     .lieu-cards {
@@ -983,7 +997,7 @@
           <div class="nav-dropdown-menu">
             <a href="index.html#suivi-personnalise">Suivi à distance</a>
             <a href="index.html#solo-duo-trio">Coaching terrain</a>
-            <a href="seances-collectives.html" class="active-page">Séances collectives</a>
+            <a href="seances-collectives.html" class="active-page">Courir en groupe</a>
           </div>
         </div>
         <a href="index.html#temoignages">Témoignages</a>
@@ -1003,9 +1017,9 @@
 
   <main>
     <div class="page-intro">
-      <h1>Séances <span class="accent">collectives</span></h1>
+      <h1>Courir <span class="accent">en groupe</span></h1>
       <p class="lead"><strong>Viens courir en groupe, pour entretenir ta condition ou pour préparer une course.</strong><br> Endurance, vitesse, technique, motivation : on progresse ensemble, dans une ambiance conviviale.<strong> Ouvert à tous les niveaux.</strong></p>
-      <p class="lead-note" style="margin-top:14px;font-size:15px;color:rgba(255,255,255,0.72);"><strong style="color:#fff;">Deux façons de venir :</strong> une séance à l'unité quand ça t'arrange, ou une préparation complète jusqu'au jour de ta course.</p>
+      <p class="lead-note" style="margin-top:14px;font-size:15px;color:rgba(255,255,255,0.72);"></p>
     </div>
 
     <div class="sessions-grid" id="sessions-grid"></div>
@@ -1026,7 +1040,7 @@
       <form id="inscription-form">
         <input type="hidden" name="access_key" value="ce65f1ff-46b6-4a49-9461-a35571d3114f">
         <input type="hidden" name="subject" value="Demande de réservation (à confirmer par paiement) — Session collective">
-        <input type="hidden" name="from_name" value="Reding Running — Séances collectives">
+        <input type="hidden" name="from_name" value="Reding Running — Courir en groupe">
         <input type="checkbox" name="botcheck" style="display:none;">
         <input type="hidden" name="Session" id="f-session">
         <input type="hidden" name="Date et heure" id="f-date">
@@ -1244,6 +1258,19 @@
       function libelleLieu(v) {
         return String(v == null ? '' : v).trim();
       }
+      /* Les deux familles s'annoncent chacune par un titre, posé une seule
+         fois : s'il y a un jour des séances au Vésinet ET à Nanterre, le
+         titre ne se répète pas au-dessus de chaque lieu. */
+      var famillesFaites = {};
+      function titreFamille(aPack) {
+        var cle = aPack ? 'prepa' : 'unite';
+        if (famillesFaites[cle]) return null;
+        famillesFaites[cle] = true;
+        var h = document.createElement('h2');
+        h.className = 'famille-titre';
+        h.textContent = aPack ? 'Prépa collectives' : 'Séances collectives';
+        return h;
+      }
       groupesOrdre.forEach(function (lieu) {
         if (!groupes[lieu] || !groupes[lieu].length) return;
         var n = groupes[lieu].length;
@@ -1276,13 +1303,7 @@
         var enteteHtml =
           '<div class="lieu-titre-row">' +
             '<div class="lieu-titre"><span>' +
-              /* Le bloc dit de quelle formule il relève. Sans ce mot, le
-                 premier bloc s'annonçait par un LIEU et le second par un
-                 PRODUIT : rien ne disait au visiteur qu'il avait sous les
-                 yeux deux façons différentes de venir. */
-              (aPack
-                ? (sousTitrePack ? '<span class="lieu-titre-kicker">' + esc(sousTitrePack) + '</span>' : '')
-                : '<span class="lieu-titre-kicker">Séances à l\'unité</span>') +
+              (aPack && sousTitrePack ? '<span class="lieu-titre-kicker">' + esc(sousTitrePack) + '</span>' : '') +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) +
               (lieuTitreDate ? '<span class="lieu-titre-date">' + esc(lieuTitreDate) + '</span>' : '') +
             '</span></div>' +
@@ -1464,6 +1485,8 @@
           bloc.appendChild(colonneSeances);
         }
 
+        var titre = titreFamille(aPack);
+        if (titre) grid.appendChild(titre);
         grid.appendChild(bloc);
         conteneurs[lieu] = cards;
       });
