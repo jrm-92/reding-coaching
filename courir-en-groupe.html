@@ -676,25 +676,6 @@
         scroll-snap-align: center;
       }
       .swipe-hint { display: block; }
-
-      /* Les séances vendues à l'unité s'empilent au lieu de défiler : en
-         carrousel, quatre dates sur cinq restaient derrière un geste que
-         beaucoup de visiteurs ne font pas, et ils repartaient en croyant
-         qu'une seule séance était proposée. Le programme d'une préparation
-         garde son carrousel : ses douze séances s'informent, elles ne
-         s'achètent pas une par une. */
-      .lieu-groupe--unite .lieu-cards {
-        display: grid;
-        grid-template-columns: 1fr;
-        overflow-x: visible;
-        scroll-snap-type: none;
-        padding: 4px 0;
-      }
-      .lieu-groupe--unite .lieu-cards .session-card { max-width: none; }
-      .lieu-groupe--unite .lieu-cards.a-suite {
-        -webkit-mask-image: none; mask-image: none;
-      }
-      .lieu-groupe--unite .swipe-hint { display: none; }
     }
     /* Meme traitement que .service-card sur l'accueil : rayon sobre, filet
        hairline, barre d'accent de 2px, ombre discrete. */
@@ -1295,7 +1276,6 @@
         }
         var afficherFleches = n > 1 && ville !== 'Le Vésinet — Stade des Merlettes';
         var aPack = groupes[lieu].some(function (s) { return s.prixPack; });
-        if (!aPack) bloc.classList.add('lieu-groupe--unite');
         /* Sous-titre de l'événement : colonne Supabase « duree_prepa », sinon repli sur PACK_TITRE */
         var sousTitrePack = (groupes[lieu][0] && groupes[lieu][0].dureePrepa) || PACK_TITRE || '';
         var lienCourse = '';
