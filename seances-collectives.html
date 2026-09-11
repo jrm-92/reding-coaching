@@ -662,6 +662,25 @@
         scroll-snap-align: center;
       }
       .swipe-hint { display: block; }
+
+      /* Les séances vendues à l'unité s'empilent au lieu de défiler : en
+         carrousel, quatre dates sur cinq restaient derrière un geste que
+         beaucoup de visiteurs ne font pas, et ils repartaient en croyant
+         qu'une seule séance était proposée. Le programme d'une préparation
+         garde son carrousel : ses douze séances s'informent, elles ne
+         s'achètent pas une par une. */
+      .lieu-groupe--unite .lieu-cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        overflow-x: visible;
+        scroll-snap-type: none;
+        padding: 4px 0;
+      }
+      .lieu-groupe--unite .lieu-cards .session-card { max-width: none; }
+      .lieu-groupe--unite .lieu-cards.a-suite {
+        -webkit-mask-image: none; mask-image: none;
+      }
+      .lieu-groupe--unite .swipe-hint { display: none; }
     }
     /* Meme traitement que .service-card sur l'accueil : rayon sobre, filet
        hairline, barre d'accent de 2px, ombre discrete. */
@@ -986,7 +1005,7 @@
     <div class="page-intro">
       <h1>Séances <span class="accent">collectives</span></h1>
       <p class="lead"><strong>Viens courir en groupe, pour entretenir ta condition ou pour préparer une course.</strong><br> Endurance, vitesse, technique, motivation : on progresse ensemble, dans une ambiance conviviale.<strong> Ouvert à tous les niveaux.</strong></p>
-      <p class="lead-note" style="margin-top:14px;font-size:15px;color:rgba(255,255,255,0.72);"></p>
+      <p class="lead-note" style="margin-top:14px;font-size:15px;color:rgba(255,255,255,0.72);"><strong style="color:#fff;">Deux façons de venir :</strong> une séance à l'unité quand ça t'arrange, ou une préparation complète jusqu'au jour de ta course.</p>
     </div>
 
     <div class="sessions-grid" id="sessions-grid"></div>
@@ -1249,6 +1268,7 @@
         }
         var afficherFleches = n > 1 && ville !== 'Le Vésinet — Stade des Merlettes';
         var aPack = groupes[lieu].some(function (s) { return s.prixPack; });
+        if (!aPack) bloc.classList.add('lieu-groupe--unite');
         /* Sous-titre de l'événement : colonne Supabase « duree_prepa », sinon repli sur PACK_TITRE */
         var sousTitrePack = (groupes[lieu][0] && groupes[lieu][0].dureePrepa) || PACK_TITRE || '';
         var lienCourse = '';
@@ -1256,7 +1276,13 @@
         var enteteHtml =
           '<div class="lieu-titre-row">' +
             '<div class="lieu-titre"><span>' +
-              (aPack && sousTitrePack ? '<span class="lieu-titre-kicker">' + esc(sousTitrePack) + '</span>' : '') +
+              /* Le bloc dit de quelle formule il relève. Sans ce mot, le
+                 premier bloc s'annonçait par un LIEU et le second par un
+                 PRODUIT : rien ne disait au visiteur qu'il avait sous les
+                 yeux deux façons différentes de venir. */
+              (aPack
+                ? (sousTitrePack ? '<span class="lieu-titre-kicker">' + esc(sousTitrePack) + '</span>' : '')
+                : '<span class="lieu-titre-kicker">Séances à l\'unité</span>') +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) +
               (lieuTitreDate ? '<span class="lieu-titre-date">' + esc(lieuTitreDate) + '</span>' : '') +
             '</span></div>' +
@@ -1468,7 +1494,11 @@
           '<ul class="session-infos">' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>' + esc(s.lieu) + '</strong>' + (s.sousLieu ? '<span class="session-souslieu">' + esc(s.sousLieu) + '</span>' : '') + '</span></li>' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>' + esc(creneau(s)) + '</span></li>' +
-            (s.prixPack ? '' : '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>' + s.inscrits + ' inscrit' + (s.inscrits > 1 ? 's' : '') + ' / ' + s.places + ' places</span></li>') +
+            /* Le compteur ne s'affiche qu'à partir du premier inscrit :
+               « 0 inscrit / 10 places » disait surtout que personne n'y va,
+               alors que la jauge juste en dessous annonce déjà les places
+               restantes. Dès qu'il y a du monde, le nombre rassure. */
+            (s.prixPack || !s.inscrits ? '' : '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>' + s.inscrits + ' inscrit' + (s.inscrits > 1 ? 's' : '') + ' / ' + s.places + ' places</span></li>') +
           '</ul>' +
           (s.description ? '<p class="session-desc">' + esc(s.description) + '</p>' : '') +
           (s.prixPack ? '' :
