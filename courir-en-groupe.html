@@ -758,6 +758,15 @@
       color: rgba(255,255,255,0.78); line-height: 1.6;
     }
 
+    /* Rappel pratique, le même sur toutes les cartes — séances à l'unité
+       comme séances de préparation. Écrit en dur dans la page et non en
+       base : il ne dépend d'aucune séance en particulier. */
+    .session-gourde {
+      padding: var(--space-2) var(--space-4) 0;
+      font-size: var(--fs-small); font-weight: 700;
+      color: #F87171; line-height: 1.5;
+    }
+
     /* jauge de places */
     /* Aligne sur la gouttiere laterale commune des autres blocs de la carte. */
     .session-jauge { padding: var(--space-3) var(--space-4) 0; }
@@ -1504,6 +1513,7 @@
             (s.prixPack || !s.inscrits ? '' : '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>' + s.inscrits + ' inscrit' + (s.inscrits > 1 ? 's' : '') + ' / ' + s.places + ' places</span></li>') +
           '</ul>' +
           (s.description ? '<p class="session-desc">' + esc(s.description) + '</p>' : '') +
+          '<p class="session-gourde">Pense à prendre ta gourde</p>' +
           (s.prixPack ? '' :
           '<div class="session-jauge">' +
             '<div class="jauge-label"><span>Places</span><span class="restantes">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
