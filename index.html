@@ -1413,8 +1413,13 @@
        réponse sur la météo en demande 607 sur un écran de 360 px, et la fin
        était purement et simplement coupée. Ce plafond ne sert qu'à animer
        l'ouverture : le monter ne change rien à l'affichage, il laisse
-       seulement de la marge aux réponses longues. */
-    .faq-item.active .faq-answer { max-height: 1000px; padding: 0 var(--space-5) var(--space-4); }
+       seulement de la marge aux réponses longues.
+
+       Porté à 1600 après coup : la réponse sur les intempéries, une fois
+       détaillée, atteignait 924 px sur un écran de 320. Il restait 76 px de
+       marge — la prochaine phrase ajoutée aurait recoupé le texte, sans
+       bruit et sans que personne le voie. */
+    .faq-item.active .faq-answer { max-height: 1600px; padding: 0 var(--space-5) var(--space-4); }
     .faq-answer p { font-size: var(--fs-body); line-height: 1.8; color: rgba(255,255,255,.82); margin: 0; text-align: left; }
     /* Jusqu'ici chaque réponse tenait en un seul paragraphe, donc rien ne
        prévoyait l'espace entre deux, ni les listes : la réponse sur la météo
@@ -3075,16 +3080,16 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
 
           <div class="faq-item">
             <button class="faq-question">
-              <span>Que se passe-t-il en cas de mauvais temps ?</span>
+              <span>Que se passe-t-il en cas d'intempéries ?</span>
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
               <p>On court sous la pluie. Une averse, du vent ou du froid n'annulent pas une séance : c'est le quotidien du coureur, et j'adapte le contenu si besoin.</p>
-              <p>En revanche, je n'expose personne. Orage, tempête, verglas, vent violent, alerte météo : dès que les conditions rendent la sortie dangereuse, la séance ne se tient pas.</p>
+              <p>En revanche, dès que les conditions remettent en cause <strong>la sécurité des pratiquants</strong> — orage, tempête, verglas, vent violent, alerte météo — la séance n'a pas lieu.</p>
               <p>Dans ce cas :</p>
               <ul>
-                <li>une <strong>séance à l'unité</strong> est remboursée ;</li>
-                <li>une <strong>séance de préparation</strong> est reportée à une date fixée avec le groupe, pour que le programme reste complet.</li>
+                <li>une <strong>séance collective à l'unité</strong> est annulée. Tu choisis entre son remboursement au prix de vente, déduction faite des frais de paiement (Stripe ou Chèques-Vacances), ou un report sur une prochaine séance ;</li>
+                <li>pour une <strong>séance de préparation</strong>, une date de report est décidée avec l'accord du groupe. À défaut, elle est remboursée dans les conditions prévues par les <a href="cgv.html" target="_blank" rel="noopener noreferrer" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">CGV</a>.</li>
               </ul>
               <p>Tu es prévenu dès que la décision est prise.</p>
             </div>
