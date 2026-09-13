@@ -872,6 +872,69 @@
     }
 
 
+    /* Apercu au survol : la section vend sept promesses abstraites sans
+       jamais montrer ce qu'elles donnent. Chaque ligne qui a une capture
+       devient survolable, et l'image apparait a cote de la liste — le
+       volet ne recouvre jamais la ligne pointee, sinon la souris la
+       quitterait et l'image clignoterait. */
+    #suivi-personnalise { position: relative; }
+
+    .apercu-lien {
+      appearance: none; background: none; border: 0; padding: 0; margin: 0;
+      font: inherit; color: inherit; text-align: left; cursor: pointer;
+      display: inline; border-bottom: 1px dashed rgba(255, 255, 255, 0.35);
+      transition: color .2s ease, border-color .2s ease;
+    }
+    .apercu-lien:hover, .apercu-lien:focus-visible,
+    .apercu-lien[aria-expanded="true"] { color: var(--offer); border-bottom-color: var(--offer); }
+    .apercu-lien .apercu-loupe { width: 14px; height: 14px; margin-left: 7px;
+      vertical-align: -2px; opacity: .65; flex-shrink: 0; }
+
+    .apercu-volet[hidden] { display: none; }
+    .apercu-volet {
+      position: absolute; z-index: 40; width: min(760px, 46vw);
+      background: #0d1424; border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 16px; box-shadow: 0 26px 60px rgba(0, 0, 0, .55);
+      padding: 12px; opacity: 0; transform: translateY(6px);
+      transition: opacity .18s ease, transform .18s ease; pointer-events: none;
+    }
+    .apercu-volet.est-ouvert { opacity: 1; transform: none; }
+    .apercu-cadre { border-radius: 9px; overflow: hidden; }
+    .apercu-volet img { width: 100%; height: auto; display: block; }
+    .apercu-glisse { display: none; }
+    .apercu-volet-legende { margin: 10px 4px 2px; font-size: 13.5px; line-height: 1.5;
+      color: rgba(255, 255, 255, 0.66); text-align: center; }
+    .apercu-fermer { display: none; }
+
+    /* Sans souris — donc sur son telephone et sur celui de ses visiteurs —
+       le survol n'existe pas : la ligne s'ouvre au doigt et l'image se met
+       au milieu de l'ecran, avec une croix pour la refermer. */
+    .apercu-volet.est-modal {
+      position: fixed; inset: auto 12px auto 12px; top: 50%; width: auto;
+      transform: translateY(-44%); max-height: 86vh; overflow: auto;
+      pointer-events: auto;
+    }
+    .apercu-volet.est-modal.est-ouvert { transform: translateY(-50%); }
+    /* Reduite a la largeur d'un telephone, la capture ne se lit plus :
+       elle garde sa taille et se fait glisser du doigt. */
+    .apercu-volet.est-modal .apercu-cadre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .apercu-volet.est-modal .apercu-cadre img { width: auto; min-width: 620px; }
+    .apercu-volet.est-modal .apercu-glisse { display: block; margin: 4px 4px 2px;
+      font-size: 12.5px; font-style: italic; color: rgba(255, 255, 255, 0.5); text-align: center; }
+    .apercu-volet.est-modal .apercu-fermer {
+      display: flex; align-items: center; justify-content: center;
+      position: absolute; top: 16px; right: 16px; width: 34px; height: 34px;
+      border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(13, 20, 36, 0.88); color: #fff; font-size: 20px;
+      line-height: 1; cursor: pointer;
+    }
+    .apercu-fond[hidden] { display: none; }
+    .apercu-fond { position: fixed; inset: 0; z-index: 39; background: rgba(4, 8, 18, 0.72); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .apercu-volet { transition: none; }
+    }
+
     .suivi-cards-grid {
       max-width: 1800px;
       margin: 40px auto 0;
@@ -2517,7 +2580,10 @@
               <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
               <line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>
             </svg>
-            Plan d'entraînement personnalisé
+            <button type="button" class="apercu-lien"
+                    data-apercu="plan_nolio.webp"
+                    data-apercu-legende="Une semaine de ton plan : chaque jour porte sa séance, sa durée et sa distance."
+                    aria-expanded="false">Plan d'entraînement personnalisé<svg class="apercu-loupe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="10" cy="10" r="2.5"/><path d="m21 15-4.5-4.5L7 20"/></svg></button>
           </li>
           <li class="has-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -2662,6 +2728,16 @@
     </div>
     </div>
     </div>
+
+      <!-- Volet d'apercu, partage par toutes les lignes qui portent une
+           capture : une seule image chargee a la fois. -->
+      <div class="apercu-fond" id="apercu-fond" hidden></div>
+      <div class="apercu-volet" id="apercu-volet" role="dialog" aria-label="Aperçu" hidden>
+        <button type="button" class="apercu-fermer" aria-label="Fermer l'aperçu">&times;</button>
+        <div class="apercu-cadre"><img alt="" decoding="async"></div>
+        <p class="apercu-volet-legende"></p>
+        <p class="apercu-glisse">Fais glisser l’image pour voir toute la semaine.</p>
+      </div>
   </section>
 
 <!-- SOLO-DUO/TRIO SECTION -->
@@ -3116,6 +3192,122 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
           if (grpNb) grpNb.required = isAutres;
         });
       });
+
+      /* ── Aperçu au survol d'une ligne de la liste ──────────────────────
+         Chaque ligne qui porte data-apercu montre sa capture. Avec une
+         souris, le volet se pose à droite de la carte, à hauteur de la
+         ligne : il ne recouvre jamais la ligne pointée, sinon la souris la
+         quitterait et l'image clignoterait. Sans souris — donc sur son
+         téléphone et sur celui de la plupart de ses visiteurs — le survol
+         n'existe pas : la ligne s'ouvre au doigt, au milieu de l'écran.  */
+      (function () {
+        var volet = document.getElementById('apercu-volet');
+        var fond = document.getElementById('apercu-fond');
+        if (!volet) return;
+        var img = volet.querySelector('img');
+        var legende = volet.querySelector('.apercu-volet-legende');
+        var fermer = volet.querySelector('.apercu-fermer');
+        var section = document.getElementById('suivi-personnalise');
+        var liens = section ? section.querySelectorAll('[data-apercu]') : [];
+        if (!liens.length) return;
+
+        var actif = null;
+        var precharge = false;
+
+        /* Une souris et assez de largeur pour poser le volet à côté de la
+           carte sans écraser la lecture : en dessous, on passe au doigt. */
+        function surLeCote() {
+          return window.matchMedia('(hover: hover) and (pointer: fine)').matches
+                 && window.innerWidth >= 1120;
+        }
+
+        function precharger() {
+          if (precharge) return;
+          precharge = true;
+          liens.forEach(function (l) { (new Image()).src = l.getAttribute('data-apercu'); });
+        }
+
+        function poser(lien) {
+          var carte = lien.closest('.service-card');
+          var rs = section.getBoundingClientRect();
+          var rc = carte.getBoundingClientRect();
+          var rl = lien.getBoundingClientRect();
+          var largeur = volet.offsetWidth;
+          var gauche = rc.right - rs.left + 24;
+          /* Si le volet dépasserait à droite, on le recale dans la page. */
+          var debord = (rs.left + gauche + largeur) - (window.innerWidth - 16);
+          if (debord > 0) gauche -= debord;
+          var haut = rl.top - rs.top - 40;
+          if (haut < 0) haut = 0;
+          var maxHaut = section.offsetHeight - volet.offsetHeight - 16;
+          if (maxHaut > 0 && haut > maxHaut) haut = maxHaut;
+          volet.style.left = Math.round(gauche) + 'px';
+          volet.style.top = Math.round(haut) + 'px';
+        }
+
+        function ouvrir(lien, cote) {
+          if (actif === lien && !volet.hidden) return;
+          if (actif && actif !== lien) actif.setAttribute('aria-expanded', 'false');
+          actif = lien;
+          img.src = lien.getAttribute('data-apercu');
+          img.alt = lien.getAttribute('data-apercu-legende') || '';
+          legende.textContent = lien.getAttribute('data-apercu-legende') || '';
+          volet.classList.toggle('est-modal', !cote);
+          volet.removeAttribute('style');
+          volet.hidden = false;
+          if (!cote) { fond.hidden = false; }
+          else { poser(lien); }
+          void volet.offsetWidth;
+          volet.classList.add('est-ouvert');
+          lien.setAttribute('aria-expanded', 'true');
+        }
+
+        function refermer() {
+          volet.classList.remove('est-ouvert');
+          fond.hidden = true;
+          if (actif) actif.setAttribute('aria-expanded', 'false');
+          actif = null;
+          /* On attend la fin du fondu pour retirer le volet du flux. */
+          window.setTimeout(function () {
+            if (!volet.classList.contains('est-ouvert')) volet.hidden = true;
+          }, 200);
+        }
+
+        liens.forEach(function (lien) {
+          lien.addEventListener('mouseenter', function () {
+            precharger();
+            if (surLeCote()) ouvrir(lien, true);
+          });
+          lien.addEventListener('mouseleave', function () {
+            if (surLeCote() && !volet.classList.contains('est-modal')) refermer();
+          });
+          lien.addEventListener('focus', function () {
+            precharger();
+            if (surLeCote()) ouvrir(lien, true);
+          });
+          lien.addEventListener('blur', function () {
+            if (surLeCote() && !volet.classList.contains('est-modal')) refermer();
+          });
+          lien.addEventListener('click', function (e) {
+            e.preventDefault();
+            precharger();
+            if (actif === lien && volet.classList.contains('est-modal')) refermer();
+            else ouvrir(lien, false);
+          });
+        });
+
+        fermer.addEventListener('click', refermer);
+        fond.addEventListener('click', refermer);
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !volet.hidden) refermer();
+        });
+        /* Le volet est positionne dans la section : il defile avec la page,
+           il n'y a donc rien a recalculer au defilement. Un changement de
+           largeur, lui, invalide son placement. */
+        window.addEventListener('resize', function () {
+          if (!volet.hidden) refermer();
+        });
+      })();
 
       // Planification & suivi : sous-champs selon l'objectif choisi
       var objRecord = document.getElementById('s-obj-record');
