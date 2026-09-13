@@ -1409,8 +1409,22 @@
     .faq-item.active .faq-icon { transform: rotate(45deg); }
 
     .faq-answer { max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .4s ease; padding: 0 var(--space-5); }
-    .faq-item.active .faq-answer { max-height: 500px; padding: 0 var(--space-5) var(--space-4); }
+    /* 500 px suffisaient tant que chaque réponse tenait en deux lignes. La
+       réponse sur la météo en demande 607 sur un écran de 360 px, et la fin
+       était purement et simplement coupée. Ce plafond ne sert qu'à animer
+       l'ouverture : le monter ne change rien à l'affichage, il laisse
+       seulement de la marge aux réponses longues. */
+    .faq-item.active .faq-answer { max-height: 1000px; padding: 0 var(--space-5) var(--space-4); }
     .faq-answer p { font-size: var(--fs-body); line-height: 1.8; color: rgba(255,255,255,.82); margin: 0; text-align: left; }
+    /* Jusqu'ici chaque réponse tenait en un seul paragraphe, donc rien ne
+       prévoyait l'espace entre deux, ni les listes : la réponse sur la météo
+       sortait en bloc compact avec des puces grises et débordantes. */
+    .faq-answer p + p { margin-top: var(--space-3); }
+    .faq-answer ul { margin: var(--space-3) 0 0; padding-left: 1.3em; list-style: disc; }
+    .faq-answer li { font-size: var(--fs-body); line-height: 1.8; color: rgba(255,255,255,.82); text-align: left; }
+    .faq-answer li + li { margin-top: var(--space-2); }
+    .faq-answer li::marker { color: var(--color-accent); }
+    .faq-answer strong { color: #fff; font-weight: 700; }
 
 
     /* ===== RESPONSIVE ===== */
@@ -3003,16 +3017,6 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
 
           <div class="faq-item">
             <button class="faq-question">
-              <span>Le renforcement musculaire est-il inclus ?</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p>Oui, le renforcement musculaire est inclus. Tu as accès à des vidéos explicatives avec des exercices adaptés à ton niveau et à tes objectifs. Ces séances sont intégrées dans ton plan d'entraînement.</p>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question">
               <span>Comment gérer ou résilier mon abonnement ?</span>
               <span class="faq-icon">+</span>
             </button>
@@ -3047,7 +3051,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
         </div>
 
         <div class="faq-category">
-          <h3 class="faq-category-title">Séances collectives</h3>
+          <h3 class="faq-category-title">Courir en groupe</h3>
 
           <div class="faq-item">
             <button class="faq-question">
@@ -3071,11 +3075,18 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
 
           <div class="faq-item">
             <button class="faq-question">
-              <span>Comment réserver ma place ?</span>
+              <span>Que se passe-t-il en cas de mauvais temps ?</span>
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-              <p>Rends-toi sur la page <a href="courir-en-groupe.html" target="_blank" rel="noopener noreferrer" style="color: #FF6B35; text-decoration: underline; font-weight: 600;">Courir en groupe</a> et clique sur « S'inscrire à la préparation ». Ta place n'est confirmée qu'une fois le paiement effectué (paiement en ligne sécurisé par Stripe).</p>
+              <p>On court sous la pluie. Une averse, du vent ou du froid n'annulent pas une séance : c'est le quotidien du coureur, et j'adapte le contenu si besoin.</p>
+              <p>En revanche, je n'expose personne. Orage, tempête, verglas, vent violent, alerte météo : dès que les conditions rendent la sortie dangereuse, la séance ne se tient pas.</p>
+              <p>Dans ce cas :</p>
+              <ul>
+                <li>une <strong>séance à l'unité</strong> est remboursée ;</li>
+                <li>une <strong>séance de préparation</strong> est reportée à une date fixée avec le groupe, pour que le programme reste complet.</li>
+              </ul>
+              <p>Tu es prévenu dès que la décision est prise.</p>
             </div>
           </div>
   </section>
