@@ -872,68 +872,79 @@
     }
 
 
-    /* Apercu au survol : la section vend sept promesses abstraites sans
-       jamais montrer ce qu'elles donnent. Chaque ligne qui a une capture
-       devient survolable, et l'image apparait a cote de la liste — le
-       volet ne recouvre jamais la ligne pointee, sinon la souris la
-       quitterait et l'image clignoterait. */
+    /* Apercu : la section vend sept promesses abstraites sans jamais
+       montrer ce qu'elles donnent. Chaque ligne qui porte une capture
+       devient survolable.
+
+       Deux comportements, parce que deux facons de lire :
+       - avec une souris, l'image se pose a cote de la liste, sans jamais
+         recouvrir la ligne pointee — sinon la souris la quitterait et
+         l'image clignoterait ;
+       - au doigt, elle se deplie sous la ligne, comme les reponses de la
+         FAQ. Un panneau flottant par-dessus la page, sur un telephone,
+         donne l'impression que le site s'est detraque. */
     #suivi-personnalise { position: relative; }
 
     .apercu-lien {
       appearance: none; background: none; border: 0; padding: 0; margin: 0;
       font: inherit; color: inherit; text-align: left; cursor: pointer;
-      display: inline; border-bottom: 1px dashed rgba(255, 255, 255, 0.35);
-      transition: color .2s ease, border-color .2s ease;
+      display: inline; transition: color .2s ease, text-decoration-color .2s ease;
+      /* Souligne le texte et non la boite : place dans une liste, le bouton
+         se comporte comme un bloc, et un trait de bord lui barrait toute la
+         largeur des que l'intitule passait sur deux lignes. */
+      text-decoration: underline; text-decoration-style: dashed;
+      text-decoration-thickness: 1px; text-underline-offset: 5px;
+      text-decoration-color: rgba(255, 255, 255, 0.35);
     }
     .apercu-lien:hover, .apercu-lien:focus-visible,
-    .apercu-lien[aria-expanded="true"] { color: var(--offer); border-bottom-color: var(--offer); }
+    .apercu-lien[aria-expanded="true"] { color: var(--offer); text-decoration-color: var(--offer); }
     .apercu-lien .apercu-loupe { width: 14px; height: 14px; margin-left: 7px;
       vertical-align: -2px; opacity: .65; flex-shrink: 0; }
 
     .apercu-volet[hidden] { display: none; }
     .apercu-volet {
-      position: absolute; z-index: 40; width: min(760px, 46vw);
-      background: #0d1424; border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 16px; box-shadow: 0 26px 60px rgba(0, 0, 0, .55);
-      padding: 12px; opacity: 0; transform: translateY(6px);
-      transition: opacity .18s ease, transform .18s ease; pointer-events: none;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px; padding: 10px;
+      opacity: 0; transition: opacity .18s ease, transform .18s ease;
     }
     .apercu-volet.est-ouvert { opacity: 1; transform: none; }
     .apercu-cadre { border-radius: 9px; overflow: hidden; }
-    .apercu-volet img { width: 100%; height: auto; display: block; }
-    .apercu-glisse { display: none; }
-    .apercu-volet-legende { margin: 10px 4px 2px; font-size: 13.5px; line-height: 1.5;
+    /* Deux formes de captures : les panoramiques (un calendrier, un tableau)
+       prennent toute la largeur ; les portraits (une montre, un telephone)
+       sont bornes en hauteur, sinon ils mangent l'ecran. La forme est lue
+       sur l'image elle-meme, il n'y a rien a declarer a la main. */
+    .apercu-volet img { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+    .apercu-volet.est-panoramique img { width: 100%; }
+    .apercu-volet:not(.est-panoramique) img { width: auto; max-height: 54vh; }
+    .apercu-volet.est-dessous:not(.est-panoramique) img { max-height: 44vh; }
+    .apercu-volet-legende { margin: 10px 4px 2px; font-size: 13px; line-height: 1.5;
       color: rgba(255, 255, 255, 0.66); text-align: center; }
-    .apercu-fermer { display: none; }
+    .apercu-glisse { display: none; }
 
-    /* Sans souris — donc sur son telephone et sur celui de ses visiteurs —
-       le survol n'existe pas : la ligne s'ouvre au doigt et l'image se met
-       au milieu de l'ecran, avec une croix pour la refermer. */
-    .apercu-volet.est-modal {
-      position: fixed; inset: auto 12px auto 12px; top: 50%; width: auto;
-      transform: translateY(-44%); max-height: 86vh; overflow: auto;
-      pointer-events: auto;
+    /* Avec une souris : pose a droite de la carte, au-dessus du reste. */
+    .apercu-volet.est-cote {
+      position: absolute; z-index: 40; width: fit-content; max-width: min(760px, 46vw);
+      background: #0d1424; border-color: rgba(255, 255, 255, 0.14);
+      border-radius: 16px; padding: 12px; transform: translateY(6px);
+      box-shadow: 0 26px 60px rgba(0, 0, 0, .55); pointer-events: none;
     }
-    .apercu-volet.est-modal.est-ouvert { transform: translateY(-50%); }
-    /* Reduite a la largeur d'un telephone, la capture ne se lit plus :
-       elle garde sa taille et se fait glisser du doigt. */
-    .apercu-volet.est-modal .apercu-cadre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .apercu-volet.est-modal .apercu-cadre img { width: auto; min-width: 620px; }
-    .apercu-volet.est-modal .apercu-glisse { display: block; margin: 4px 4px 2px;
-      font-size: 12.5px; font-style: italic; color: rgba(255, 255, 255, 0.5); text-align: center; }
-    .apercu-volet.est-modal .apercu-fermer {
-      display: flex; align-items: center; justify-content: center;
-      position: absolute; top: 16px; right: 16px; width: 34px; height: 34px;
-      border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.25);
-      background: rgba(13, 20, 36, 0.88); color: #fff; font-size: 20px;
-      line-height: 1; cursor: pointer;
-    }
-    .apercu-fond[hidden] { display: none; }
-    .apercu-fond { position: fixed; inset: 0; z-index: 39; background: rgba(4, 8, 18, 0.72); }
 
-    @media (prefers-reduced-motion: reduce) {
-      .apercu-volet { transition: none; }
-    }
+    /* Au doigt : sous la ligne, dans la carte, sans rien recouvrir. */
+    /* Le volet s'installe dans une ligne de liste a lui, juste apres celle
+       qu'il illustre : glisse dans la ligne elle-meme, il faisait basculer
+       l'intitule sous son icone. */
+    .apercu-hote { display: block !important; padding: 0 !important; }
+    .apercu-hote::before { display: none !important; }
+    .apercu-volet.est-dessous { width: 100%; margin: 4px 0 10px; }
+    /* Reduite a la largeur d'un telephone, une capture panoramique ne se lit
+       plus : elle garde sa taille et se fait glisser du doigt. */
+    .apercu-volet.est-dessous.est-panoramique .apercu-cadre { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .apercu-volet.est-dessous.est-panoramique .apercu-cadre img { width: auto; min-width: 560px; }
+    .apercu-volet.est-dessous.est-panoramique .apercu-glisse { display: block; margin: 2px 4px;
+      font-size: 12px; font-style: italic; color: rgba(255, 255, 255, 0.5); text-align: center; }
+
+    @media (prefers-reduced-motion: reduce) { .apercu-volet { transition: none; } }
 
     .suivi-cards-grid {
       max-width: 1800px;
@@ -2609,7 +2620,10 @@
               <path d="m16.13 7.66-.81-4.05a2 2 0 0 0-2-1.61h-2.68a2 2 0 0 0-2 1.61l-.78 4.05"/>
               <path d="m7.88 16.36.8 4a2 2 0 0 0 2 1.61h2.72a2 2 0 0 0 2-1.61l.81-4.05"/>
             </svg>
-            Import automatique des séances sur montre GPS
+            <button type="button" class="apercu-lien"
+                    data-apercu="montre_seance.webp"
+                    data-apercu-legende="La séance structurée s’affiche sur ta montre : les intervalles, l’allure et la durée."
+                    aria-expanded="false">Import automatique des séances sur montre GPS<svg class="apercu-loupe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="10" cy="10" r="2.5"/><path d="m21 15-4.5-4.5L7 20"/></svg></button>
           </li>
           <li class="has-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -2730,13 +2744,12 @@
     </div>
 
       <!-- Volet d'apercu, partage par toutes les lignes qui portent une
-           capture : une seule image chargee a la fois. -->
-      <div class="apercu-fond" id="apercu-fond" hidden></div>
-      <div class="apercu-volet" id="apercu-volet" role="dialog" aria-label="Aperçu" hidden>
-        <button type="button" class="apercu-fermer" aria-label="Fermer l'aperçu">&times;</button>
+           capture : une seule image chargee a la fois. Il se deplace dans
+           la ligne quand on est au doigt, et revient ici a la souris. -->
+      <div class="apercu-volet" id="apercu-volet" hidden>
         <div class="apercu-cadre"><img alt="" decoding="async"></div>
         <p class="apercu-volet-legende"></p>
-        <p class="apercu-glisse">Fais glisser l’image pour voir toute la semaine.</p>
+        <p class="apercu-glisse">Fais glisser l’image pour la voir en entier.</p>
       </div>
   </section>
 
@@ -3193,30 +3206,34 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
         });
       });
 
-      /* ── Aperçu au survol d'une ligne de la liste ──────────────────────
-         Chaque ligne qui porte data-apercu montre sa capture. Avec une
-         souris, le volet se pose à droite de la carte, à hauteur de la
-         ligne : il ne recouvre jamais la ligne pointée, sinon la souris la
-         quitterait et l'image clignoterait. Sans souris — donc sur son
-         téléphone et sur celui de la plupart de ses visiteurs — le survol
-         n'existe pas : la ligne s'ouvre au doigt, au milieu de l'écran.  */
+      /* ── Aperçu de ce que chaque promesse donne ────────────────────────
+         Avec une souris, l'image se pose à droite de la carte, à hauteur de
+         la ligne survolée : jamais sur la ligne elle-même, sinon la souris
+         la quitterait et l'image clignoterait.
+         Au doigt — son iPhone, et celui de la plupart de ses visiteurs — le
+         survol n'existe pas, et un panneau flottant par-dessus la page donne
+         l'impression que le site s'est détraqué. L'image se déplie donc sous
+         la ligne, comme les réponses de la FAQ : on appuie pour voir, on
+         appuie encore pour refermer.                                       */
       (function () {
         var volet = document.getElementById('apercu-volet');
-        var fond = document.getElementById('apercu-fond');
-        if (!volet) return;
+        var section = document.getElementById('suivi-personnalise');
+        if (!volet || !section) return;
         var img = volet.querySelector('img');
         var legende = volet.querySelector('.apercu-volet-legende');
-        var fermer = volet.querySelector('.apercu-fermer');
-        var section = document.getElementById('suivi-personnalise');
-        var liens = section ? section.querySelectorAll('[data-apercu]') : [];
+        var liens = section.querySelectorAll('[data-apercu]');
         if (!liens.length) return;
 
         var actif = null;
         var precharge = false;
+        /* La ligne d'accueil du volet quand on est au doigt : une entree de
+           liste a part, pour ne pas deranger la mise en page de la promesse. */
+        var hote = document.createElement('li');
+        hote.className = 'apercu-hote';
 
-        /* Une souris et assez de largeur pour poser le volet à côté de la
-           carte sans écraser la lecture : en dessous, on passe au doigt. */
-        function surLeCote() {
+        /* Une souris, et assez de largeur pour poser l'image à côté de la
+           liste sans écraser la lecture. Sinon : au doigt, sous la ligne. */
+        function aLaSouris() {
           return window.matchMedia('(hover: hover) and (pointer: fine)').matches
                  && window.innerWidth >= 1120;
         }
@@ -3224,7 +3241,9 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
         function precharger() {
           if (precharge) return;
           precharge = true;
-          liens.forEach(function (l) { (new Image()).src = l.getAttribute('data-apercu'); });
+          Array.prototype.forEach.call(liens, function (l) {
+            (new Image()).src = l.getAttribute('data-apercu');
+          });
         }
 
         function poser(lien) {
@@ -3232,31 +3251,52 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
           var rs = section.getBoundingClientRect();
           var rc = carte.getBoundingClientRect();
           var rl = lien.getBoundingClientRect();
-          var largeur = volet.offsetWidth;
           var gauche = rc.right - rs.left + 24;
-          /* Si le volet dépasserait à droite, on le recale dans la page. */
-          var debord = (rs.left + gauche + largeur) - (window.innerWidth - 16);
+          /* Si le volet dépassait à droite, on le recale dans la page. */
+          var debord = (rs.left + gauche + volet.offsetWidth) - (window.innerWidth - 16);
           if (debord > 0) gauche -= debord;
           var haut = rl.top - rs.top - 40;
-          if (haut < 0) haut = 0;
-          var maxHaut = section.offsetHeight - volet.offsetHeight - 16;
-          if (maxHaut > 0 && haut > maxHaut) haut = maxHaut;
+          /* Une capture haute depasserait le bas de l'ecran : on la remonte,
+             sans jamais la faire sortir de la section ni passer sous le
+             bandeau du haut. */
+          var trop = (rs.top + haut + volet.offsetHeight) - (window.innerHeight - 16);
+          if (trop > 0) haut -= trop;
+          var minimum = Math.max(0, 96 - rs.top);
+          if (haut < minimum) haut = minimum;
+          var plafond = section.offsetHeight - volet.offsetHeight - 16;
+          if (plafond > minimum && haut > plafond) haut = plafond;
           volet.style.left = Math.round(gauche) + 'px';
           volet.style.top = Math.round(haut) + 'px';
         }
 
-        function ouvrir(lien, cote) {
+        /* Panoramique ou portrait : on le lit sur l'image, une fois chargee. */
+        function forme(souris, lien) {
+          function appliquer() {
+            if (actif !== lien) return;
+            volet.classList.toggle('est-panoramique',
+              img.naturalWidth / img.naturalHeight > 1.4);
+            if (souris) poser(lien);
+          }
+          if (img.complete && img.naturalWidth) appliquer();
+          else img.addEventListener('load', appliquer, { once: true });
+        }
+
+        function ouvrir(lien, souris) {
           if (actif === lien && !volet.hidden) return;
           if (actif && actif !== lien) actif.setAttribute('aria-expanded', 'false');
           actif = lien;
           img.src = lien.getAttribute('data-apercu');
           img.alt = lien.getAttribute('data-apercu-legende') || '';
           legende.textContent = lien.getAttribute('data-apercu-legende') || '';
-          volet.classList.toggle('est-modal', !cote);
           volet.removeAttribute('style');
+          volet.className = 'apercu-volet ' + (souris ? 'est-cote' : 'est-dessous');
+          forme(souris, lien);
+          /* Le volet déménage : dans la ligne au doigt, dans la section à
+             la souris — là il doit pouvoir déborder de la carte. */
+          if (souris) { section.appendChild(volet); }
+          else { lien.parentNode.after(hote); hote.appendChild(volet); }
           volet.hidden = false;
-          if (!cote) { fond.hidden = false; }
-          else { poser(lien); }
+          if (souris) poser(lien);
           void volet.offsetWidth;
           volet.classList.add('est-ouvert');
           lien.setAttribute('aria-expanded', 'true');
@@ -3264,46 +3304,49 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
 
         function refermer() {
           volet.classList.remove('est-ouvert');
-          fond.hidden = true;
           if (actif) actif.setAttribute('aria-expanded', 'false');
           actif = null;
           /* On attend la fin du fondu pour retirer le volet du flux. */
           window.setTimeout(function () {
-            if (!volet.classList.contains('est-ouvert')) volet.hidden = true;
+            if (volet.classList.contains('est-ouvert')) return;
+            volet.hidden = true;
+            /* Le volet regagne la section avant qu'on retire sa ligne
+               d'accueil, sinon il quitterait la page avec elle. */
+            section.appendChild(volet);
+            if (hote.parentNode) hote.parentNode.removeChild(hote);
           }, 200);
         }
 
-        liens.forEach(function (lien) {
+        Array.prototype.forEach.call(liens, function (lien) {
           lien.addEventListener('mouseenter', function () {
             precharger();
-            if (surLeCote()) ouvrir(lien, true);
+            if (aLaSouris()) ouvrir(lien, true);
           });
           lien.addEventListener('mouseleave', function () {
-            if (surLeCote() && !volet.classList.contains('est-modal')) refermer();
+            if (aLaSouris()) refermer();
           });
           lien.addEventListener('focus', function () {
             precharger();
-            if (surLeCote()) ouvrir(lien, true);
+            if (aLaSouris()) ouvrir(lien, true);
           });
           lien.addEventListener('blur', function () {
-            if (surLeCote() && !volet.classList.contains('est-modal')) refermer();
+            if (aLaSouris()) refermer();
           });
           lien.addEventListener('click', function (e) {
             e.preventDefault();
+            if (aLaSouris()) return;
             precharger();
-            if (actif === lien && volet.classList.contains('est-modal')) refermer();
+            if (actif === lien && !volet.hidden) refermer();
             else ouvrir(lien, false);
           });
         });
 
-        fermer.addEventListener('click', refermer);
-        fond.addEventListener('click', refermer);
         document.addEventListener('keydown', function (e) {
           if (e.key === 'Escape' && !volet.hidden) refermer();
         });
-        /* Le volet est positionne dans la section : il defile avec la page,
-           il n'y a donc rien a recalculer au defilement. Un changement de
-           largeur, lui, invalide son placement. */
+        /* Le volet est posé dans la page : il défile avec elle, rien à
+           recalculer. Un changement de largeur, lui, invalide son placement
+           et peut faire passer d'un comportement à l'autre. */
         window.addEventListener('resize', function () {
           if (!volet.hidden) refermer();
         });
