@@ -185,6 +185,12 @@
       display: flex; align-items: center;
       padding-inline: var(--container-pad);
       background: rgba(10, 17, 40, .82);
+      /* Le fond n'est pas tout a fait opaque : sans flou, le contenu qui
+         passe dessous reste lisible au travers et se superpose a la
+         navigation — un titre, un bouton orange. Le flou le rend illisible
+         tout en gardant la transparence voulue. */
+      -webkit-backdrop-filter: blur(14px) saturate(130%);
+              backdrop-filter: blur(14px) saturate(130%);
       border-bottom: 1px solid rgba(255,255,255,.08);
       z-index: 9999;
       transition: background .25s ease;
@@ -1923,7 +1929,7 @@
       var bandeau = document.querySelector('.site-header');
       if (!bandeau) return;
       function suivreDefilement() {
-        bandeau.classList.toggle('scrolled', window.scrollY > 50);
+        bandeau.classList.toggle('scrolled', window.scrollY > 8);
       }
       window.addEventListener('scroll', suivreDefilement, { passive: true });
       suivreDefilement();
