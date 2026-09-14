@@ -768,6 +768,25 @@
       padding: var(--space-3) var(--space-4) 0; font-size: var(--fs-small); font-style: italic;
       color: rgba(255,255,255,0.78); line-height: 1.6;
     }
+    /* Deroule de la seance en puces : dans la base, une ligne qui commence
+       par un tiret devient un point de la liste. Meme ton que le paragraphe
+       — c'est la meme description, presentee autrement. */
+    .session-desc-liste {
+      padding: var(--space-3) var(--space-4) 0; margin: 0; list-style: none;
+      font-size: var(--fs-small); font-style: italic;
+      color: rgba(255,255,255,0.78); line-height: 1.6;
+    }
+    .session-desc-liste li { position: relative; padding-left: 15px; }
+    .session-desc-liste li + li { margin-top: 5px; }
+    .session-desc-liste li::before {
+      content: '\2013'; position: absolute; left: 0; top: 0;
+      color: var(--offer); font-style: normal; font-weight: 700;
+    }
+    /* Un paragraphe et une liste qui se suivent ne doivent pas cumuler
+       deux fois l'espace du haut. */
+    .session-desc + .session-desc,
+    .session-desc + .session-desc-liste,
+    .session-desc-liste + .session-desc { padding-top: var(--space-2); }
 
     /* Rappel pratique, le même sur toutes les cartes — séances à l'unité
        comme séances de préparation. Écrit en dur dans la page et non en
@@ -1231,6 +1250,37 @@
         return d.innerHTML;
       }
 
+      /* Description d'une séance : une ligne qui commence par un tiret
+         devient une puce, les autres restent des paragraphes. Le texte
+         vient de la base — il est échappé avant d'être inséré, jamais
+         interprété comme du code. */
+      function descriptionHTML(txt) {
+        var lignes = String(txt == null ? '' : txt).split(/\r?\n/)
+          .map(function (l) { return l.trim(); })
+          .filter(function (l) { return l !== ''; });
+        if (!lignes.length) return '';
+        var tiret = /^[-\u2013\u2014\u2022*]\s*/;
+        var htm = '', puces = null;
+        function viderPuces() {
+          if (!puces) return;
+          htm += '<ul class="session-desc-liste">' + puces.join('') + '</ul>';
+          puces = null;
+        }
+        lignes.forEach(function (l) {
+          if (tiret.test(l)) {
+            var texte = l.replace(tiret, '').trim();
+            if (!texte) return;
+            if (!puces) puces = [];
+            puces.push('<li>' + esc(texte) + '</li>');
+          } else {
+            viderPuces();
+            htm += '<p class="session-desc">' + esc(l) + '</p>';
+          }
+        });
+        viderPuces();
+        return htm;
+      }
+
       /* "9h30" + "1h15" → "10h45" : calcule l'heure de fin depuis l'heure de début et la durée */
       function enMinutes(t) {
         var m = String(t).match(/(\d+)\s*h\s*(\d*)/);
@@ -1531,7 +1581,7 @@
                restantes. Dès qu'il y a du monde, le nombre rassure. */
             (s.prixPack || !s.inscrits ? '' : '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>' + s.inscrits + ' inscrit' + (s.inscrits > 1 ? 's' : '') + ' / ' + s.places + ' places</span></li>') +
           '</ul>' +
-          (s.description ? '<p class="session-desc">' + esc(s.description) + '</p>' : '') +
+          descriptionHTML(s.description) +
           '<p class="session-gourde">'
             + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7s6 6.3 6 10.3a6 6 0 0 1-12 0c0-4 6-10.3 6-10.3Z"/></svg>'
             + 'Pense à prendre ta gourde</p>' +
