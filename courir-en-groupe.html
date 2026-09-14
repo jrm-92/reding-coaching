@@ -189,6 +189,11 @@
       z-index: 9999;
       transition: background .25s ease;
     }
+    /* Sans cela le bandeau reste translucide en permanence : des qu'on
+       defile, le contenu passe dessous et se voit au travers — un bouton
+       orange ou un titre apparaissaient en surimpression sur la navigation.
+       Meme regle et meme declencheur que sur l'accueil. */
+    .site-header.scrolled { background: rgba(10, 17, 40, .97); border-bottom-color: rgba(255,255,255,.14); }
 
     .brand { display:flex; align-items:center; margin-right: var(--space-6); }
     .logo-img { height: var(--logo-h); width:auto; transition: height .25s ease; }
@@ -1910,6 +1915,18 @@
           console.error('✖ Impossible de charger Supabase — aucune session affichée. Cause :', err);
         })
         .then(function () { demarrerSessions(); });
+    })();
+
+    /* Bandeau du haut : il s'opacifie des qu'on quitte le haut de la page,
+       sinon le contenu qui defile dessous se voit au travers. */
+    (function () {
+      var bandeau = document.querySelector('.site-header');
+      if (!bandeau) return;
+      function suivreDefilement() {
+        bandeau.classList.toggle('scrolled', window.scrollY > 50);
+      }
+      window.addEventListener('scroll', suivreDefilement, { passive: true });
+      suivreDefilement();
     })();
 
   </script>
