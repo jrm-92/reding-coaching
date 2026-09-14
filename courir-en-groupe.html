@@ -1352,7 +1352,7 @@
           lieuTitreDate = mDateTitre[1];
           lieuTitre = lieuTitre.slice(0, mDateTitre.index).trim();
         }
-        var afficherFleches = n > 1 && ville !== 'Le Vésinet — Stade des Merlettes';
+        var afficherFleches = n > 1;
         var aPack = groupes[lieu].some(function (s) { return s.prixPack; });
         /* Sous-titre de l'événement : colonne Supabase « duree_prepa », sinon repli sur PACK_TITRE */
         var sousTitrePack = (groupes[lieu][0] && groupes[lieu][0].dureePrepa) || PACK_TITRE || '';
