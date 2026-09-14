@@ -652,11 +652,20 @@
   letter-spacing: .01em;
 }
 
-/* Seul seuil d'empilement de la section À propos (contre 3 fragments avant refonte) */
+/* Empilement de la section À propos, en deux paliers — meme seuil que le
+   hero. A deux colonnes, la photo tombait a 271px de large sur une tablette
+   en portrait, laissant un long vide sous elle pendant que le texte se
+   serrait a cote sur 421px. Sur une seule colonne, la photo respire et le
+   texte prend toute la largeur. Le seuil est un peu plus haut que celui du
+   hero : le texte de la section est long, et le vide sous la photo se
+   creusait encore a 932px, la largeur d'un telephone en paysage. */
+@media (max-width: 1000px) {
+  .apropos-container { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
+  .apropos-image { max-width: 420px; margin-inline: auto; }
+}
 @media (max-width: 600px) {
   .apropos-section { padding: var(--space-6) max(28px, var(--container-pad)) var(--space-5); }
-  .apropos-container { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
-  .apropos-image { max-width: 320px; margin-inline: auto; }
+  .apropos-image { max-width: 320px; }
 }
 
 
