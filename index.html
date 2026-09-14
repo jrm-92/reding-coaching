@@ -189,6 +189,12 @@
       display: flex; align-items: center;
       padding-inline: var(--container-pad);
       background: rgba(10, 17, 40, .82);
+      /* Le fond n'est pas tout a fait opaque : sans flou, le contenu qui
+         passe dessous reste lisible au travers et se superpose a la
+         navigation — un titre, un bouton orange. Le flou le rend illisible
+         tout en gardant la transparence voulue. */
+      -webkit-backdrop-filter: blur(14px) saturate(130%);
+              backdrop-filter: blur(14px) saturate(130%);
       border-bottom: 1px solid rgba(255,255,255,.08);
       z-index: 9999;
       transition: background .25s ease;
@@ -391,12 +397,13 @@
     .hcta-arrow-circle { background: var(--offer-soft); color: var(--offer-light); }
     .hcta-card:hover .hcta-arrow-circle { transform:translateX(3px); }
 
-    /* Quatre badges sur une ligne ne tiennent que si la ligne est large :
-       dans la colonne de gauche du hero, « CQP ATHLÉTISME » et « COACH
-       RUNNING » se coupaient en plein mot. Ils se repartissent donc sur
-       deux rangees des qu'il le faut. */
-    .hero-badges { display:flex; flex-wrap:wrap; gap: var(--space-2); }
-    .hero-badge { display:flex; align-items:center; gap: var(--space-2); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); flex:1 1 170px; min-width:0; }
+    /* Quatre encadres sur une rangee, ou deux par deux — jamais trois puis
+       un seul. En flex, le quatrieme restait seul sur sa rangee et s'etirait
+       sur toute la largeur des que les quatre ne tenaient plus cote a cote.
+       Une grille a nombre de colonnes fixe garde des rangees egales. */
+    .hero-badges { display:grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); }
+    @media (max-width: 1200px) { .hero-badges { grid-template-columns: repeat(2, 1fr); } }
+    .hero-badge { display:flex; align-items:center; gap: var(--space-2); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); min-width:0; }
     a.hero-badge { transition: background .2s ease, border-color .2s ease; }
     a.hero-badge:hover, a.hero-badge:focus-visible { background:rgba(255,255,255,.1); border-color:rgba(255,107,53,.4); }
     .hero-badge-icon { width: clamp(26px, calc(21.3px + 1.3vw), 34px); height: clamp(26px, calc(21.3px + 1.3vw), 34px); border-radius: var(--radius-sm); display:flex; align-items:center; justify-content:center; flex-shrink:0; background:rgba(255,107,53,.12); color: var(--color-accent); }
@@ -467,8 +474,6 @@
       .hero-cta-duo { gap: var(--space-2); --hcta-icon: 26px; }
       .hcta-card { padding: var(--space-2); gap: var(--space-2); }
       .hcta-arrow-circle { display: none; }
-      .hero-badges { flex-wrap:wrap; }
-      .hero-badge { flex:1 1 calc(50% - var(--space-2)); }
     }
 
 
@@ -3488,7 +3493,7 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     // Header scroll effect
     window.addEventListener('scroll', function() {
       const header = document.querySelector('.site-header');
-      if (window.scrollY > 50) {
+      if (window.scrollY > 8) {
         header.classList.add('scrolled');
       } else {
         header.classList.remove('scrolled');
