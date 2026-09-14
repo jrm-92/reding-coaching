@@ -357,10 +357,12 @@
     .hcta-label-line { flex:1; height:1px; background:rgba(255,255,255,.18); }
     .hcta-label-text { font-size: var(--fs-small); font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.85); white-space:nowrap; }
 
-    .hero-cta-duo { display:flex; gap: var(--space-3); }
+    /* Les deux cartes passent l'une sous l'autre plutot que de se serrer :
+       sous ~160px chacune, « PLANIFICATION & SUIVI » se coupait en plein mot. */
+    .hero-cta-duo { display:flex; flex-wrap:wrap; gap: var(--space-3); }
     .hcta-card {
       position:relative; overflow:hidden; display:flex; align-items:center; gap: var(--space-3);
-      flex:1 1 0; min-width:0; text-decoration:none; border-radius: var(--radius-md); padding: var(--space-3) var(--space-4);
+      flex:1 1 160px; min-width:0; text-decoration:none; border-radius: var(--radius-md); padding: var(--space-3) var(--space-4);
       transition: transform .25s ease, background .25s ease, border-color .25s ease;
     }
     .hcta-card:focus-visible { outline:2px solid var(--offer); outline-offset:3px; }
@@ -389,8 +391,12 @@
     .hcta-arrow-circle { background: var(--offer-soft); color: var(--offer-light); }
     .hcta-card:hover .hcta-arrow-circle { transform:translateX(3px); }
 
-    .hero-badges { display:flex; gap: var(--space-2); }
-    .hero-badge { display:flex; align-items:center; gap: var(--space-2); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); flex:1 1 0; min-width:0; }
+    /* Quatre badges sur une ligne ne tiennent que si la ligne est large :
+       dans la colonne de gauche du hero, « CQP ATHLÉTISME » et « COACH
+       RUNNING » se coupaient en plein mot. Ils se repartissent donc sur
+       deux rangees des qu'il le faut. */
+    .hero-badges { display:flex; flex-wrap:wrap; gap: var(--space-2); }
+    .hero-badge { display:flex; align-items:center; gap: var(--space-2); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); flex:1 1 170px; min-width:0; }
     a.hero-badge { transition: background .2s ease, border-color .2s ease; }
     a.hero-badge:hover, a.hero-badge:focus-visible { background:rgba(255,255,255,.1); border-color:rgba(255,107,53,.4); }
     .hero-badge-icon { width: clamp(26px, calc(21.3px + 1.3vw), 34px); height: clamp(26px, calc(21.3px + 1.3vw), 34px); border-radius: var(--radius-sm); display:flex; align-items:center; justify-content:center; flex-shrink:0; background:rgba(255,107,53,.12); color: var(--color-accent); }
@@ -423,8 +429,19 @@
       border-radius: var(--radius-xs); display:block;
     }
 
-    /* Seul seuil d'empilement du hero (contre 4 fragments avant refonte) */
-    @media (max-width: 600px) {
+    /* Empilement du hero, en deux paliers.
+
+       Sous 900px : la photo passe sous l'accroche. A deux colonnes, la
+       colonne de gauche vaut 1,3/2 de la largeur utile — a 820px (tablette
+       en portrait) et a 844px (telephone en paysage) elle tombe a ~500px,
+       partagee entre deux cartes puis quatre badges. Les libelles n'avaient
+       plus la place de tenir et la regle globale overflow-wrap:break-word
+       les coupait en plein mot : « PLANIFICAT/ION & SUIVI », « CQP ATHL/
+       ETIS/ME ». Sur une seule colonne, les memes elements disposent de
+       toute la largeur et rien ne se coupe.
+
+       Sous 600px : reglages propres au telephone. */
+    @media (max-width: 900px) {
       .hero-grid {
         grid-template-columns: minmax(0, 1fr);
         grid-template-rows: auto auto auto auto;
@@ -435,7 +452,10 @@
       .hero-img-col  { grid-column:1; grid-row:2; }
       .hcta-section  { grid-column:1; grid-row:3; }
       .hero-badges   { grid-column:1; grid-row:4; }
-      .hero-img-wrap { width:100%; max-width:270px; margin-inline:auto; }
+      .hero-img-wrap { width:100%; max-width:420px; margin-inline:auto; }
+    }
+    @media (max-width: 600px) {
+      .hero-img-wrap { max-width:270px; }
       /* Les 2 CTA restent cote a cote. Budget de largeur a 390px :
          350 utiles - 8 de gouttiere = 171 par carte, moins 16 de padding,
          26 d'icone et 8 de gouttiere interne = 121px pour le texte.
@@ -1800,11 +1820,18 @@
     }
     .resultats-header p { font-size: var(--fs-body); color: rgba(255,255,255,.5); margin: 0; }
 
+    /* La gouttiere laterale manquait : des que les cartes debordaient — a
+       partir de la tablette en portrait — la premiere collait au bord de
+       l'ecran et la suivante etait tranchee net, sans qu'on voie qu'il y
+       avait quelque chose a faire defiler. Le scroll-padding aligne l'arret
+       du defilement sur cette meme gouttiere. */
     .resultats-grid {
       max-width: var(--container-max); margin-inline: auto; position: relative; z-index: 1;
       display: flex; flex-wrap: nowrap; justify-content: safe center;
       gap: var(--grid-gap); overflow-x: auto; scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: var(--space-2);
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      padding-inline: var(--container-pad); padding-bottom: var(--space-2);
+      scroll-padding-inline: var(--container-pad);
     }
     .resultats-grid::-webkit-scrollbar { display: none; }
 
