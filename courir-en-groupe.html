@@ -543,6 +543,22 @@
     /* Bouton d'achat + places : sous les cartes, centrés */
     .pack-cta { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); margin-top: var(--space-3); }
     .pack-cta .btn-pack { width: 100%; max-width: 520px; }
+    /* Offrir : une action secondaire, proposee a cote de l'inscription pour
+       soi. En contour plutot qu'en aplat, pour ne pas disputer la place au
+       bouton principal tout en restant visible sans ouvrir la fenetre. */
+    .btn-offrir {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      padding: 12px 22px; border-radius: var(--radius-md); cursor: pointer;
+      border: 1.5px solid var(--offer-border); background: transparent;
+      color: var(--offer-light);
+      font-family: inherit; font-size: 14.5px; font-weight: 800; font-style: italic;
+      text-transform: uppercase; letter-spacing: 0.04em;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+    .btn-offrir svg { width: 17px; height: 17px; flex-shrink: 0; }
+    .btn-offrir:hover { background: var(--offer-soft); border-color: var(--offer); transform: translateY(-2px); }
+    .pack-offre .pack-cta .btn-offrir { width: 100%; max-width: 560px; }
+
     .pack-places {
       display: inline-flex; align-items: center; gap: 9px;
       font-size: 14.5px; font-weight: 700; color: rgba(255,255,255,0.92); text-align: center;
@@ -1581,7 +1597,16 @@
             '</button>' +
             (packComplet
               ? '<a class="pack-attente" href="' + mailAttente + '">Demander à être en liste d\'attente</a>'
-              : '<span class="pack-places' + (restantesPack <= 3 ? ' pack-places--urgent' : '') + '"><span class="pack-places-dot" aria-hidden="true"></span>Il reste <strong>' + restantesPack + '</strong> place' + (restantesPack > 1 ? 's' : '') + '</span>');
+              : '<span class="pack-places' + (restantesPack <= 3 ? ' pack-places--urgent' : '') + '"><span class="pack-places-dot" aria-hidden="true"></span>Il reste <strong>' + restantesPack + '</strong> place' + (restantesPack > 1 ? 's' : '') + '</span>') +
+            /* Offrir la préparation : proposé d'emblée sur la page, et non
+               caché derrière une case à cocher dans la fenêtre. Sans objet
+               si la préparation est complète ou déjà offerte. */
+            (packComplet || estGratuit(prixPackGroup.join(' · '))
+              ? ''
+              : '<button type="button" class="btn-offrir">' +
+                  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>' +
+                  'Offrir cette préparation' +
+                '</button>');
           carte.appendChild(cta);
           bloc.appendChild(packWrap);
 
@@ -1594,8 +1619,14 @@
 
           (function (info) {
             cta.querySelector('.btn-pack').addEventListener('click', function () {
-              ouvrirModalePack(info);
+              ouvrirModalePack(info, false);
             });
+            var offrir = cta.querySelector('.btn-offrir');
+            if (offrir) {
+              offrir.addEventListener('click', function () {
+                ouvrirModalePack(info, true);
+              });
+            }
           })(packInfo);
         } else {
           bloc.innerHTML = enteteHtml;
@@ -1722,7 +1753,7 @@
       });
 
       /* Ouvre la modale de réservation pour un PACK (une seule demande pour toutes les séances) */
-      function ouvrirModalePack(info) {
+      function ouvrirModalePack(info, cadeau) {
         var dP = new Date(info.premiere.date + 'T12:00:00');
         var dD = new Date(info.derniere.date + 'T12:00:00');
         var periode = 'Du ' + dP.getDate() + ' ' + MOIS[dP.getMonth()].toLowerCase() +
@@ -1748,11 +1779,14 @@
         document.getElementById('course-ack-wrap').style.display = '';
         /* Une préparation peut s'offrir ; une séance à l'unité, non. */
         document.getElementById('cadeau-wrap').style.display = '';
-        caseCadeau.checked = false;
+        /* Entré par « Offrir cette préparation » : la case est déjà cochée.
+           Elle reste visible et décochable — on peut changer d'avis sans
+           refermer la fenêtre. */
+        caseCadeau.checked = !!cadeau;
         majCadeau();
         var b = document.getElementById('btn-envoyer');
-        b.textContent = 'Réserver la préparation';
-        b.disabled = true; /* débloqué une fois la case cochée */
+        b.textContent = cadeau ? 'Offrir la préparation' : 'Réserver la préparation';
+        b.disabled = true; /* débloqué une fois la case « inscrit(e) à la course » cochée */
         overlay.classList.add('open');
       }
 
