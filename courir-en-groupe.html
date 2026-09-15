@@ -988,16 +988,6 @@
       background: rgba(255,107,53,0.06); cursor: pointer;
       font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.85);
     }
-    /* Offrir la préparation : la case se coche avant de remplir quoi que ce
-       soit, parce qu'elle change ce que le formulaire demande ensuite. */
-    .m-cadeau {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
-      padding: 12px 14px; border: 1px dashed rgba(255,107,53,0.45); border-radius: 12px;
-      background: rgba(255,107,53,0.05); cursor: pointer;
-      font-size: 13.5px; line-height: 1.4; color: rgba(255,255,255,0.88); font-weight: 600;
-    }
-    .m-cadeau input { flex-shrink: 0; }
-    .m-cadeau svg { width: 17px; height: 17px; color: var(--offer); flex-shrink: 0; }
     /* Deux personnes dans le même formulaire : chaque bloc dit de qui il parle. */
     .m-qui {
       margin: 18px 0 10px; font-size: 12px; font-weight: 800; letter-spacing: 1px;
@@ -1110,11 +1100,11 @@
         <input type="hidden" name="Date et heure" id="f-date">
         <input type="hidden" name="Lieu" id="f-lieu">
 
-        <label class="m-cadeau" id="cadeau-wrap" style="display:none;">
-          <input type="checkbox" id="f-cadeau" name="C'est un cadeau" value="Oui">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
-          <span>J'offre cette préparation à quelqu'un</span>
-        </label>
+        <!-- Offrir ou s'inscrire sont deux entrées distinctes, choisies sur
+             la page : la fenêtre n'a donc rien à faire choisir. Ce champ
+             n'est là que pour que le mail dise de quoi il s'agit ; désactivé,
+             il ne part pas. -->
+        <input type="hidden" id="f-cadeau" name="C'est un cadeau" value="Oui" disabled>
 
         <p class="m-qui" id="titre-acheteur" style="display:none;">Toi, qui offres</p>
 
@@ -1595,18 +1585,19 @@
                   ? 'S\'inscrire à la préparation — c\'est offert'
                   : 'S\'inscrire à la préparation — ' + esc(prixPackGroup.join(' · '))) +
             '</button>' +
-            (packComplet
-              ? '<a class="pack-attente" href="' + mailAttente + '">Demander à être en liste d\'attente</a>'
-              : '<span class="pack-places' + (restantesPack <= 3 ? ' pack-places--urgent' : '') + '"><span class="pack-places-dot" aria-hidden="true"></span>Il reste <strong>' + restantesPack + '</strong> place' + (restantesPack > 1 ? 's' : '') + '</span>') +
-            /* Offrir la préparation : proposé d'emblée sur la page, et non
-               caché derrière une case à cocher dans la fenêtre. Sans objet
+            /* Offrir la préparation : une entrée à part entière, proposée
+               d'emblée sur la page — juste sous l'inscription pour soi, et
+               au-dessus du décompte des places qui clôt le bloc. Sans objet
                si la préparation est complète ou déjà offerte. */
             (packComplet || estGratuit(prixPackGroup.join(' · '))
               ? ''
               : '<button type="button" class="btn-offrir">' +
                   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>' +
                   'Offrir cette préparation' +
-                '</button>');
+                '</button>') +
+            (packComplet
+              ? '<a class="pack-attente" href="' + mailAttente + '">Demander à être en liste d\'attente</a>'
+              : '<span class="pack-places' + (restantesPack <= 3 ? ' pack-places--urgent' : '') + '"><span class="pack-places-dot" aria-hidden="true"></span>Il reste <strong>' + restantesPack + '</strong> place' + (restantesPack > 1 ? 's' : '') + '</span>');
           carte.appendChild(cta);
           bloc.appendChild(packWrap);
 
@@ -1744,9 +1735,7 @@
         var ack = document.getElementById('course-ack');
         ack.required = false; ack.checked = false;
         document.getElementById('course-ack-wrap').style.display = 'none';
-        document.getElementById('cadeau-wrap').style.display = 'none';
-        caseCadeau.checked = false;
-        majCadeau();
+        majCadeau(false);
         var b = document.getElementById('btn-envoyer');
         b.disabled = false; b.textContent = 'Réserver ma place';
         overlay.classList.add('open');
@@ -1778,12 +1767,7 @@
         ack.checked = false; ack.required = true;
         document.getElementById('course-ack-wrap').style.display = '';
         /* Une préparation peut s'offrir ; une séance à l'unité, non. */
-        document.getElementById('cadeau-wrap').style.display = '';
-        /* Entré par « Offrir cette préparation » : la case est déjà cochée.
-           Elle reste visible et décochable — on peut changer d'avis sans
-           refermer la fenêtre. */
-        caseCadeau.checked = !!cadeau;
-        majCadeau();
+        majCadeau(cadeau);
         var b = document.getElementById('btn-envoyer');
         b.textContent = cadeau ? 'Offrir la préparation' : 'Réserver la préparation';
         b.disabled = true; /* débloqué une fois la case « inscrit(e) à la course » cochée */
@@ -1791,52 +1775,54 @@
       }
 
       /* ── Offrir la préparation ────────────────────────────────────────
-         Cochée, la case ouvre un second bloc : celui de la personne qui
-         reçoit. Les deux blocs prennent alors un titre, parce que deux
-         identités dans un même formulaire sans étiquette, on ne sait plus
-         laquelle est laquelle.
+         S'inscrire et offrir sont deux boutons distincts sur la page : le
+         choix est déjà fait quand la fenêtre s'ouvre, elle n'a donc rien à
+         proposer de plus. En mode cadeau, un second bloc apparaît — celui
+         de la personne qui reçoit — et les deux blocs prennent un titre,
+         parce que deux identités dans un même formulaire sans étiquette,
+         on ne sait plus laquelle est laquelle.
 
-         Les champs du bénéficiaire sont désactivés quand le bloc est
-         caché : un champ désactivé ne part pas dans le mail et n'empêche
-         pas l'envoi même s'il est marqué obligatoire. */
-      var caseCadeau = document.getElementById('f-cadeau');
+         Les champs du bénéficiaire, comme le champ qui signale le cadeau,
+         sont désactivés hors de ce mode : un champ désactivé ne part pas
+         dans le mail et n'empêche pas l'envoi même s'il est obligatoire. */
+      var champCadeau = document.getElementById('f-cadeau');
       var blocBenef = document.getElementById('bloc-beneficiaire');
       var titreAcheteur = document.getElementById('titre-acheteur');
       var champsBenef = ['f-b-prenom', 'f-b-nom', 'f-b-email', 'f-b-tel'].map(function (id) {
         return document.getElementById(id);
       });
+      var modeCadeau = false;
 
-      function estCadeau() { return !!(caseCadeau && caseCadeau.checked); }
+      function estCadeau() { return modeCadeau; }
 
-      function majCadeau() {
-        var actif = estCadeau();
-        blocBenef.style.display = actif ? '' : 'none';
-        titreAcheteur.style.display = actif ? '' : 'none';
+      function majCadeau(actif) {
+        modeCadeau = !!actif;
+        champCadeau.disabled = !modeCadeau;
+        blocBenef.style.display = modeCadeau ? '' : 'none';
+        titreAcheteur.style.display = modeCadeau ? '' : 'none';
         champsBenef.forEach(function (ch, i) {
-          ch.disabled = !actif;
-          ch.required = actif && i < 3;   /* le téléphone reste facultatif */
-          if (!actif) ch.value = '';
+          ch.disabled = !modeCadeau;
+          ch.required = modeCadeau && i < 3;   /* le téléphone reste facultatif */
+          if (!modeCadeau) ch.value = '';
         });
         /* L'engagement porte sur la personne qui court, pas sur qui paie. */
         var txt = document.getElementById('course-ack-txt');
         if (txt && txt.dataset.course) {
-          txt.textContent = actif
+          txt.textContent = modeCadeau
             ? 'La personne à qui j\'offre est inscrite à la course « ' + txt.dataset.course + ' ».'
             : 'Je suis inscrit(e) à la course « ' + txt.dataset.course + ' ».';
         }
-        var b = document.getElementById('btn-envoyer');
-        if (b && !b.classList.contains('is-sending')) {
-          b.textContent = actif ? 'Offrir la préparation' : 'Réserver la préparation';
-        }
+        /* Le titre de la fenêtre annonce laquelle des deux démarches on suit. */
+        var h = document.querySelector('.modal h3');
+        if (h) h.textContent = modeCadeau ? 'Offrir la préparation' : 'Inscription';
         /* Le sujet du mail dit tout de suite de quoi il s'agit. */
         var sujet = document.querySelector('#inscription-form input[name="subject"]');
         if (sujet) {
-          sujet.value = actif
+          sujet.value = modeCadeau
             ? 'CADEAU — préparation offerte à un tiers (à confirmer par paiement)'
             : 'Demande de réservation (à confirmer par paiement) — Session collective';
         }
       }
-      if (caseCadeau) caseCadeau.addEventListener('change', majCadeau);
 
       document.getElementById('modal-close').addEventListener('click', function () { overlay.classList.remove('open'); });
       overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.classList.remove('open'); });
