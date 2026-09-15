@@ -655,11 +655,22 @@
   letter-spacing: .01em;
 }
 
-/* Seul seuil d'empilement de la section À propos (contre 3 fragments avant refonte) */
+/* Empilement de la section À propos. A deux colonnes, la photo tombait a
+   271px de large sur une tablette en portrait, coincee a cote d'un texte
+   serre. Empilee, elle passe au-dessus — et le texte prend la meme largeur
+   qu'elle : une seule bande centree, plutot qu'une photo etroite surmontant
+   un paragraphe deux fois plus large. Une seule variable regle les deux. */
+@media (max-width: 1000px) {
+  .apropos-container {
+    grid-template-columns: minmax(0, 1fr); gap: var(--space-5);
+    --apropos-bande: 420px;
+  }
+  .apropos-image,
+  .apropos-container .about-content { max-width: var(--apropos-bande); margin-inline: auto; }
+}
 @media (max-width: 600px) {
   .apropos-section { padding: var(--space-6) max(28px, var(--container-pad)) var(--space-5); }
-  .apropos-container { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); }
-  .apropos-image { max-width: 320px; margin-inline: auto; }
+  .apropos-container { --apropos-bande: 320px; }
 }
 
 
