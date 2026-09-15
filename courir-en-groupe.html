@@ -852,8 +852,11 @@
     .empty-state a { color: #FF6B35; }
 
     /* ── Modale d'inscription ── */
+    /* Au-dessus du bandeau du haut (9999) : sinon le logo et le menu
+       flottaient par-dessus la fenêtre d'inscription, et sa croix de
+       fermeture devenait inatteignable quand la fenêtre etait haute. */
     .modal-overlay {
-      position: fixed; inset: 0; z-index: 2000;
+      position: fixed; inset: 0; z-index: 10000;
       background: rgba(3, 6, 12, 0.8); backdrop-filter: blur(6px);
       display: none; align-items: center; justify-content: center; padding: 20px;
       overflow-y: auto;
@@ -969,6 +972,23 @@
       background: rgba(255,107,53,0.06); cursor: pointer;
       font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.85);
     }
+    /* Offrir la préparation : la case se coche avant de remplir quoi que ce
+       soit, parce qu'elle change ce que le formulaire demande ensuite. */
+    .m-cadeau {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
+      padding: 12px 14px; border: 1px dashed rgba(255,107,53,0.45); border-radius: 12px;
+      background: rgba(255,107,53,0.05); cursor: pointer;
+      font-size: 13.5px; line-height: 1.4; color: rgba(255,255,255,0.88); font-weight: 600;
+    }
+    .m-cadeau input { flex-shrink: 0; }
+    .m-cadeau svg { width: 17px; height: 17px; color: var(--offer); flex-shrink: 0; }
+    /* Deux personnes dans le même formulaire : chaque bloc dit de qui il parle. */
+    .m-qui {
+      margin: 18px 0 10px; font-size: 12px; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; color: rgba(255,255,255,0.72);
+      padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .m-qui:first-of-type { margin-top: 0; }
     .m-course-ack input { margin: 2px 0 0; width: 18px; height: 18px; accent-color: #FF6B35; flex-shrink: 0; cursor: pointer; }
     /* Consentement RGPD : obligatoire, base légale de la collecte */
     .m-rgpd {
@@ -1074,6 +1094,14 @@
         <input type="hidden" name="Date et heure" id="f-date">
         <input type="hidden" name="Lieu" id="f-lieu">
 
+        <label class="m-cadeau" id="cadeau-wrap" style="display:none;">
+          <input type="checkbox" id="f-cadeau" name="C'est un cadeau" value="Oui">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
+          <span>J'offre cette préparation à quelqu'un</span>
+        </label>
+
+        <p class="m-qui" id="titre-acheteur" style="display:none;">Toi, qui offres</p>
+
         <div class="m-row">
           <div class="m-field">
             <label for="f-prenom">Prénom *</label>
@@ -1092,6 +1120,33 @@
           <div class="m-field">
             <label for="f-tel">Téléphone</label>
             <input type="tel" id="f-tel" name="Téléphone" placeholder="06 12 34 56 78">
+          </div>
+        </div>
+
+        <!-- Bloc de la personne qui reçoit le cadeau. Ses champs sont
+             désactivés tant que la case n'est pas cochée : désactivés, ils
+             ne partent pas dans le mail et ne bloquent pas l'envoi. -->
+        <div id="bloc-beneficiaire" style="display:none;">
+          <p class="m-qui">La personne à qui tu offres</p>
+          <div class="m-row">
+            <div class="m-field">
+              <label for="f-b-prenom">Prénom *</label>
+              <input type="text" id="f-b-prenom" name="Bénéficiaire - Prénom" placeholder="Son prénom" disabled>
+            </div>
+            <div class="m-field">
+              <label for="f-b-nom">Nom *</label>
+              <input type="text" id="f-b-nom" name="Bénéficiaire - Nom" placeholder="Son nom" disabled>
+            </div>
+          </div>
+          <div class="m-row">
+            <div class="m-field">
+              <label for="f-b-email">Email *</label>
+              <input type="email" id="f-b-email" name="Bénéficiaire - Email" placeholder="son@email.com" disabled>
+            </div>
+            <div class="m-field">
+              <label for="f-b-tel">Téléphone</label>
+              <input type="tel" id="f-b-tel" name="Bénéficiaire - Téléphone" placeholder="06 12 34 56 78" disabled>
+            </div>
           </div>
         </div>
 
@@ -1658,6 +1713,9 @@
         var ack = document.getElementById('course-ack');
         ack.required = false; ack.checked = false;
         document.getElementById('course-ack-wrap').style.display = 'none';
+        document.getElementById('cadeau-wrap').style.display = 'none';
+        caseCadeau.checked = false;
+        majCadeau();
         var b = document.getElementById('btn-envoyer');
         b.disabled = false; b.textContent = 'Réserver ma place';
         overlay.classList.add('open');
@@ -1685,15 +1743,66 @@
         document.getElementById('m-actions').classList.remove('visible');
         /* Case à cocher « inscription à la course » obligatoire pour un pack */
         var ack = document.getElementById('course-ack');
-        document.getElementById('course-ack-txt').textContent =
-          'Je suis inscrit(e) à la course « ' + info.libelle + ' ».';
+        document.getElementById('course-ack-txt').dataset.course = info.libelle;
         ack.checked = false; ack.required = true;
         document.getElementById('course-ack-wrap').style.display = '';
+        /* Une préparation peut s'offrir ; une séance à l'unité, non. */
+        document.getElementById('cadeau-wrap').style.display = '';
+        caseCadeau.checked = false;
+        majCadeau();
         var b = document.getElementById('btn-envoyer');
         b.textContent = 'Réserver la préparation';
         b.disabled = true; /* débloqué une fois la case cochée */
         overlay.classList.add('open');
       }
+
+      /* ── Offrir la préparation ────────────────────────────────────────
+         Cochée, la case ouvre un second bloc : celui de la personne qui
+         reçoit. Les deux blocs prennent alors un titre, parce que deux
+         identités dans un même formulaire sans étiquette, on ne sait plus
+         laquelle est laquelle.
+
+         Les champs du bénéficiaire sont désactivés quand le bloc est
+         caché : un champ désactivé ne part pas dans le mail et n'empêche
+         pas l'envoi même s'il est marqué obligatoire. */
+      var caseCadeau = document.getElementById('f-cadeau');
+      var blocBenef = document.getElementById('bloc-beneficiaire');
+      var titreAcheteur = document.getElementById('titre-acheteur');
+      var champsBenef = ['f-b-prenom', 'f-b-nom', 'f-b-email', 'f-b-tel'].map(function (id) {
+        return document.getElementById(id);
+      });
+
+      function estCadeau() { return !!(caseCadeau && caseCadeau.checked); }
+
+      function majCadeau() {
+        var actif = estCadeau();
+        blocBenef.style.display = actif ? '' : 'none';
+        titreAcheteur.style.display = actif ? '' : 'none';
+        champsBenef.forEach(function (ch, i) {
+          ch.disabled = !actif;
+          ch.required = actif && i < 3;   /* le téléphone reste facultatif */
+          if (!actif) ch.value = '';
+        });
+        /* L'engagement porte sur la personne qui court, pas sur qui paie. */
+        var txt = document.getElementById('course-ack-txt');
+        if (txt && txt.dataset.course) {
+          txt.textContent = actif
+            ? 'La personne à qui j\'offre est inscrite à la course « ' + txt.dataset.course + ' ».'
+            : 'Je suis inscrit(e) à la course « ' + txt.dataset.course + ' ».';
+        }
+        var b = document.getElementById('btn-envoyer');
+        if (b && !b.classList.contains('is-sending')) {
+          b.textContent = actif ? 'Offrir la préparation' : 'Réserver la préparation';
+        }
+        /* Le sujet du mail dit tout de suite de quoi il s'agit. */
+        var sujet = document.querySelector('#inscription-form input[name="subject"]');
+        if (sujet) {
+          sujet.value = actif
+            ? 'CADEAU — préparation offerte à un tiers (à confirmer par paiement)'
+            : 'Demande de réservation (à confirmer par paiement) — Session collective';
+        }
+      }
+      if (caseCadeau) caseCadeau.addEventListener('change', majCadeau);
 
       document.getElementById('modal-close').addEventListener('click', function () { overlay.classList.remove('open'); });
       overlay.addEventListener('click', function (e) { if (e.target === overlay) overlay.classList.remove('open'); });
@@ -1790,6 +1899,13 @@
             if (!propre) return lien;
             return lien + (lien.indexOf('?') > -1 ? '&' : '?') + 'client_reference_id=' + propre;
           }
+          /* Quand la préparation est offerte, c'est la place de la personne
+             qui reçoit qui est en jeu, pas celle de qui remplit le
+             formulaire. Les messages le disent. */
+          var prenomBenef = (document.getElementById('f-b-prenom').value || '').trim();
+          var quiPlace = estCadeau()
+            ? 'La place de ' + (prenomBenef || 'la personne à qui tu offres')
+            : 'Ta place';
           var reference = (current && (current.ref || (!current.estPack && current.id))) || '';
           /* Pas de repli sur LIEN_STRIPE : sans lien propre, la séance n'a
              pas de bouton de règlement (voir la branche « else » plus bas). */
@@ -1809,8 +1925,8 @@
                la place tout de suite, les Chèques-Vacances demandent une
                validation manuelle. On le dit plutôt que de le laisser découvrir. */
             msg.innerHTML = lienAncv
-              ? '⚠️ <strong>Ta place n\'est pas encore réservée.</strong> Règle par carte pour la confirmer immédiatement, ou en Chèques-Vacances — dans ce cas je valide ta place à la main dès réception, sous 24 h.'
-              : '⚠️ <strong>Ta place n\'est pas encore réservée.</strong> Valide ton inscription en réglant maintenant en ligne (paiement sécurisé Stripe).';
+              ? '⚠️ <strong>' + quiPlace + ' n\'est pas encore réservée.</strong> Règle par carte pour la confirmer immédiatement, ou en Chèques-Vacances — dans ce cas je la valide à la main dès réception, sous 24 h.'
+              : '⚠️ <strong>' + quiPlace + ' n\'est pas encore réservée.</strong> Valide l\'inscription en réglant maintenant en ligne (paiement sécurisé Stripe).';
             payer.href = lienPaiement;
             /* Seule, la carte garde son libellé d'action (« Valider et régler ma
                place ») : c'est le bouton principal, pas un choix entre deux. */
@@ -1821,13 +1937,14 @@
             /* Rien à régler : la place est prise, il n'y a pas de lien de
                paiement à attendre. Message vert, pas d'avertissement. */
             msg.style.background = 'rgba(52,211,153,0.15)'; msg.style.color = '#34D399';
-            msg.innerHTML = '\u2713 <strong>C\'est noté, ta place est réservée.</strong> '
+            msg.innerHTML = '\u2713 <strong>C\'est noté, ' + quiPlace.toLowerCase() + ' est réservée.</strong> '
               + (current && current.estPack ? 'Cette préparation est offerte' : 'Cette séance est offerte')
               + ', il n\'y a rien à régler. Je te confirme tout par mail.';
             payer.style.display = 'none';
           } else {
             msg.style.background = 'rgba(251,191,36,0.15)'; msg.style.color = '#FBBF24';
-            msg.textContent = 'Demande reçue. Je t\'envoie le lien de paiement par mail : ta place sera réservée une fois le règlement effectué.';
+            msg.textContent = 'Demande reçue. Je t\'envoie le lien de paiement par mail : '
+              + quiPlace.toLowerCase() + ' sera réservée une fois le règlement effectué.';
             payer.style.display = 'none';
           }
           actions.classList.add('visible');
