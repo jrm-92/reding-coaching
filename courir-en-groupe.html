@@ -1518,7 +1518,11 @@
           cta.innerHTML =
             '<button type="button" class="btn-pack"' + (packComplet ? ' disabled' : '') + '>' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' +
-              (packComplet ? 'Complet' : 'S\'inscrire à la préparation — ' + esc(prixPackGroup.join(' · '))) +
+              (packComplet
+                ? 'Complet'
+                : estGratuit(prixPackGroup.join(' · '))
+                  ? 'S\'inscrire à la préparation — c\'est offert'
+                  : 'S\'inscrire à la préparation — ' + esc(prixPackGroup.join(' · '))) +
             '</button>' +
             (packComplet
               ? '<a class="pack-attente" href="' + mailAttente + '">Demander à être en liste d\'attente</a>'
@@ -1593,7 +1597,10 @@
           '<div class="session-footer' + (s.prixPack ? ' session-footer--pack' : '') + '">' +
             (s.prixPack
               ? '<span class="session-pack-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Séance incluse dans la préparation</span>'
-              : (s.prixUnitaire ? '<div class="session-prix">' + esc(s.prixUnitaire) + '<small>par personne</small></div>' : '') +
+              : (s.prixUnitaire
+                  ? '<div class="session-prix">' + esc(s.prixUnitaire)
+                    + (estGratuit(s.prixUnitaire) ? '' : '<small>par personne</small>') + '</div>'
+                  : '') +
                 '<button class="btn-inscrire" data-i="' + i + '"' + (complet ? ' disabled' : '') + '>' + (complet ? 'Complet' : 'S\'inscrire') + '</button>') +
           '</div>';
         conteneurs[cleGroupe(s)].appendChild(card);
@@ -1810,6 +1817,14 @@
             payer.innerHTML = '<img class="pay-logo pay-logo--cb" src="logo_cb.png" alt="CB" width="32" height="20" decoding="async"> '
               + (lienAncv ? 'Carte bancaire' : 'Valider et régler ma place');
             payer.style.display = '';
+          } else if (estGratuit(current && (current.prix || current.prixUnitaire))) {
+            /* Rien à régler : la place est prise, il n'y a pas de lien de
+               paiement à attendre. Message vert, pas d'avertissement. */
+            msg.style.background = 'rgba(52,211,153,0.15)'; msg.style.color = '#34D399';
+            msg.innerHTML = '\u2713 <strong>C\'est noté, ta place est réservée.</strong> '
+              + (current && current.estPack ? 'Cette préparation est offerte' : 'Cette séance est offerte')
+              + ', il n\'y a rien à régler. Je te confirme tout par mail.';
+            payer.style.display = 'none';
           } else {
             msg.style.background = 'rgba(251,191,36,0.15)'; msg.style.color = '#FBBF24';
             msg.textContent = 'Demande reçue. Je t\'envoie le lien de paiement par mail : ta place sera réservée une fois le règlement effectué.';
@@ -1835,9 +1850,20 @@
       return String(v == null ? '' : v).trim();
     }
 
+    /* Une préparation ou une séance peut être offerte. Dans la base, on
+       l'indique soit par un zéro, soit par le mot « offert » ou
+       « gratuit » — les trois donnent le même affichage et le même
+       parcours : pas de règlement, la place est prise tout de suite. */
+    function estGratuit(v) {
+      var t = String(v == null ? '' : v).trim().toLowerCase().replace(/\s*(€|euros?)$/, '').trim();
+      if (!t) return false;
+      return /^0([.,]0+)?$/.test(t) || /^(gratuit|gratuite|offert|offerte|free)$/.test(t);
+    }
+
     function _formatPrix(v) {
       var txt = String(v == null ? '' : v).trim();
       if (!txt) return '';
+      if (estGratuit(txt)) return 'Offert';
       if (/^\d+([.,]\d+)?$/.test(txt)) return txt.replace('.', ',') + ' €';
       return txt;
     }
