@@ -1330,6 +1330,21 @@
           .filter(function (l) { return l !== ''; });
         if (!lignes.length) return '';
         var tiret = /^[-\u2013\u2014\u2022*]\s*/;
+        /* Le tableau de Supabase édite les textes sur une seule ligne : la
+           touche Entrée y valide la case au lieu d'aller à la ligne. Un
+           déroulé saisi là arrive donc d'un bloc, « - a - b - c », et ne
+           faisait qu'une seule puce interminable. Quand tout tient sur une
+           ligne et qu'elle commence par un tiret, on recoupe sur les tirets
+           entourés d'espaces — jamais sur un tiret collé, comme dans
+           « 10-15 min » ou « Renfo-cardio ». */
+        if (lignes.length === 1 && tiret.test(lignes[0])) {
+          var morceaux = lignes[0].split(/\s+[-\u2013\u2014\u2022*]\s+/)
+            .map(function (m) { return m.trim(); })
+            .filter(function (m) { return m !== ''; });
+          if (morceaux.length > 1) {
+            lignes = morceaux.map(function (m, i) { return i === 0 ? m : '- ' + m; });
+          }
+        }
         var htm = '', puces = null;
         function viderPuces() {
           if (!puces) return;
