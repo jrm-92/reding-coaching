@@ -438,6 +438,12 @@
     }
 
     /* Titre de famille : « Séances collectives » / « Prépa collectives ». */
+    /* En-tete de famille : le titre, puis une phrase qui dit a quoi sert la
+       formule. Les marges vivent sur le bloc et non sur le titre, pour que
+       le titre et sa phrase restent soudes. */
+    .famille-entete { margin: 0 0 var(--space-4); text-align: center; }
+    .famille-entete + .lieu-groupe { margin-top: 0; }
+    .lieu-groupe + .famille-entete { margin-top: var(--space-7); }
     .famille-titre {
       font-size: var(--fs-h3);
       font-weight: 900;
@@ -445,11 +451,14 @@
       text-transform: uppercase;
       letter-spacing: 0.03em;
       color: #ffffff;
-      margin: 0 0 var(--space-4);
+      margin: 0;
       text-align: center;
     }
-    .famille-titre + .lieu-groupe { margin-top: 0; }
-    .lieu-groupe + .famille-titre { margin-top: var(--space-7); }
+    .famille-texte {
+      margin: 10px auto 0; max-width: 46ch;
+      font-size: var(--fs-small); line-height: 1.6;
+      color: rgba(255,255,255,0.72);
+    }
 
     /* Carrousel : 3 cartes visibles par ligne, les suivantes se font défiler */
     .lieu-cards {
@@ -1382,14 +1391,28 @@
          fois : s'il y a un jour des séances au Vésinet ET à Nanterre, le
          titre ne se répète pas au-dessus de chaque lieu. */
       var famillesFaites = {};
+      /* Les deux formules n'ont pas le même but : l'une entretient, l'autre
+         prépare une échéance. Une phrase sous chaque titre le dit, plutôt
+         que de le laisser deviner à partir des cartes. */
+      var FAMILLE_TEXTE = {
+        unite: 'Des séances variées pour entretenir ta condition physique. Chaque semaine, une séance différente.',
+        prepa: 'Un programme complet, réparti sur plusieurs semaines, pour arriver prêt(e) le jour de ta course.'
+      };
       function titreFamille(aPack) {
         var cle = aPack ? 'prepa' : 'unite';
         if (famillesFaites[cle]) return null;
         famillesFaites[cle] = true;
+        var entete = document.createElement('header');
+        entete.className = 'famille-entete';
         var h = document.createElement('h2');
         h.className = 'famille-titre';
         h.textContent = aPack ? 'Prépa collectives' : 'Séances collectives';
-        return h;
+        entete.appendChild(h);
+        var p = document.createElement('p');
+        p.className = 'famille-texte';
+        p.textContent = FAMILLE_TEXTE[cle];
+        entete.appendChild(p);
+        return entete;
       }
       groupesOrdre.forEach(function (lieu) {
         if (!groupes[lieu] || !groupes[lieu].length) return;
