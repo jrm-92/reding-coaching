@@ -475,6 +475,18 @@
     }
     .famille-jauge-p strong { color: #ffffff; font-weight: 800; }
     .famille-jauge-p svg { width: 16px; height: 16px; color: var(--color-accent); flex-shrink: 0; }
+    /* Dans la pastille, le « i » est déjà centré par le flex : pas de
+       décalage à rattraper comme sur les cartes. */
+    .famille-jauge-p .confirm-info { margin-top: 0; }
+    /* L'explication se pose sous la pastille, à la largeur du texte de la
+       famille, et se lit alignée à gauche même si tout le reste est centré. */
+    /* Deux classes, pas une : à spécificité égale c'est .confirm-aide,
+       déclarée plus bas, qui l'emportait — le texte restait en 11 px et la
+       boîte en 281 px de large, quelle que soit la place disponible. */
+    .famille-jauge .famille-aide {
+      display: block; max-width: 46ch; margin: 10px auto 0;
+      text-align: left; font-size: var(--fs-small);
+    }
 
     /* Carrousel : 3 cartes visibles par ligne, les suivantes se font défiler */
     .lieu-cards {
@@ -1556,11 +1568,29 @@
           /* « Par groupe » ne disait pas de quel groupe : celui d'un soir ou
              celui de toute une préparation. On nomme ce qui est limité. */
           var quoi = aPack ? 'par préparation' : 'par séance';
+          var objet = aPack ? 'préparation' : 'séance';
+          /* La pastille ne disait que le plafond. Le « i » dit l'autre bout :
+             il faut aussi être assez nombreux, et ce qui se passe sinon. Même
+             réponse que sur les cartes, donnée ici une fois pour toute la
+             famille. Sans minimum défini, pas de « i » : il n'aurait rien à
+             dire. */
+          var aideFamille = (MIN_CONFIRM && MIN_CONFIRM >= 2)
+            ? 'Il faut être ' + MIN_CONFIRM + ' au minimum pour que la ' + objet + ' ait lieu,'
+              + ' et ' + max + ' au maximum pour que chacun soit suivi.'
+              + ' Si on n\'est pas ' + MIN_CONFIRM + ', je te préviens dès que possible et tu es'
+              + ' remboursé(e) automatiquement, en intégralité — tu n\'as aucune démarche à faire.'
+            : '';
           jauge.innerHTML = '<span class="famille-jauge-p">'
             + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
             + '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>'
             + '<path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
-            + '<strong>' + max + ' personnes maximum</strong> ' + quoi + '</span>';
+            + '<strong>' + max + ' personnes maximum</strong> ' + quoi
+            + (aideFamille
+              ? '<button type="button" class="confirm-info" aria-expanded="false"'
+                + ' aria-label="Et s\'il n\'y a pas assez de monde ?">i</button>'
+              : '')
+            + '</span>'
+            + (aideFamille ? '<span class="confirm-aide famille-aide" hidden>' + aideFamille + '</span>' : '');
           entete.appendChild(jauge);
         }
         return entete;
@@ -1920,7 +1950,7 @@
            survol — au doigt, il n'y en a pas. */
         var info = e.target.closest('.confirm-info');
         if (info) {
-          var bloc = info.closest('.session-confirm-bloc');
+          var bloc = info.closest('.session-confirm-bloc, .famille-jauge');
           var texte = bloc && bloc.querySelector('.confirm-aide');
           if (texte) {
             var ouvert = !texte.hasAttribute('hidden');
