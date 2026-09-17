@@ -2262,8 +2262,17 @@
       gap: 40px;
       align-items: stretch;
     }
-    @media (max-width: 1024px) { .ct-top-row { grid-template-columns: minmax(0, 1fr); gap: 30px; } }
-    @media (max-width: 768px)  { .ct-top-row { padding: 0 20px; gap: 24px; } }
+    /* Les deux colonnes tiennent jusqu'au telephone. Empilees des 1024px,
+       la carte et la photo prenaient chacune toute la largeur d'un iPad :
+       deux blocs enormes l'un sous l'autre, et la moitie de la section a
+       faire defiler pour rien. Cote a cote, elles se serrent l'une l'autre
+       et la section tient d'un coup d'oeil. */
+    @media (max-width: 1023px) and (min-width: 680px) {
+      .ct-top-row { grid-template-columns: minmax(0, 1fr) minmax(0, 0.78fr); gap: 22px; }
+      .ct-photo img { min-height: 0; }
+    }
+    @media (max-width: 679px)  { .ct-top-row { grid-template-columns: minmax(0, 1fr); gap: 26px; } }
+    @media (max-width: 768px)  { .ct-top-row { padding: 0 20px; } }
     @media (max-width: 600px)  { .ct-top-row { padding: 0 15px; gap: 20px; } }
     .ct-seance-wrap { min-width: 0; margin: 0; }
     .ct-photo {
