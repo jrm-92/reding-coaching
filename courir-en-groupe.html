@@ -384,9 +384,9 @@
       display: flex; align-items: center; gap: 16px;
       margin-bottom: 22px;
     }
-    /* Sur-titre et date : meme registre exact, en miroir de part et d'autre
-       du nom de course, et centres sur le titre lui-meme puisqu'ils sont
-       imbriques dans son bloc (et non sur toute la ligne, bouton compris).
+    /* Ce qu'on propose, puis quand : les deux sous le nom de course, dans
+       cet ordre, et centres sur le titre lui-meme puisqu'ils sont imbriques
+       dans son bloc (et non sur toute la ligne, bouton compris).
        Double classe pour passer devant « .lieu-titre span ». */
     .lieu-titre .lieu-titre-kicker,
     .lieu-titre .lieu-titre-date {
@@ -395,8 +395,10 @@
       letter-spacing: 0.12em;
       color: rgba(255,255,255,0.75);
     }
-    .lieu-titre .lieu-titre-kicker { margin-bottom: var(--space-1); text-transform: uppercase; }
-    .lieu-titre .lieu-titre-date   { margin-top: var(--space-1);    text-transform: none; }
+    /* L'un en capitales, l'autre non : empiles sous le titre, ils se
+       liraient sinon comme un seul bloc de texte. */
+    .lieu-titre .lieu-titre-kicker { margin-top: var(--space-2); text-transform: uppercase; }
+    .lieu-titre .lieu-titre-date   { margin-top: var(--space-1); text-transform: none; color: rgba(255,255,255,0.6); }
     /* Epingle du titre : elle heritait du blanc via currentColor et se
        confondait avec le texte. En accent, elle signale le type d'information
        et fait echo aux icones du bandeau juste en dessous. */
@@ -1498,8 +1500,11 @@
         var enteteHtml =
           '<div class="lieu-titre-row">' +
             '<div class="lieu-titre"><span>' +
-              (aPack && sousTitrePack ? '<span class="lieu-titre-kicker">' + esc(sousTitrePack) + '</span>' : '') +
+              /* Le nom de la course d'abord : c'est lui qu'on cherche. Ce
+                 qu'on propose autour — « Préparation 10K · 12 semaines » — se
+                 lit ensuite, puis la date. */
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) +
+              (aPack && sousTitrePack ? '<span class="lieu-titre-kicker">' + esc(sousTitrePack) + '</span>' : '') +
               (lieuTitreDate ? '<span class="lieu-titre-date">' + esc(lieuTitreDate) + '</span>' : '') +
             '</span></div>' +
             (aPack
