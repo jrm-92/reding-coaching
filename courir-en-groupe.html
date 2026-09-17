@@ -384,9 +384,9 @@
       display: flex; align-items: center; gap: 16px;
       margin-bottom: 22px;
     }
-    /* Sur-titre et date : meme registre exact, en miroir de part et d'autre
-       du nom de course, et centres sur le titre lui-meme puisqu'ils sont
-       imbriques dans son bloc (et non sur toute la ligne, bouton compris).
+    /* Ce qu'on propose, puis quand : les deux sous le nom de course, dans
+       cet ordre, et centres sur le titre lui-meme puisqu'ils sont imbriques
+       dans son bloc (et non sur toute la ligne, bouton compris).
        Double classe pour passer devant « .lieu-titre span ». */
     .lieu-titre .lieu-titre-kicker,
     .lieu-titre .lieu-titre-date {
@@ -395,8 +395,10 @@
       letter-spacing: 0.12em;
       color: rgba(255,255,255,0.75);
     }
-    .lieu-titre .lieu-titre-kicker { margin-bottom: var(--space-1); text-transform: uppercase; }
-    .lieu-titre .lieu-titre-date   { margin-top: var(--space-1);    text-transform: none; }
+    /* L'un en capitales, l'autre non : empiles sous le titre, ils se
+       liraient sinon comme un seul bloc de texte. */
+    .lieu-titre .lieu-titre-kicker { margin-top: var(--space-2); text-transform: uppercase; }
+    .lieu-titre .lieu-titre-date   { margin-top: var(--space-1); text-transform: none; color: rgba(255,255,255,0.6); }
     /* Epingle du titre : elle heritait du blanc via currentColor et se
        confondait avec le texte. En accent, elle signale le type d'information
        et fait echo aux icones du bandeau juste en dessous. */
@@ -459,6 +461,20 @@
       font-size: var(--fs-small); line-height: 1.6;
       color: rgba(255,255,255,0.72);
     }
+    /* Le petit effectif se dit sous la phrase : une pastille plutôt qu'une
+       ligne de plus, pour qu'on la voie sans la lire. */
+    .famille-jauge { margin: 12px 0 0; }
+    .famille-jauge-p {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 7px 15px;
+      border: 1px solid var(--color-line-dark);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.03);
+      font-size: var(--fs-small); font-weight: 600;
+      color: rgba(255,255,255,0.78);
+    }
+    .famille-jauge-p strong { color: #ffffff; font-weight: 800; }
+    .famille-jauge-p svg { width: 16px; height: 16px; color: var(--color-accent); flex-shrink: 0; }
 
     /* Carrousel : 3 cartes visibles par ligne, les suivantes se font défiler */
     .lieu-cards {
@@ -1406,6 +1422,17 @@
          fois : s'il y a un jour des séances au Vésinet ET à Nanterre, le
          titre ne se répète pas au-dessus de chaque lieu. */
       var famillesFaites = {};
+      /* Le nombre de places n'est écrit nulle part en dur : il se lit dans les
+         séances elles-mêmes. Une prépa portée à douze un jour le dira d'elle-
+         même, sans qu'on ait à retoucher la page. Le plus grand des groupes
+         de la famille fait foi : « 10 maximum » reste vrai même si une séance
+         en accueille moins. */
+      var FAMILLE_PLACES = { unite: 0, prepa: 0 };
+      visibles.forEach(function (s) {
+        var cle = s.prixPack ? 'prepa' : 'unite';
+        var n = parseInt(s.places, 10);
+        if (isFinite(n) && n > FAMILLE_PLACES[cle]) FAMILLE_PLACES[cle] = n;
+      });
       /* Les deux formules n'ont pas le même but : l'une entretient, l'autre
          prépare une échéance. Une phrase sous chaque titre le dit, plutôt
          que de le laisser deviner à partir des cartes. */
@@ -1427,6 +1454,19 @@
         p.className = 'famille-texte';
         p.textContent = FAMILLE_TEXTE[cle];
         entete.appendChild(p);
+        /* Le petit groupe est un argument, pas une contrainte subie : il se
+           montre, avec le même bonhomme que les cartes de prépa. */
+        var max = FAMILLE_PLACES[cle];
+        if (max > 0) {
+          var jauge = document.createElement('p');
+          jauge.className = 'famille-jauge';
+          jauge.innerHTML = '<span class="famille-jauge-p">'
+            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+            + '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>'
+            + '<path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+            + '<strong>' + max + ' personnes maximum</strong> par groupe</span>';
+          entete.appendChild(jauge);
+        }
         return entete;
       }
       groupesOrdre.forEach(function (lieu) {
@@ -1460,8 +1500,11 @@
         var enteteHtml =
           '<div class="lieu-titre-row">' +
             '<div class="lieu-titre"><span>' +
-              (aPack && sousTitrePack ? '<span class="lieu-titre-kicker">' + esc(sousTitrePack) + '</span>' : '') +
+              /* Le nom de la course d'abord : c'est lui qu'on cherche. Ce
+                 qu'on propose autour — « Préparation 10K · 12 semaines » — se
+                 lit ensuite, puis la date. */
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) +
+              (aPack && sousTitrePack ? '<span class="lieu-titre-kicker">' + esc(sousTitrePack) + '</span>' : '') +
               (lieuTitreDate ? '<span class="lieu-titre-date">' + esc(lieuTitreDate) + '</span>' : '') +
             '</span></div>' +
             (aPack
