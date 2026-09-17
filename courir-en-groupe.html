@@ -857,6 +857,23 @@
     .jauge-label .restantes { color: #FF6B35; }
     .jauge-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); overflow: hidden; }
     .jauge-fill { height: 100%; border-radius: 3px; background: var(--offer); }
+    /* Le seuil de confirmation : discret tant qu'il manque du monde, vert
+       une fois atteint. Jamais alarmant — c'est une invitation, pas un
+       avertissement. */
+    .session-confirm {
+      display: flex; align-items: flex-start; gap: 8px;
+      margin: 10px 0 0; padding: 0;
+      font-size: 11.5px; font-weight: 600; line-height: 1.45;
+      color: rgba(255,255,255,0.68);
+    }
+    .session-confirm svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 2px; color: var(--offer); }
+    .session-confirm strong { color: #ffffff; font-weight: 800; }
+    .session-confirm small { display: block; margin-top: 1px; font-size: 10.5px; font-weight: 600; opacity: 0.65; }
+    .session-confirm--ok { color: #7ee2b8; font-weight: 700; }
+    .session-confirm--ok svg { color: #34d399; }
+    /* Dans le bloc d'une préparation, la mention suit le décompte de places
+       et se centre comme lui. */
+    .pack-cta .session-confirm { justify-content: center; text-align: left; margin-top: 8px; }
 
     .session-footer {
       display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
@@ -1235,6 +1252,11 @@
   <script>
     /* ── Encart « Ce qui est inclus dans le pack » (affiché au-dessus du bouton d'achat) ──
        Modifie le titre et la liste ci-dessous pour ajuster le contenu du pack. */
+    /* Nombre d'inscrits à partir duquel une séance ou une préparation est
+       confirmée. En dessous, elle peut être annulée faute de monde — et le
+       dire à l'avance vaut mieux que de l'annoncer la veille. Mets 0 pour ne
+       rien afficher du tout. */
+    var MIN_CONFIRM = 5;
     var PACK_TITRE = "Préparation 10k — 12 semaines";
     var PACK_INCLUS = [
       {
@@ -1340,6 +1362,25 @@
          devient une puce, les autres restent des paragraphes. Le texte
          vient de la base — il est échappé avant d'être inséré, jamais
          interprété comme du code. */
+    /* Le seuil, dit à l'endroit : « il manque deux inscrits » appelle à
+       s'inscrire, là où « minimum 5 requis » fait hésiter. Une fois atteint,
+       la mention devient une bonne nouvelle et cesse d'inquiéter. */
+    var SVG_CHECK_C = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+    var SVG_GENS_C = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';
+    function confirmationHTML(inscrits, complet, estPrepa) {
+      if (!MIN_CONFIRM || MIN_CONFIRM < 2) return '';
+      var n = parseInt(inscrits, 10); if (!isFinite(n) || n < 0) n = 0;
+      var quoi = estPrepa ? 'préparation' : 'séance';
+      if (complet || n >= MIN_CONFIRM) {
+        return '<p class="session-confirm session-confirm--ok">' + SVG_CHECK_C
+          + '<span>' + (estPrepa ? 'Préparation confirmée' : 'Séance confirmée') + '</span></p>';
+      }
+      var manque = MIN_CONFIRM - n;
+      return '<p class="session-confirm">' + SVG_GENS_C
+        + '<span>Plus que <strong>' + manque + ' inscrit' + (manque > 1 ? 's' : '')
+        + '</strong> pour confirmer la ' + quoi
+        + '<small>' + n + ' sur ' + MIN_CONFIRM + ' minimum</small></span></p>';
+    }
       function descriptionHTML(txt) {
         var lignes = String(txt == null ? '' : txt).split(/\r?\n/)
           .map(function (l) { return l.trim(); })
@@ -1681,7 +1722,8 @@
                 '</button>') +
             (packComplet
               ? '<a class="pack-attente" href="' + mailAttente + '">Demander à être en liste d\'attente</a>'
-              : '<span class="pack-places' + (restantesPack <= 3 ? ' pack-places--urgent' : '') + '"><span class="pack-places-dot" aria-hidden="true"></span>Il reste <strong>' + restantesPack + '</strong> place' + (restantesPack > 1 ? 's' : '') + '</span>');
+              : '<span class="pack-places' + (restantesPack <= 3 ? ' pack-places--urgent' : '') + '"><span class="pack-places-dot" aria-hidden="true"></span>Il reste <strong>' + restantesPack + '</strong> place' + (restantesPack > 1 ? 's' : '') + '</span>')
+            + confirmationHTML(inscritsPack, packComplet, true);
           carte.appendChild(cta);
           bloc.appendChild(packWrap);
 
@@ -1754,6 +1796,7 @@
           '<div class="session-jauge">' +
             '<div class="jauge-label"><span>Places</span><span class="restantes">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
             '<div class="jauge-bar"><div class="jauge-fill" style="width:' + Math.round(s.inscrits / s.places * 100) + '%"></div></div>' +
+            confirmationHTML(s.inscrits, complet, false) +
           '</div>') +
           '<div class="session-footer' + (s.prixPack ? ' session-footer--pack' : '') + '">' +
             (s.prixPack
