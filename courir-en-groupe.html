@@ -439,7 +439,7 @@
       .lieu-fleche--prev, .lieu-fleche--next { display: none !important; }
     }
 
-    /* Titre de famille : « Séances collectives » / « Prépa collectives ». */
+    /* Titre de famille : « Séances collectives » / « Préparations collectives ». */
     /* En-tete de famille : le titre, puis une phrase qui dit a quoi sert la
        formule. Les marges vivent sur le bloc et non sur le titre, pour que
        le titre et sa phrase restent soudes. */
@@ -1448,7 +1448,7 @@
         entete.className = 'famille-entete';
         var h = document.createElement('h2');
         h.className = 'famille-titre';
-        h.textContent = aPack ? 'Prépa collectives' : 'Séances collectives';
+        h.textContent = aPack ? 'Préparations collectives' : 'Séances collectives';
         entete.appendChild(h);
         var p = document.createElement('p');
         p.className = 'famille-texte';
@@ -1460,11 +1460,14 @@
         if (max > 0) {
           var jauge = document.createElement('p');
           jauge.className = 'famille-jauge';
+          /* « Par groupe » ne disait pas de quel groupe : celui d'un soir ou
+             celui de toute une préparation. On nomme ce qui est limité. */
+          var quoi = aPack ? 'par préparation' : 'par séance';
           jauge.innerHTML = '<span class="famille-jauge-p">'
             + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
             + '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>'
             + '<path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
-            + '<strong>' + max + ' personnes maximum</strong> par groupe</span>';
+            + '<strong>' + max + ' personnes maximum</strong> ' + quoi + '</span>';
           entete.appendChild(jauge);
         }
         return entete;
