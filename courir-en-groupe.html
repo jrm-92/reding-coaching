@@ -876,6 +876,29 @@
     /* Dans le bloc d'une préparation, la mention suit le décompte de places
        et se centre comme lui. */
     .pack-cta .session-confirm { justify-content: center; text-align: left; margin-top: 8px; }
+    /* Le « i » et l'explication qu'il déplie. Replié par défaut : la carte
+       reste courte, et celui qui se demande « et si vous n'êtes que trois ? »
+       trouve la réponse sans quitter la page. */
+    .session-confirm-bloc { margin-top: 10px; }
+    .session-confirm-bloc .session-confirm { margin-top: 0; }
+    .confirm-info {
+      flex-shrink: 0; width: 17px; height: 17px; margin-top: 1px; padding: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%; border: 1.3px solid rgba(255,255,255,0.35);
+      background: transparent; color: rgba(255,255,255,0.7);
+      font-family: inherit; font-size: 11px; font-weight: 800; font-style: italic;
+      line-height: 1; cursor: pointer; transition: all 0.2s ease;
+    }
+    .confirm-info:hover, .confirm-info[aria-expanded="true"] {
+      border-color: var(--offer); color: var(--offer); background: rgba(255,107,53,0.14);
+    }
+    .confirm-aide {
+      margin: 7px 0 0; padding: 9px 11px;
+      border-radius: 10px; border: 1px solid rgba(255,107,53,0.28);
+      background: rgba(255,107,53,0.07);
+      font-size: 11px; font-weight: 600; line-height: 1.5; color: rgba(255,255,255,0.75);
+    }
+    .confirm-aide[hidden] { display: none; }
 
     .session-footer {
       display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
@@ -1393,10 +1416,22 @@
           + '<span>' + (estPrepa ? 'Préparation confirmée' : 'Séance confirmée') + '</span></p>';
       }
       var manque = MIN_CONFIRM - n;
-      return '<p class="session-confirm">' + SVG_GENS_C
-        + '<span>Plus que <strong>' + manque + ' inscrit' + (manque > 1 ? 's' : '')
-        + '</strong> pour confirmer la ' + quoi
-        + '<small>' + n + ' sur ' + MIN_CONFIRM + ' minimum</small></span></p>';
+      /* Le « i » ne dit pas « en savoir plus » dans le vide : il répond à la
+           seule question que pose un minimum — et si on n'y arrive pas ?
+           Résumé de l'article 12.4 des CGV, dans les mêmes termes. */
+      var aide = 'Si le minimum de ' + MIN_CONFIRM + ' n\'est pas atteint, la ' + quoi
+        + ' peut être annulée. Tu es prévenu(e) dès que possible, en principe au moins 48 h avant.'
+        + ' Au choix : le report sur une autre ' + quoi + ', ou le remboursement intégral — sans aucun frais retenu.';
+      return '<div class="session-confirm-bloc">'
+        + '<p class="session-confirm">' + SVG_GENS_C
+          + '<span>Plus que <strong>' + manque + ' inscrit' + (manque > 1 ? 's' : '')
+          + '</strong> pour confirmer la ' + quoi
+          + '<small>' + n + ' sur ' + MIN_CONFIRM + ' minimum</small></span>'
+          + '<button type="button" class="confirm-info" aria-expanded="false"'
+          + ' aria-label="Et si le minimum n\'est pas atteint ?">i</button>'
+        + '</p>'
+        + '<p class="confirm-aide" hidden>' + aide + '</p>'
+      + '</div>';
     }
       function descriptionHTML(txt) {
         var lignes = String(txt == null ? '' : txt).split(/\r?\n/)
@@ -1881,6 +1916,19 @@
       var current = null;
 
       grid.addEventListener('click', function (e) {
+        /* Le « i » : un appui déplie l'explication, un autre la replie. Pas de
+           survol — au doigt, il n'y en a pas. */
+        var info = e.target.closest('.confirm-info');
+        if (info) {
+          var bloc = info.closest('.session-confirm-bloc');
+          var texte = bloc && bloc.querySelector('.confirm-aide');
+          if (texte) {
+            var ouvert = !texte.hasAttribute('hidden');
+            if (ouvert) { texte.setAttribute('hidden', ''); } else { texte.removeAttribute('hidden'); }
+            info.setAttribute('aria-expanded', ouvert ? 'false' : 'true');
+          }
+          return;
+        }
         var btn = e.target.closest('.btn-inscrire');
         if (!btn || btn.disabled) return;
         current = visibles[parseInt(btn.getAttribute('data-i'), 10)];
