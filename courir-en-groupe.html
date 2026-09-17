@@ -748,7 +748,9 @@
       transform: translateY(-4px);
       border-color: var(--offer);
     }
-    .session-card.complet { opacity: 0.75; }
+    /* Complet ne veut plus dire « plus rien à faire ici » : la carte porte
+       désormais un lien de liste d'attente, elle doit rester lisible. */
+    .session-card.complet { opacity: 0.88; }
 
     .session-head {
       display: flex; align-items: flex-start; gap: var(--space-3);
@@ -898,6 +900,21 @@
     }
     .btn-inscrire:hover { background: var(--offer-hover); transform: translateY(-2px); }
     .btn-inscrire:disabled { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.4); cursor: not-allowed; box-shadow: none; transform: none; }
+    /* Séance complète : le prix reste au-dessus, à titre d'information, et
+       le lien de liste d'attente prend toute la largeur en dessous. Contour
+       plein→creux : c'est une demande, pas une inscription. */
+    .session-footer--attente { flex-direction: column; align-items: stretch; gap: 10px; }
+    .session-footer--attente .session-prix { text-align: center; }
+    .btn-attente {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 13px 18px; border-radius: var(--radius-md);
+      background: rgba(255,107,53,0.10); border: 1.5px solid rgba(255,107,53,0.55);
+      color: #FF6B35; text-decoration: none;
+      font-family: inherit; font-size: 13.5px; font-weight: 700; line-height: 1.3; text-align: center;
+      transition: all 0.25s ease;
+    }
+    .btn-attente svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .btn-attente:hover { background: rgba(255,107,53,0.2); border-color: var(--offer); color: #ff9d73; }
 
     /* ── État vide ── */
     .empty-state {
@@ -1760,6 +1777,15 @@
         var d = new Date(s.date + 'T12:00:00');
         var restantes = Math.max(0, s.places - s.inscrits);
         var complet = restantes === 0;
+        /* Complète : le bouton éteint ne menait nulle part. On le remplace
+           par un mail de liste d'attente, comme le fait déjà le bloc d'une
+           préparation complète. Le mail arrive pré-rempli : Jérémy n'a pas à
+           deviner de quelle séance il s'agit. */
+        var titreAttente = String(s.titre || s.evenement || 'séance').trim();
+        var dateAttente = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+        var mailAttenteSeance = 'mailto:contact@reding-running.fr' +
+          '?subject=' + encodeURIComponent('Liste d\'attente — ' + titreAttente + ' du ' + dateAttente) +
+          '&body=' + encodeURIComponent('Bonjour, je souhaite être placé(e) en liste d\'attente pour la séance « ' + titreAttente + ' » du ' + dateAttente + ' (' + creneau(s) + ' — ' + s.lieu + '). Merci !');
         var statut = s.prixPack
           ? ''
           : (complet
@@ -1798,14 +1824,18 @@
             '<div class="jauge-bar"><div class="jauge-fill" style="width:' + Math.round(s.inscrits / s.places * 100) + '%"></div></div>' +
             confirmationHTML(s.inscrits, complet, false) +
           '</div>') +
-          '<div class="session-footer' + (s.prixPack ? ' session-footer--pack' : '') + '">' +
+          '<div class="session-footer' + (s.prixPack ? ' session-footer--pack' : (complet ? ' session-footer--attente' : '')) + '">' +
             (s.prixPack
               ? '<span class="session-pack-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Séance incluse dans la préparation</span>'
               : (s.prixUnitaire
                   ? '<div class="session-prix">' + esc(s.prixUnitaire)
                     + (estGratuit(s.prixUnitaire) ? '' : '<small>par personne</small>') + '</div>'
                   : '') +
-                '<button class="btn-inscrire" data-i="' + i + '"' + (complet ? ' disabled' : '') + '>' + (complet ? 'Complet' : 'S\'inscrire') + '</button>') +
+                (complet
+                  ? '<a class="btn-attente" href="' + mailAttenteSeance + '">' +
+                      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>' +
+                      'Demander à être en liste d\'attente</a>'
+                  : '<button class="btn-inscrire" data-i="' + i + '">S\'inscrire</button>')) +
           '</div>';
         conteneurs[cleGroupe(s)].appendChild(card);
       });
