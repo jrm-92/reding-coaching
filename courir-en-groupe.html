@@ -1783,15 +1783,14 @@
            deviner de quelle séance il s'agit. */
         var titreAttente = String(s.titre || s.evenement || 'séance').trim();
         var dateAttente = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
-        /* Repères entre parenthèses : l'horaire, puis l'événement. Pas le
-           lieu — la colonne porte souvent une étiquette (« Départ et Retour »)
-           plutôt qu'un endroit. Et pas l'événement quand il répète le titre,
-           sinon le mail dit deux fois la même chose. */
+        /* Repères entre parenthèses : l'horaire, puis le nom de l'événement —
+           le grand titre posé au-dessus des cartes. Toujours, même s'il
+           ressemble au titre de la séance : c'est lui qui dit de quel
+           rendez-vous il s'agit. Pas le lieu, dont la colonne porte souvent
+           une étiquette (« Départ et Retour ») plutôt qu'un endroit. */
         var evenementAttente = String(s.evenement == null ? '' : s.evenement).trim();
         var reperesAttente = [creneau(s)];
-        if (evenementAttente && evenementAttente.toLowerCase() !== titreAttente.toLowerCase()) {
-          reperesAttente.push(evenementAttente);
-        }
+        if (evenementAttente) reperesAttente.push(evenementAttente);
         var mailAttenteSeance = 'mailto:contact@reding-running.fr' +
           '?subject=' + encodeURIComponent('Liste d\'attente — ' + titreAttente + ' du ' + dateAttente) +
           '&body=' + encodeURIComponent('Bonjour, je souhaite être placé(e) en liste d\'attente pour la séance « ' + titreAttente + ' » du ' + dateAttente + ' (' + reperesAttente.join(' — ') + '). Merci !');
