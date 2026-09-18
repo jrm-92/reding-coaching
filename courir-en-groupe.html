@@ -354,7 +354,7 @@
     }
     .lieu-groupe:last-child { margin-bottom: 0; }
     /* Ligne titre : nom de la course (gauche/centre) + action « M'inscrire à la course » + ⓘ (droite) */
-    .lieu-titre-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 4px; }
+    .lieu-titre-row { position: relative; display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 4px; }
     .lieu-titre-row .lieu-titre { flex: 0 1 auto; margin-bottom: 0; }
     .pack-course-action { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     /* Petit ⓘ avec bulle d'info (survol / focus) */
@@ -371,8 +371,17 @@
       margin-left: 11px; vertical-align: middle;
       font-size: 13px; font-weight: 800; font-style: italic; line-height: 1;
     }
+    /* La bulle se plaçait sous le « i », centrée sur lui. Le « i » finit la
+       ligne du titre, donc près du bord droit : sur un téléphone, la moitié
+       de la phrase passait hors de l'écran. Elle se pose maintenant sous le
+       titre entier et se cale sur la largeur de la carte — elle ne peut
+       plus sortir nulle part, quelle que soit la longueur du nom. */
+    .lieu-titre .pack-course-info { position: static; }
     .lieu-titre .pack-course-tip {
-      font-size: 12px; font-weight: 500; line-height: 1.5; text-align: left;
+      top: 100%; left: 0; right: 0; margin: 6px auto 0;
+      width: auto; max-width: 480px;
+      transform: none;
+      font-size: 12.5px; font-weight: 500; line-height: 1.55; text-align: left;
       color: rgba(255,255,255,0.85);
     }
     .pack-course-info {
