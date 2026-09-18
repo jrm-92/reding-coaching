@@ -1625,7 +1625,7 @@
       /* Le « i » ne dit pas « en savoir plus » dans le vide : il répond à la
            seule question que pose un minimum — et si on n'y arrive pas ?
            Résumé de l'article 12.4 des CGV, dans les mêmes termes. */
-      var aide = 'La ' + quoi + ' a lieu à partir de ' + MIN_CONFIRM + ' participants.'
+      var aide = 'La ' + quoi + ' est confirmée à partir de ' + MIN_CONFIRM + ' participants.'
         + ' En dessous, elle est annulée et remboursée automatiquement à 100 %.'
         + ' Tu es prévenu(e) dès que possible et n’as aucune démarche à effectuer.';
       return '<div class="session-confirm-bloc">'
@@ -1796,7 +1796,7 @@
              « i » : il n'aurait rien à dire. */
           var seuilFamille = (FAMILLE_MINI[cle].length === 1) ? FAMILLE_MINI[cle][0] : 0;
           var aideFamille = (seuilFamille >= 2)
-            ? 'La ' + objet + ' a lieu à partir de ' + seuilFamille + ' participants.'
+            ? 'La ' + objet + ' est confirmée à partir de ' + seuilFamille + ' participants.'
               + ' En dessous, elle est annulée et remboursée automatiquement à 100 %.'
               + ' Tu es prévenu(e) dès que possible et n’as aucune démarche à effectuer.'
             : '';
