@@ -1333,6 +1333,11 @@
        dire à l'avance vaut mieux que de l'annoncer la veille. Mets 0 pour ne
        rien afficher du tout. */
     var MIN_CONFIRM = 5;
+    var _MIN_CONFIRM_DEFAUT = MIN_CONFIRM;
+    /* Ce qui suit n'est plus qu'un repli : titre et contenu se règlent
+       préparation par préparation, dans les colonnes « titre_pack » et
+       « inclus » de Supabase. Une préparation qui les laisse vides prend
+       ce qui est écrit ici. */
     var PACK_TITRE = "Préparation 10k — 12 semaines";
     var PACK_INCLUS = [
       {
@@ -1347,7 +1352,7 @@
       },
       {
         icone: "📋",
-        titre: "Un plan d'entraînement sur {{SEANCES}} semaines",
+        titre: "Un plan d'entraînement sur {{SEMAINES}} semaines",
         texte: "Un programme progressif, structuré pour arriver prêt(e) le jour J."
       }
     ];
@@ -1443,7 +1448,11 @@
        la mention devient une bonne nouvelle et cesse d'inquiéter. */
     var SVG_CHECK_C = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
     var SVG_GENS_C = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';
-    function confirmationHTML(inscrits, complet, estPrepa) {
+    function confirmationHTML(inscrits, complet, estPrepa, mini) {
+      /* Le seuil vient de la préparation quand elle en porte un (colonne
+         « mini »). Sinon, celui de la page. Mettre 0 sur une préparation
+         n'affiche rien : elle a lieu quoi qu'il arrive. */
+      var MIN_CONFIRM = (mini === 0 || mini > 0) ? mini : _MIN_CONFIRM_DEFAUT;
       if (!MIN_CONFIRM || MIN_CONFIRM < 2) return '';
       var n = parseInt(inscrits, 10); if (!isFinite(n) || n < 0) n = 0;
       var quoi = estPrepa ? 'préparation' : 'séance';
@@ -1575,10 +1584,18 @@
          de la famille fait foi : « 10 maximum » reste vrai même si une séance
          en accueille moins. */
       var FAMILLE_PLACES = { unite: 0, prepa: 0 };
+      /* Le « i » de la famille annonce un minimum pour tout le monde. Il ne
+         peut donc le faire que si tout le monde a le même : deux
+         préparations aux seuils différents se le disent chacune sur sa
+         carte, et la phrase générale se tait plutôt que d'en donner un
+         faux. */
+      var FAMILLE_MINI = { unite: [], prepa: [] };
       visibles.forEach(function (s) {
         var cle = s.prixPack ? 'prepa' : 'unite';
         var n = parseInt(s.places, 10);
         if (isFinite(n) && n > FAMILLE_PLACES[cle]) FAMILLE_PLACES[cle] = n;
+        var seuil = (s.mini === 0 || s.mini > 0) ? s.mini : _MIN_CONFIRM_DEFAUT;
+        if (FAMILLE_MINI[cle].indexOf(seuil) === -1) FAMILLE_MINI[cle].push(seuil);
       });
       /* Les deux formules n'ont pas le même but : l'une entretient, l'autre
          prépare une échéance. Une phrase sous chaque titre le dit, plutôt
@@ -1616,8 +1633,9 @@
              n'est pas atteint. Même phrase que sur les cartes, donnée ici
              une fois pour toute la famille. Sans minimum défini, pas de
              « i » : il n'aurait rien à dire. */
-          var aideFamille = (MIN_CONFIRM && MIN_CONFIRM >= 2)
-            ? 'La ' + objet + ' a lieu à partir de ' + MIN_CONFIRM + ' participants.'
+          var seuilFamille = (FAMILLE_MINI[cle].length === 1) ? FAMILLE_MINI[cle][0] : 0;
+          var aideFamille = (seuilFamille >= 2)
+            ? 'La ' + objet + ' a lieu à partir de ' + seuilFamille + ' participants.'
               + ' En dessous, elle est annulée et remboursée automatiquement à 100 %.'
               + ' Tu es prévenu(e) dès que possible et n’as aucune démarche à effectuer.'
             : '';
@@ -1672,7 +1690,8 @@
         var afficherFleches = n > 1;
         var aPack = groupes[lieu].some(function (s) { return s.prixPack; });
         /* Sous-titre de l'événement : colonne Supabase « duree_prepa », sinon repli sur PACK_TITRE */
-        var sousTitrePack = (groupes[lieu][0] && groupes[lieu][0].dureePrepa) || PACK_TITRE || '';
+        var sousTitrePack = (groupes[lieu][0] && (groupes[lieu][0].titrePack || groupes[lieu][0].dureePrepa))
+          || PACK_TITRE || '';
         var lienCourse = '';
         groupes[lieu].forEach(function (s) { if (!lienCourse && s.lienCourse) lienCourse = s.lienCourse; });
         var enteteHtml =
@@ -1770,18 +1789,33 @@
              Une préparation de dix semaines en annonçait douze. Ils se
              lisent maintenant dans la préparation elle-même, comme le
              nombre de places et l'horaire. */
+          /* Le nombre de SEMAINES n'est plus le nombre de séances dès qu'il
+             y a deux rendez-vous hebdomadaires. Il se compte donc en
+             semaines réelles, de la première séance à la dernière, et il
+             doit l'être AVANT « jetons » : sinon {{SEMAINES}} s'écrivait
+             « undefined » dans « Ce qui est inclus ». */
+          var nbSemaines = Math.max(1, Math.round(
+            (new Date(sessionsTri[sessionsTri.length - 1].date + 'T12:00:00')
+             - new Date(sessionsTri[0].date + 'T12:00:00')) / 604800000) + 1);
           var jetons = function (t) {
             return String(t == null ? '' : t)
               .replace(/\{\{HORAIRE\}\}/g, horairePack)
               .replace(/\{\{PLACES\}\}/g, String(placesPack))
               .replace(/\{\{SEANCES\}\}/g, String(sessionsTri.length))
+              .replace(/\{\{SEMAINES\}\}/g, String(nbSemaines))
               .replace(/\{\{DUREE\}\}/g, String(sessionsTri[0].duree || '1h15'));
           };
-          var inclusHtml = (PACK_INCLUS && PACK_INCLUS.length)
+          /* La liste se règle dans la préparation. Vide, on garde celle de
+             la page : une préparation qui n'a rien à dire de particulier
+             n'a rien à remplir. */
+          var listeInclus = (groupes[lieu][0] && groupes[lieu][0].inclus && groupes[lieu][0].inclus.length)
+            ? groupes[lieu][0].inclus
+            : PACK_INCLUS;
+          var inclusHtml = (listeInclus && listeInclus.length)
             ? '<div class="pack-inclus">' +
                 '<h4 class="pack-inclus-titre">Ce qui est inclus</h4>' +
                 '<ul class="pack-inclus-liste">' +
-                  PACK_INCLUS.map(function (it, i) {
+                  listeInclus.map(function (it, i) {
                     var texte = jetons(it.texte);
                     return '<li>' +
                       '<span class="pack-inclus-ico" aria-hidden="true">' + (ICONES_INCLUS[i] || CHECK_SVG) + '</span>' +
@@ -1828,13 +1862,41 @@
           var minDuree = versMinutes(sessionsTri[0].duree);
           var heureDebutStr = minDebut !== null ? minutesVersHeure(minDebut) : sessionsTri[0].heure;
           var heureFinStr = (minDebut !== null && minDuree !== null) ? minutesVersHeure(minDebut + minDuree) : '';
-          var jourSemaine = dDebut.toLocaleDateString('fr-FR', { weekday: 'long' });
-          var jourSemainePluriel = 'Tous les ' + jourSemaine + 's';
+
+          /* Le rythme, tel qu'il se dit. Une préparation peut avoir deux
+             rendez-vous par semaine, à deux heures différentes — le jeudi
+             soir et le samedi matin. Le badge les énumère alors, un par
+             ligne, au lieu d'annoncer le premier pour tout le monde.
+
+             Les créneaux se relèvent dans les séances engendrées : deux
+             séances du même jour à la même heure ne comptent qu'une fois. */
+          var creneaux = [];
+          sessionsTri.forEach(function (x) {
+            var n = new Date(x.date + 'T12:00:00').getDay();
+            var deja = creneaux.some(function (c) { return c.n === n && c.heure === x.heure; });
+            if (!deja) creneaux.push({ n: n, heure: x.heure, duree: x.duree });
+          });
+          /* La semaine commence le lundi. */
+          creneaux.sort(function (a, b) { return ((a.n + 6) % 7) - ((b.n + 6) % 7); });
+
+          var plage = function (c) {
+            var m = versMinutes(c.heure), md = versMinutes(c.duree);
+            var d1 = m !== null ? minutesVersHeure(m) : c.heure;
+            var d2 = (m !== null && md !== null) ? minutesVersHeure(m + md) : '';
+            return d2 ? ('de ' + d1 + ' à ' + d2) : ('à ' + d1);
+          };
+          var NOMS_SEMAINE = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+          var rythmeHtml = (creneaux.length > 1)
+            ? creneaux.map(function (c) {
+                return esc('Le ' + NOMS_SEMAINE[c.n] + ' ' + plage(c));
+              }).join('<br>')
+            : esc('Tous les ' + NOMS_SEMAINE[creneaux.length ? creneaux[0].n : dDebut.getDay()] + 's') +
+              '<br>' + esc(creneaux.length ? plage(creneaux[0]) : '');
 
           var badgesHtml =
             '<div class="pack-badges">' +
               '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Du ' + esc(dateDebutStr) + ' au ' + esc(dateFinStr) + '</span>' +
-              '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + esc(jourSemainePluriel) + '<br>' + ' de ' + esc(heureDebutStr) + ' à ' + esc(heureFinStr) + '</span>' +
+              '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + rythmeHtml + '</span>' +
               '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Groupe de ' + esc(String(placesPack)) + ' max</span>' +
               '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Départ et Retour <br>' + esc(ouOnSeRetrouve(sessionsTri[0])) + '</span>' +
             '</div>';
@@ -1872,7 +1934,8 @@
             (packComplet
               ? '<a class="pack-attente" href="' + mailAttente + '">Demander à être en liste d\'attente</a>'
               : '<span class="pack-places' + (restantesPack <= 3 ? ' pack-places--urgent' : '') + '"><span class="pack-places-dot" aria-hidden="true"></span>Il reste <strong>' + restantesPack + '</strong> place' + (restantesPack > 1 ? 's' : '') + '</span>')
-            + confirmationHTML(inscritsPack, packComplet, true);
+            + confirmationHTML(inscritsPack, packComplet, true,
+                groupes[lieu][0] ? groupes[lieu][0].mini : null);
           carte.appendChild(cta);
           bloc.appendChild(packWrap);
 
@@ -1986,7 +2049,7 @@
           '<div class="session-jauge">' +
             '<div class="jauge-label"><span>Places</span><span class="restantes">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
             '<div class="jauge-bar"><div class="jauge-fill" style="width:' + Math.round(s.inscrits / s.places * 100) + '%"></div></div>' +
-            confirmationHTML(s.inscrits, complet, false) +
+            confirmationHTML(s.inscrits, complet, false, s.mini) +
           '</div>') +
           '<div class="session-footer' + (s.prixPack ? ' session-footer--pack' : (complet ? ' session-footer--attente' : '')) + '">' +
             (s.prixPack
@@ -2373,7 +2436,12 @@
           prepaId: String(r.preparation_id == null ? '' : r.preparation_id).trim(),
           lienCourse: String(r.lien_course == null ? '' : r.lien_course).trim(),
           dateCourse: String(r.date_course == null ? '' : r.date_course).trim(),
-          dureePrepa: String(r.duree_prepa == null ? '' : r.duree_prepa).trim()
+          dureePrepa: String(r.duree_prepa == null ? '' : r.duree_prepa).trim(),
+          /* Les trois réglages qui étaient écrits en dur dans la page.
+             Absents, la page garde ce qu'elle a toujours affiché. */
+          inclus: _pointsInclus(r.inclus),
+          titrePack: String(r.sous_titre_prepa == null ? '' : r.sous_titre_prepa).trim(),
+          mini: (function () { var m = parseInt(r.mini, 10); return isFinite(m) && m >= 0 ? m : null; })()
         };
       }).filter(function (s) { return s.id && /^\d{4}-\d{2}-\d{2}$/.test(s.date) && s.heure; });
     }
@@ -2396,6 +2464,68 @@
       var t = String(v == null ? '' : v).trim().slice(0, 10);
       return /^\d{4}-\d{2}-\d{2}$/.test(t) ? t : '';
     }
+
+    /* Les jours d'entraînement d'une préparation, tels qu'ils sont écrits
+       dans la colonne « jours » : un par entrée, sous la forme
+
+           jeudi 19h00 1h          le jour, l'heure, et la durée si elle
+           samedi 9h30             diffère de celle de la préparation
+
+       Deux séances par semaine ne sont donc plus une impossibilité : il
+       suffit de deux entrées. L'ordre de saisie n'importe pas, les séances
+       ressortent dans l'ordre du calendrier. */
+    var _NOMS_JOURS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+    function _sansAccent(t) {
+      return String(t == null ? '' : t).toLowerCase()
+        .normalize ? String(t == null ? '' : t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                   : String(t == null ? '' : t).toLowerCase();
+    }
+    /* Une colonne « text[] » arrive tantôt en tableau JSON, tantôt sous sa
+       forme Postgres brute — {a,b}. On accepte les deux, et on rend des
+       lignes propres, sans guillemets ni blancs inutiles. */
+    /* « Ce qui est inclus », tel qu'il se saisit : une ligne par point,
+       le titre, une barre verticale, puis l'explication.
+
+           12 séances collectives | Une par semaine, en petit groupe.
+
+       L'explication est facultative. Les jetons {{SEANCES}}, {{SEMAINES}},
+       {{PLACES}}, {{DUREE}} et {{HORAIRE}} y sont remplacés par ce que dit
+       la préparation : rien à retoucher quand une date bouge. */
+    function _pointsInclus(v) {
+      return _texteEnTableau(v).map(function (ligne) {
+        var i = ligne.indexOf('|');
+        return (i < 0)
+          ? { titre: ligne, texte: '' }
+          : { titre: ligne.slice(0, i).trim(), texte: ligne.slice(i + 1).trim() };
+      }).filter(function (it) { return it.titre; });
+    }
+    function _texteEnTableau(v) {
+      var brut = Array.isArray(v)
+        ? v
+        : String(v == null ? '' : v).replace(/^\{|\}$/g, '').split(',');
+      return brut
+        .map(function (x) { return String(x == null ? '' : x).replace(/^"|"$/g, '').trim(); })
+        .filter(function (x) { return x !== ''; });
+    }
+    function _joursDEntrainement(p) {
+      var brut = _texteEnTableau(p && p.jours);
+      var out = [];
+      brut.forEach(function (ligne) {
+        var mots = String(ligne == null ? '' : ligne).trim().split(/\s+/);
+        if (!mots.length || !mots[0]) return;
+        var n = _NOMS_JOURS.indexOf(_sansAccent(mots[0]));
+        if (n < 0) return;
+        out.push({ n: n, heure: mots[1] || '', duree: mots[2] || '' });
+      });
+      return out;
+    }
+
+    /* Les séances d'une préparation : une par jour d'entraînement et par
+       semaine, de la date de début à la date de fin incluse. Rien n'est
+       stocké — deux dates et une liste de jours suffisent.
+
+       Sans jours d'entraînement, on retombe sur le rythme d'avant : une
+       séance par semaine, le jour de la date de début. */
     function _joursDeLaPrepa(p) {
       var deb = _jourValide(p && p.date_debut), fin = _jourValide(p && p.date_fin);
       if (deb && fin && fin >= deb) {
@@ -2403,12 +2533,29 @@
           return x.getFullYear() + '-' + ('0' + (x.getMonth() + 1)).slice(-2) +
                  '-' + ('0' + x.getDate()).slice(-2);
         };
-        var out = [], d = new Date(deb + 'T12:00:00'), stop = new Date(fin + 'T12:00:00');
-        while (d <= stop && out.length < 60) { out.push(iso(d)); d.setDate(d.getDate() + 7); }
+        var dDeb = new Date(deb + 'T12:00:00'), stop = new Date(fin + 'T12:00:00');
+        var voulus = _joursDEntrainement(p);
+        if (!voulus.length) voulus = [{ n: dDeb.getDay(), heure: '', duree: '' }];
+        var out = [], d = new Date(dDeb);
+        /* On part du dimanche de la semaine du début : sinon un jour placé
+           avant celui de la date de début serait perdu la première semaine. */
+        d.setDate(d.getDate() - d.getDay());
+        var garde = 0;
+        while (d <= stop && garde++ < 400) {
+          voulus.forEach(function (v) {
+            var j = new Date(d);
+            j.setDate(j.getDate() + v.n);
+            if (j >= dDeb && j <= stop) out.push({ date: iso(j), heure: v.heure, duree: v.duree, n: v.n });
+          });
+          d.setDate(d.getDate() + 7);
+        }
+        out.sort(function (a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
         return out;
       }
-      /* Repli : la liste de dates, pour une préparation pas encore reprise. */
-      return _datesDeLaPrepa(p && p.dates);
+      /* Replis : la liste de dates, pour une préparation pas encore reprise. */
+      return _datesDeLaPrepa(p && p.dates).map(function (x) {
+        return { date: x, heure: '', duree: '', n: null };
+      });
     }
 
     function _datesDeLaPrepa(v) {
@@ -2442,15 +2589,17 @@
         if (!p || !p.id) return;
         var jours = _joursDeLaPrepa(p);
         if (!jours.length) return;
-        jours.forEach(function (jour, i) {
+        jours.forEach(function (j, i) {
           out.push({
             id: p.id + '-S' + (i + 1),
             evenement: p.evenement,
             titre: 'Séance ' + (i + 1),
             sous_titre: '',
-            date: jour,
-            heure: p.heure,
-            duree: p.duree,
+            date: j.date,
+            /* L'horaire du jour l'emporte sur celui de la préparation : le
+               jeudi soir et le samedi matin n'ont pas la même heure. */
+            heure: j.heure || p.heure,
+            duree: j.duree || p.duree,
             lieu: p.lieu,
             sous_lieu: p.sous_lieu,
             prix_unitaire: '',            // une séance de programme ne se vend pas seule
@@ -2464,6 +2613,12 @@
             duree_prepa: p.duree_prepa,
             lien_course: p.lien_course,
             date_course: p.date_course,
+            inclus: p.inclus,
+            /* La ligne sous le titre. Elle s'appelait « duree_prepa » quand
+               elle ne servait qu'à écrire « 12 semaines » ; elle porte
+               maintenant ce que tu veux, et l'ancienne colonne reste lue. */
+            sous_titre_prepa: p.sous_titre || p.duree_prepa,
+            mini: p.mini,
             preparation_id: p.id
           });
         });
@@ -2524,6 +2679,9 @@
           duree_prepa: p.duree_prepa,
           lien_course: p.lien_course,
           date_course: p.date_course,
+          inclus: p.inclus,
+          sous_titre_prepa: p.sous_titre || p.duree_prepa,
+          mini: p.mini,
           preparation_id: p.id
         };
       }).filter(Boolean);
