@@ -1337,7 +1337,7 @@
     var PACK_INCLUS = [
       {
         icone: "👥",
-        titre: "12 séances collectives encadrées (1h15 · {{PLACES}} pers. max)",
+        titre: "{{SEANCES}} séances collectives encadrées ({{DUREE}} · {{PLACES}} pers. max)",
         texte: "Une séance par semaine en petit groupe. Le samedi de {{HORAIRE}}."
       },
       {
@@ -1347,7 +1347,7 @@
       },
       {
         icone: "📋",
-        titre: "Un plan d'entraînement sur 12 semaines",
+        titre: "Un plan d'entraînement sur {{SEANCES}} semaines",
         texte: "Un programme progressif, structuré pour arriver prêt(e) le jour J."
       }
     ];
@@ -1765,10 +1765,17 @@
              Supabase affichait « Groupe de 10 max » et, deux lignes plus
              bas, « 8 pers. max ». */
           var placesPack = sessionsTri[0].places;
+          /* Le nombre de séances et la durée étaient écrits en dur dans
+             PACK_INCLUS : « 12 séances », « sur 12 semaines », « 1h15 ».
+             Une préparation de dix semaines en annonçait douze. Ils se
+             lisent maintenant dans la préparation elle-même, comme le
+             nombre de places et l'horaire. */
           var jetons = function (t) {
             return String(t == null ? '' : t)
-              .replace('{{HORAIRE}}', horairePack)
-              .replace('{{PLACES}}', String(placesPack));
+              .replace(/\{\{HORAIRE\}\}/g, horairePack)
+              .replace(/\{\{PLACES\}\}/g, String(placesPack))
+              .replace(/\{\{SEANCES\}\}/g, String(sessionsTri.length))
+              .replace(/\{\{DUREE\}\}/g, String(sessionsTri[0].duree || '1h15'));
           };
           var inclusHtml = (PACK_INCLUS && PACK_INCLUS.length)
             ? '<div class="pack-inclus">' +
@@ -2371,7 +2378,72 @@
       }).filter(function (s) { return s.id && /^\d{4}-\d{2}-\d{2}$/.test(s.date) && s.heure; });
     }
 
-    /* ── Une préparation, ses séances ──────────────────────────────────
+    /* ── Les dates d'une préparation, telles qu'elles arrivent ─────────
+       PostgREST rend une colonne « date[] » comme un tableau JSON. Selon
+       la version et le réglage, elle peut aussi arriver sous sa forme
+       Postgres brute — {2027-02-13,2027-02-20}. On accepte les deux, et
+       on ne garde que ce qui ressemble à une date. */
+    function _datesDeLaPrepa(v) {
+      var brut = Array.isArray(v)
+        ? v
+        : String(v == null ? '' : v).replace(/^\{|\}$/g, '').split(',');
+      return brut
+        .map(function (x) { return String(x == null ? '' : x).trim().replace(/^"|"$/g, '').slice(0, 10); })
+        .filter(function (x) { return /^\d{4}-\d{2}-\d{2}$/.test(x); })
+        .sort();
+    }
+
+    /* ── Une préparation devient ses séances ───────────────────────────
+       Une préparation, c'est un produit et un calendrier. Le calendrier
+       tenait dans une table à part, une ligne par séance — douze lignes
+       pour douze samedis, qui ne portaient qu'une date, un horaire et un
+       intitulé que la page n'affiche plus.
+
+       Il tient maintenant dans une colonne de « preparations » : la liste
+       des dates. L'horaire et la durée, qui étaient les mêmes sur les
+       douze lignes, sont eux aussi passés sur la préparation.
+
+       L'affichage ne connaît qu'une sorte d'objet : on fabrique donc une
+       séance par date, en lui adjoignant les champs de sa préparation,
+       et on la fait passer par le même normaliseur que les séances à
+       l'unité. Le rendu n'a pas à savoir d'où vient la ligne. */
+    function _lignesDesPreparations(preps) {
+      if (!Array.isArray(preps)) return [];
+      var out = [];
+      preps.forEach(function (p) {
+        if (!p || !p.id) return;
+        var jours = _datesDeLaPrepa(p.dates);
+        if (!jours.length) return;
+        jours.forEach(function (jour, i) {
+          out.push({
+            id: p.id + '-S' + (i + 1),
+            evenement: p.evenement,
+            titre: 'Séance ' + (i + 1),
+            sous_titre: '',
+            date: jour,
+            heure: p.heure,
+            duree: p.duree,
+            lieu: p.lieu,
+            sous_lieu: p.sous_lieu,
+            prix_unitaire: '',            // une séance de programme ne se vend pas seule
+            prix_pack: p.prix,
+            stripe: '',
+            stripe_pack: p.stripe,
+            ancv: p.ancv,
+            description: '',
+            places: p.places,
+            inscrits: p.inscrits,
+            duree_prepa: p.duree_prepa,
+            lien_course: p.lien_course,
+            date_course: p.date_course,
+            preparation_id: p.id
+          });
+        });
+      });
+      return out;
+    }
+
+    /* ── L'ancien chemin, tant que la migration n'est pas faite ────────
        Trois tables, trois rôles :
 
          preparations        le produit : nom, prix, lien, places, et UN
@@ -2379,6 +2451,11 @@
          preparation_seances son programme, une ligne par séance — date,
                              horaire, intitulé, et rien d'autre
          sessions            les séances vendues à l'unité, et elles seules
+
+       Une préparation qui porte déjà ses dates ne passe plus par là : le
+       filtre est posé à l'appel. Le jour où plus aucune n'en dépend, la
+       table peut disparaître — la requête échoue alors sans bruit et rend
+       une liste vide.
 
        L'affichage, lui, ne connaît qu'une sorte d'objet. On reconstitue
        donc chaque séance de programme en lui adjoignant les champs de sa
@@ -2452,7 +2529,20 @@
       ])
         .then(function (res) {
           var unitaires = _sessionsDepuisSupabase(res[0]) || [];
-          var programme = _sessionsDepuisSupabase(_lignesDuProgramme(res[2], res[1])) || [];
+          /* Les préparations qui portent leurs dates se suffisent. Les
+             autres continuent de lire leur table de séances, le temps
+             qu'elles soient reprises. */
+          var preps = res[1] || [];
+          var avecDates = {};
+          preps.forEach(function (p) {
+            if (p && p.id && _datesDeLaPrepa(p.dates).length) avecDates[String(p.id).trim()] = true;
+          });
+          var resteAncien = (res[2] || []).filter(function (ps) {
+            return !avecDates[String(ps && ps.preparation_id != null ? ps.preparation_id : '').trim()];
+          });
+          var programme = _sessionsDepuisSupabase(
+            _lignesDesPreparations(preps).concat(_lignesDuProgramme(resteAncien, preps))
+          ) || [];
           SESSIONS = programme.concat(unitaires);
           console.info('✔ ' + SESSIONS.length + ' séances chargées depuis Supabase · '
             + unitaires.length + ' à l\'unité · ' + programme.length + ' de programme'
