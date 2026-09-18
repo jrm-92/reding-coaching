@@ -1431,9 +1431,9 @@
       /* Le « i » ne dit pas « en savoir plus » dans le vide : il répond à la
            seule question que pose un minimum — et si on n'y arrive pas ?
            Résumé de l'article 12.4 des CGV, dans les mêmes termes. */
-      var aide = 'Il faut être ' + MIN_CONFIRM + ' au minimum pour que la ' + quoi + ' ait lieu.'
-        + ' Si on n\'y arrive pas, je te préviens dès que possible et tu es remboursé(e)'
-        + ' automatiquement, en intégralité — tu n\'as aucune démarche à faire.';
+      var aide = 'La ' + quoi + ' a lieu à partir de ' + MIN_CONFIRM + ' participants.'
+        + ' En dessous, elle est annulée et remboursée automatiquement à 100 %.'
+        + ' Tu es prévenu(e) dès que possible et n’as aucune démarche à effectuer.';
       return '<div class="session-confirm-bloc">'
         + '<p class="session-confirm">' + SVG_GENS_C
           + '<span>Plus que <strong>' + manque + ' inscrit' + (manque > 1 ? 's' : '')
@@ -1569,16 +1569,15 @@
              celui de toute une préparation. On nomme ce qui est limité. */
           var quoi = aPack ? 'par préparation' : 'par séance';
           var objet = aPack ? 'préparation' : 'séance';
-          /* La pastille ne disait que le plafond. Le « i » dit l'autre bout :
-             il faut aussi être assez nombreux, et ce qui se passe sinon. Même
-             réponse que sur les cartes, donnée ici une fois pour toute la
-             famille. Sans minimum défini, pas de « i » : il n'aurait rien à
-             dire. */
+          /* La pastille ne dit que le plafond, en gras, juste à côté. Le
+             « i » dit l'autre bout : le minimum, et ce qui se passe s'il
+             n'est pas atteint. Même phrase que sur les cartes, donnée ici
+             une fois pour toute la famille. Sans minimum défini, pas de
+             « i » : il n'aurait rien à dire. */
           var aideFamille = (MIN_CONFIRM && MIN_CONFIRM >= 2)
-            ? 'Il faut être ' + MIN_CONFIRM + ' au minimum pour que la ' + objet + ' ait lieu,'
-              + ' et ' + max + ' au maximum pour que chacun soit suivi.'
-              + ' Si on n\'est pas ' + MIN_CONFIRM + ', je te préviens dès que possible et tu es'
-              + ' remboursé(e) automatiquement, en intégralité — tu n\'as aucune démarche à faire.'
+            ? 'La ' + objet + ' a lieu à partir de ' + MIN_CONFIRM + ' participants.'
+              + ' En dessous, elle est annulée et remboursée automatiquement à 100 %.'
+              + ' Tu es prévenu(e) dès que possible et n’as aucune démarche à effectuer.'
             : '';
           jauge.innerHTML = '<span class="famille-jauge-p">'
             + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
