@@ -1606,14 +1606,25 @@
           if (s.evenementBrut && evenementsGroupe.indexOf(s.evenementBrut) === -1) evenementsGroupe.push(s.evenementBrut);
         });
         var lieuTitre = evenementsGroupe.length ? evenementsGroupe.join(' · ') : libelleLieu(ville);
-        /* Le libelle d'evenement contient souvent la date en fin de chaine
-           (« ... 13/12/2026 »). Laissee dans le titre, elle se retrouve seule
-           et centree sur une 2e ligne des que le titre passe a la ligne.
-           On la detache pour en faire un element propre — contenu inchange. */
+        /* La date de la course a sa propre colonne, « date_course ». Quand
+           elle est remplie, elle s'affiche en toutes lettres — c'est une vraie
+           date, autant la donner à lire.
+
+           Avant cette colonne, la date était collée à la fin du nom de
+           l'événement (« ... 13/12/2026 »). On continue de la reconnaître là
+           et de l'en détacher, pour les préparations saisies à l'ancienne :
+           sans ça, elle se retrouverait seule et centrée sur une deuxième
+           ligne dès que le titre passe à la ligne. */
         var lieuTitreDate = '';
+        var isoCourse = '';
+        groupes[lieu].forEach(function (s) { if (!isoCourse && s.dateCourse) isoCourse = s.dateCourse; });
+        if (/^\d{4}-\d{2}-\d{2}/.test(isoCourse)) {
+          lieuTitreDate = new Date(isoCourse.slice(0, 10) + 'T12:00:00')
+            .toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
         var mDateTitre = lieuTitre.match(/\s*(\d{1,2}\/\d{1,2}\/\d{2,4})\s*$/);
         if (mDateTitre) {
-          lieuTitreDate = mDateTitre[1];
+          if (!lieuTitreDate) lieuTitreDate = mDateTitre[1];
           lieuTitre = lieuTitre.slice(0, mDateTitre.index).trim();
         }
         var afficherFleches = n > 1;
@@ -2288,6 +2299,7 @@
           stripePack: String(r.stripe_pack == null ? '' : r.stripe_pack).trim(),
           prepaId: String(r.preparation_id == null ? '' : r.preparation_id).trim(),
           lienCourse: String(r.lien_course == null ? '' : r.lien_course).trim(),
+          dateCourse: String(r.date_course == null ? '' : r.date_course).trim(),
           dureePrepa: String(r.duree_prepa == null ? '' : r.duree_prepa).trim()
         };
       }).filter(function (s) { return s.id && /^\d{4}-\d{2}-\d{2}$/.test(s.date) && s.heure; });
@@ -2340,6 +2352,7 @@
           inscrits: p.inscrits,
           duree_prepa: p.duree_prepa,
           lien_course: p.lien_course,
+          date_course: p.date_course,
           preparation_id: p.id
         };
       }).filter(Boolean);
