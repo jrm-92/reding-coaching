@@ -767,6 +767,15 @@
     .pack-offre .pack-cta .btn-pack {
       width: 100%; max-width: 560px; font-size: 16px; padding: 17px 24px;
     }
+    /* Le prix et le bouton font un couple, comme sur une carte de séance.
+       Ici le prix se pose au-dessus plutôt qu'à côté : à côté, il rognait
+       le bouton d'inscription, qui se retrouvait plus court que « Offrir »
+       juste en dessous — le principal plus petit que le secondaire. */
+    .pack-achat {
+      display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+      width: 100%; max-width: 560px;
+    }
+    .pack-achat .prix-bloc { align-items: center; }
 
     /* En-tête intégré en haut de la carte d'offre (titre, lien course, sous-titre, badges) */
     .pack-entete {
@@ -1109,22 +1118,45 @@
     }
     .confirm-aide[hidden] { display: none; }
 
+    /* Le prix a grandi : sur une carte étroite, le bouton n'avait plus la
+       place et sortait de la carte. Ils se partagent la ligne tant qu'elle
+       suffit, et le bouton passe dessous, pleine largeur, quand elle ne
+       suffit plus. */
     .session-footer {
-      display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: var(--space-2) var(--space-3);
       padding: var(--space-3) var(--space-4) var(--space-4); margin-top: auto;
     }
+    .session-footer .prix-bloc { min-width: 0; }
+    .session-footer .btn-inscrire, .session-footer .btn-attente { flex: 1 1 auto; }
+    /* La mention sous le prix, un cran plus discrète ici que sur la
+       préparation : la carte est trois fois plus étroite. */
+    .session-footer .prix-note { font-size: 9.5px; letter-spacing: 0.06em; }
     .session-footer--pack { justify-content: center; }
     .session-pack-note {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 13.5px; font-weight: 700; font-style: italic; color: #ffd4be;
     }
     .session-pack-note svg { width: 16px; height: 16px; color: #FF6B35; flex-shrink: 0; }
-    .session-prix { font-size: var(--fs-h5); font-weight: 900; font-style: italic; color: var(--offer-light); line-height: 1; }
-    .session-prix small { font-size: 12px; font-weight: 600; font-style: normal; color: rgba(255,255,255,0.5); display: block; margin-top: 3px; }
+    /* Le prix, écrit pareil sur une séance et sur une préparation. Il
+       était noyé : même corps que le titre de la carte, et sur la
+       préparation il finissait dans le libellé du bouton, où l'œil ne va
+       pas le chercher. Il a maintenant son bloc, plus grand, avec sa
+       mention en dessous. */
+    .prix-bloc { display: flex; flex-direction: column; gap: 3px; line-height: 1; flex-shrink: 0; }
+    .prix-valeur {
+      font-size: clamp(25px, 3vw, 32px); font-weight: 900; font-style: italic;
+      color: var(--offer-light); line-height: 1; letter-spacing: -0.01em;
+      text-shadow: 0 0 22px rgba(255,107,53,0.3);
+    }
+    .prix-note {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em;
+      color: rgba(255,255,255,0.5);
+    }
     .btn-inscrire {
       display: inline-flex; align-items: center; justify-content: space-between; gap: var(--space-3);
       background: var(--offer-fill); color: var(--offer-on); border: none; cursor: pointer;
-      padding: 13px 28px; border-radius: var(--radius-md);
+      padding: 13px 20px; border-radius: var(--radius-md);
       font-family: inherit; font-size: var(--fs-small); font-weight: 700;
       text-transform: uppercase; letter-spacing: 1px;
       box-shadow: 0 6px 18px var(--offer-glow);
@@ -2090,7 +2122,18 @@
           carte.insertBefore(enteteBloc, carte.firstChild);
           var cta = document.createElement('div');
           cta.className = 'pack-cta';
+          var prixPackTexte = prixPackGroup.join(' · ');
+          var prixBlocPack = estGratuit(prixPackTexte) || !prixPackTexte
+            ? ''
+            : '<div class="prix-bloc"><span class="prix-valeur">' + esc(prixPackTexte) + '</span>'
+              + '<span class="prix-note">la préparation</span></div>';
           cta.innerHTML =
+            /* Le prix sort du libellé du bouton : il y était en fin de
+               phrase, au même corps que le reste, là où personne ne le
+               cherche. Il a son bloc à gauche, comme sur une carte de
+               séance. Sans prix — préparation offerte — le bouton reprend
+               toute la largeur. */
+            (prixBlocPack ? '<div class="pack-achat">' + prixBlocPack : '') +
             '<button type="button" class="btn-pack"' + (packComplet ? ' disabled' : '') + '>' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:17px;height:17px;"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>' +
               '<span class="btn-lib">' +
@@ -2098,9 +2141,10 @@
                 ? 'Complet'
                 : estGratuit(prixPackGroup.join(' · '))
                   ? 'S\'inscrire à la préparation — c\'est offert'
-                  : 'S\'inscrire à la préparation — ' + esc(prixPackGroup.join(' · '))) +
+                  : 'S\'inscrire à la préparation') +
               '</span>' + '<span class="btn-fleche" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></span>' +
             '</button>' +
+            (prixBlocPack ? '</div>' : '') +
             /* Offrir la préparation : une entrée à part entière, proposée
                d'emblée sur la page — juste sous l'inscription pour soi, et
                au-dessus du décompte des places qui clôt le bloc. Sans objet
@@ -2255,8 +2299,8 @@
             (s.prixPack
               ? '<span class="session-pack-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Séance incluse dans la préparation</span>'
               : (s.prixUnitaire
-                  ? '<div class="session-prix">' + esc(s.prixUnitaire)
-                    + (estGratuit(s.prixUnitaire) ? '' : '<small>par personne</small>') + '</div>'
+                  ? '<div class="session-prix prix-bloc"><span class="prix-valeur">' + esc(s.prixUnitaire) + '</span>'
+                    + (estGratuit(s.prixUnitaire) ? '' : '<span class="prix-note">par personne</span>') + '</div>'
                   : '') +
                 (complet
                   ? '<a class="btn-attente" href="' + mailAttenteSeance + '">' +
@@ -2598,8 +2642,11 @@
       var txt = String(v == null ? '' : v).trim();
       if (!txt) return '';
       if (estGratuit(txt)) return 'Offert';
-      if (/^\d+([.,]\d+)?$/.test(txt)) return txt.replace('.', ',') + ' €';
-      return txt;
+      /* « 13 » saisi sans unité et « 135€ » saisi avec ne s'affichaient
+         pas pareil : 13 € d'un côté, 135€ de l'autre. L'espace est
+         insécable, le montant ne se coupe donc jamais de son euro. */
+      if (/^\d+([.,]\d+)?$/.test(txt)) return txt.replace('.', ',') + '\u00a0€';
+      return txt.replace(/\s*€\s*$/, '\u00a0€');
     }
 
     /* Transforme les lignes JSON de Supabase en objets session pour l'affichage */
