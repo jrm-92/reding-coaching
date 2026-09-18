@@ -358,9 +358,27 @@
     .lieu-titre-row .lieu-titre { flex: 0 1 auto; margin-bottom: 0; }
     .pack-course-action { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     /* Petit ⓘ avec bulle d'info (survol / focus) */
+    /* Il vit maintenant dans la ligne du titre : il ne doit donc hériter
+       ni de sa taille, ni de son italique, ni de ses capitales. Deux
+       classes et non une : « .lieu-titre span » l'emporterait sinon, et
+       le « i » ressortait en 30 px d'italique dans sa pastille de 22 —
+       même piège que la boîte d'aide du minimum. */
+    .lieu-titre .pack-course-info,
+    .lieu-titre .pack-course-tip {
+      font-style: normal; text-transform: none; letter-spacing: normal;
+    }
+    .lieu-titre .pack-course-info {
+      margin-left: 11px; vertical-align: middle;
+      font-size: 13px; font-weight: 800; font-style: italic; line-height: 1;
+    }
+    .lieu-titre .pack-course-tip {
+      font-size: 12px; font-weight: 500; line-height: 1.5; text-align: left;
+      color: rgba(255,255,255,0.85);
+    }
     .pack-course-info {
       position: relative; display: inline-flex; align-items: center; justify-content: center;
       width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      text-transform: none; letter-spacing: normal; line-height: 1;
       border: 1px solid rgba(255,107,53,0.55); color: #ff8856;
       font-size: 13px; font-weight: 800; font-style: italic; cursor: help; user-select: none;
     }
@@ -372,6 +390,7 @@
       background: #101823; border: 1px solid rgba(255,107,53,0.35);
       color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 500; font-style: normal;
       line-height: 1.5; text-align: left; box-shadow: 0 12px 34px rgba(0,0,0,0.45);
+      text-transform: none; letter-spacing: normal;
       display: none; /* retirée du flux quand cachée → pas de débordement horizontal */
     }
     .pack-course-info:hover .pack-course-tip,
@@ -1750,13 +1769,18 @@
                  qu'on propose autour — « Préparation 10K · 12 semaines » — se
                  lit ensuite, puis la date. */
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) +
+              /* Le « i » se posait au milieu du bloc de titre — donc à
+                 hauteur du sous-titre, détaché, tout à droite. Il se lit
+                 contre le nom de la course, puisque c'est de la course
+                 qu'il parle : il suit donc le texte, et va à la ligne
+                 avec lui. */
+              (aPack ? '<span class="pack-course-info" tabindex="0" role="button" aria-label="Information sur l\'inscription à la course">i<span class="pack-course-tip">⚠️ Le dossard n\'est pas inclus : l\'inscription à la course se fait séparément, sur le site de l\'organisateur.</span></span>' : '') +
               (aPack && sousTitrePack ? '<span class="lieu-titre-kicker">' + esc(sousTitrePack) + '</span>' : '') +
               (lieuTitreDate ? '<span class="lieu-titre-date">' + esc(lieuTitreDate) + '</span>' : '') +
             '</span></div>' +
-            (aPack
+            (aPack && lienCourse
               ? '<div class="pack-course-action">' +
-                  (lienCourse ? '<a class="pack-course-lien" href="' + esc(lienCourse) + '" target="_blank" rel="noopener noreferrer">M\'inscrire à la course ↗</a>' : '') +
-                  '<span class="pack-course-info" tabindex="0" role="button" aria-label="Information sur l\'inscription à la course">i<span class="pack-course-tip">⚠️ Le dossard n\'est pas inclus : l\'inscription à la course se fait séparément, sur le site de l\'organisateur.</span></span>' +
+                  '<a class="pack-course-lien" href="' + esc(lienCourse) + '" target="_blank" rel="noopener noreferrer">M\'inscrire à la course ↗</a>' +
                 '</div>'
               : '') +
           '</div>';
