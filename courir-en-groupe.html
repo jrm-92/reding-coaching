@@ -647,32 +647,34 @@
     .btn-lib { flex: 1 1 auto; text-align: center; }
     .btn-fleche { flex-shrink: 0; display: inline-flex; }
     .btn-fleche svg { width: 19px; height: 19px; }
+    .btn-inscrire .btn-fleche svg { width: 16px; height: 16px; }
     .btn-pack:disabled .btn-fleche { opacity: 0.5; }
 
     /* Les places et le minimum disaient la même chose — où en est le
        groupe — chacun sur sa ligne, sans rien qui les relie. Un seul
        cadre, séparés d'un trait : on lit l'état du groupe d'un coup. */
+    /* Sans cadre : les deux informations se suivent, l'une à côté de
+       l'autre quand la place le permet, l'une sous l'autre sinon. Le trait
+       et le fond faisaient une boîte de plus dans une carte qui en compte
+       déjà. */
     .pack-etat {
-      display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
       width: 100%; max-width: 560px; margin-top: 4px;
-      border: 1px solid var(--color-line-dark); border-radius: 12px;
-      background: rgba(255,255,255,0.03);
+      column-gap: var(--space-4); row-gap: 6px;
     }
     .pack-etat > * {
-      flex: 1 1 210px; min-width: 0; margin: 0;
+      flex: 0 1 auto; min-width: 0; margin: 0;
       display: flex; align-items: center; justify-content: center;
-      padding: 11px var(--space-3);
+      padding: 4px 0;
     }
-    .pack-etat > * + * { border-left: 1px solid var(--color-line-dark); }
     /* Dans le cadre, la ligne du minimum ne porte plus sa marge de ligne
        isolée, et son « i » ouvre l'explication sous les deux moitiés. */
     .pack-cta .pack-etat .session-confirm { margin-top: 0; }
-    .pack-etat .session-confirm-bloc { flex-direction: column; gap: 6px; }
+    /* Le bloc du minimum garde sa largeur de texte : étiré sur toute la
+       ligne, son « i » se retrouvait à l'autre bout de l'écran, seul. */
+    .pack-etat .session-confirm-bloc { flex-direction: column; gap: 6px; max-width: 42ch; }
     .pack-etat .confirm-aide { max-width: none; }
-    @media (max-width: 620px) {
-      .pack-etat > * + * { border-left: none; border-top: 1px solid var(--color-line-dark); }
-      .pack-etat > * { flex: 1 1 100%; }
-    }
+
     .pack-attente { display: block; text-align: center; font-size: 14px; font-weight: 700; color: #FF6B35; text-decoration: underline; }
     .pack-attente:hover { color: #ff9d73; }
     /* Lien vers l'inscription à la course + mention « dossard non inclus » */
@@ -953,28 +955,38 @@
       display: flex; align-items: flex-start; gap: var(--space-3);
       padding: var(--space-4) var(--space-4) 0;
     }
-    /* Badge de date façon calendrier iPhone : fond blanc, jour de semaine rouge, chiffre noir */
+    /* La date d'une séance se lit comme celle d'un rendez-vous de
+       préparation : même vignette sombre, mêmes proportions, mêmes
+       hachures d'angle. Le carton blanc à chiffre noir venait d'ailleurs
+       et faisait une deuxième langue sur la même page. */
     .session-date-badge {
+      position: relative; overflow: hidden;
       flex-shrink: 0;
-      width: 62px; border-radius: 14px; overflow: hidden; text-align: center;
-      background: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      width: 68px; border-radius: 14px; text-align: center;
+      padding: 8px 4px 9px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--color-line-dark);
+    }
+    .session-date-badge::after {
+      content: ''; position: absolute; top: -12px; right: -12px;
+      width: 48px; height: 48px; pointer-events: none;
+      background: repeating-linear-gradient(115deg,
+        rgba(255,255,255,0.07) 0 2px, transparent 2px 7px);
+      -webkit-mask-image: linear-gradient(225deg, #000, transparent 72%);
+              mask-image: linear-gradient(225deg, #000, transparent 72%);
     }
     .session-date-badge .jsem {
-      display: block; background: #ffffff; color: #FF3B30;
-      font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-      padding: 5px 0 0;
+      display: block; color: rgba(255,255,255,0.52);
+      font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
     }
     .session-date-badge .jour {
-      display: block; background: #ffffff; color: #1a1a1a;
-      font-size: 26px; font-weight: 700; font-style: normal; line-height: 1.1;
-      padding: 0;
+      display: block; color: #fff;
+      font-size: 28px; font-weight: 900; font-style: italic; line-height: 1.14;
+      font-variant-numeric: tabular-nums;
     }
     .session-date-badge .mois {
-      display: block; background: #ffffff; color: rgba(10, 17, 40, 0.55);
-      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-      padding: 1px 0 5px;
+      display: block; color: rgba(255,255,255,0.7);
+      font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;
     }
     .session-titre {
       font-size: var(--fs-h6); font-weight: 900; font-style: italic;
@@ -1110,7 +1122,7 @@
     .session-prix { font-size: var(--fs-h5); font-weight: 900; font-style: italic; color: var(--offer-light); line-height: 1; }
     .session-prix small { font-size: 12px; font-weight: 600; font-style: normal; color: rgba(255,255,255,0.5); display: block; margin-top: 3px; }
     .btn-inscrire {
-      display: inline-flex; align-items: center; gap: 8px;
+      display: inline-flex; align-items: center; justify-content: space-between; gap: var(--space-3);
       background: var(--offer-fill); color: var(--offer-on); border: none; cursor: pointer;
       padding: 13px 28px; border-radius: var(--radius-md);
       font-family: inherit; font-size: var(--fs-small); font-weight: 700;
@@ -2250,7 +2262,7 @@
                   ? '<a class="btn-attente" href="' + mailAttenteSeance + '">' +
                       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>' +
                       'Demander à être en liste d\'attente</a>'
-                  : '<button class="btn-inscrire" data-i="' + i + '">S\'inscrire</button>')) +
+                  : '<button class="btn-inscrire" data-i="' + i + '"><span class="btn-lib">S\'inscrire</span><span class="btn-fleche" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></span></button>')) +
           '</div>';
         conteneurs[cleGroupe(s)].appendChild(card);
       });
