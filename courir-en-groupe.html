@@ -2383,6 +2383,34 @@
        la version et le réglage, elle peut aussi arriver sous sa forme
        Postgres brute — {2027-02-13,2027-02-20}. On accepte les deux, et
        on ne garde que ce qui ressemble à une date. */
+    /* ── Les dates d'une préparation ───────────────────────────────────
+       Une préparation, c'est un début, une fin, et un rendez-vous par
+       semaine. Trois informations, dont la troisième est déjà écrite sur
+       la page : « Tous les samedis ». Deux cases suffisent donc, et c'est
+       ce qu'on remplit vraiment.
+
+       On engendre les dates de sept en sept, de la première à la dernière
+       incluse. Le garde-fou à soixante empêche une date de fin aberrante
+       de faire tourner la boucle sans fin. */
+    function _jourValide(v) {
+      var t = String(v == null ? '' : v).trim().slice(0, 10);
+      return /^\d{4}-\d{2}-\d{2}$/.test(t) ? t : '';
+    }
+    function _joursDeLaPrepa(p) {
+      var deb = _jourValide(p && p.date_debut), fin = _jourValide(p && p.date_fin);
+      if (deb && fin && fin >= deb) {
+        var iso = function (x) {
+          return x.getFullYear() + '-' + ('0' + (x.getMonth() + 1)).slice(-2) +
+                 '-' + ('0' + x.getDate()).slice(-2);
+        };
+        var out = [], d = new Date(deb + 'T12:00:00'), stop = new Date(fin + 'T12:00:00');
+        while (d <= stop && out.length < 60) { out.push(iso(d)); d.setDate(d.getDate() + 7); }
+        return out;
+      }
+      /* Repli : la liste de dates, pour une préparation pas encore reprise. */
+      return _datesDeLaPrepa(p && p.dates);
+    }
+
     function _datesDeLaPrepa(v) {
       var brut = Array.isArray(v)
         ? v
@@ -2412,7 +2440,7 @@
       var out = [];
       preps.forEach(function (p) {
         if (!p || !p.id) return;
-        var jours = _datesDeLaPrepa(p.dates);
+        var jours = _joursDeLaPrepa(p);
         if (!jours.length) return;
         jours.forEach(function (jour, i) {
           out.push({
@@ -2535,7 +2563,7 @@
           var preps = res[1] || [];
           var avecDates = {};
           preps.forEach(function (p) {
-            if (p && p.id && _datesDeLaPrepa(p.dates).length) avecDates[String(p.id).trim()] = true;
+            if (p && p.id && _joursDeLaPrepa(p).length) avecDates[String(p.id).trim()] = true;
           });
           var resteAncien = (res[2] || []).filter(function (ps) {
             return !avecDates[String(ps && ps.preparation_id != null ? ps.preparation_id : '').trim()];
