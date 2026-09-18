@@ -745,13 +745,29 @@
     /* Troisieme sous-partie du module : meme logique de filet que l'en-tete
        et le CTA. Le titre reste plus proche du carrousel qu'il introduit
        (space-4 dessous) que du bloc precedent (space-6 dessus). */
+    /* Le filet ne barre plus toute la largeur au-dessus du titre : il
+       l'encadre. La section se sépare aussi bien, et le titre cesse d'être
+       posé sous une ligne qui appartenait au bloc précédent. */
     .prog-titre {
-      margin: var(--space-4) 0 var(--space-4);
-      padding-top: var(--space-4);
-      border-top: 1px solid rgba(255,107,53,0.22);
+      margin: var(--space-5) 0 6px;
+      display: flex; align-items: center; gap: var(--space-3);
       text-align: center;
-      font-size: clamp(20px, 2.4vw, 26px); font-weight: 900; font-style: italic;
+      font-size: clamp(16px, 2.3vw, 26px); font-weight: 900; font-style: italic;
       text-transform: uppercase; letter-spacing: 0.02em; color: #fff;
+    }
+    .prog-titre::before, .prog-titre::after {
+      content: ''; flex: 1 1 0; height: 1px; min-width: 14px;
+      background: rgba(255,107,53,0.32);
+    }
+    .prog-titre svg {
+      width: 22px; height: 22px; flex-shrink: 0;
+      color: var(--color-accent); vertical-align: -4px; margin-right: 10px;
+    }
+    /* Ce que sont ces dates, dit une fois : douze vignettes n'ont plus à le
+       répéter chacune dans son coin. */
+    .prog-sous {
+      margin: 0 0 var(--space-4); text-align: center;
+      font-size: var(--fs-small); color: rgba(255,255,255,0.62);
     }
 
     /* Les dates d'une préparation. Douze cartes de séance disaient douze
@@ -780,33 +796,68 @@
     }
     .prog-dates::-webkit-scrollbar { display: none; }
     .prog-dates li {
-      flex: 0 0 auto; width: 84px;
+      position: relative; overflow: hidden;
+      flex: 0 0 auto; width: 132px;
       scroll-snap-align: start;
       display: flex; flex-direction: column; align-items: center;
-      padding: 11px 6px 10px; border-radius: 14px;
+      padding: 11px 10px 10px; border-radius: 14px;
       background: rgba(255,255,255,0.045);
       border: 1px solid var(--color-line-dark);
+    }
+    /* Hachures d'angle : le même biais que les chevrons du logo, assez
+       pâles pour qu'on les sente sans les lire. */
+    .prog-dates li::after {
+      content: ''; position: absolute; top: -14px; right: -14px;
+      width: 62px; height: 62px; transform: rotate(0deg); pointer-events: none;
+      background: repeating-linear-gradient(115deg,
+        rgba(255,255,255,0.07) 0 2px, transparent 2px 7px);
+      -webkit-mask-image: linear-gradient(225deg, #000, transparent 72%);
+              mask-image: linear-gradient(225deg, #000, transparent 72%);
+    }
+    /* La première : c'est le prochain rendez-vous, celui qu'on cherche. */
+    .prog-dates li.prog-premier {
+      border-color: rgba(255,107,53,0.7);
+      background: linear-gradient(160deg, rgba(255,107,53,0.14), rgba(255,107,53,0.04));
+      box-shadow: 0 0 0 1px rgba(255,107,53,0.18), 0 6px 22px rgba(255,107,53,0.14);
+    }
+    .prog-rang {
+      position: absolute; top: 9px; left: 9px;
+      min-width: 24px; height: 22px; padding: 0 5px; border-radius: 7px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(255,107,53,0.9); color: #10131a;
+      font-size: 12px; font-weight: 900; font-style: italic;
+      font-variant-numeric: tabular-nums;
     }
     /* Le jour de la semaine, en petit au-dessus du quantième : c'est lui
        qu'on lit en premier quand on cherche « est-ce que je suis libre ». */
     .prog-sem {
-      font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em;
-      text-transform: uppercase; color: rgba(255,255,255,0.5);
+      margin-left: 20px;                 /* dégage la pastille du rang */
+      font-size: 11px; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.52);
     }
     .prog-num {
-      font-size: 25px; font-weight: 900; line-height: 1.1; color: #fff;
-      font-variant-numeric: tabular-nums;
+      font-size: 30px; font-weight: 900; font-style: italic; line-height: 1.12;
+      color: #fff; font-variant-numeric: tabular-nums;
     }
     .prog-mois {
-      font-size: 11.5px; font-weight: 700; color: rgba(255,255,255,0.62);
-      text-transform: lowercase;
+      font-size: 11.5px; font-weight: 800; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.7);
+    }
+    .prog-heure, .prog-type {
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      width: 100%; text-align: center;
     }
     .prog-heure {
-      margin-top: 7px; padding-top: 7px; width: 100%;
-      border-top: 1px solid var(--color-line-dark);
-      text-align: center;
-      font-size: 12px; font-weight: 800; color: #FF6B35;
+      margin-top: 8px;
+      font-size: 13px; font-weight: 800; color: #FF6B35;
     }
+    .prog-type {
+      margin-top: 8px; padding-top: 8px;
+      border-top: 1px solid var(--color-line-dark);
+      font-size: 10.5px; font-weight: 600; color: rgba(255,255,255,0.58);
+    }
+    .prog-heure svg { width: 13px; height: 13px; flex-shrink: 0; }
+    .prog-type svg { width: 13px; height: 13px; flex-shrink: 0; opacity: 0.8; }
 
     @media (max-width: 640px) {
       /* auto-fit replie seul la grille en une colonne : ces surcharges de
@@ -2038,8 +2089,13 @@
              document pour une préparation. */
           var progTitre = document.createElement('h3');
           progTitre.className = 'prog-titre';
-          progTitre.textContent = 'Tes ' + sessionsTri.length + ' rendez-vous';
+          progTitre.innerHTML = '<span>' + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 15 11 17 15 13"/></svg>'
+            + esc('Tes ' + sessionsTri.length + ' rendez-vous') + '</span>';
           bloc.appendChild(progTitre);
+          var progSous = document.createElement('p');
+          progSous.className = 'prog-sous';
+          progSous.textContent = sessionsTri.length + ' séances collectives pour t\u2019accompagner jusqu\u2019au jour J.';
+          bloc.appendChild(progSous);
 
           var progDates = document.createElement('ol');
           progDates.className = 'prog-dates';
@@ -2047,15 +2103,18 @@
              la semaine, le quantième, le mois, l'heure. Les trois morceaux
              de la date sont séparés pour que le quantième porte, au lieu
              d'une ligne « sam. 13 févr. » qui se coupait n'importe où. */
-          progDates.innerHTML = sessionsTri.map(function (s) {
+          progDates.innerHTML = sessionsTri.map(function (s, i) {
             var d = new Date(s.date + 'T12:00:00');
             var quantieme = d.getDate() === 1 ? '1<sup>er</sup>' : String(d.getDate());
             var complet = dateFr(d, { weekday: 'long', day: 'numeric', month: 'long' });
-            return '<li aria-label="' + esc(complet + ' à ' + s.heure) + '">' +
+            return '<li' + (i === 0 ? ' class="prog-premier"' : '') +
+                     ' aria-label="' + esc('Séance ' + (i + 1) + ' — ' + complet + ' à ' + s.heure) + '">' +
+                     '<span class="prog-rang">' + (i + 1) + '</span>' +
                      '<span class="prog-sem">' + esc(d.toLocaleDateString('fr-FR', { weekday: 'short' })) + '</span>' +
                      '<span class="prog-num">' + quantieme + '</span>' +
                      '<span class="prog-mois">' + esc(d.toLocaleDateString('fr-FR', { month: 'short' })) + '</span>' +
-                     '<span class="prog-heure">' + esc(s.heure) + '</span>' +
+                     '<span class="prog-heure">' + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15.5 14"/></svg>' + esc(s.heure) + '</span>' +
+                     '<span class="prog-type">' + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' + 'Séance collective</span>' +
                    '</li>';
           }).join('');
           bloc.appendChild(progDates);
