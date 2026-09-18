@@ -1736,9 +1736,17 @@
           var inscritsPack = sessionsTri.reduce(function (m, s) { return Math.max(m, s.inscrits); }, 0);
           var restantesPack = Math.max(0, placesPack - inscritsPack);
           var packComplet = restantesPack === 0;
+          /* Le sous-titre d'une préparation commence le plus souvent par le
+             mot « Préparation » — c'est ainsi qu'il est écrit dans la base.
+             Le préfixer sans regarder donnait « préparation Préparation 10k
+             - 12 semaines ». On ne l'ajoute donc que s'il manque. */
+          var sousPrepa = String(sousTitrePack == null ? '' : sousTitrePack).trim();
+          var mentionPrepa = sousPrepa
+            ? ' (' + (/^pr[ée]paration/i.test(sousPrepa) ? '' : 'préparation ') + sousPrepa + ')'
+            : '';
           var mailAttente = 'mailto:contact@reding-running.fr' +
             '?subject=' + encodeURIComponent('Liste d\'attente — ' + lieuTitre) +
-            '&body=' + encodeURIComponent('Bonjour, je souhaite être placé(e) en liste d\'attente pour la course « ' + lieuTitre + ' »' + (sousTitrePack ? ' (préparation ' + sousTitrePack + ')' : '') + '. Merci !');
+            '&body=' + encodeURIComponent('Bonjour, je souhaite être placé(e) en liste d\'attente pour la course « ' + lieuTitre + ' »' + mentionPrepa + '. Merci !');
           
           /* ── En-tête intégré DANS la carte : titre + « M'inscrire » + sous-titre + badges ── */
           var dDebut = new Date(sessionsTri[0].date + 'T12:00:00');
