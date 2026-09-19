@@ -1172,7 +1172,12 @@
       background: rgba(0,0,0,0.20);
     }
     .session-footer .prix-bloc { min-width: 0; }
-    .session-footer .btn-inscrire, .session-footer .btn-attente { flex: 1 1 auto; }
+    /* « flex: 1 1 0 » et non « auto » : sur base automatique, le bouton se
+       mesure d'abord à son libellé sur une ligne, se trouve trop large pour
+       la place qui reste à côté du prix, et passe à la ligne du dessous
+       avant même d'avoir essayé de rétrécir. Base zéro, il prend ce qui
+       reste et replie son libellé si besoin. */
+    .session-footer .btn-inscrire, .session-footer .btn-attente { flex: 1 1 0; min-width: 0; }
     /* Dans une carte de 245 px, le bouton rend ses marges : ce sont autant de
        caractères qui tiennent sur la ligne au lieu de passer à la suivante. */
     .session-footer .btn-inscrire { padding: 11px 14px; }
@@ -1212,11 +1217,12 @@
     }
     .btn-inscrire:hover { background: var(--offer-hover); transform: translateY(-2px); }
     .btn-inscrire:disabled { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.4); cursor: not-allowed; box-shadow: none; transform: none; }
-    /* Séance complète : le prix reste au-dessus, à titre d'information, et
-       le lien de liste d'attente prend toute la largeur en dessous. Contour
-       plein→creux : c'est une demande, pas une inscription. */
-    .session-footer--attente { flex-direction: column; align-items: stretch; gap: 10px; }
-    .session-footer--attente .session-prix { text-align: center; }
+    /* Séance complète : le prix et le lien de liste d'attente se partagent
+       la ligne, comme le prix et le bouton d'inscription. Empilés, ils
+       coûtaient cinquante pixels de hauteur à une carte qui dépassait déjà
+       l'écran. Contour plein→creux : c'est une demande, pas une
+       inscription. */
+    .session-footer--attente { gap: var(--space-2) 10px; }
     .btn-attente {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 13px 18px; border-radius: var(--radius-md);
@@ -2368,7 +2374,9 @@
                 (complet
                   ? '<a class="btn-attente" href="' + mailAttenteSeance + '">' +
                       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>' +
-                      'Demander à être en liste d\'attente</a>'
+                      /* Court, pour tenir sur la ligne à côté du prix : la
+                         phrase entière est dans le message pré-rempli. */
+                      'Liste d\'attente</a>'
                   : '<button class="btn-inscrire" data-i="' + i + '"><span class="btn-lib">S\'inscrire</span><span class="btn-fleche" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg></span></button>')) +
           '</div>';
         conteneurs[cleGroupe(s)].appendChild(card);
