@@ -930,7 +930,10 @@
       .lieu-titre span { white-space: normal; text-align: center; }
       .lieu-cards { gap: 14px; }
       .lieu-cards .session-card {
-        flex: 0 0 84%;
+        /* 90 % plutôt que 84 % : la carte respire et l'horaire tient à côté
+           du lieu. Il reste un bord de la suivante, assez pour qu'on voie
+           qu'il y a autre chose à droite. */
+        flex: 0 0 90%;
         min-width: 0;
         max-width: 360px;
         scroll-snap-align: center;
@@ -1035,18 +1038,33 @@
        de l'air entre les lignes. */
     .session-infos {
       list-style: none;
+      display: flex; flex-wrap: wrap;
       margin: var(--space-3) var(--space-3) 0; padding: 0;
       border: 1px solid var(--color-line-dark);
       border-radius: var(--radius-sm);
       background: rgba(255,255,255,0.03);
     }
     .session-infos li {
-      display: flex; align-items: flex-start; gap: 9px;
-      padding: 7px var(--space-3);
+      flex: 1 1 auto; min-width: 0;
+      display: flex; align-items: flex-start; gap: 7px;
+      padding: 7px 8px;
       font-size: var(--fs-small); color: rgba(255,255,255,0.8);
     }
-    .session-infos li + li { border-top: 1px solid var(--color-line-dark); }
-    .session-infos svg { flex-shrink: 0; width: 16px; height: 16px; color: var(--offer); margin-top: 2px; }
+    /* Le lieu porte deux lignes et le nom le plus long : il garde la sienne.
+       L'horaire et le nombre d'inscrits, eux, sont courts et se partagent
+       celle du dessous — un filet vertical entre les deux, un filet
+       horizontal au-dessus, comme le bandeau d'une préparation. */
+    .session-infos li:first-child { flex: 1 1 100%; padding-left: 10px; padding-right: 10px; }
+    /* Base zéro, sinon chacun se mesure à son texte sur une ligne, se trouve
+       trop large et repasse dessous — le même piège que le bouton du pied. */
+    .session-infos li:nth-child(2) { flex: 1.35 1 0; }
+    .session-infos li:nth-child(3) { flex: 1 1 0; }
+    .session-infos li:nth-child(2) { border-top: 1px solid var(--color-line-dark); }
+    .session-infos li:nth-child(3) {
+      border-top: 1px solid var(--color-line-dark);
+      border-left: 1px solid var(--color-line-dark);
+    }
+    .session-infos svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--offer); margin-top: 2px; }
     .session-infos strong { color: #fff; font-weight: 700; }
     .session-souslieu { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.72); }
 
@@ -1796,6 +1814,13 @@
       function creneau(s) {
         return s.heure + ' – ' + enHeure(enMinutes(s.heure) + enMinutes(s.duree)) + ' (' + s.duree + ')';
       }
+      /* Dans la case de la carte, l'horaire partage sa ligne avec le nombre
+         d'inscrits : la durée entre parenthèses ne tiendrait pas, et elle se
+         lit déjà dans l'heure de fin. Le formulaire d'inscription et le
+         message de liste d'attente, eux, gardent « creneau » en entier. */
+      function creneauCourt(s) {
+        return s.heure + ' – ' + enHeure(enMinutes(s.heure) + enMinutes(s.duree));
+      }
 
       /* Regroupement par ÉVÉNEMENT (colonne « evenement ») : un bloc par événement.
          Un nom d'événement différent = un nouveau bloc. Sans nom d'événement,
@@ -2347,12 +2372,12 @@
           '</div>' +
           '<ul class="session-infos">' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>' + esc(s.lieu) + '</strong>' + (s.sousLieu ? '<span class="session-souslieu">' + esc(s.sousLieu) + '</span>' : '') + '</span></li>' +
-            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>' + esc(creneau(s)) + '</span></li>' +
+            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>' + esc(creneauCourt(s)) + '</span></li>' +
             /* Le compteur ne s'affiche qu'à partir du premier inscrit :
                « 0 inscrit / 10 places » disait surtout que personne n'y va,
                alors que la jauge juste en dessous annonce déjà les places
                restantes. Dès qu'il y a du monde, le nombre rassure. */
-            (s.prixPack || !s.inscrits ? '' : '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>' + s.inscrits + ' inscrit' + (s.inscrits > 1 ? 's' : '') + ' / ' + s.places + ' places</span></li>') +
+            (s.prixPack || !s.inscrits ? '' : '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>' + s.inscrits + ' inscrit' + (s.inscrits > 1 ? 's' : '') + '</span></li>') +
           '</ul>' +
           descriptionHTML(s.description) +
           '<p class="session-gourde">'
