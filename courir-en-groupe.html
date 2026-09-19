@@ -1054,7 +1054,13 @@
        L'horaire et le nombre d'inscrits, eux, sont courts et se partagent
        celle du dessous — un filet vertical entre les deux, un filet
        horizontal au-dessus, comme le bandeau d'une préparation. */
-    .session-infos li:first-child { flex: 1 1 100%; padding-left: 10px; padding-right: 10px; }
+    /* Le lieu tient toute la ligne : centré, il porte le bloc au lieu de
+       pendre à gauche — comme une case du bandeau d'une préparation. Le
+       sous-lieu se range sous lui. */
+    .session-infos li:first-child {
+      flex: 1 1 100%; padding-left: 10px; padding-right: 10px;
+      justify-content: center; text-align: center;
+    }
     /* Base zéro, sinon chacun se mesure à son texte sur une ligne, se trouve
        trop large et repasse dessous — le même piège que le bouton du pied. */
     .session-infos li:nth-child(2) { flex: 1.35 1 0; }
