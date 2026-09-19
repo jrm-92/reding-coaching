@@ -1757,6 +1757,16 @@
         groupes[k].push(s);
       });
 
+      /* Les séances à l'unité d'abord, les préparations ensuite. Sans ce
+         rangement, l'ordre des deux familles suivait le calendrier : une
+         préparation qui commençait avant la première séance passait
+         au-dessus, et l'ordre de la page changeait tout seul au fil des
+         semaines. Dans chaque famille, le calendrier décide toujours. */
+      var estPrepa = function (k) {
+        return groupes[k].some(function (x) { return x.prixPack; }) ? 1 : 0;
+      };
+      groupesOrdre.sort(function (a, b) { return estPrepa(a) - estPrepa(b); });
+
       var conteneurs = {};
       /* « 1 mai » se dit « 1er mai ». La seule irrégularité du français sur
          les quantièmes, et elle tombe une fois par mois. Partagée par le
