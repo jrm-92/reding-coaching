@@ -1029,7 +1029,10 @@
       padding: 3px 9px; border-radius: var(--radius-pill);
     }
     .statut-ouvert { background: rgba(52,211,153,0.15); color: #34D399; border: 1px solid rgba(52,211,153,0.35); }
-    .statut-complet { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.18); }
+    /* Les trois états se lisent à la couleur avant de se lire au mot :
+       vert on peut venir, orange il faut se dépêcher, rouge c'est trop tard.
+       Le rouge est celui des messages d'alerte de la page (--color-alert). */
+    .statut-complet { background: rgba(248,113,113,0.15); color: var(--color-alert); border: 1px solid rgba(248,113,113,0.4); }
     .statut-dernieres { background: rgba(255,107,53,0.15); color: #FF6B35; border: 1px solid rgba(255,107,53,0.4); }
 
     /* Le lieu, l'horaire et le nombre d'inscrits : les mêmes données que
@@ -1141,6 +1144,9 @@
       color: rgba(255,255,255,0.55); margin-bottom: 5px;
     }
     .jauge-label .restantes { color: #FF6B35; }
+    /* Le mot « Complet » est rouge partout où il est écrit sur la carte :
+       sur la pastille du haut comme au-dessus de la jauge. */
+    .jauge-label .restantes--complet { color: var(--color-alert); }
     .jauge-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); overflow: hidden; }
     .jauge-fill { height: 100%; border-radius: 3px; background: var(--offer); }
     /* Le seuil de confirmation : discret tant qu'il manque du monde, vert
@@ -2391,7 +2397,7 @@
             + 'Pense à prendre ta gourde</p>' +
           (s.prixPack ? '' :
           '<div class="session-jauge">' +
-            '<div class="jauge-label"><span>Places</span><span class="restantes">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
+            '<div class="jauge-label"><span>Places</span><span class="restantes' + (complet ? ' restantes--complet' : '') + '">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
             '<div class="jauge-bar"><div class="jauge-fill" style="width:' + Math.round(s.inscrits / s.places * 100) + '%"></div></div>' +
             confirmationHTML(s.inscrits, complet, false, s.mini) +
           '</div>') +
@@ -3131,14 +3137,6 @@
     /* Ombres des cartes : alignees sur les tokens de la refonte. */
     .session-card { box-shadow: var(--shadow-card); }
     .session-card:hover { box-shadow: var(--shadow-elevated); }
-
-    /* Badge "Inscriptions ouvertes" : neutre — l'orange reste reserve a l'urgence
-       ("dernieres places") et aux CTA (harmonisation single-accent). */
-    .statut-ouvert {
-      background: rgba(255,255,255,0.06) !important;
-      color: rgba(255,255,255,0.75) !important;
-      border: 1px solid rgba(255,255,255,0.16) !important;
-    }
 
     /* Boutons : ombres pilotees par la lueur de l'offre */
     .btn-inscrire, .btn-payer, .btn-envoyer { box-shadow: 0 6px 18px var(--offer-glow) !important; }
