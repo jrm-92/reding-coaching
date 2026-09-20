@@ -963,19 +963,24 @@
       transform: translateY(-4px);
       border-color: var(--offer-border);
     }
-    /* Le dessin commun des panneaux. Le premier en réunit deux : la date
-       et le titre, puis le lieu et l'horaire — c'est la même chose, quand
-       et où. Ils sont séparés par un filet, comme les deux lignes du lieu
-       entre elles, et non par un écart. */
-    .session-haut,
-    .session-prog,
-    .session-jauge {
+    /* Un seul encadré, celui du haut : quand et où, c'est ce qu'on cherche
+       en premier quand on choisit une séance. Il réunit la date, le titre,
+       le lieu et l'horaire, séparés entre eux par de simples filets.
+
+       Le programme et les places, eux, se posent sur le fond de la carte et
+       se séparent du même filet. Trois cadres de même poids ne
+       hiérarchisaient rien : un cadre doit vouloir dire « regarde ici
+       d'abord », pas « nouvelle zone » — ça, le filet le dit déjà, et pour
+       une trentaine de pixels de moins. */
+    .session-haut {
       margin: 0;
       border: 1px solid var(--color-line-dark);
       border-radius: 14px;
       background: rgba(255,255,255,0.035);
     }
     .session-infos { border-top: 1px solid var(--color-line-dark); }
+    .session-prog,
+    .session-jauge { border-top: 1px solid var(--color-line-dark); }
     /* Complet ne veut plus dire « plus rien à faire ici » : la carte porte
        désormais un lien de liste d'attente, elle doit rester lisible. */
     .session-card.complet { opacity: 0.88; }
@@ -1077,8 +1082,8 @@
        sur une préparation : un intertitre court, et le texte dessous. */
     /* Dans le carrousel, toutes les cartes prennent la hauteur de la plus
        grande. Le programme absorbe ce qui dépasse : sans ça, le trou se
-       creusait entre le dernier panneau et le pied. */
-    .session-prog { padding: 9px 11px 10px; flex: 1 1 auto; }
+       creusait entre la dernière partie et le pied. */
+    .session-prog { padding: 10px 10px 2px; flex: 1 1 auto; }
     /* L'intertitre d'un panneau : une icône en accent, le mot en petites
        capitales. C'est lui qui dit de quoi parle le panneau avant même
        qu'on lise son contenu. */
@@ -1138,7 +1143,7 @@
 
     /* jauge de places */
     /* Aligne sur la gouttiere laterale commune des autres blocs de la carte. */
-    .session-jauge { padding: 9px 11px 10px; }
+    .session-jauge { padding: 10px 10px 2px; }
     .jauge-label {
       display: flex; align-items: center; gap: 8px;
       font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
