@@ -1053,21 +1053,12 @@
       padding: 7px 8px;
       font-size: var(--fs-small); color: rgba(255,255,255,0.8);
     }
-    /* Le lieu et l'horaire tiennent sur une seule ligne, séparés d'un filet
-       vertical, chacun centré dans sa moitié — comme deux cases du bandeau
-       d'une préparation. Base zéro, sinon chacun se mesure à son texte sur
-       une ligne, se trouve trop large et repasse dessous : le même piège que
-       le bouton du pied. L'horaire pèse un peu plus lourd — c'est lui qui ne
-       doit pas se couper, le lieu se replie sans gêne. */
-    .session-infos li { justify-content: center; text-align: center; }
-    .session-infos li:first-child { flex: 1 1 0; }
-    .session-infos li:nth-child(2) {
-      flex: 1.25 1 0;
-      border-left: 1px solid var(--color-line-dark);
-      /* Une seule ligne face à un lieu qui en prend deux ou trois : elle se
-         pose au milieu de sa moitié plutôt que de flotter en haut. */
-      align-items: center;
-    }
+    /* Deux lignes, chacune sur toute la largeur et centrée : le lieu avec
+       sa précision dessous, puis l'horaire. Côte à côte, chacun n'avait
+       qu'une demi-largeur et se coupait en deux ou trois morceaux ; pleine
+       largeur, chacun tient sur sa ligne. */
+    .session-infos li { flex: 1 1 100%; justify-content: center; text-align: center; }
+    .session-infos li:nth-child(2) { border-top: 1px solid var(--color-line-dark); }
     .session-infos svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--offer); margin-top: 2px; }
     .session-infos strong { color: #fff; font-weight: 700; }
     .session-souslieu { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.72); }
@@ -1867,6 +1858,22 @@
          porte cette même étiquette — c'est le cas dans la base — l'afficher
          derrière donnait « Départ et Retour / Départ et Retour — Place du
          marché ». On ne redit pas ce qui vient d'être dit. */
+      /* Le lieu d'une séance, tel qu'il doit se lire sur la carte. Dans la
+         base, la colonne « lieu » porte le plus souvent « Départ et Retour » :
+         ce n'est pas un lieu, c'est une précision — la séance revient à son
+         point de départ. Le vrai lieu, lui, est dans « sous_lieu ». La carte
+         affichait donc la précision en gros et le lieu en petit dessous, et
+         « Départ et Retour » tout seul ne tient pas sur la largeur d'un
+         téléphone : la case partait sur quatre lignes.
+
+         On remet le lieu en avant et la précision en dessous. Quand la
+         colonne « lieu » porte un vrai lieu, rien ne change. */
+      function lieuCarte(s) {
+        var lieu = String(s.lieu == null ? '' : s.lieu).trim();
+        var sous = String(s.sousLieu == null ? '' : s.sousLieu).trim();
+        if (sous && /^d[ée]part\s+et\s+retour$/i.test(lieu)) return { fort: sous, note: 'Départ et retour' };
+        return { fort: lieu, note: sous };
+      }
       function ouOnSeRetrouve(s) {
         var lieu = String(s.lieu == null ? '' : s.lieu).trim();
         var sous = String(s.sousLieu == null ? '' : s.sousLieu).trim();
@@ -2378,7 +2385,7 @@
             })() + '</div>' + statut + '</div>' +
           '</div>' +
           '<ul class="session-infos">' +
-            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>' + esc(s.lieu) + '</strong>' + (s.sousLieu ? '<span class="session-souslieu">' + esc(s.sousLieu) + '</span>' : '') + '</span></li>' +
+            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>' + esc(lieuCarte(s).fort) + '</strong>' + (lieuCarte(s).note ? '<span class="session-souslieu">' + esc(lieuCarte(s).note) + '</span>' : '') + '</span></li>' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>' + esc(creneauCourt(s)) + '</span></li>' +
           '</ul>' +
           descriptionHTML(s.description) +
