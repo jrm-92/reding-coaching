@@ -963,9 +963,11 @@
       transform: translateY(-4px);
       border-color: var(--offer-border);
     }
-    /* Le dessin commun des panneaux. */
-    .session-head,
-    .session-infos,
+    /* Le dessin commun des panneaux. Le premier en réunit deux : la date
+       et le titre, puis le lieu et l'horaire — c'est la même chose, quand
+       et où. Ils sont séparés par un filet, comme les deux lignes du lieu
+       entre elles, et non par un écart. */
+    .session-haut,
     .session-prog,
     .session-jauge {
       margin: 0;
@@ -973,6 +975,7 @@
       border-radius: 14px;
       background: rgba(255,255,255,0.035);
     }
+    .session-infos { border-top: 1px solid var(--color-line-dark); }
     /* Complet ne veut plus dire « plus rien à faire ici » : la carte porte
        désormais un lien de liste d'attente, elle doit rester lisible. */
     .session-card.complet { opacity: 0.88; }
@@ -2403,6 +2406,7 @@
         var card = document.createElement('article');
         card.className = 'session-card' + (complet ? ' complet' : '');
         card.innerHTML =
+          '<div class="session-haut">' +
           '<div class="session-head">' +
             /* La date en vignette d'agenda : bandeau du mois, quantième,
                jour de la semaine. Le titre se lit à sa droite. */
@@ -2418,11 +2422,12 @@
                 return sousTitreCard ? '<span class="titre-sub">' + esc(sousTitreCard) + '</span>' : '';
               })() +
             '</div>' +
-          '</div>' + statut +
+          '</div>' +
           '<ul class="session-infos">' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>' + esc(lieuCarte(s).fort) + '</strong>' + (lieuCarte(s).note ? '<span class="session-souslieu">' + esc(lieuCarte(s).note) + '</span>' : '') + '</span></li>' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>' + esc(creneauCourt(s)) + '</span></li>' +
           '</ul>' +
+          '</div>' + statut +
           programmeHTML(s) +
           (s.prixPack ? '' :
           '<div class="session-jauge">' +
