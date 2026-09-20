@@ -1043,11 +1043,6 @@
       font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
       padding: 3px 9px; border-radius: var(--radius-pill);
     }
-    .statut-ouvert { background: rgba(52,211,153,0.15); color: #34D399; border: 1px solid rgba(52,211,153,0.35); }
-    /* Les trois états se lisent à la couleur avant de se lire au mot :
-       vert on peut venir, orange il faut se dépêcher, rouge c'est trop tard.
-       Le rouge est celui des messages d'alerte de la page (--color-alert). */
-    .statut-complet { background: rgba(248,113,113,0.15); color: var(--color-alert); border: 1px solid rgba(248,113,113,0.4); }
     .statut-dernieres { background: rgba(255,107,53,0.15); color: #FF6B35; border: 1px solid rgba(255,107,53,0.4); }
 
     /* Le lieu, l'horaire et le nombre d'inscrits : les mêmes données que
@@ -2396,15 +2391,14 @@
         var mailAttenteSeance = 'mailto:contact@reding-running.fr' +
           '?subject=' + encodeURIComponent('Liste d\'attente — ' + titreAttente + ' du ' + dateAttente) +
           '&body=' + encodeURIComponent('Bonjour, je souhaite être placé(e) en liste d\'attente pour la séance « ' + titreAttente + ' » du ' + dateAttente + ' (' + reperesAttente.join(' — ') + '). Merci !');
-        /* « Complet » n'est plus annoncé deux fois : le panneau des places,
-           juste en dessous, l'écrit déjà en rouge. Les deux autres états
-           disent quelque chose que la jauge ne dit pas d'un coup d'œil —
-           qu'on peut s'inscrire, ou qu'il faut se dépêcher. */
-        var statut = s.prixPack || complet
+        /* Ni « complet » ni « inscriptions ouvertes » : le panneau des
+           places, deux blocs plus bas, dit déjà l'un et l'autre — en rouge
+           quand c'est plein, avec le compte des places restantes sinon. La
+           pastille ne sert plus qu'à l'urgence, quand il ne reste qu'une ou
+           deux places, ce que la jauge seule ne crie pas. */
+        var statut = (s.prixPack || complet || restantes > 2)
           ? ''
-          : ((restantes <= 2
-              ? '<span class="session-badge-statut statut-dernieres">Plus que ' + restantes + ' place' + (restantes > 1 ? 's' : '') + ' !</span>'
-              : '<span class="session-badge-statut statut-ouvert">Inscriptions ouvertes</span>'));
+          : '<span class="session-badge-statut statut-dernieres">Plus que ' + restantes + ' place' + (restantes > 1 ? 's' : '') + ' !</span>';
 
         var card = document.createElement('article');
         card.className = 'session-card' + (complet ? ' complet' : '');
