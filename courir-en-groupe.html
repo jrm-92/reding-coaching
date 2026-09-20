@@ -940,24 +940,38 @@
       }
       .swipe-hint { display: block; }
     }
-    /* Meme traitement que .service-card sur l'accueil : rayon sobre, filet
-       hairline, barre d'accent de 2px, ombre discrete. */
+    /* La carte n'est plus une boîte teintée avec des traits dedans : c'est
+       un fond sombre et neutre sur lequel se posent quatre panneaux — la
+       date et le titre, le lieu et l'horaire, le programme, les places.
+       Chaque partie a ses bords, son fond et son intertitre à icône ; le
+       prix et le bouton restent à l'air libre en bas. L'orange ne sert plus
+       de teinte de fond, seulement d'accent : icônes, puces, prix, bouton.
+
+       La barre d'accent de 2 px en haut disparaît : elle marquait le haut
+       d'une carte pleine, elle flotterait au-dessus du premier panneau. */
     .session-card {
       position: relative;
-      background: var(--offer-soft);
-      border: 1px solid var(--offer-border);
-      border-radius: var(--radius-md);
+      background: rgba(0,0,0,0.26);
+      border: 1px solid var(--color-line-dark);
+      border-radius: 18px;
       overflow: hidden;
-      display: flex; flex-direction: column;
+      display: flex; flex-direction: column; gap: 7px;
+      padding: 9px 9px 0;
       transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
-    }
-    .session-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: var(--offer);
     }
     .session-card:hover {
       transform: translateY(-4px);
-      border-color: var(--offer);
+      border-color: var(--offer-border);
+    }
+    /* Le dessin commun des panneaux. */
+    .session-head,
+    .session-infos,
+    .session-prog,
+    .session-jauge {
+      margin: 0;
+      border: 1px solid var(--color-line-dark);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.035);
     }
     /* Complet ne veut plus dire « plus rien à faire ici » : la carte porte
        désormais un lien de liste d'attente, elle doit rester lisible. */
@@ -976,9 +990,8 @@
        chaque pixel repris sur les marges est un mot de moins qui passe à la
        ligne, donc de la hauteur en moins. */
     .session-head {
-      display: flex; align-items: flex-start; gap: var(--space-2);
-      padding: var(--space-3) var(--space-3) 10px;
-      border-bottom: 1px solid var(--color-line-dark);
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 9px 10px;
     }
     /* La date d'une séance se lit comme celle d'un rendez-vous de
        préparation : même vignette sombre, mêmes proportions, mêmes
@@ -1042,10 +1055,7 @@
     .session-infos {
       list-style: none;
       display: flex; flex-wrap: wrap;
-      margin: var(--space-3) var(--space-3) 0; padding: 0;
-      border: 1px solid var(--color-line-dark);
-      border-radius: var(--radius-sm);
-      background: rgba(255,255,255,0.03);
+      padding: 0;
     }
     .session-infos li {
       flex: 1 1 auto; min-width: 0;
@@ -1065,12 +1075,16 @@
 
     /* Le déroulé de la séance, annoncé comme « Ce qui est inclus » l'est
        sur une préparation : un intertitre court, et le texte dessous. */
-    .session-prog { padding: var(--space-3) var(--space-3) 0; }
+    .session-prog { padding: 9px 11px 10px; }
+    /* L'intertitre d'un panneau : une icône en accent, le mot en petites
+       capitales. C'est lui qui dit de quoi parle le panneau avant même
+       qu'on lise son contenu. */
     .session-bloc-titre {
-      display: block; margin-bottom: 6px;
+      display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
       font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.5);
     }
+    .session-bloc-titre svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--offer); }
     .session-prog .session-desc,
     .session-prog .session-desc-liste { padding: 0; }
     .session-prog .session-desc + .session-desc,
@@ -1108,27 +1122,27 @@
        Il reprend donc le ton des lignes d'information du dessus : goutte
        en accent, texte discret. C'est un rappel, pas une alerte. */
     .session-gourde {
-      padding: 7px var(--space-3) 0;
+      padding: 8px 0 0;
       display: flex; align-items: center; gap: 9px;
       font-size: 12px; font-weight: 400;
       color: rgba(255,255,255,0.62); line-height: 1.4;
     }
+    /* Seule dans son panneau, elle n'a pas de déroulé au-dessus d'elle. */
+    .session-gourde--seule { padding-top: 0; }
     .session-gourde svg {
       flex-shrink: 0; width: 14px; height: 14px; color: var(--offer);
     }
 
     /* jauge de places */
     /* Aligne sur la gouttiere laterale commune des autres blocs de la carte. */
-    .session-jauge {
-      margin-top: var(--space-3);
-      padding: 10px var(--space-3);
-      border-top: 1px solid var(--color-line-dark);
-    }
+    .session-jauge { padding: 9px 11px 10px; }
     .jauge-label {
-      display: flex; justify-content: space-between;
+      display: flex; align-items: center; gap: 8px;
       font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-      color: rgba(255,255,255,0.55); margin-bottom: 5px;
+      color: rgba(255,255,255,0.55); margin-bottom: 7px;
     }
+    .jauge-label svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--offer); }
+    .jauge-label .restantes { margin-left: auto; }
     .jauge-label .restantes { color: #FF6B35; }
     /* Le mot « Complet » est rouge partout où il est écrit sur la carte :
        sur la pastille du haut comme au-dessus de la jauge. */
@@ -1182,11 +1196,15 @@
        suffit plus. */
     .session-footer {
       display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-      gap: var(--space-2) var(--space-3);
-      padding: 10px var(--space-3) var(--space-3); margin-top: auto;
-      border-top: 1px solid var(--color-line-dark);
-      background: rgba(0,0,0,0.20);
+      gap: var(--space-2) 10px;
+      /* Le pied n'a pas de bords à lui : il prend toute la largeur laissée
+         par la carte, et ces quelques pixels décident que « Liste d'attente »
+         tient sur une ligne au lieu de deux. */
+      padding: 11px 1px; margin-top: auto;
     }
+    /* Un filet entre le prix et le bouton, comme entre deux panneaux. */
+    .session-footer .prix-bloc { border-right: 1px solid var(--color-line-dark); padding-right: 10px; }
+    .session-footer--pack .prix-bloc { border-right: none; padding-right: 0; }
     .session-footer .prix-bloc { min-width: 0; }
     /* « flex: 1 1 0 » et non « auto » : sur base automatique, le bouton se
        mesure d'abord à son libellé sur une ligne, se trouve trop large pour
@@ -1196,8 +1214,8 @@
     .session-footer .btn-inscrire, .session-footer .btn-attente { flex: 1 1 0; min-width: 0; }
     /* Dans une carte de 245 px, le bouton rend ses marges : ce sont autant de
        caractères qui tiennent sur la ligne au lieu de passer à la suivante. */
-    .session-footer .btn-inscrire { padding: 11px 14px; }
-    .session-footer .btn-attente { padding: 11px 12px; font-size: 13px; }
+    .session-footer .btn-inscrire { padding: 11px 12px; }
+    .session-footer .btn-attente { padding: 11px 10px; font-size: 13px; }
     /* La mention sous le prix, un cran plus discrète ici que sur la
        préparation : la carte est trois fois plus étroite. */
     .session-footer .prix-note { font-size: 9.5px; letter-spacing: 0.06em; }
@@ -1792,12 +1810,20 @@
           }
         });
         viderPuces();
-        /* La zone et son intertitre : seulement s'il y a un déroulé à
-           annoncer. Une séance sans description ne gagne pas un titre
-           au-dessus de rien. */
-        return htm
-          ? '<div class="session-prog"><span class="session-bloc-titre">Au programme</span>' + htm + '</div>'
-          : '';
+        return htm;
+      }
+      /* Le panneau du programme : l'intertitre, le déroulé, et le rappel de
+         la gourde qui appartient à la même idée — ce qu'il va se passer et
+         ce qu'il faut emporter. Sans déroulé, pas d'intertitre : une séance
+         qui n'a rien à annoncer ne gagne pas un titre au-dessus de rien. */
+      function programmeHTML(s) {
+        var d = descriptionHTML(s.description);
+        var ICO_LISTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>';
+        var ICO_GOUTTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.7s6 6.3 6 10.3a6 6 0 0 1-12 0c0-4 6-10.3 6-10.3Z"/></svg>';
+        return '<div class="session-prog">'
+          + (d ? '<div class="session-bloc-titre">' + ICO_LISTE + 'Au programme</div>' + d : '')
+          + '<p class="session-gourde' + (d ? '' : ' session-gourde--seule') + '">' + ICO_GOUTTE + 'Pense à prendre ta gourde</p>'
+          + '</div>';
       }
 
       /* "9h30" + "1h15" → "10h45" : calcule l'heure de fin depuis l'heure de début et la durée */
@@ -2388,13 +2414,10 @@
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>' + esc(lieuCarte(s).fort) + '</strong>' + (lieuCarte(s).note ? '<span class="session-souslieu">' + esc(lieuCarte(s).note) + '</span>' : '') + '</span></li>' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>' + esc(creneauCourt(s)) + '</span></li>' +
           '</ul>' +
-          descriptionHTML(s.description) +
-          '<p class="session-gourde">'
-            + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7s6 6.3 6 10.3a6 6 0 0 1-12 0c0-4 6-10.3 6-10.3Z"/></svg>'
-            + 'Pense à prendre ta gourde</p>' +
+          programmeHTML(s) +
           (s.prixPack ? '' :
           '<div class="session-jauge">' +
-            '<div class="jauge-label"><span>Places</span><span class="restantes' + (complet ? ' restantes--complet' : '') + '">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
+            '<div class="jauge-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Places</span><span class="restantes' + (complet ? ' restantes--complet' : '') + '">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
             '<div class="jauge-bar"><div class="jauge-fill" style="width:' + Math.round(s.inscrits / s.places * 100) + '%"></div></div>' +
             confirmationHTML(s.inscrits, complet, false, s.mini) +
           '</div>') +
