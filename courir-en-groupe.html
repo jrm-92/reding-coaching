@@ -994,17 +994,20 @@
        bandeau au-dessus, et le titre prend toute la largeur du panneau —
        224 px, où les mots les plus longs de tes séances tiennent. */
     .session-head { padding: 9px 10px; }
-    .session-head-top {
+    /* Le niveau et l'état sur la même ligne, sous le titre. */
+    .session-sous {
       display: flex; align-items: center; flex-wrap: wrap;
-      gap: 7px 8px; margin-bottom: 7px;
+      gap: 6px 9px; margin-top: 6px;
     }
     /* La date, en bandeau : jour de la semaine, quantième, mois, sur une
        ligne. Même fond sombre et même filet que les panneaux, en pilule. */
     .session-date-chip {
-      display: inline-flex; align-items: baseline; gap: 6px; flex-shrink: 0;
-      padding: 4px 11px; border-radius: var(--radius-pill);
+      display: inline-flex; align-items: baseline; gap: 5px;
+      vertical-align: 3px; margin-right: 8px;
+      padding: 3px 9px; border-radius: var(--radius-pill);
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--color-line-dark);
+      font-style: normal; letter-spacing: 0;
     }
     .session-date-chip .jsem,
     .session-date-chip .mois {
@@ -1012,7 +1015,7 @@
       color: rgba(255,255,255,0.58);
     }
     .session-date-chip .jour {
-      color: #fff; font-size: 17px; font-weight: 900; font-style: italic;
+      color: #fff; font-size: 15px; font-weight: 900; font-style: italic;
       line-height: 1; font-variant-numeric: tabular-nums;
     }
     /* Le titre pèse autant que le chiffre du jour : même corps, même
@@ -1023,10 +1026,9 @@
       text-transform: uppercase; letter-spacing: 0; color: #fff; line-height: 1.12;
     }
     .titre-sub {
-      display: block;
       font-size: var(--fs-micro); font-weight: 600; font-style: normal;
       text-transform: none; letter-spacing: 0.3px;
-      color: rgba(255, 255, 255, 0.55); margin-top: 3px;
+      color: rgba(255, 255, 255, 0.55);
     }
     .session-badge-statut {
       display: inline-block; margin-top: 5px;
@@ -2400,15 +2402,21 @@
         card.className = 'session-card' + (complet ? ' complet' : '');
         card.innerHTML =
           '<div class="session-head">' +
-            '<div class="session-head-top">' +
+            /* La date ouvre la ligne du titre : elle est DANS le texte, pas
+               à côté. Le titre démarre donc sur la même ligne qu'elle et,
+               dès la deuxième, dispose de toute la largeur du panneau — un
+               mot long n'a plus à tenir dans une demi-colonne. */
+            '<div class="session-titre">' +
               '<span class="session-date-chip"><span class="jsem">' + JOURS[d.getDay()] + '</span><b class="jour">' + d.getDate() + '</b><span class="mois">' + MOIS[d.getMonth()] + '</span></span>' +
-              statut +
+              esc(String(s.titre || '').trim() || s.evenement || '') +
             '</div>' +
-            '<div class="session-titre">' + (function () {
-              var titreCard = String(s.titre || '').trim();
+            (function () {
               var sousTitreCard = String(s.sousTitre || '').trim();
-              return titreCard ? esc(titreCard) + (sousTitreCard ? '<span class="titre-sub">' + esc(sousTitreCard) + '</span>' : '') : esc(s.evenement || '');
-            })() + '</div>' +
+              if (!sousTitreCard && !statut) return '';
+              return '<div class="session-sous">'
+                + (sousTitreCard ? '<span class="titre-sub">' + esc(sousTitreCard) + '</span>' : '')
+                + statut + '</div>';
+            })() +
           '</div>' +
           '<ul class="session-infos">' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>' + esc(lieuCarte(s).fort) + '</strong>' + (lieuCarte(s).note ? '<span class="session-souslieu">' + esc(lieuCarte(s).note) + '</span>' : '') + '</span></li>' +
