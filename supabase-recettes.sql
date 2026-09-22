@@ -163,19 +163,32 @@ update public.preparation_seances set actif = true  where id = 'MP1';   -- la re
 --     chacune leur prix, leur lien et leur compteur.
 
 -- ── 3.1 En créer une ───────────────────────────────────────────────────
+--     Les colonnes sont rangées dans l'ordre où on les remplit : ce qui
+--     change à chaque séance d'abord, ce qui ne bouge presque jamais
+--     ensuite. PostgreSQL ne sait pas déplacer une colonne dans une
+--     table ; c'est donc ici, dans la recette, que l'ordre se décide.
 insert into public.sessions
-  (id, evenement, titre, sous_titre, date, heure, duree,
-   lieu, sous_lieu, prix_unitaire, stripe, ancv, places)
+  (id, evenement, date, heure, duree,
+   titre, sous_titre, lieu, "precision", description,
+   places, mini, inscrits, prix_unitaire, stripe, ancv, actif)
 values
-  ('U10',                                    -- identifiant, sert de référence de paiement
-   'Séance découverte',                      -- titre du bloc sur le site
+  ('DEFENSE-2028-02-15-SOIR',       -- identifiant, sert de référence de paiement
+   'La Défense',                    -- titre du bloc sur le site
+   '2028-02-15', '19h00', '1h15',
    'Endurance', 'Tous niveaux',
-   '2028-02-15', '19h00', '1h',
-   'Nanterre', 'Bords de Seine',
-   '8 €',
+   'Le Parvis',                     -- le point de rendez-vous, en gras sur la carte
+   'Départ et retour',              -- ce qu'on en dit au-dessus
+   '- Échauffement
+- Gammes et exercices spécifiques
+- Apprendre à tenir une allure
+- Retour au calme',
+   10,                              -- places
+   5,                               -- minimum pour que la séance soit confirmée
+   0,                               -- inscrits : toujours 0 à la création
+   '13',
    'https://buy.stripe.com/xxxxxxxx',
-   '',                                       -- lien Chèques-Vacances, si tu en as un
-   12);
+   '',                              -- lien Chèques-Vacances, si tu en as un
+   true);
 
 -- ── 3.2 Changer son prix, son lien, ses places ─────────────────────────
 update public.sessions set prix_unitaire = '10 €'                      where id = 'U10';
