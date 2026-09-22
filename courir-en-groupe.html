@@ -963,6 +963,71 @@
       .pack-badge + .pack-badge { border-left: none; border-top: 1px solid var(--color-line-dark); }
     }
 
+    /* ═══ L'EN-TÊTE D'UNE PRÉPARATION, COMME CELUI D'UNE SÉANCE ══════════
+       Même architecture que la carte de séance : un bandeau clair d'un bord
+       à l'autre de la carte, la date en vignette d'agenda à gauche, le titre
+       à droite ; puis les informations pratiques en cases séparées de
+       filets, sans boîte autour. Les deux familles d'offres se lisent ainsi
+       de la même façon. Ces règles viennent après le palier « une colonne »
+       de 900 px : à égalité de poids, c'est la dernière écrite qui gagne. */
+    .pack-entete {
+      text-align: left;
+      margin-bottom: var(--space-5); padding-bottom: 0; border-bottom: none;
+    }
+    .pack-head {
+      display: flex; align-items: flex-start; gap: 12px;
+      margin: calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) 0;
+      padding: var(--space-4) var(--space-4) var(--space-3);
+      background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.01) 100%);
+    }
+    .pack-tete { flex: 1 1 0; min-width: 0; }
+    .pack-head .lieu-titre-row { justify-content: flex-start; margin-bottom: 0; }
+    .pack-head .lieu-titre { align-items: flex-start; }
+    .pack-head .lieu-titre span { text-align: left; white-space: normal; }
+    /* La date de la course est dans la vignette : inutile de la répéter. */
+    .pack-head .lieu-titre .lieu-titre-date { display: none; }
+    /* Le bouton « M'inscrire à la course » se range à droite du bandeau
+       quand il y a la place, et descend sous le titre sinon — collé à
+       gauche comme le reste, et non centré comme il l'était du temps où
+       tout l'en-tête l'était. */
+    .pack-head .lieu-titre-row {
+      flex-direction: row; align-items: center;
+      justify-content: space-between; gap: var(--space-4);
+    }
+    .pack-head .pack-course-action { align-self: center; }
+    @media (max-width: 768px) {
+      .pack-head .lieu-titre-row { flex-direction: column; align-items: flex-start; gap: var(--space-3); }
+      .pack-head .pack-course-action { align-self: flex-start; }
+    }
+
+    /* Les informations pratiques : plus de boîte, des filets qui vont d'un
+       bord à l'autre. Deux cases par rangée sur un téléphone, quatre dès
+       qu'il y a la place. */
+    .pack-entete .pack-badges {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      border: none; border-radius: 0; background: none; overflow: visible;
+      margin: 0 calc(-1 * var(--space-4));
+      border-top: 1px solid var(--color-line-dark);
+    }
+    .pack-entete .pack-badge {
+      display: flex; align-items: center; justify-content: center; gap: 9px;
+      padding: var(--space-3) var(--space-4);
+      border: none;
+      border-bottom: 1px solid var(--color-line-dark);
+      border-left: 1px solid var(--color-line-dark);
+      text-align: center; white-space: normal;
+    }
+    .pack-entete .pack-badge:nth-child(2n+1) { border-left: none; }
+    .pack-entete .pack-badge svg { margin-top: 0; }
+    /* Comme sur une carte de séance : ce qu'on vient faire là en gras, le
+       nom du point de rendez-vous dessous, en gris et sans gras. */
+    .pack-badge-nom { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.72); }
+    @media (min-width: 900px) {
+      .pack-entete .pack-badges { grid-template-columns: repeat(4, 1fr); }
+      .pack-entete .pack-badge:nth-child(2n+1) { border-left: 1px solid var(--color-line-dark); }
+      .pack-entete .pack-badge:nth-child(4n+1) { border-left: none; }
+    }
+
     /* Mobile : une carte visible + un aperçu de la suivante */
     @media (max-width: 768px) {
       .lieu-titre span { white-space: normal; text-align: center; }
@@ -2328,11 +2393,28 @@
               '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Du ' + esc(dateDebutStr) + ' au ' + esc(dateFinStr) + '</span>' +
               '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + rythmeHtml + '</span>' +
               '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Groupe de ' + esc(String(placesPack)) + ' max</span>' +
-              '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Départ et Retour <br>' + esc(ouOnSeRetrouve(sessionsTri[0])) + '</span>' +
+              '<span class="pack-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>Départ et Retour</strong><span class="pack-badge-nom">' + esc(ouOnSeRetrouve(sessionsTri[0])) + '</span></span></span>' +
             '</div>';
+          /* La date de la course en vignette d'agenda, comme la date d'une
+             séance. Le millésime remplace le jour de la semaine : une course
+             se repère à son année, pas à son samedi. Sans date de course
+             renseignée, pas de vignette — le titre prend alors toute la
+             largeur du bandeau. */
+          var vignetteCourse = '';
+          if (/^\d{4}-\d{2}-\d{2}/.test(isoCourse)) {
+            var dCourse = new Date(isoCourse.slice(0, 10) + 'T12:00:00');
+            vignetteCourse =
+              '<div class="session-date-badge" aria-hidden="true">' +
+                '<span class="mois">' + MOIS[dCourse.getMonth()] + '</span>' +
+                '<span class="jour">' + dCourse.getDate() + '</span>' +
+                '<span class="jsem">' + dCourse.getFullYear() + '</span>' +
+              '</div>';
+          }
           var enteteBloc = document.createElement('div');
           enteteBloc.className = 'pack-entete';
-          enteteBloc.innerHTML = enteteHtml + badgesHtml;
+          enteteBloc.innerHTML =
+            '<div class="pack-head">' + vignetteCourse + '<div class="pack-tete">' + enteteHtml + '</div></div>' +
+            badgesHtml;
 
           /* ── Carte d'offre : en-tête + « inclus » + CTA, le tout dans une seule carte ── */
           var packWrap = document.createElement('div');
