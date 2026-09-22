@@ -848,15 +848,54 @@
        « details » est un mécanisme du navigateur : il s'ouvre au clic comme
        au clavier, sans une ligne de JavaScript, et le moteur de recherche
        lit le contenu même replié. */
-    summary.prog-titre { cursor: pointer; list-style: none; }
+    /* Un chevron seul ne dit pas qu'on peut appuyer. Le titre prend donc
+       l'apparence d'un bouton — un cadre, un fond, et le mot « Voir » à
+       droite qui devient « Masquer » une fois ouvert. Les filets qui
+       l'encadraient disparaissent : ils en faisaient un titre de section,
+       c'est-à-dire tout le contraire. */
+    summary.prog-titre {
+      cursor: pointer; list-style: none;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid var(--color-line-dark);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      transition: background .2s ease, border-color .2s ease;
+    }
     summary.prog-titre::-webkit-details-marker { display: none; }
+    summary.prog-titre::before, summary.prog-titre::after { display: none; }
+    /* Un bouton, plus un titre de section : le libellé descend au corps
+       d'un bouton. À 26 px il occupait toute la largeur et « RENDEZ-VOUS »
+       partait à la ligne, laissant « VOIR » flotter dans le vide. */
+    summary.prog-titre { font-size: 15px; }
+    /* Sur les plus petits téléphones, un cran de plus : « RENDEZ-VOUS »
+       repassait à la ligne. */
+    @media (max-width: 400px) {
+      summary.prog-titre { font-size: 13.5px; padding: var(--space-3); gap: var(--space-2); }
+    }
+    @media (min-width: 900px) { summary.prog-titre { font-size: 18px; } }
+    summary.prog-titre svg { width: 18px; height: 18px; margin-right: 8px; vertical-align: -3px; }
+    summary.prog-titre > span:first-child { flex: 1 1 auto; min-width: 0; text-align: left; }
+    summary.prog-titre:hover,
+    summary.prog-titre:focus-visible { background: rgba(255,255,255,0.09); border-color: rgba(255,107,53,0.45); }
+    /* Le libellé est décoratif : « summary » annonce déjà tout seul aux
+       synthèses vocales si la section est ouverte ou fermée. */
+    .prog-voir {
+      display: inline-flex; align-items: center; gap: 7px; flex-shrink: 0;
+      font-size: 12px; font-weight: 800; font-style: normal;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--color-accent);
+    }
+    .prog-voir::before { content: 'Voir'; }
+    .prog-repli[open] .prog-voir::before { content: 'Masquer'; }
     .prog-chevron {
-      display: inline-flex; margin-left: 10px; vertical-align: -4px;
-      color: var(--color-accent); transition: transform .25s ease;
+      display: inline-flex; color: var(--color-accent);
+      transition: transform .25s ease;
     }
     .prog-chevron svg { width: 18px; height: 18px; }
     .prog-repli[open] .prog-chevron { transform: rotate(180deg); }
     .prog-repli > :last-child { margin-bottom: 0; }
+    .prog-repli[open] summary.prog-titre { margin-bottom: var(--space-4); }
 
     /* Ce que sont ces dates, dit une fois : douze vignettes n'ont plus à le
        répéter chacune dans son coin. */
@@ -2508,8 +2547,9 @@
           var progTitre = document.createElement('summary');
           progTitre.className = 'prog-titre';
           progTitre.innerHTML = '<span>' + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 15 11 17 15 13"/></svg>'
-            + esc('Tes ' + sessionsTri.length + ' rendez-vous')
-            + '<span class="prog-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>'
+            + esc('Tes ' + sessionsTri.length + ' rendez-vous') + '</span>'
+            + '<span class="prog-voir" aria-hidden="true">'
+              + '<span class="prog-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>'
             + '</span>';
           progRepli.appendChild(progTitre);
           bloc.appendChild(progRepli);
