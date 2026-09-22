@@ -344,17 +344,22 @@
        On lui transfere le fond, la bordure et le rayon qui appartenaient a
        .pack-inclus : une seule enveloppe, et tout se trouve dedans.
        Le margin-bottom fait l'espace net entre deux preparations. */
+    /* Le lieu n'est plus un encadré teinté qui contient des cartes qui
+       contiennent des cartes. C'est une section de page : un titre, un
+       filet, les séances. Trois niveaux de bords en moins. */
     .lieu-groupe {
       max-width: 1080px;
-      margin: 0 auto var(--space-8);
-      padding: var(--space-5) var(--space-5) var(--space-6);
-      background: linear-gradient(135deg, rgba(255,107,53,0.10), rgba(255,107,53,0.04));
-      border: 1px solid rgba(255,107,53,0.35);
-      border-radius: 16px;
+      margin: 0 auto var(--space-7);
+      padding: 0;
+      background: none; border: none; border-radius: 0;
     }
     .lieu-groupe:last-child { margin-bottom: 0; }
     /* Ligne titre : nom de la course (gauche/centre) + action « M'inscrire à la course » + ⓘ (droite) */
-    .lieu-titre-row { position: relative; display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 4px; }
+    .lieu-titre-row {
+      position: relative; display: flex; align-items: center; justify-content: space-between;
+      gap: 14px; margin-bottom: var(--space-4);
+      padding-bottom: 12px; border-bottom: 1px solid var(--color-line-dark);
+    }
     .lieu-titre-row .lieu-titre { flex: 0 1 auto; margin-bottom: 0; }
     .pack-course-action { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
     /* Petit ⓘ avec bulle d'info (survol / focus) */
@@ -406,11 +411,11 @@
     .pack-course-info:focus .pack-course-tip,
     .pack-course-info:focus-within .pack-course-tip { display: block; }
     @media (max-width: 768px) {
-      .lieu-titre-row { flex-direction: column; gap: 12px; margin-bottom: 12px; }
+      .lieu-titre-row { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
     .lieu-titre {
       display: flex; align-items: center; gap: 16px;
-      margin-bottom: 22px;
+      margin-bottom: 0;
     }
     /* Ce qu'on propose, puis quand : les deux sous le nom de course, dans
        cet ordre, et centres sur le titre lui-meme puisqu'ils sont imbriques
@@ -430,27 +435,30 @@
     /* Epingle du titre : elle heritait du blanc via currentColor et se
        confondait avec le texte. En accent, elle signale le type d'information
        et fait echo aux icones du bandeau juste en dessous. */
-    .lieu-titre > span > svg { color: var(--color-accent); }
+    .lieu-titre > span > svg { display: none; }
     .lieu-titre span {
-      font-size: var(--fs-h4); font-weight: 900; font-style: italic;
-      text-transform: uppercase; letter-spacing: 0.04em; color: #ffffff;
-      white-space: normal; text-align: center;
+      font-size: var(--fs-h5); font-weight: 900; font-style: italic;
+      text-transform: uppercase; letter-spacing: 0.06em; color: #ffffff;
+      white-space: normal; text-align: left;
     }
+    .lieu-titre .lieu-titre-kicker,
+    .lieu-titre .lieu-titre-date { text-align: left; }
     /* Flèches de défilement latérales (desktop) */
     .lieu-carrousel { position: relative; }
+    /* Des flèches, pas des pastilles flottantes : un chevron discret, qui
+       prend l'accent au survol. */
     .lieu-fleche {
-      width: 40px; height: 40px; border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.85);
-      background: var(--offer-fill);
-      color: var(--offer-on); cursor: pointer;
+      width: 34px; height: 34px; border-radius: 0;
+      border: none; background: none;
+      color: rgba(255,255,255,0.4); cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 14px var(--offer-glow);
-      transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+      box-shadow: none;
+      transition: color 0.2s ease, opacity 0.2s ease;
     }
     .lieu-fleche svg { width: 18px; height: 18px; }
     /* Une flèche de chaque côté, dans une marge réservée : elles ne touchent jamais les cartes */
     @media (min-width: 769px) {
-      .lieu-carrousel { padding: 0 56px; }
+      .lieu-carrousel { padding: 0 44px; }
     }
     /* .lieu-cards reserve 14px de padding bas pour sa barre de defilement :
        centrer sur le conteneur decalait les fleches de 7px sous le milieu
@@ -461,7 +469,7 @@
     .lieu-fleche--prev { left: 6px; }
     .lieu-fleche--next { right: 6px; }
     .lieu-fleche--prev:hover:not(:disabled),
-    .lieu-fleche--next:hover:not(:disabled) { background: var(--offer-hover); transform: translateY(-50%) scale(1.07); }
+    .lieu-fleche--next:hover:not(:disabled) { color: var(--offer); }
     .lieu-fleche:disabled { opacity: 0.3; cursor: default; box-shadow: none; }
     @media (max-width: 768px) {
       .lieu-fleche--prev, .lieu-fleche--next { display: none !important; }
@@ -471,7 +479,7 @@
     /* En-tete de famille : le titre, puis une phrase qui dit a quoi sert la
        formule. Les marges vivent sur le bloc et non sur le titre, pour que
        le titre et sa phrase restent soudes. */
-    .famille-entete { margin: 0 0 var(--space-4); text-align: center; }
+    .famille-entete { margin: 0 0 var(--space-4); text-align: left; }
     .famille-entete + .lieu-groupe { margin-top: 0; }
     .lieu-groupe + .famille-entete { margin-top: var(--space-7); }
     .famille-titre {
@@ -482,25 +490,25 @@
       letter-spacing: 0.03em;
       color: #ffffff;
       margin: 0;
-      text-align: center;
+      text-align: left;
     }
     .famille-texte {
-      margin: 10px auto 0; max-width: 46ch;
+      margin: 10px 0 0; max-width: 46ch;
       font-size: var(--fs-small); line-height: 1.6;
       color: rgba(255,255,255,0.72);
     }
     /* Le petit effectif se dit sous la phrase : une pastille plutôt qu'une
        ligne de plus, pour qu'on la voie sans la lire. */
     .famille-jauge { margin: 12px 0 0; }
+    /* Plus de pastille : une ligne d'information, comme le reste. */
     .famille-jauge-p {
       display: inline-flex; align-items: center; gap: 9px;
-      padding: 7px 15px;
-      border: 1px solid var(--color-line-dark);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.03);
+      padding: 0;
+      border: none; border-radius: 0; background: none;
       font-size: var(--fs-small); font-weight: 600;
       color: rgba(255,255,255,0.78);
     }
+    .famille-jauge-p svg { display: none; }
     .famille-jauge-p strong { color: #ffffff; font-weight: 800; }
     .famille-jauge-p svg { width: 16px; height: 16px; color: var(--color-accent); flex-shrink: 0; }
     /* Dans la pastille, le « i » est déjà centré par le flex : pas de
@@ -512,7 +520,7 @@
        déclarée plus bas, qui l'emportait — le texte restait en 11 px et la
        boîte en 281 px de large, quelle que soit la place disponible. */
     .famille-jauge .famille-aide {
-      display: block; max-width: 46ch; margin: 10px auto 0;
+      display: block; max-width: 46ch; margin: 10px 0 0;
       text-align: left; font-size: var(--fs-small);
     }
 
@@ -523,8 +531,8 @@
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
-      gap: 20px;
-      padding: 4px 4px 14px;
+      gap: 0;
+      padding: 0 0 14px;
       scrollbar-width: thin;
       scrollbar-color: rgba(255,107,53,0.7) rgba(255,255,255,0.08);
     }
@@ -549,9 +557,16 @@
          rupture supplementaire n'est necessaire.
          L'indication de defilement passe par le voile degrade .a-suite, deja
          present et plus discret que l'ancien quart de 4e carte. */
-      flex: 0 0 max(240px, calc((100% - 40px) / 3));
+      flex: 0 0 max(240px, calc(100% / 3));
       min-width: 0;
       scroll-snap-align: start;
+    }
+    /* La séparation entre deux fiches : un filet, pas un écart entre deux
+       boîtes. La première reste alignée sur le titre de section. */
+    .lieu-cards .session-card { padding-right: 22px; }
+    .lieu-cards .session-card + .session-card {
+      padding-left: 22px;
+      border-left: 1px solid var(--color-line-dark);
     }
     /* Voile dégradé sur le bord droit tant qu'il reste des seances à voir */
     /* Le voile porte desormais seul l'indication de defilement (l'apercu de
@@ -577,32 +592,32 @@
       background: none; border: none; border-radius: 0; padding: 0;
     }
     .pack-inclus-titre {
-      margin: 0 0 var(--space-4); font-size: 15px; font-weight: 800; color: #fff;
-      text-align: center; line-height: 1.5;
+      margin: 0 0 var(--space-3); padding-bottom: 10px;
+      border-bottom: 1px solid var(--color-line-dark);
+      font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      text-align: left; line-height: 1.5;
     }
     .pack-inclus-liste { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 15px; }
-    .pack-inclus-liste li { display: flex; align-items: flex-start; gap: 13px; }
+    .pack-inclus-liste li { display: block; }
     /* Fond carre discret + icone en accent vif : le carre s'effac,
        l'icone porte la couleur. */
-    .pack-inclus-ico {
-      flex-shrink: 0; width: 38px; height: 38px; border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center; line-height: 1;
-      background: rgba(255,255,255,0.05); border: 1px solid var(--color-line-dark);
-    }
-    .pack-inclus-ico svg { width: 20px; height: 20px; color: var(--color-accent); }
+    /* Les tuiles à icône étaient trois petites cartes de plus. */
+    .pack-inclus-ico { display: none; }
     .pack-inclus-txt strong { display: block; color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 2px; }
     .pack-inclus-txt p { margin: 0; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.88); }
 
     .btn-pack {
       display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-      padding: 15px 24px; border: none; border-radius: var(--radius-md); cursor: pointer;
+      padding: 15px 24px; border: none; border-radius: 3px; cursor: pointer;
       background: var(--offer-fill); color: var(--offer-on);
       font-family: inherit; font-size: var(--fs-body); font-weight: 800; font-style: italic;
       text-transform: uppercase; letter-spacing: 0.04em;
-      box-shadow: 0 6px 18px var(--offer-glow);
-      transition: background 0.2s ease, transform 0.2s ease;
+      box-shadow: none;
+      transition: background 0.2s ease;
     }
-    .btn-pack:hover:not(:disabled) { background: var(--offer-hover); transform: translateY(-2px); }
+    .btn-pack > svg:first-child { display: none; }
+    .btn-pack:hover:not(:disabled) { background: var(--offer-hover); }
     .btn-pack:disabled { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.45); cursor: not-allowed; box-shadow: none; }
 
     /* Bouton d'achat + places : sous les cartes, centrés */
@@ -613,15 +628,15 @@
        bouton principal tout en restant visible sans ouvrir la fenetre. */
     .btn-offrir {
       display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-      padding: 12px 22px; border-radius: var(--radius-md); cursor: pointer;
-      border: 1.5px solid var(--offer-border); background: transparent;
+      padding: 12px 22px; border-radius: 3px; cursor: pointer;
+      border: 1px solid var(--offer-border); background: transparent;
       color: var(--offer-light);
       font-family: inherit; font-size: 14.5px; font-weight: 800; font-style: italic;
       text-transform: uppercase; letter-spacing: 0.04em;
       transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     }
-    .btn-offrir svg { width: 17px; height: 17px; flex-shrink: 0; }
-    .btn-offrir:hover { background: var(--offer-soft); border-color: var(--offer); transform: translateY(-2px); }
+    .btn-offrir > svg:first-child { display: none; }
+    .btn-offrir:hover { background: var(--offer-soft); border-color: var(--offer); }
     .pack-offre .pack-cta .btn-offrir { width: 100%; max-width: 560px; }
 
     .pack-places {
@@ -684,14 +699,14 @@
        secondaire face au CTA principal d'inscription a la preparation. */
     .pack-course-lien {
       display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-      padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm);
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--color-line-dark); color: #ffffff;
+      padding: var(--space-2) 0; border-radius: 0;
+      background: none;
+      border: none; border-bottom: 1px solid var(--color-line-dark); color: #ffffff;
       font-size: var(--fs-small); font-weight: 700; letter-spacing: .04em;
       text-transform: uppercase; text-decoration: none; white-space: nowrap;
       transition: background .2s ease, border-color .2s ease;
     }
-    .pack-course-lien:hover { background: var(--offer-soft); border-color: var(--offer); color: #ffffff; }
+    .pack-course-lien:hover { background: none; border-bottom-color: var(--offer); color: var(--offer-light); }
 
     /* Empilement dès qu'on n'a plus assez de large (tablette / mobile) */
     @media (max-width: 1024px) {
@@ -703,13 +718,14 @@
        Une seule boite, filet hairline, rayon sobre. Les trois donnees sont
        separees par des filets internes plutot que par des contours propres :
        elles se lisent comme un ensemble et non comme trois etiquettes. */
+    /* Une ligne d'information, séparée de filets verticaux : « 12 semaines
+       · tous les dimanches · groupe de 12 · Le Vésinet ». La boîte et les
+       icônes appartenaient au vocabulaire des tableaux de bord. */
     .pack-badges {
       display: flex; flex-wrap: wrap;
-      border: 1px solid var(--color-line-dark);
-      border-radius: var(--radius-sm);
-      background: rgba(255,255,255,0.03);
-      margin: 2px 0 var(--space-5);
-      overflow: hidden;
+      border: none; border-radius: 0; background: none;
+      margin: 2px 0 var(--space-4);
+      overflow: visible;
     }
     /* Quatre cases de largeur égale et un texte qui ne va jamais à la
        ligne : « Du 13 février au 1er mai » ne tenait pas dans son quart et
@@ -718,17 +734,18 @@
        prennent maintenant la place qu'il leur faut, et le texte se replie
        plutôt que d'être tronqué. */
     .pack-badge {
-      flex: 1 1 auto; min-width: 0;
-      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-      padding: var(--space-3) var(--space-4);
+      flex: 0 1 auto; min-width: 0;
+      display: inline-flex; align-items: baseline; justify-content: flex-start; gap: 0;
+      padding: 0 16px;
       background: none; border: none; border-radius: 0;
-      color: rgba(255,255,255,0.85);
-      font-size: var(--fs-small); font-weight: 600;
-      white-space: normal; text-align: center; text-wrap: balance;
+      color: rgba(255,255,255,0.78);
+      font-size: 12.5px; font-weight: 700; letter-spacing: 0.05em;
+      white-space: normal; text-align: left; text-wrap: balance;
     }
+    .pack-badge:first-child { padding-left: 0; }
+    .pack-badge svg { display: none; }
     /* Filet de separation entre les donnees, jamais avant la premiere */
     .pack-badge + .pack-badge { border-left: 1px solid var(--color-line-dark); }
-    .pack-badge svg { width: 16px; height: 16px; color: var(--color-accent); flex-shrink: 0; }
 
     /* Carte d'offre : pleine largeur (centrée, largeur de lecture confortable) */
     /* Le module fixe la largeur et le padding : ce bloc s'y conforme,
@@ -803,10 +820,9 @@
       content: ''; flex: 1 1 0; height: 1px; min-width: 14px;
       background: rgba(255,107,53,0.32);
     }
-    .prog-titre svg {
-      width: 22px; height: 22px; flex-shrink: 0;
-      color: var(--color-accent); vertical-align: -4px; margin-right: 10px;
-    }
+    /* L'icône d'agenda devant « Tes 12 rendez-vous » : décorative, comme
+       celles des boutons et des lignes d'information. */
+    .prog-titre svg { display: none; }
     /* Ce que sont ces dates, dit une fois : douze vignettes n'ont plus à le
        répéter chacune dans son coin. */
     .prog-sous {
@@ -839,43 +855,32 @@
       scrollbar-width: none;
     }
     .prog-dates::-webkit-scrollbar { display: none; }
+    /* Des colonnes de dates séparées d'un filet, plus douze vignettes. */
     .prog-dates li {
-      position: relative; overflow: hidden;
-      flex: 0 0 auto; width: 132px;
+      position: relative; overflow: visible;
+      flex: 0 0 auto; width: 120px;
       scroll-snap-align: start;
-      display: flex; flex-direction: column; align-items: center;
-      padding: 11px 10px 10px; border-radius: 14px;
-      background: rgba(255,255,255,0.045);
-      border: 1px solid var(--color-line-dark);
+      display: flex; flex-direction: column; align-items: flex-start;
+      padding: 2px 14px 2px 0; border-radius: 0;
+      background: none; border: none;
     }
+    .prog-dates li + li { padding-left: 14px; border-left: 1px solid var(--color-line-dark); }
     /* Hachures d'angle : le même biais que les chevrons du logo, assez
        pâles pour qu'on les sente sans les lire. */
-    .prog-dates li::after {
-      content: ''; position: absolute; top: -14px; right: -14px;
-      width: 62px; height: 62px; transform: rotate(0deg); pointer-events: none;
-      background: repeating-linear-gradient(115deg,
-        rgba(255,255,255,0.07) 0 2px, transparent 2px 7px);
-      -webkit-mask-image: linear-gradient(225deg, #000, transparent 72%);
-              mask-image: linear-gradient(225deg, #000, transparent 72%);
-    }
-    /* La première : c'est le prochain rendez-vous, celui qu'on cherche. */
-    .prog-dates li.prog-premier {
-      border-color: rgba(255,107,53,0.7);
-      background: linear-gradient(160deg, rgba(255,107,53,0.14), rgba(255,107,53,0.04));
-      box-shadow: 0 0 0 1px rgba(255,107,53,0.18), 0 6px 22px rgba(255,107,53,0.14);
-    }
+    /* La première : c'est le prochain rendez-vous, celui qu'on cherche.
+       Il se signale par son quantième en accent, pas par un cadre. */
+    .prog-dates li.prog-premier .prog-num { color: var(--offer); }
     .prog-rang {
-      position: absolute; top: 9px; left: 9px;
-      min-width: 24px; height: 22px; padding: 0 5px; border-radius: 7px;
-      display: inline-flex; align-items: center; justify-content: center;
-      background: rgba(255,107,53,0.9); color: #10131a;
-      font-size: 12px; font-weight: 900; font-style: italic;
+      position: static; min-width: 0; height: auto; padding: 0; border-radius: 0;
+      display: block; background: none; color: rgba(255,255,255,0.35);
+      font-size: 10.5px; font-weight: 800; font-style: normal; letter-spacing: 0.1em;
       font-variant-numeric: tabular-nums;
     }
+    .prog-rang::before { content: 'N\00b0\00a0'; }
     /* Le jour de la semaine, en petit au-dessus du quantième : c'est lui
        qu'on lit en premier quand on cherche « est-ce que je suis libre ». */
     .prog-sem {
-      margin-left: 20px;                 /* dégage la pastille du rang */
+      margin-left: 0;
       font-size: 11px; font-weight: 800; letter-spacing: 0.1em;
       text-transform: uppercase; color: rgba(255,255,255,0.52);
     }
@@ -888,20 +893,18 @@
       text-transform: uppercase; color: rgba(255,255,255,0.7);
     }
     .prog-heure, .prog-type {
-      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
-      width: 100%; text-align: center;
+      display: inline-flex; align-items: center; justify-content: flex-start; gap: 5px;
+      width: 100%; text-align: left;
     }
     .prog-heure {
       margin-top: 8px;
       font-size: 13px; font-weight: 800; color: #FF6B35;
     }
     .prog-type {
-      margin-top: 8px; padding-top: 8px;
-      border-top: 1px solid var(--color-line-dark);
-      font-size: 10.5px; font-weight: 600; color: rgba(255,255,255,0.58);
+      margin-top: 5px; padding-top: 0; border-top: none;
+      font-size: 10.5px; font-weight: 600; color: rgba(255,255,255,0.45);
     }
-    .prog-heure svg { width: 13px; height: 13px; flex-shrink: 0; }
-    .prog-type svg { width: 13px; height: 13px; flex-shrink: 0; opacity: 0.8; }
+    .prog-heure svg, .prog-type svg { display: none; }
 
     @media (max-width: 640px) {
       /* auto-fit replie seul la grille en une colonne : ces surcharges de
@@ -911,79 +914,52 @@
          Le texte heritait du text-align:center de l'en-tete, donc ses lignes
          de renvoi se centraient sous l'icone ; et align-items:center placait
          l'icone au milieu des deux lignes au lieu de la premiere. */
-      .pack-badges { flex-direction: column; }
+      .pack-badges { flex-direction: column; gap: 7px; }
       .pack-badge {
         flex: 1 1 auto;
+        padding: 0;
         justify-content: flex-start;
         align-items: flex-start;
         text-align: left;
         white-space: normal;
-        gap: var(--space-2);
-        padding: var(--space-3);
+        gap: 0;
+        padding: 0;
       }
-      .pack-badge svg { margin-top: 2px; }   /* alignement optique sur la 1re ligne */
-      .pack-badge + .pack-badge { border-left: none; border-top: 1px solid var(--color-line-dark); }
+      .pack-badge + .pack-badge { border-left: none; border-top: none; }
     }
 
     /* Mobile : une carte visible + un aperçu de la suivante */
     @media (max-width: 768px) {
-      .lieu-titre span { white-space: normal; text-align: center; }
-      .lieu-cards { gap: 14px; }
+      .lieu-titre span { white-space: normal; text-align: left; }
       .lieu-cards .session-card {
-        /* 90 % plutôt que 84 % : la carte respire et l'horaire tient à côté
-           du lieu. Il reste un bord de la suivante, assez pour qu'on voie
-           qu'il y a autre chose à droite. */
-        flex: 0 0 90%;
+        /* 88 % : la fiche prend la largeur, et le filet de la suivante
+           apparaît sur le bord — de quoi comprendre qu'on peut faire
+           défiler, sans flèche ni mode d'emploi. */
+        flex: 0 0 88%;
         min-width: 0;
         max-width: 360px;
-        scroll-snap-align: center;
+        scroll-snap-align: start;
       }
       .swipe-hint { display: block; }
     }
-    /* La carte n'est plus une boîte teintée avec des traits dedans : c'est
-       un fond sombre et neutre sur lequel se posent quatre panneaux — la
-       date et le titre, le lieu et l'horaire, le programme, les places.
-       Chaque partie a ses bords, son fond et son intertitre à icône ; le
-       prix et le bouton restent à l'air libre en bas. L'orange ne sert plus
-       de teinte de fond, seulement d'accent : icônes, puces, prix, bouton.
-
-       La barre d'accent de 2 px en haut disparaît : elle marquait le haut
-       d'une carte pleine, elle flotterait au-dessus du premier panneau. */
+    /* Une fiche, pas une carte : ni fond, ni bord, ni rayon, ni ombre. La
+       hiérarchie se fait à la typographie, à l'espace et à des filets fins.
+       Un site de coach, pas un tableau de bord. */
     .session-card {
       position: relative;
-      background: rgba(0,0,0,0.26);
-      border: 1px solid var(--color-line-dark);
-      border-radius: 18px;
-      overflow: hidden;
-      display: flex; flex-direction: column; gap: 7px;
-      padding: 9px 9px 0;
-      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+      background: none; border: none; border-radius: 0;
+      overflow: visible;
+      display: flex; flex-direction: column;
     }
-    .session-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--offer-border);
-    }
-    /* Un seul encadré, celui du haut : quand et où, c'est ce qu'on cherche
-       en premier quand on choisit une séance. Il réunit la date, le titre,
-       le lieu et l'horaire, séparés entre eux par de simples filets.
-
-       Le programme et les places, eux, se posent sur le fond de la carte et
-       se séparent du même filet. Trois cadres de même poids ne
-       hiérarchisaient rien : un cadre doit vouloir dire « regarde ici
-       d'abord », pas « nouvelle zone » — ça, le filet le dit déjà, et pour
-       une trentaine de pixels de moins. */
-    .session-haut {
-      margin: 0;
-      border: 1px solid var(--color-line-dark);
-      border-radius: 14px;
-      background: rgba(255,255,255,0.035);
-    }
-    .session-infos { border-top: 1px solid var(--color-line-dark); }
+    .session-haut { margin: 0; border: none; border-radius: 0; background: none; }
+    /* Un filet fin entre chaque partie, rien de plus. */
+    .session-infos,
     .session-prog,
-    .session-jauge { border-top: 1px solid var(--color-line-dark); }
+    .session-jauge,
+    .session-footer { border-top: 1px solid var(--color-line-dark); }
     /* Complet ne veut plus dire « plus rien à faire ici » : la carte porte
        désormais un lien de liste d'attente, elle doit rester lisible. */
-    .session-card.complet { opacity: 0.88; }
+    .session-card.complet { opacity: 0.72; }
 
     /* La carte d'une séance disait tout d'une seule voix : même fond, aucun
        filet, aucun titre de section — l'horaire, le déroulé, les places et
@@ -1001,42 +977,40 @@
        de 152 px : « ÉCHAUFFEMENT » en demande 207. La date passe donc en
        bandeau au-dessus, et le titre prend toute la largeur du panneau —
        224 px, où les mots les plus longs de tes séances tiennent. */
-    /* La rangée date + titre, puis la pastille d'état en dessous : dans la
-       colonne du titre elle n'avait que 156 px et se cassait en deux
-       lignes ; sur sa propre ligne elle en a 224 et tient. */
     .session-head {
-      display: flex; align-items: flex-start; gap: 10px;
-      padding: 9px 10px;
+      display: flex; align-items: baseline; gap: 14px;
+      padding: 0 0 13px;
     }
     .session-tete { flex: 1 1 0; min-width: 0; }
-    /* La date, dessinée comme une icône d'agenda : le mois en bandeau
-       coloré, le quantième en gros, le jour de la semaine dessous. */
+    /* La date porte la fiche, en typographie seule : le quantième en
+       accent, le mois à sa suite, le jour de la semaine dessous. Ni cadre
+       ni fond. Le HTML les écrit dans l'ordre mois / jour / jour de
+       semaine — « order » les remet à l'endroit sans toucher au balisage. */
     .session-date-badge {
-      flex-shrink: 0; width: 56px; overflow: hidden; text-align: center;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--color-line-dark);
-    }
-    .session-date-badge .mois {
-      display: block; padding: 3px 0;
-      background: var(--offer); color: #fff;
-      font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.09em;
+      flex: 0 0 auto; min-width: 76px; width: auto; overflow: visible;
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px;
+      text-align: left; border: none; border-radius: 0; background: none;
     }
     .session-date-badge .jour {
-      display: block; padding-top: 4px; color: #fff;
-      font-size: 24px; font-weight: 900; font-style: italic; line-height: 1.1;
-      font-variant-numeric: tabular-nums;
+      order: 1; display: inline; padding: 0; color: var(--offer);
+      font-size: 27px; font-weight: 900; font-style: italic; line-height: 1;
+      font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+    }
+    .session-date-badge .mois {
+      order: 2; display: inline; padding: 0; background: none;
+      color: rgba(255,255,255,0.92);
+      font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
     }
     .session-date-badge .jsem {
-      display: block; padding-bottom: 5px; color: rgba(255,255,255,0.55);
-      font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
+      order: 3; display: block; flex: 0 0 100%; padding: 0; margin-top: 4px;
+      color: rgba(255,255,255,0.42);
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em;
     }
-    /* 18 px, et pas plus : à côté de la vignette le titre dispose de
-       156 px, et « ÉCHAUFFEMENT » en capitales en demande déjà 149 à ce
-       corps. Un cran au-dessus et le mot sort de la carte. */
+    /* 17 px : à droite de la date la colonne fait environ 150 px, et
+       « ÉCHAUFFEMENT » en capitales en demande 141 à ce corps. */
     .session-titre {
-      font-size: 18px; font-weight: 900; font-style: italic;
-      text-transform: uppercase; letter-spacing: 0; color: #fff; line-height: 1.2;
+      font-size: 17px; font-weight: 900; font-style: italic;
+      text-transform: uppercase; letter-spacing: 0.01em; color: #fff; line-height: 1.22;
     }
     .titre-sub {
       display: block; margin-top: 4px;
@@ -1044,55 +1018,51 @@
       text-transform: none; letter-spacing: 0.3px;
       color: rgba(255, 255, 255, 0.55);
     }
-    /* La pastille est posée directement dans la carte, entre l'en-tête et
-       le panneau des informations : elle profite de toute la largeur. */
+    /* L'urgence se dit, elle ne s'encadre pas : une mention en accent sous
+       le titre, à la place d'une pastille. */
     .session-badge-statut {
-      display: inline-block; align-self: flex-start; margin: -1px 0 0;
-      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-      padding: 3px 9px; border-radius: var(--radius-pill);
+      display: block; align-self: flex-start; margin: 3px 0 0;
+      font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em;
+      padding: 0; border: none; background: none; border-radius: 0;
     }
-    .statut-dernieres { background: rgba(255,107,53,0.15); color: #FF6B35; border: 1px solid rgba(255,107,53,0.4); }
+    .statut-dernieres { color: #FF6B35; }
 
     /* Le lieu, l'horaire et le nombre d'inscrits : les mêmes données que
        le bandeau d'une préparation, présentées de la même façon — une
        seule boîte, un filet hairline, et des filets internes plutôt que
        de l'air entre les lignes. */
+    /* Le lieu à gauche, l'horaire à droite, sur une seule ligne quand la
+       place le permet. Les icônes étaient décoratives : « Place du marché »
+       et « 9h30 – 10h45 » se reconnaissent sans épingle ni horloge. */
     .session-infos {
       list-style: none;
-      display: flex; flex-wrap: wrap;
-      padding: 0;
+      display: flex; flex-wrap: wrap; align-items: baseline;
+      justify-content: space-between; gap: 2px 16px;
+      padding: 11px 0 0;
     }
     .session-infos li {
-      flex: 1 1 auto; min-width: 0;
-      display: flex; align-items: flex-start; gap: 7px;
-      padding: 7px 8px;
-      font-size: var(--fs-small); color: rgba(255,255,255,0.8);
+      flex: 0 1 auto; min-width: 0;
+      display: block; padding: 0;
+      font-size: var(--fs-small); color: rgba(255,255,255,0.72);
     }
-    /* Deux lignes, chacune sur toute la largeur et centrée : le lieu avec
-       sa précision dessous, puis l'horaire. Côte à côte, chacun n'avait
-       qu'une demi-largeur et se coupait en deux ou trois morceaux ; pleine
-       largeur, chacun tient sur sa ligne. */
-    .session-infos li { flex: 1 1 100%; justify-content: center; text-align: center; }
-    .session-infos li:nth-child(2) { border-top: 1px solid var(--color-line-dark); }
-    .session-infos svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--offer); margin-top: 2px; }
+    .session-infos li:nth-child(2) { text-align: right; color: rgba(255,255,255,0.9); font-weight: 700; }
+    .session-infos svg { display: none; }
+    .session-infos strong { font-weight: 700; color: rgba(255,255,255,0.92); }
     .session-infos strong { color: #fff; font-weight: 700; }
-    .session-souslieu { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.72); }
+    /* « Départ et retour » suit le lieu sur la même ligne : deux éléments
+       de la même information, pas deux lignes. */
+    .session-souslieu { font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.5); }
+    .session-souslieu::before { content: '\00a0\00b7\00a0'; color: rgba(255,255,255,0.3); }
 
     /* Le déroulé de la séance, annoncé comme « Ce qui est inclus » l'est
        sur une préparation : un intertitre court, et le texte dessous. */
     /* Dans le carrousel, toutes les cartes prennent la hauteur de la plus
        grande. Le programme absorbe ce qui dépasse : sans ça, le trou se
        creusait entre la dernière partie et le pied. */
-    .session-prog { padding: 10px 10px 2px; flex: 1 1 auto; }
-    /* L'intertitre d'un panneau : une icône en accent, le mot en petites
-       capitales. C'est lui qui dit de quoi parle le panneau avant même
-       qu'on lise son contenu. */
-    .session-bloc-titre {
-      display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
-      font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-      color: rgba(255,255,255,0.5);
-    }
-    .session-bloc-titre svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--offer); }
+    /* Le déroulé se dit d'une traite, séparé par des points médians :
+       « Échauffement · Gammes · Fractionné · Retour au calme ». En liste à
+       puces il prenait cinq lignes pour une information qu'on survole. */
+    .session-prog { padding: 11px 0 0; flex: 1 1 auto; }
     .session-prog .session-desc,
     .session-prog .session-desc-liste { padding: 0; }
     .session-prog .session-desc + .session-desc,
@@ -1105,16 +1075,19 @@
     /* Deroule de la seance en puces : dans la base, une ligne qui commence
        par un tiret devient un point de la liste. Meme ton que le paragraphe
        — c'est la meme description, presentee autrement. */
+    /* Le déroulé se dit d'une traite, séparé de points médians :
+       « Échauffement · Gammes · Fractionné · Retour au calme ». En liste à
+       puces il prenait cinq lignes pour une information qu'on survole. */
     .session-desc-liste {
-      padding: var(--space-3) var(--space-4) 0; margin: 0; list-style: none;
-      font-size: var(--fs-small); font-style: italic;
-      color: rgba(255,255,255,0.78); line-height: 1.45;
+      padding: 0; margin: 0; list-style: none; display: block;
+      font-size: 12.5px; font-style: normal;
+      color: rgba(255,255,255,0.62); line-height: 1.7;
     }
-    .session-desc-liste li { position: relative; padding-left: 14px; }
-    .session-desc-liste li + li { margin-top: 3px; }
-    .session-desc-liste li::before {
-      content: '\2013'; position: absolute; left: 0; top: 0;
-      color: var(--offer); font-style: normal; font-weight: 700;
+    .session-desc-liste li { display: inline; position: static; padding: 0; margin: 0; }
+    .session-desc-liste li::before { content: none; }
+    .session-desc-liste li + li::before {
+      content: '\00a0\00b7\00a0'; position: static;
+      color: var(--offer); font-weight: 700; opacity: 0.8;
     }
     /* Un paragraphe et une liste qui se suivent ne doivent pas cumuler
        deux fois l'espace du haut. */
@@ -1130,10 +1103,9 @@
        Il reprend donc le ton des lignes d'information du dessus : goutte
        en accent, texte discret. C'est un rappel, pas une alerte. */
     .session-gourde {
-      padding: 8px 0 0;
-      display: flex; align-items: center; gap: 9px;
-      font-size: 12px; font-weight: 400;
-      color: rgba(255,255,255,0.62); line-height: 1.4;
+      padding: 7px 0 0; display: block;
+      font-size: 11.5px; font-weight: 400; font-style: italic;
+      color: rgba(255,255,255,0.4); line-height: 1.4;
     }
     /* Seule dans son panneau, elle n'a pas de déroulé au-dessus d'elle. */
     .session-gourde--seule { padding-top: 0; }
@@ -1143,20 +1115,22 @@
 
     /* jauge de places */
     /* Aligne sur la gouttiere laterale commune des autres blocs de la carte. */
-    .session-jauge { padding: 10px 10px 2px; }
+    .session-jauge { padding: 11px 0 0; }
     .jauge-label {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
-      color: rgba(255,255,255,0.55); margin-bottom: 7px;
+      display: flex; align-items: baseline; gap: 8px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.45); margin-bottom: 7px;
     }
-    .jauge-label svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--offer); }
-    .jauge-label .restantes { margin-left: auto; }
+    .jauge-label svg { display: none; }
+    .jauge-label .restantes { margin-left: auto; letter-spacing: 0.08em; }
     .jauge-label .restantes { color: #FF6B35; }
     /* Le mot « Complet » est rouge partout où il est écrit sur la carte :
        sur la pastille du haut comme au-dessus de la jauge. */
     .jauge-label .restantes--complet { color: var(--color-alert); }
-    .jauge-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); overflow: hidden; }
-    .jauge-fill { height: 100%; border-radius: 3px; background: var(--offer); }
+    /* Un trait, pas une barre de progression : il dit la même chose sans
+       ressembler à un indicateur d'application. */
+    .jauge-bar { height: 2px; border-radius: 0; background: rgba(255,255,255,0.12); overflow: hidden; }
+    .jauge-fill { height: 100%; border-radius: 0; background: var(--offer); }
     /* Le seuil de confirmation : discret tant qu'il manque du monde, vert
        une fois atteint. Jamais alarmant — c'est une invitation, pas un
        avertissement. */
@@ -1166,7 +1140,11 @@
       font-size: 11.5px; font-weight: 600; line-height: 1.4;
       color: rgba(255,255,255,0.68);
     }
-    .session-confirm svg { width: 14px; height: 14px; flex-shrink: 0; margin-top: 2px; color: var(--offer); }
+    /* L'icône ne reste que là où elle dit quelque chose : la coche verte
+       d'une séance confirmée. Devant « plus que N inscrits », le petit
+       bonhomme répétait le mot. */
+    .session-confirm svg { display: none; }
+    .session-confirm--ok svg { display: inline-block; width: 14px; height: 14px; flex-shrink: 0; margin-top: 2px; }
     .session-confirm strong { color: #ffffff; font-weight: 800; }
     .session-confirm small { display: block; margin-top: 1px; font-size: 10.5px; font-weight: 600; opacity: 0.65; }
     .session-confirm--ok { color: #7ee2b8; font-weight: 700; }
@@ -1204,15 +1182,10 @@
        suffit plus. */
     .session-footer {
       display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-      gap: var(--space-2) 10px;
-      /* Le pied n'a pas de bords à lui : il prend toute la largeur laissée
-         par la carte, et ces quelques pixels décident que « Liste d'attente »
-         tient sur une ligne au lieu de deux. */
-      padding: 11px 1px; margin-top: auto;
+      gap: var(--space-2) 12px;
+      padding: 13px 0 0; margin-top: auto;
     }
-    /* Un filet entre le prix et le bouton, comme entre deux panneaux. */
-    .session-footer .prix-bloc { border-right: 1px solid var(--color-line-dark); padding-right: 10px; }
-    .session-footer--pack .prix-bloc { border-right: none; padding-right: 0; }
+    .session-footer .prix-bloc { border-right: none; padding-right: 0; }
     .session-footer .prix-bloc { min-width: 0; }
     /* « flex: 1 1 0 » et non « auto » : sur base automatique, le bouton se
        mesure d'abord à son libellé sur une ligne, se trouve trop large pour
@@ -1251,13 +1224,13 @@
     .btn-inscrire {
       display: inline-flex; align-items: center; justify-content: space-between; gap: var(--space-3);
       background: var(--offer-fill); color: var(--offer-on); border: none; cursor: pointer;
-      padding: 13px 20px; border-radius: var(--radius-md);
-      font-family: inherit; font-size: var(--fs-small); font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1px;
-      box-shadow: 0 6px 18px var(--offer-glow);
-      transition: all 0.25s ease;
+      padding: 12px 18px; border-radius: 3px;
+      font-family: inherit; font-size: var(--fs-small); font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      box-shadow: none;
+      transition: background 0.2s ease;
     }
-    .btn-inscrire:hover { background: var(--offer-hover); transform: translateY(-2px); }
+    .btn-inscrire:hover { background: var(--offer-hover); }
     .btn-inscrire:disabled { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.4); cursor: not-allowed; box-shadow: none; transform: none; }
     /* Séance complète : le prix et le lien de liste d'attente se partagent
        la ligne, comme le prix et le bouton d'inscription. Empilés, ils
@@ -1267,14 +1240,14 @@
     .session-footer--attente { gap: var(--space-2) 10px; }
     .btn-attente {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 13px 18px; border-radius: var(--radius-md);
-      background: rgba(255,107,53,0.10); border: 1.5px solid rgba(255,107,53,0.55);
+      padding: 12px 16px; border-radius: 3px;
+      background: none; border: 1px solid rgba(255,107,53,0.5);
       color: #FF6B35; text-decoration: none;
       font-family: inherit; font-size: 13.5px; font-weight: 700; line-height: 1.3; text-align: center;
       transition: all 0.25s ease;
     }
-    .btn-attente svg { width: 16px; height: 16px; flex-shrink: 0; }
-    .btn-attente:hover { background: rgba(255,107,53,0.2); border-color: var(--offer); color: #ff9d73; }
+    .btn-attente svg { display: none; }
+    .btn-attente:hover { background: rgba(255,107,53,0.10); border-color: var(--offer); color: #ff9d73; }
 
     /* ── État vide ── */
     .empty-state {
@@ -1826,11 +1799,9 @@
          qui n'a rien à annoncer ne gagne pas un titre au-dessus de rien. */
       function programmeHTML(s) {
         var d = descriptionHTML(s.description);
-        var ICO_LISTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>';
-        var ICO_GOUTTE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.7s6 6.3 6 10.3a6 6 0 0 1-12 0c0-4 6-10.3 6-10.3Z"/></svg>';
         return '<div class="session-prog">'
-          + (d ? '<div class="session-bloc-titre">' + ICO_LISTE + 'Au programme</div>' + d : '')
-          + '<p class="session-gourde' + (d ? '' : ' session-gourde--seule') + '">' + ICO_GOUTTE + 'Pense à prendre ta gourde</p>'
+          + d
+          + '<p class="session-gourde' + (d ? '' : ' session-gourde--seule') + '">Pense à prendre ta gourde</p>'
           + '</div>';
       }
 
@@ -2436,7 +2407,7 @@
           programmeHTML(s) +
           (s.prixPack ? '' :
           '<div class="session-jauge">' +
-            '<div class="jauge-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Places</span><span class="restantes' + (complet ? ' restantes--complet' : '') + '">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
+            '<div class="jauge-label"><span>Places</span><span class="restantes' + (complet ? ' restantes--complet' : '') + '">' + (complet ? 'Complet' : restantes + ' restante' + (restantes > 1 ? 's' : '')) + '</span></div>' +
             '<div class="jauge-bar"><div class="jauge-fill" style="width:' + Math.round(s.inscrits / s.places * 100) + '%"></div></div>' +
             confirmationHTML(s.inscrits, complet, false, s.mini) +
           '</div>') +
@@ -3177,9 +3148,11 @@
     .session-card { box-shadow: var(--shadow-card); }
     .session-card:hover { box-shadow: var(--shadow-elevated); }
 
-    /* Boutons : ombres pilotees par la lueur de l'offre */
-    .btn-inscrire, .btn-payer, .btn-envoyer { box-shadow: 0 6px 18px var(--offer-glow) !important; }
-    .btn-inscrire:hover, .btn-payer:hover, .btn-envoyer:hover { box-shadow: 0 12px 30px var(--offer-glow) !important; }
+    /* Le bouton d'inscription d'une fiche de séance ne porte plus de lueur :
+       elle appartenait au langage « carte flottante ». Les boutons des
+       formulaires, eux, la gardent. */
+    .btn-payer, .btn-envoyer { box-shadow: 0 6px 18px var(--offer-glow) !important; }
+    .btn-payer:hover, .btn-envoyer:hover { box-shadow: 0 12px 30px var(--offer-glow) !important; }
 
     /* Champs de formulaire eventuels : anthracite + focus orange discret */
     #inscription-form input, #inscription-form textarea, #inscription-form select {
