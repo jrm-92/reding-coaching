@@ -1069,38 +1069,30 @@
     .session-tete { flex: 1 1 0; min-width: 0; }
     /* La date, dessinée comme une icône d'agenda : le mois en bandeau
        coloré, le quantième en gros, le jour de la semaine dessous. */
-    /* Le corps de la vignette passe en blanc, le quantieme en noir : avec
-       le bandeau rouge au-dessus, c'est exactement l'icone de l'agenda de
-       l'iPhone. Le filet devient inutile sur un aplat blanc, il ne servait
-       qu'a detacher un fond presque transparent. */
     .session-date-badge {
       flex-shrink: 0; width: 56px; overflow: hidden; text-align: center;
       border-radius: 12px;
-      background: #fff;
-      border: 1px solid rgba(255,255,255,0.28);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.30);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--color-line-dark);
     }
-    /* Le bandeau du mois reprend le rouge de l'agenda de l'iPhone : c'est
-       le geste que tout le monde reconnait, et il accroche l'oeil sur la
-       date avant tout le reste. Pas le rouge vif #FF3B30 mais #D70015, la
-       nuance dense qu'Apple emploie lui-meme quand le contraste compte :
-       « NOV » fait 10 px, et du blanc sur le rouge vif descend sous le
-       seuil de lisibilite.
-
-       Le rouge dit deja « complet » ailleurs sur la page, mais en texte
-       clair et jamais en aplat : les deux ne se confondent pas. */
+    /* Le bandeau du mois n'est plus orange : posé sur une zone claire, il
+       tirait l'oeil avant le titre et faisait doublon avec le bouton
+       d'inscription. Une ardoise de la famille du bleu nuit du site — elle
+       dessine la vignette d'agenda sans revendiquer une couleur d'offre
+       (le bleu canard, lui, désigne « Planification & suivi » ailleurs sur
+       le site : le prendre ici brouillerait la lecture). */
     .session-date-badge .mois {
       display: block; padding: 3px 0;
-      background: #D70015; color: #fff;
+      background: #2B3446; color: rgba(255,255,255,0.92);
       font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.09em;
     }
     .session-date-badge .jour {
-      display: block; padding-top: 4px; color: #10131A;
+      display: block; padding-top: 4px; color: #fff;
       font-size: 24px; font-weight: 900; font-style: italic; line-height: 1.1;
       font-variant-numeric: tabular-nums;
     }
     .session-date-badge .jsem {
-      display: block; padding-bottom: 5px; color: rgba(16,19,26,0.60);
+      display: block; padding-bottom: 5px; color: rgba(255,255,255,0.55);
       font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
     }
     /* 18 px, et pas plus : à côté de la vignette le titre dispose de
