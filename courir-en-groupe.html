@@ -1089,18 +1089,21 @@
       display: block; padding-bottom: 5px; color: rgba(255,255,255,0.55);
       font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
     }
-    /* 18 px, et pas plus : à côté de la vignette le titre dispose de
-       156 px, et « ÉCHAUFFEMENT » en capitales en demande déjà 149 à ce
-       corps. Un cran au-dessus et le mot sort de la carte. */
+    /* 20 px, et pas plus. À côté de la vignette d'agenda, le titre dispose
+       de 185 px sur un téléphone ordinaire, et le mot le plus long qu'on
+       puisse écrire dans un titre de séance — « DÉVELOPPEMENT » — en
+       réclame 179 à ce corps. Un cran au-dessus et il sort de la carte :
+       la règle générale le couperait alors en plein mot, faute de
+       dictionnaire de césure française dans les navigateurs. */
     .session-titre {
-      font-size: 18px; font-weight: 900; font-style: italic;
+      font-size: 20px; font-weight: 900; font-style: italic;
       text-transform: uppercase; letter-spacing: 0; color: #fff; line-height: 1.2;
     }
     .titre-sub {
       display: block; margin-top: 4px;
-      font-size: var(--fs-micro); font-weight: 600; font-style: normal;
+      font-size: var(--fs-small); font-weight: 600; font-style: normal;
       text-transform: none; letter-spacing: 0.3px;
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.62);
     }
     /* La pastille est posée directement dans la carte, entre l'en-tête et
        le panneau des informations : elle profite de toute la largeur. */
@@ -1138,10 +1141,13 @@
     }
     .session-infos li:nth-child(2) { border-left: 1px solid var(--color-line-dark); }
     .session-infos svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--offer); }
+    /* La précision passe AU-DESSUS du nom du lieu et porte l'accent :
+       « Départ et retour » dit ce qu'on vient faire là, le nom du point de
+       rendez-vous se lit dessous, en gris et sans gras. Quand il n'y a pas
+       de précision, c'est le nom qui reprend le gras — sinon la cellule
+       n'aurait plus rien d'accentué. */
     .session-infos strong { display: block; color: #fff; font-weight: 700; }
-    /* La précision passe AU-DESSUS du nom du lieu : « Départ et retour »
-       dit ce qu'on vient faire là, le nom dit où. */
-    .session-souslieu { display: block; margin-bottom: 1px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.72); }
+    .session-lieu-nom { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.72); }
     /* Le tiret reste collé à l'heure de fin : la coupure se fait devant
        lui, jamais derrière, pour ne pas laisser un tiret en bout de ligne. */
     .session-creneau { display: block; }
@@ -2503,7 +2509,9 @@
             '</div>' +
           '</div>' +
           '<ul class="session-infos">' +
-            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>' + (lieuCarte(s).note ? '<span class="session-souslieu">' + esc(lieuCarte(s).note) + '</span>' : '') + '<strong>' + esc(lieuCarte(s).fort) + '</strong></span></li>' +
+            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>' + (lieuCarte(s).note
+                  ? '<strong>' + esc(lieuCarte(s).note) + '</strong><span class="session-lieu-nom">' + esc(lieuCarte(s).fort) + '</span>'
+                  : '<strong>' + esc(lieuCarte(s).fort) + '</strong>') + '</span></li>' +
             '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="session-creneau">' + esc(creneauCourt(s)) + '</span></li>' +
           '</ul>' +
           '</div>' + statut +

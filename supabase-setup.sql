@@ -14,6 +14,11 @@ create table if not exists public.sessions (
   duree         text default '1h', -- ex. "1h15"
   lieu          text default '',   -- la VILLE (sert à la météo), ex. "Courbevoie"
   sous_lieu     text default '',   -- lieu précis, ex. "Départ et Retour Fbg de l'Arche"
+  -- Ces deux colonnes ont été renommées depuis : « lieu » s'appelle
+  -- maintenant « precision » (ce qu'on dit du rendez-vous : « Départ et
+  -- retour »…) et « sous_lieu » s'appelle « lieu » (le point de
+  -- rendez-vous lui-même). Ce fichier garde les noms d'origine : c'est le
+  -- script de création, il n'a pas vocation à être rejoué.
   prix_unitaire text default '',   -- vide si vente en pack uniquement
   prix_pack     text default '',   -- ex. "90 €" ; rempli => bouton pack unique
   stripe        text default '',   -- lien de paiement Stripe de la séance (optionnel)
