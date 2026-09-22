@@ -1049,10 +1049,23 @@
     /* La rangée date + titre, puis la pastille d'état en dessous : dans la
        colonne du titre elle n'avait que 156 px et se cassait en deux
        lignes ; sur sa propre ligne elle en a 224 et tient. */
+    /* Un bandeau plus clair pour le haut de la carte : quand et quoi.
+       C'est la première chose qu'on cherche, et sur un fond uniforme la
+       date et le titre se noyaient dans le reste. Un blanc très dilué et
+       non une teinte d'offre : la page peut accueillir demain une famille
+       de séances d'une autre couleur sans que ce bandeau la contredise, et
+       l'orange reste au bouton d'inscription, où il sert à quelque chose.
+       Les marges négatives font aller le bandeau d'un bord à l'autre de la
+       carte, que l'arrondi recoupe en haut. */
     .session-head {
       display: flex; align-items: flex-start; gap: 10px;
-      padding: 0 0 12px;
+      margin: -14px -14px 0;
+      padding: 14px 14px 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.01) 100%);
     }
+    /* Le filet qui ferme le bandeau est un cran plus net que les autres :
+       c'est lui qui marque le bas de la zone claire. */
+    .session-haut .session-infos { border-top-color: rgba(255,255,255,0.22); }
     .session-tete { flex: 1 1 0; min-width: 0; }
     /* La date, dessinée comme une icône d'agenda : le mois en bandeau
        coloré, le quantième en gros, le jour de la semaine dessous. */
@@ -1104,7 +1117,7 @@
        de l'air entre les lignes. */
     .session-infos {
       list-style: none;
-      display: flex; flex-wrap: wrap;
+      display: flex; flex-wrap: nowrap;
       padding: 0;
     }
     .session-infos li {
@@ -1113,15 +1126,25 @@
       padding: 8px 0;
       font-size: var(--fs-small); color: rgba(255,255,255,0.8);
     }
-    /* Deux lignes, chacune sur toute la largeur et centrée : le lieu avec
-       sa précision dessous, puis l'horaire. Côte à côte, chacun n'avait
-       qu'une demi-largeur et se coupait en deux ou trois morceaux ; pleine
-       largeur, chacun tient sur sa ligne. */
-    .session-infos li { flex: 1 1 100%; justify-content: center; text-align: center; }
-    .session-infos li:nth-child(2) { border-top: 1px solid var(--color-line-dark); }
-    .session-infos svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--offer); margin-top: 2px; }
-    .session-infos strong { color: #fff; font-weight: 700; }
-    .session-souslieu { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.72); }
+    /* Où et quand, sur une seule ligne : deux cellules de largeur égale,
+       séparées d'un filet vertical. Chacune tient sur deux lignes de texte
+       au besoin — « Départ et retour » au-dessus du nom du point de
+       rendez-vous, et l'heure de fin sous l'heure de début quand la place
+       manque. Deux rangées pleine largeur pour dire si peu, c'était
+       quarante pixels de carte pour rien. */
+    .session-infos li {
+      flex: 1 1 0; min-width: 0;
+      align-items: center; justify-content: center; text-align: center;
+    }
+    .session-infos li:nth-child(2) { border-left: 1px solid var(--color-line-dark); }
+    .session-infos svg { flex-shrink: 0; width: 15px; height: 15px; color: var(--offer); }
+    .session-infos strong { display: block; color: #fff; font-weight: 700; }
+    /* La précision passe AU-DESSUS du nom du lieu : « Départ et retour »
+       dit ce qu'on vient faire là, le nom dit où. */
+    .session-souslieu { display: block; margin-bottom: 1px; font-size: 12.5px; font-weight: 400; color: rgba(255,255,255,0.72); }
+    /* Le tiret reste collé à l'heure de fin : la coupure se fait devant
+       lui, jamais derrière, pour ne pas laisser un tiret en bout de ligne. */
+    .session-creneau { display: block; }
 
     /* Le déroulé de la séance, annoncé comme « Ce qui est inclus » l'est
        sur une préparation : un intertitre court, et le texte dessous. */
@@ -1896,7 +1919,11 @@
          lit déjà dans l'heure de fin. Le formulaire d'inscription et le
          message de liste d'attente, eux, gardent « creneau » en entier. */
       function creneauCourt(s) {
-        return s.heure + ' – ' + enHeure(enMinutes(s.heure) + enMinutes(s.duree));
+        /* Espace insécable APRÈS le tiret : quand la place manque, la
+           coupure se fait devant le tiret et l'heure de fin passe dessous
+           avec lui — « 18h00 » puis « – 19h15 », jamais un tiret orphelin
+           en bout de ligne. */
+        return s.heure + ' –\u00A0' + enHeure(enMinutes(s.heure) + enMinutes(s.duree));
       }
 
       /* Regroupement par ÉVÉNEMENT (colonne « evenement ») : un bloc par événement.
@@ -2476,8 +2503,8 @@
             '</div>' +
           '</div>' +
           '<ul class="session-infos">' +
-            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>' + esc(lieuCarte(s).fort) + '</strong>' + (lieuCarte(s).note ? '<span class="session-souslieu">' + esc(lieuCarte(s).note) + '</span>' : '') + '</span></li>' +
-            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>' + esc(creneauCourt(s)) + '</span></li>' +
+            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span>' + (lieuCarte(s).note ? '<span class="session-souslieu">' + esc(lieuCarte(s).note) + '</span>' : '') + '<strong>' + esc(lieuCarte(s).fort) + '</strong></span></li>' +
+            '<li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="session-creneau">' + esc(creneauCourt(s)) + '</span></li>' +
           '</ul>' +
           '</div>' + statut +
           programmeHTML(s) +
@@ -2855,6 +2882,19 @@
         var prixU = String(r.prix_unitaire == null ? '' : r.prix_unitaire).trim();
         var placesN = parseInt(r.places, 10);
         var insN = parseInt(r.inscrits, 10);
+        /* Les deux colonnes de lieu de la table « sessions » changent de
+           nom : ce qui s'appelait « lieu » devient « precision » (départ
+           et retour, aller simple…), et « sous_lieu » devient « lieu »
+           (le point de rendez-vous). La page lit les deux jeux de noms —
+           la présence d'une colonne « precision » dans la ligne dit lequel
+           s'applique — pour continuer de fonctionner avant comme après la
+           bascule en base, sans qu'il faille les faire à la seconde près.
+           Les noms internes, eux, ne bougent pas : « lieu » reste la
+           précision et « sousLieu » le point de rendez-vous, comme partout
+           ailleurs dans ce fichier. */
+        var aNouveauxNoms = Object.prototype.hasOwnProperty.call(r, 'precision');
+        var colPrecision = aNouveauxNoms ? r.precision : r.lieu;
+        var colRendezVous = aNouveauxNoms ? r.lieu : r.sous_lieu;
         return {
           id: String(r.id == null ? '' : r.id).trim(),
           evenement: evenementCell || titreCarte,
@@ -2864,8 +2904,8 @@
           date: String(r.date == null ? '' : r.date).trim(),
           heure: String(r.heure == null ? '' : r.heure).trim(),
           duree: String(r.duree == null ? '' : r.duree).trim() || '1h',
-          lieu: _lieuFromCode(r.lieu),
-          sousLieu: String(r.sous_lieu == null ? '' : r.sous_lieu).trim(),
+          lieu: _lieuFromCode(colPrecision),
+          sousLieu: String(colRendezVous == null ? '' : colRendezVous).trim(),
           prixUnitaire: prixU ? _formatPrix(prixU) : '',
           prixPack: _formatPrix(r.prix_pack),
           description: String(r.description == null ? '' : r.description).trim(),
