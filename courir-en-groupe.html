@@ -1075,15 +1075,9 @@
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--color-line-dark);
     }
-    /* Le bandeau du mois n'est plus orange : posé sur une zone claire, il
-       tirait l'oeil avant le titre et faisait doublon avec le bouton
-       d'inscription. Une ardoise de la famille du bleu nuit du site — elle
-       dessine la vignette d'agenda sans revendiquer une couleur d'offre
-       (le bleu canard, lui, désigne « Planification & suivi » ailleurs sur
-       le site : le prendre ici brouillerait la lecture). */
     .session-date-badge .mois {
       display: block; padding: 3px 0;
-      background: #2B3446; color: rgba(255,255,255,0.92);
+      background: var(--offer); color: #fff;
       font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.09em;
     }
     .session-date-badge .jour {
