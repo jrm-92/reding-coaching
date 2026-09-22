@@ -497,33 +497,47 @@
        preuves — mais la photo est recadrée en bandeau : à 844 px de large,
        sa hauteur naturelle ferait plus de mille pixels, soit trois écrans.
        On la coupe à la hauteur utile et on garde les coureurs au centre. */
+    /* Téléphone couché : la disposition de l'ordinateur, pas celle du
+       téléphone debout. Un écran large et bas se prête aux deux colonnes —
+       l'accroche, les deux choix et les preuves à gauche, la photo à droite,
+       sur toute la hauteur. Le palier « une seule colonne » de 900 px, lui,
+       est écrit pour une tablette en portrait : il ne doit pas s'appliquer
+       ici. Le corps du titre se règle sur la HAUTEUR disponible, sans quoi
+       l'accroche remplit l'écran à elle seule. */
     @media (orientation: landscape) and (max-height: 520px) and (max-width: 1100px) {
-      .hero-section { min-height: 0; padding-bottom: var(--space-6); }
-      /* Le corps du titre suit la largeur de l'écran : couché, un téléphone
-         est large et bas, et l'accroche remplissait l'écran à elle seule.
-         Elle se règle ici sur la HAUTEUR disponible. */
-      .hero-main-title { font-size: clamp(26px, 8.4vh, 46px); }
+      .hero-section { min-height: 0; padding-bottom: var(--space-5); }
+      .hero-main-title { font-size: clamp(22px, 7.2vh, 40px); margin-bottom: var(--space-3); }
       .hero-value-prop { font-size: var(--fs-small); }
       .hero-accent-line { margin-bottom: var(--space-3); }
       .hero-grid {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-rows: auto auto auto auto;
-        gap: var(--space-4);
+        grid-template-columns: minmax(0, 1.25fr) minmax(180px, 0.75fr);
+        grid-template-rows: auto auto auto;
+        gap: var(--space-4) var(--grid-gap);
+        align-items: center;
       }
       .hero-left     { grid-column: 1; grid-row: 1; }
-      .hero-img-col  { grid-column: 1; grid-row: 2; margin-inline: calc(-1 * var(--container-pad)); }
-      .hcta-section  { grid-column: 1; grid-row: 3; }
-      .hero-badges   { grid-column: 1; grid-row: 4; }
-      .hero-img-wrap { width: 100%; max-width: none; }
-      .hero-img-wrap::after { display: none; }
+      .hcta-section  { grid-column: 1; grid-row: 2; }
+      .hero-badges   { grid-column: 1; grid-row: 3; }
+      .hero-img-col  { grid-column: 2; grid-row: 1 / span 3; margin-inline: 0; }
+      /* La photo reprend son cadre : elle n'est plus au bord de l'écran. */
+      .hero-img-wrap { width: 100%; max-width: 300px; }
+      .hero-img-wrap::after { display: block; }
       .hero-img-wrap img {
-        border-radius: 0;
-        aspect-ratio: auto; height: 58svh; min-height: 190px;
-        object-fit: cover; object-position: center 34%;
+        border-radius: var(--radius-xs);
+        aspect-ratio: 1000 / 1231; height: auto;
+        object-fit: cover; object-position: center top;
       }
+      /* Les deux cartes de choix restent côte à côte : empilées, la colonne
+         de gauche devenait deux fois plus haute et le hero dépassait deux
+         écrans. Elles reprennent les réglages serrés du téléphone — icône
+         de 26 px, marges réduites, pastille de flèche masquée — ce qui
+         laisse assez de place à « PLANIFICATION & SUIVI » pour ne pas se
+         couper en plein mot. */
+      .hero-cta-duo { gap: var(--space-2); --hcta-icon: 26px; }
+      .hcta-card { padding: var(--space-2); gap: var(--space-2); }
+      .hcta-arrow-circle { display: none; }
+      .hero-badges { grid-template-columns: repeat(2, 1fr); gap: var(--space-2); }
     }
-
-
 
     .hero-title-section {
       margin-bottom: 45px;
@@ -3289,6 +3303,9 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
               <p>Non, les séances sont adaptées à tous les niveaux.</p>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <script>
@@ -4024,3 +4041,4 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
     }
   </style>
 </body>
+</html>
