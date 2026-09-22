@@ -1049,22 +1049,23 @@
     /* La rangée date + titre, puis la pastille d'état en dessous : dans la
        colonne du titre elle n'avait que 156 px et se cassait en deux
        lignes ; sur sa propre ligne elle en a 224 et tient. */
-    /* Un bandeau teinté pour le haut de la carte : quand et quoi. C'est
-       la première chose qu'on cherche, et sur un fond uniforme la date et
-       le titre se noyaient dans le reste. Le dégradé reprend l'orange de
-       l'offre, très dilué — assez pour détacher la zone, pas assez pour
-       concurrencer le bouton d'inscription. Les marges négatives le font
-       aller d'un bord à l'autre de la carte, que l'arrondi de la carte
-       recoupe en haut. */
+    /* Un bandeau plus clair pour le haut de la carte : quand et quoi.
+       C'est la première chose qu'on cherche, et sur un fond uniforme la
+       date et le titre se noyaient dans le reste. Un blanc très dilué et
+       non une teinte d'offre : la page peut accueillir demain une famille
+       de séances d'une autre couleur sans que ce bandeau la contredise, et
+       l'orange reste au bouton d'inscription, où il sert à quelque chose.
+       Les marges négatives font aller le bandeau d'un bord à l'autre de la
+       carte, que l'arrondi recoupe en haut. */
     .session-head {
       display: flex; align-items: flex-start; gap: 10px;
       margin: -14px -14px 0;
       padding: 14px 14px 12px;
-      background: linear-gradient(180deg, rgba(255,107,53,0.15) 0%, rgba(255,107,53,0.04) 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.01) 100%);
     }
-    /* Le filet qui ferme le bandeau prend sa couleur, sinon la zone teintée
-       s'arrêtait sur un trait gris sans rapport avec elle. */
-    .session-haut .session-infos { border-top-color: rgba(255,107,53,0.30); }
+    /* Le filet qui ferme le bandeau est un cran plus net que les autres :
+       c'est lui qui marque le bas de la zone claire. */
+    .session-haut .session-infos { border-top-color: rgba(255,255,255,0.22); }
     .session-tete { flex: 1 1 0; min-width: 0; }
     /* La date, dessinée comme une icône d'agenda : le mois en bandeau
        coloré, le quantième en gros, le jour de la semaine dessous. */
@@ -1074,9 +1075,15 @@
       background: rgba(255,255,255,0.05);
       border: 1px solid var(--color-line-dark);
     }
+    /* Le bandeau du mois n'est plus orange : posé sur une zone claire, il
+       tirait l'oeil avant le titre et faisait doublon avec le bouton
+       d'inscription. Une ardoise de la famille du bleu nuit du site — elle
+       dessine la vignette d'agenda sans revendiquer une couleur d'offre
+       (le bleu canard, lui, désigne « Planification & suivi » ailleurs sur
+       le site : le prendre ici brouillerait la lecture). */
     .session-date-badge .mois {
       display: block; padding: 3px 0;
-      background: var(--offer); color: #fff;
+      background: #2B3446; color: rgba(255,255,255,0.92);
       font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.09em;
     }
     .session-date-badge .jour {
