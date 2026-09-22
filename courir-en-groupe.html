@@ -355,6 +355,36 @@
       background: none; border: none; border-radius: 0;
     }
     .lieu-groupe:last-child { margin-bottom: 0; }
+
+    /* ═══ UNE PRÉPARATION = UNE CARTE ═══════════════════════════════════
+       Une préparation, c'est une offre, puis ses rendez-vous : deux blocs
+       qui se lisaient à plat sur le fond de la page, sans rien pour dire
+       où l'une finit et où la suivante commence. Ils sont désormais dans
+       une seule carte, exactement celle des séances — même fond, même
+       filet, même arrondi, même ombre — pour que les deux familles
+       d'offres se lisent dans le même langage.
+
+       Les séances à l'unité gardent, elles, leur carte par séance : c'est
+       leur carte à elles qui porte ce cadre, pas le groupe. */
+    .lieu-groupe--prepa {
+      background: rgba(255,255,255,0.085);
+      border: 1px solid rgba(255,255,255,0.20);
+      border-radius: 16px;
+      overflow: hidden;
+      padding: var(--space-4);
+      box-shadow: var(--shadow-card);
+    }
+    /* La bande de dates part à gauche comme le reste du contenu, et file
+       à droite jusqu'au filet de la carte : la vignette coupée au bord
+       annonce la suite, sans flèche ni mode d'emploi. Bord à bord des deux
+       côtés, la première vignette collait au filet et on la lisait comme
+       une erreur d'alignement. */
+    .lieu-groupe--prepa .prog-dates {
+      margin-right: calc(-1 * var(--space-4));
+      padding-right: var(--space-4);
+    }
+    /* Rien ne doit toucher le filet du bas. */
+    .lieu-groupe--prepa > :last-child { margin-bottom: 0; }
     /* Ligne titre : nom de la course (gauche/centre) + action « M'inscrire à la course » + ⓘ (droite) */
     .lieu-titre-row {
       position: relative; display: flex; align-items: center; justify-content: center;
@@ -2322,6 +2352,8 @@
                 groupes[lieu][0] ? groupes[lieu][0].mini : null) +
             '</div>';
           carte.appendChild(cta);
+          /* Ce bloc est une préparation : il prend le cadre de carte. */
+          bloc.classList.add('lieu-groupe--prepa');
           bloc.appendChild(packWrap);
 
           /* ── Les rendez-vous ────────────────────────────────────────
