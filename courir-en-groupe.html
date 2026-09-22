@@ -2882,6 +2882,19 @@
         var prixU = String(r.prix_unitaire == null ? '' : r.prix_unitaire).trim();
         var placesN = parseInt(r.places, 10);
         var insN = parseInt(r.inscrits, 10);
+        /* Les deux colonnes de lieu de la table « sessions » changent de
+           nom : ce qui s'appelait « lieu » devient « precision » (départ
+           et retour, aller simple…), et « sous_lieu » devient « lieu »
+           (le point de rendez-vous). La page lit les deux jeux de noms —
+           la présence d'une colonne « precision » dans la ligne dit lequel
+           s'applique — pour continuer de fonctionner avant comme après la
+           bascule en base, sans qu'il faille les faire à la seconde près.
+           Les noms internes, eux, ne bougent pas : « lieu » reste la
+           précision et « sousLieu » le point de rendez-vous, comme partout
+           ailleurs dans ce fichier. */
+        var aNouveauxNoms = Object.prototype.hasOwnProperty.call(r, 'precision');
+        var colPrecision = aNouveauxNoms ? r.precision : r.lieu;
+        var colRendezVous = aNouveauxNoms ? r.lieu : r.sous_lieu;
         return {
           id: String(r.id == null ? '' : r.id).trim(),
           evenement: evenementCell || titreCarte,
@@ -2891,8 +2904,8 @@
           date: String(r.date == null ? '' : r.date).trim(),
           heure: String(r.heure == null ? '' : r.heure).trim(),
           duree: String(r.duree == null ? '' : r.duree).trim() || '1h',
-          lieu: _lieuFromCode(r.lieu),
-          sousLieu: String(r.sous_lieu == null ? '' : r.sous_lieu).trim(),
+          lieu: _lieuFromCode(colPrecision),
+          sousLieu: String(colRendezVous == null ? '' : colRendezVous).trim(),
           prixUnitaire: prixU ? _formatPrix(prixU) : '',
           prixPack: _formatPrix(r.prix_pack),
           description: String(r.description == null ? '' : r.description).trim(),
