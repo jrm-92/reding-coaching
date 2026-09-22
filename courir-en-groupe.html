@@ -1089,18 +1089,21 @@
       display: block; padding-bottom: 5px; color: rgba(255,255,255,0.55);
       font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
     }
-    /* 18 px, et pas plus : à côté de la vignette le titre dispose de
-       156 px, et « ÉCHAUFFEMENT » en capitales en demande déjà 149 à ce
-       corps. Un cran au-dessus et le mot sort de la carte. */
+    /* 20 px, et pas plus. À côté de la vignette d'agenda, le titre dispose
+       de 185 px sur un téléphone ordinaire, et le mot le plus long qu'on
+       puisse écrire dans un titre de séance — « DÉVELOPPEMENT » — en
+       réclame 179 à ce corps. Un cran au-dessus et il sort de la carte :
+       la règle générale le couperait alors en plein mot, faute de
+       dictionnaire de césure française dans les navigateurs. */
     .session-titre {
-      font-size: 18px; font-weight: 900; font-style: italic;
+      font-size: 20px; font-weight: 900; font-style: italic;
       text-transform: uppercase; letter-spacing: 0; color: #fff; line-height: 1.2;
     }
     .titre-sub {
       display: block; margin-top: 4px;
-      font-size: var(--fs-micro); font-weight: 600; font-style: normal;
+      font-size: var(--fs-small); font-weight: 600; font-style: normal;
       text-transform: none; letter-spacing: 0.3px;
-      color: rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.62);
     }
     /* La pastille est posée directement dans la carte, entre l'en-tête et
        le panneau des informations : elle profite de toute la largeur. */
