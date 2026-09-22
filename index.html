@@ -318,6 +318,41 @@
       .nav-cta { margin-top: var(--space-2); text-align:center !important; width:100%; }
     }
 
+    /* ══ LE FONDU DES BORDS D'UNE PHOTO ══
+       Deux dégradés superposés — l'un de haut en bas, l'autre de gauche à
+       droite — dont on ne garde que l'intersection : la photo est pleine au
+       centre et s'efface sur ses quatre bords. Elle se fond dans le fond de
+       la page au lieu de s'y découper.
+
+       « mask-composite: intersect » est la forme normalisée, « -webkit-mask-
+       composite: source-in » celle de Safari : les deux sont écrites. Un
+       navigateur qui ne connaîtrait ni l'une ni l'autre empilerait les deux
+       dégradés et ne garderait que le fondu latéral — dégradation sans
+       casse.
+
+       Un fondu et un contour se contredisent : là où la photo s'efface, le
+       filet, lui, resterait net. Les bordures et les ombres portées des
+       photos disparaissent donc avec lui. */
+    .photo-fondue {
+      --fondu-haut: 8%;
+      --fondu-bas: 8%;
+      --fondu-cote: 6%;
+      border: none !important;
+      box-shadow: none !important;
+      -webkit-mask-image:
+        linear-gradient(to bottom, transparent 0, #000 var(--fondu-haut), #000 calc(100% - var(--fondu-bas)), transparent 100%),
+        linear-gradient(to right,  transparent 0, #000 var(--fondu-cote), #000 calc(100% - var(--fondu-cote)), transparent 100%);
+              mask-image:
+        linear-gradient(to bottom, transparent 0, #000 var(--fondu-haut), #000 calc(100% - var(--fondu-bas)), transparent 100%),
+        linear-gradient(to right,  transparent 0, #000 var(--fondu-cote), #000 calc(100% - var(--fondu-cote)), transparent 100%);
+      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+      -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+      -webkit-mask-composite: source-in;
+              mask-composite: intersect;
+    }
+    /* Le filet en pseudo-élément d'une photo fondue n'a plus lieu d'être. */
+    .photo-fondue::after { display: none !important; }
+
     /* ===== HERO — bloc unique (remplace ~14 fragments dispersés + CSS mort) ===== */
     .hero-section {
       min-height: 100svh;
@@ -424,8 +459,9 @@
        Le masque porte sur le conteneur pour emporter aussi le filet blanc. */
     .hero-img-wrap {
       position:relative; width: var(--hero-img-w); max-width:100%;
-      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%);
-              mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 15%);
+      /* Le haut fond plus long que les autres bords : c'est lui qui raccorde
+         le ciel nocturne de la photo au fond du hero. */
+      --fondu-haut: 15%;
     }
     /* Filet en pseudo-element (et non en box-shadow) : un masque ampute ce qui
        depasse la border-box, une ombre portee serait donc rognee net. */
@@ -2572,7 +2608,7 @@
 
       <!-- DROITE : Photo forte -->
       <div class="hero-img-col">
-        <div class="hero-img-wrap">
+        <div class="hero-img-wrap photo-fondue">
           <picture>
             <source srcset="photo_10k_jo.webp" type="image/webp">
             <img src="photo_10k_jo.jpg" alt="Jérémy, coach running" width="1000" height="1231" fetchpriority="high">
@@ -2660,7 +2696,7 @@
 
       <!-- Colonne gauche : photo uniquement -->
       <div class="apropos-image-wrapper">
-        <div class="apropos-image">
+        <div class="apropos-image photo-fondue">
           <picture>
             <img src="photo_apropos.webp" alt="Jérémy Reding, coach running en Île-de-France" width="1431" height="1204" loading="lazy" />
           </picture>
@@ -2920,7 +2956,7 @@
             </div>
 
             <!-- PHOTO « COACHING TERRAIN » -->
-            <figure class="ct-photo">
+            <figure class="ct-photo photo-fondue">
               <img src="coaching_terrain.webp" alt="Séance de coaching terrain avec Jérémy, coach running" width="1000" height="1000" loading="lazy" />
             </figure>
           </div>
