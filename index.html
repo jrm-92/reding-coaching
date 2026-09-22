@@ -492,51 +492,89 @@
       .hero-img-wrap img { border-radius: 0; }
     }
 
-    /* Téléphone en paysage, et tout petit écran couché. La même mise en
-       page — accroche, photo pleine largeur, choix de l'accompagnement,
-       preuves — mais la photo est recadrée en bandeau : à 844 px de large,
-       sa hauteur naturelle ferait plus de mille pixels, soit trois écrans.
-       On la coupe à la hauteur utile et on garde les coureurs au centre. */
     /* Téléphone couché : la disposition de l'ordinateur, pas celle du
        téléphone debout. Un écran large et bas se prête aux deux colonnes —
-       l'accroche, les deux choix et les preuves à gauche, la photo à droite,
-       sur toute la hauteur. Le palier « une seule colonne » de 900 px, lui,
+       l'accroche, les deux choix à gauche, la photo à droite, les preuves
+       en rangée tout en bas. Le palier « une seule colonne » de 900 px, lui,
        est écrit pour une tablette en portrait : il ne doit pas s'appliquer
-       ici. Le corps du titre se règle sur la HAUTEUR disponible, sans quoi
-       l'accroche remplit l'écran à elle seule. */
+       ici.
+
+       Tout est calé sur la HAUTEUR disponible, pas sur la largeur : sur un
+       écran de 380 px de haut, le hero faisait une fois et demie l'écran et
+       le premier coup d'œil ne montrait que le titre. Les deux choix
+       d'accompagnement arrivaient sous la ligne de flottaison, c'est-à-dire
+       nulle part. */
     @media (orientation: landscape) and (max-height: 520px) and (max-width: 1100px) {
-      .hero-section { min-height: 0; padding-bottom: var(--space-5); }
-      .hero-main-title { font-size: clamp(22px, 7.2vh, 40px); margin-bottom: var(--space-3); }
+      /* Bandeau du haut réduit : 83 px de logo sur 380 px d'écran, c'est un
+         quart de la page mangé avant même le titre. Le hero, le menu
+         déroulant et les ancres suivent automatiquement, tous trois calés
+         sur cette même mesure. */
+      :root { --header-h: 58px; --logo-h: 42px; }
+      /* Le menu ouvert est plus haut que l'écran couché : ses entrées sont
+         resserrées pour en montrer le plus possible d'un coup, et ce qui
+         dépasse défile à l'intérieur du panneau au lieu de sortir par le
+         bas, hors d'atteinte. */
+      nav.main-nav {
+        max-height: calc(100svh - var(--header-h)); overflow-y: auto;
+        padding: var(--space-3) var(--space-5);
+      }
+      nav.main-nav a { font-size: var(--fs-small); padding: var(--space-2) var(--space-1); }
+
+      .hero-section {
+        min-height: 0;
+        padding-top: calc(var(--header-h) + var(--space-2));
+        padding-bottom: var(--space-3);
+      }
+      .hero-main-title { font-size: clamp(18px, 5.6vh, 34px); margin-bottom: var(--space-2); }
+      .hero-accent-line { width: 48px; height: 3px; margin-bottom: var(--space-2); }
       .hero-value-prop { font-size: var(--fs-small); }
-      .hero-accent-line { margin-bottom: var(--space-3); }
+      .hcta-label-row { margin-bottom: var(--space-1); }
+
+      /* Colonne de droite en « auto » : c'est la photo qui donne sa largeur,
+         et la colonne de gauche prend tout le reste. L'accroche tient alors
+         sur une ligne au lieu de deux. */
       .hero-grid {
-        grid-template-columns: minmax(0, 1.25fr) minmax(180px, 0.75fr);
+        grid-template-columns: minmax(0, 1fr) auto;
         grid-template-rows: auto auto auto;
-        gap: var(--space-4) var(--grid-gap);
+        gap: var(--space-2) var(--space-4);
         align-items: center;
       }
       .hero-left     { grid-column: 1; grid-row: 1; }
       .hcta-section  { grid-column: 1; grid-row: 2; }
-      .hero-badges   { grid-column: 1; grid-row: 3; }
-      .hero-img-col  { grid-column: 2; grid-row: 1 / span 3; margin-inline: 0; }
-      /* La photo reprend son cadre : elle n'est plus au bord de l'écran. */
-      .hero-img-wrap { width: 100%; max-width: 300px; }
+      .hero-img-col  { grid-column: 2; grid-row: 1 / span 2; margin-inline: 0; }
+      /* Les quatre preuves passent sur une seule rangée, sur toute la
+         largeur : en deux colonnes sous l'accroche elles faisaient deux
+         rangées et 120 px de haut pour rien. */
+      .hero-badges {
+        grid-column: 1 / -1; grid-row: 3;
+        grid-template-columns: repeat(4, 1fr); gap: var(--space-2);
+      }
+      /* Quatre encadres sur une rangee de 850 px : marges et pastille
+         resserrees, sinon « COACH RUNNING » n'a plus la place de tenir sur
+         une ligne et la rangee passe de 52 a 69 px de haut. */
+      .hero-badge { padding: var(--space-2); gap: var(--space-2); }
+      .hero-badge-icon { width: 26px; height: 26px; }
+      .hero-badge-label { margin-top: 1px; }
+
+      /* La photo est réglée par sa HAUTEUR et garde ses proportions : rien
+         n'est coupé, et elle ne peut plus pousser la page au-delà de
+         l'écran comme le faisait une largeur fixe de 300 px. */
+      .hero-img-wrap { width: auto; max-width: 100%; height: min(260px, 54vh); }
       .hero-img-wrap::after { display: block; }
       .hero-img-wrap img {
         border-radius: var(--radius-xs);
-        aspect-ratio: 1000 / 1231; height: auto;
+        aspect-ratio: 1000 / 1231; width: auto; height: 100%;
         object-fit: cover; object-position: center top;
       }
+
       /* Les deux cartes de choix restent côte à côte : empilées, la colonne
-         de gauche devenait deux fois plus haute et le hero dépassait deux
-         écrans. Elles reprennent les réglages serrés du téléphone — icône
-         de 26 px, marges réduites, pastille de flèche masquée — ce qui
-         laisse assez de place à « PLANIFICATION & SUIVI » pour ne pas se
-         couper en plein mot. */
+         de gauche devenait deux fois plus haute. Elles reprennent les
+         réglages serrés du téléphone — icône de 26 px, marges réduites,
+         pastille de flèche masquée — ce qui laisse assez de place à
+         « PLANIFICATION & SUIVI » pour ne pas se couper en plein mot. */
       .hero-cta-duo { gap: var(--space-2); --hcta-icon: 26px; }
       .hcta-card { padding: var(--space-2); gap: var(--space-2); }
       .hcta-arrow-circle { display: none; }
-      .hero-badges { grid-template-columns: repeat(2, 1fr); gap: var(--space-2); }
     }
 
     .hero-title-section {
