@@ -184,9 +184,15 @@ update public.sessions set ancv   = 'https://ancv.example/seance'      where id 
 update public.sessions set places = 15                                 where id = 'U10';
 
 -- ── 3.3 Changer sa date, son horaire, son lieu ─────────────────────────
+--     Dans « sessions », « lieu » est le point de rendez-vous (ce qui
+--     s'affiche en gras sur la carte) et « precision » ce qu'on en dit
+--     au-dessus : « Départ et retour », « Aller simple »…
+--     Attention : ces deux colonnes s'appelaient « sous_lieu » et « lieu »
+--     avant le renommage. Dans « preparations » (§1.7), elles ont gardé
+--     leurs anciens noms, et « lieu » y est bien la ville.
 update public.sessions
    set date = '2028-02-22', heure = '19h30', duree = '1h15',
-       lieu = 'Le Vésinet', sous_lieu = 'Stade des Merlettes'
+       lieu = 'Stade des Merlettes', "precision" = 'Départ et retour'
  where id = 'U10';
 
 -- ── 3.4 Corriger son compteur ──────────────────────────────────────────
