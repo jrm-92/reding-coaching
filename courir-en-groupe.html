@@ -2244,8 +2244,12 @@
             '<div class="lieu-titre"><span>' +
               /* Le nom de la course d'abord : c'est lui qu'on cherche. Ce
                  qu'on propose autour — « Préparation 10K · 12 semaines » — se
-                 lit ensuite, puis la date. */
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(lieuTitre) +
+                 lit ensuite, puis la date.
+                 L'épingle ne s'affiche que pour les séances à l'unité : sur
+                 une préparation, le bandeau juste en dessous dit déjà où on
+                 se retrouve (badge « Départ et Retour »), et elle faisait
+                 double emploi. */
+              (aPack ? '' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;vertical-align:-3px;margin-right:9px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>') + esc(lieuTitre) +
               /* Le « i » se posait au milieu du bloc de titre — donc à
                  hauteur du sous-titre, détaché, tout à droite. Il se lit
                  contre le nom de la course, puisque c'est de la course
