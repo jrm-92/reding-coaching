@@ -408,8 +408,27 @@
     .hero-badges { display:grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2); }
     @media (max-width: 1200px) { .hero-badges { grid-template-columns: repeat(2, 1fr); } }
     .hero-badge { display:flex; align-items:center; gap: var(--space-2); background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); min-width:0; }
-    a.hero-badge { transition: background .2s ease, border-color .2s ease; }
-    a.hero-badge:hover, a.hero-badge:focus-visible { background:rgba(255,255,255,.1); border-color:rgba(255,107,53,.4); }
+    /* Le seul encadre cliquable des quatre ressemblait aux trois autres,
+       et ne se signalait qu'au survol — c'est-a-dire jamais sur un
+       telephone. Il porte donc en permanence le filet et le fond de
+       l'accent, et une fleche « lien externe » collee a son libelle. */
+    /* Le « important » n'est pas un caprice : plus bas, le bloc qui
+       renforce les contours pour la lecture en plein soleil impose un
+       filet blanc a tous les encadres, lui aussi en important. Un
+       selecteur d'un cran plus precis reprend la main. */
+    a.hero-badge {
+      background: rgba(255,107,53,.09);
+      border-color: rgba(255,107,53,.42) !important;
+      transition: background .2s ease, border-color .2s ease;
+    }
+    a.hero-badge .hero-badge-icon { background: rgba(255,107,53,.2); }
+    .hero-badge-lien {
+      display: inline-block; width: 11px; height: 11px;
+      margin-left: 5px; vertical-align: -1px; color: var(--color-accent-light);
+    }
+    a.hero-badge:hover, a.hero-badge:focus-visible {
+      background: rgba(255,107,53,.16); border-color: rgba(255,107,53,.75) !important;
+    }
     .hero-badge-icon { width: clamp(26px, calc(21.3px + 1.3vw), 34px); height: clamp(26px, calc(21.3px + 1.3vw), 34px); border-radius: var(--radius-sm); display:flex; align-items:center; justify-content:center; flex-shrink:0; background:rgba(255,107,53,.12); color: var(--color-accent); }
     .hero-badge-icon svg { width:52%; height:52%; }
     .hero-badge-text { display:flex; flex-direction:column; min-width:0; }
@@ -2687,7 +2706,7 @@
             <span class="hero-badge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
             <span class="hero-badge-text">
               <span class="hero-badge-value">Coach Running</span>
-              <span class="hero-badge-label">Carte Pro</span>
+              <span class="hero-badge-label">Carte Pro<svg class="hero-badge-lien" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
             </span>
           </a>
         </div>
