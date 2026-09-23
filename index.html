@@ -762,6 +762,18 @@
   }
   .apropos-image,
   .apropos-container .about-content { max-width: var(--apropos-bande); margin-inline: auto; }
+  /* Photo et texte occupent deja exactement la meme bande. Ce qui se
+     lisait comme un decalage, c'etait le bord droit du texte, irregulier
+     sous une photo aux bords nets : centre, le paragraphe se cale
+     visuellement sur elle, et la signature n'est plus la seule ligne
+     centree du bloc. En deux colonnes, sur grand ecran, le texte reste
+     aligne a gauche : centrer huit lignes de suite se lit mal. */
+  /* Sur les paragraphes eux-memes, et pas seulement sur leur bloc : plus
+     bas, « .about-content p » leur pose un alignement a gauche en propre,
+     et une valeur posee en propre l'emporte toujours sur une valeur
+     heritee du parent, quel que soit le poids des selecteurs. */
+  .apropos-container .about-content,
+  .apropos-container .about-content p { text-align: center; }
 }
 @media (max-width: 600px) {
   .apropos-section { padding: var(--space-6) max(28px, var(--container-pad)) var(--space-5); }
