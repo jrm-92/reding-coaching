@@ -1480,6 +1480,39 @@
     .empty-state p { color: rgba(255,255,255,0.6); font-size: 15px; }
     .empty-state a { color: #FF6B35; }
 
+    /* ── Passerelle vers le suivi individuel ──
+       Une préparation collective a un calendrier fixe : une date, un
+       rythme communs à tout le groupe. Qui vise une course bien à lui —
+       une autre date, un autre format — n'y trouve pas sa place ; ce
+       bloc l'oriente vers le plan sur mesure, en bleu comme le reste de
+       cette offre (voir le code couleur en tête de fichier). */
+    .distance-cta {
+      margin: var(--space-8) auto 0; max-width: 640px; padding: var(--space-5);
+      border: 1px solid var(--offer-distance-border); border-radius: var(--radius-md);
+      background: var(--offer-distance-soft); text-align: center;
+    }
+    .distance-cta-kicker {
+      margin: 0 0 8px; font-size: var(--fs-small); font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--offer-distance-light);
+    }
+    .distance-cta-titre {
+      margin: 0 0 10px; font-size: var(--fs-h4); font-weight: 900; font-style: italic;
+      text-transform: uppercase; letter-spacing: 0.02em; color: #fff;
+    }
+    .distance-cta-texte {
+      margin: 0 auto var(--space-4); max-width: 46ch;
+      font-size: var(--fs-small); line-height: 1.6; color: rgba(255,255,255,0.78);
+    }
+    .distance-cta-lien {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: var(--radius-pill);
+      background: var(--offer-distance-fill); color: var(--offer-distance-on);
+      font-weight: 800; font-size: var(--fs-small); text-decoration: none;
+      transition: background .18s ease;
+    }
+    .distance-cta-lien:hover { background: var(--offer-distance-hover); }
+    .distance-cta-lien svg { width: 16px; height: 16px; flex-shrink: 0; }
+
     /* ── Modale d'inscription ── */
     /* Au-dessus du bandeau du haut (9999) : sinon le logo et le menu
        flottaient par-dessus la fenêtre d'inscription, et sa croix de
@@ -1694,6 +1727,15 @@
     <div class="empty-state" id="empty-state" style="display:none;">
       <h2>Aucune session programmée</h2>
       <p>Les prochaines séances collectives seront annoncées ici très bientôt.<br>En attendant, tu peux <a href="index.html#contactForm">me contacter</a> pour organiser une séance de groupe.</p>
+    </div>
+
+    <div class="distance-cta">
+      <p class="distance-cta-kicker">Suivi à distance</p>
+      <h2 class="distance-cta-titre">Tu souhaites te préparer pour une course ou un objectif particulier ?</h2>
+      <p class="distance-cta-texte">Je conçois un plan d'entraînement rien qu'à toi : ta course, tes disponibilités, ton niveau — et je l'ajuste à chaque étape selon ton évolution.</p>
+      <a href="index.html#suivi-personnalise" class="distance-cta-lien">Découvrir le suivi à distance
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+      </a>
     </div>
   </main>
 
