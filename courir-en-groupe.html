@@ -1036,9 +1036,9 @@
       background: linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.01) 100%);
     }
     .pack-tete { flex: 1 1 0; min-width: 0; }
-    .pack-head .lieu-titre-row { justify-content: flex-start; margin-bottom: 0; }
-    .pack-head .lieu-titre { align-items: flex-start; }
-    .pack-head .lieu-titre span { text-align: left; white-space: normal; }
+    .pack-head .lieu-titre-row { justify-content: center; margin-bottom: 0; }
+    .pack-head .lieu-titre { flex: 1 1 auto; align-items: center; justify-content: center; }
+    .pack-head .lieu-titre span { text-align: center; white-space: normal; }
     /* La date de la course est dans la vignette : inutile de la répéter. */
     .pack-head .lieu-titre .lieu-titre-date { display: none; }
     /* Le bouton « M'inscrire à la course » se range à droite du bandeau
@@ -1218,12 +1218,14 @@
     .session-titre {
       font-size: 20px; font-weight: 900; font-style: italic;
       text-transform: uppercase; letter-spacing: 0; color: #fff; line-height: 1.2;
+      text-align: center;
     }
     .titre-sub {
       display: block; margin-top: 4px;
       font-size: var(--fs-small); font-weight: 600; font-style: normal;
       text-transform: none; letter-spacing: 0.3px;
       color: rgba(255, 255, 255, 0.62);
+      text-align: center;
     }
     /* La pastille est posée directement dans la carte, entre l'en-tête et
        le panneau des informations : elle profite de toute la largeur. */
