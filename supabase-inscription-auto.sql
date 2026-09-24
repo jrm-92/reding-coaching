@@ -12,6 +12,11 @@ create table if not exists public.stripe_events (
 alter table public.stripe_events enable row level security;
 -- Aucune policy => seule la fonction (clé service_role) peut y accéder.
 
+-- Droit d'accès API (obligatoire depuis le 30 octobre 2026, Supabase
+-- n'accorde plus cela tout seul à une table nouvellement créée) :
+-- service_role seul, celui du webhook.
+grant select, insert on public.stripe_events to service_role;
+
 -- 2) Incrément par ÉVÉNEMENT (si le lien Stripe porte la metadata « evenement »)
 create or replace function public.incr_inscrits_evenement(p_evenement text)
 returns void

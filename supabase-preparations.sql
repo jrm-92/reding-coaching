@@ -108,6 +108,12 @@ drop policy if exists "Lecture publique du programme" on public.preparation_sean
 create policy "Lecture publique du programme"
   on public.preparation_seances for select to anon using (true);
 
+-- Droit d'accès API (obligatoire depuis le 30 octobre 2026, Supabase
+-- n'accorde plus cela tout seul à une table nouvellement créée) : lecture
+-- publique pour le site, écriture réservée à service_role.
+grant select on public.preparations, public.preparation_seances to anon;
+grant select, insert, update, delete on public.preparations, public.preparation_seances to service_role;
+
 -- ── 4) Reprise de l'existant ────────────────────────────────────────────
 --     Chaque groupe de séances partageant un « evenement » ET un lien pack
 --     devient une préparation. Identifiant dérivé du nom : minuscules,
