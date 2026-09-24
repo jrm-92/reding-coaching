@@ -2372,7 +2372,7 @@
              10h00 à 11h15 si la donnée est absente. */
           var horairePack = (sessionsTri[0].heure && sessionsTri[0].duree)
             ? enHeure(enMinutes(sessionsTri[0].heure)) + ' à ' + enHeure(enMinutes(sessionsTri[0].heure) + enMinutes(sessionsTri[0].duree))
-            : '10h00 à 11h15';
+            : '10h00 à 11h00';
           /* Taille du groupe : la valeur de Supabase, injectée dans PACK_INCLUS
              à la place du jeton {{PLACES}}. Sans ce jeton le nombre restait
              écrit en dur dans « Ce qui est inclus » pendant que le badge
@@ -2399,7 +2399,7 @@
               .replace(/\{\{PLACES\}\}/g, String(placesPack))
               .replace(/\{\{SEANCES\}\}/g, String(sessionsTri.length))
               .replace(/\{\{SEMAINES\}\}/g, String(nbSemaines))
-              .replace(/\{\{DUREE\}\}/g, String(sessionsTri[0].duree || '1h15'));
+              .replace(/\{\{DUREE\}\}/g, String(sessionsTri[0].duree || '1h'));
           };
           /* La liste se règle dans la préparation. Vide, on garde celle de
              la page : une préparation qui n'a rien à dire de particulier

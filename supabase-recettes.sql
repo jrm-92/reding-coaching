@@ -10,9 +10,18 @@
 --  visible. Remplace-les par les blocs ci-dessous.
 --
 --  OÙ VIT QUOI
---    preparations         le produit : nom, prix, lien, places, compteur
---    preparation_seances  son programme : une ligne par séance
---    sessions             les séances vendues à l'unité, et elles seules
+--    preparations  le produit ET son programme : nom, prix, lien, places,
+--                  compteur, et le calendrier lui-même (date_debut,
+--                  date_fin, jours, duree — une ligne par préparation, pas
+--                  une ligne par séance)
+--    sessions      les séances vendues à l'unité, et elles seules
+--
+--  « preparation_seances » (section 2 ci-dessous, une ligne par séance)
+--  n'existe plus dans la base : les préparations actuelles portent leur
+--  calendrier directement sur « preparations ». Vérifié le 24/09/2026 —
+--  si tu relis ce fichier plus tard et que la section 2 échoue avec
+--  « relation does not exist », c'est ça la cause : ignore-la, elle est
+--  gardée telle quelle en archive plutôt que réécrite au hasard.
 --
 --  L'identifiant d'une préparation part dans le lien de paiement : il ne
 --  doit contenir que lettres, chiffres, tirets et soulignés. La base
@@ -102,7 +111,7 @@ update public.preparations set actif = true  where id = 'marathon-paris-2028';  
 insert into public.preparation_seances
   (id, preparation_id, date, heure, duree, titre, sous_titre)
 values
-  ('MP1', 'marathon-paris-2028', '2028-01-08', '09h30', '1h15',
+  ('MP1', 'marathon-paris-2028', '2028-01-08', '09h30', '1h',
    'Reprise', 'Préparation physique');
 
 -- ── 2.2 Créer tout un programme hebdomadaire d'un coup ─────────────────
@@ -118,7 +127,7 @@ select
   'marathon-paris-2028',
   date '2028-01-08' + (g - 1) * 7,
   '09h30',
-  '1h15',
+  '1h',
   (array['Reprise','Test VMA','Développement','Développement',
          'Développement','Développement','Seuil','Seuil',
          'Spécifique','Spécifique','Spécifique','Sortie longue',
@@ -174,7 +183,7 @@ insert into public.sessions
 values
   ('DEFENSE-2028-02-15-SOIR',       -- identifiant, sert de référence de paiement
    'La Défense',                    -- titre du bloc sur le site
-   '2028-02-15', '19h00', '1h15',
+   '2028-02-15', '19h00', '1h',
    'Endurance', 'Tous niveaux',
    'Le Parvis',                     -- le point de rendez-vous, en gras sur la carte
    'Départ et retour',              -- ce qu'on en dit au-dessus
@@ -204,7 +213,7 @@ update public.sessions set places = 15                                 where id 
 --     avant le renommage. Dans « preparations » (§1.7), elles ont gardé
 --     leurs anciens noms, et « lieu » y est bien la ville.
 update public.sessions
-   set date = '2028-02-22', heure = '19h30', duree = '1h15',
+   set date = '2028-02-22', heure = '19h30', duree = '1h',
        lieu = 'Stade des Merlettes', "precision" = 'Départ et retour'
  where id = 'U10';
 
@@ -215,6 +224,16 @@ update public.sessions set inscrits = 0            where id = 'U10';
 -- ── 3.5 La masquer ─────────────────────────────────────────────────────
 update public.sessions set actif = false where id = 'U10';
 update public.sessions set actif = true  where id = 'U10';
+
+-- ── 3.6 Passer TOUTES les séances (préparations + à l'unité) à 1h ──────
+--     Les deux lignes ci-dessous, d'un coup : la durée par défaut de
+--     toutes les préparations, et de toutes les séances à l'unité. Sans
+--     « where » : ça touche tout le monde, exprès.
+--     Si une préparation précise sa propre durée pour un jour donné
+--     (colonne « jours », ex. "samedi 9h30 1h15"), ce jour-là garde SA
+--     durée : la ligne ci-dessous ne change que le repli par défaut.
+update public.preparations set duree = '1h';
+update public.sessions     set duree = '1h';
 
 
 -- ═══ 3 bis. TOUT MASQUER D'UN COUP ══════════════════════════════════════
