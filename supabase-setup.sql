@@ -42,6 +42,12 @@ create policy "Lecture publique des sessions"
   to anon
   using (true);
 
+-- Droit d'accès API (obligatoire depuis le 30 octobre 2026, Supabase
+-- n'accorde plus cela tout seul à une table nouvellement créée) : lecture
+-- publique pour le site, écriture réservée à service_role.
+grant select on public.sessions to anon;
+grant select, insert, update, delete on public.sessions to service_role;
+
 -- 3) Import de tes 13 sessions actuelles
 insert into public.sessions
   (id, evenement, titre, sous_titre, date, heure, duree, lieu, sous_lieu, prix_pack)
