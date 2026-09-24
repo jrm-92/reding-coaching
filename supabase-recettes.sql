@@ -10,9 +10,18 @@
 --  visible. Remplace-les par les blocs ci-dessous.
 --
 --  OÙ VIT QUOI
---    preparations         le produit : nom, prix, lien, places, compteur
---    preparation_seances  son programme : une ligne par séance
---    sessions             les séances vendues à l'unité, et elles seules
+--    preparations  le produit ET son programme : nom, prix, lien, places,
+--                  compteur, et le calendrier lui-même (date_debut,
+--                  date_fin, jours, duree — une ligne par préparation, pas
+--                  une ligne par séance)
+--    sessions      les séances vendues à l'unité, et elles seules
+--
+--  « preparation_seances » (section 2 ci-dessous, une ligne par séance)
+--  n'existe plus dans la base : les préparations actuelles portent leur
+--  calendrier directement sur « preparations ». Vérifié le 24/09/2026 —
+--  si tu relis ce fichier plus tard et que la section 2 échoue avec
+--  « relation does not exist », c'est ça la cause : ignore-la, elle est
+--  gardée telle quelle en archive plutôt que réécrite au hasard.
 --
 --  L'identifiant d'une préparation part dans le lien de paiement : il ne
 --  doit contenir que lettres, chiffres, tirets et soulignés. La base
@@ -217,11 +226,14 @@ update public.sessions set actif = false where id = 'U10';
 update public.sessions set actif = true  where id = 'U10';
 
 -- ── 3.6 Passer TOUTES les séances (préparations + à l'unité) à 1h ──────
---     Les deux lignes ci-dessous, d'un coup : toutes les séances de
---     toutes les préparations, et toutes les séances à l'unité. Sans
+--     Les deux lignes ci-dessous, d'un coup : la durée par défaut de
+--     toutes les préparations, et de toutes les séances à l'unité. Sans
 --     « where » : ça touche tout le monde, exprès.
-update public.preparation_seances set duree = '1h';
-update public.sessions             set duree = '1h';
+--     Si une préparation précise sa propre durée pour un jour donné
+--     (colonne « jours », ex. "samedi 9h30 1h15"), ce jour-là garde SA
+--     durée : la ligne ci-dessous ne change que le repli par défaut.
+update public.preparations set duree = '1h';
+update public.sessions     set duree = '1h';
 
 
 -- ═══ 3 bis. TOUT MASQUER D'UN COUP ══════════════════════════════════════
