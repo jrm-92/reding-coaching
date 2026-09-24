@@ -70,7 +70,7 @@ create table if not exists public.preparation_seances (
                  on update cascade on delete cascade,
   date           date not null,
   heure          text not null,     -- ex. "09h30"
-  duree          text default '1h15',
+  duree          text default '1h',
   titre          text default '',   -- ex. "Test VMA"
   sous_titre     text default '',   -- ex. "Détermination de la VMA"
   description    text default '',
