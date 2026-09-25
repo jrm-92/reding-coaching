@@ -1652,6 +1652,30 @@
       text-transform: uppercase; letter-spacing: 0.04em; color: rgba(255,255,255,0.65);
     }
 
+    /* Bloc indépendant « offrir ce suivi », détaché du formulaire : on ne
+       veut pas qu'il ait l'air d'un champ de plus à remplir. */
+    .cadeau-box {
+      max-width: 760px; margin: var(--space-6) auto 0; padding: var(--space-5);
+      border: 1px solid var(--offer-border); border-radius: var(--radius-md);
+      background: var(--offer-soft); text-align: center;
+    }
+    .cadeau-titre {
+      margin: 0 0 6px; font-size: var(--fs-h6); font-weight: 900; font-style: italic;
+      text-transform: uppercase; letter-spacing: 0.02em; color: #fff;
+    }
+    .cadeau-texte {
+      margin: 0 0 var(--space-4); font-size: var(--fs-small); color: rgba(255,255,255,0.72);
+    }
+    .cadeau-lien {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: var(--radius-pill);
+      background: var(--offer-fill); color: var(--offer-on);
+      font-weight: 800; font-size: var(--fs-small); text-decoration: none;
+      transition: background .18s ease;
+    }
+    .cadeau-lien:hover { background: var(--offer-hover); }
+    .cadeau-lien svg { width: 16px; height: 16px; flex-shrink: 0; }
+
 
     .service-card.terrain .service-features li::before {
       display: none;
@@ -2951,11 +2975,19 @@
         <p class="lead-error" style="display:none;margin-top:14px;padding:12px;border-radius:8px;text-align:center;font-weight:600;background:rgba(248,113,113,0.15);color:#f87171;"></p>
         <p class="form-fallback" style="margin-top:14px;text-align:center;font-size:13px;line-height:1.5;color:rgba(255,255,255,0.6);">Le formulaire ne fonctionne pas ? Écris-moi directement à <a href="mailto:contact@reding-running.fr?subject=Demande%20de%20coaching" style="color:var(--offer-light);font-weight:600;text-decoration:underline;">contact@reding-running.fr</a></p>
       </form>
-      <p style="margin-top:18px;text-align:center;font-size:13px;line-height:1.5;color:rgba(255,255,255,0.6);">Tu veux offrir ce suivi à quelqu'un ? Écris-moi directement à <a href="mailto:contact@reding-running.fr?subject=Offrir%20un%20suivi%20personnalis%C3%A9" style="color:var(--offer-light);font-weight:600;text-decoration:underline;">contact@reding-running.fr</a></p>
       <div class="lead-success" style="display:none;text-align:center;padding:26px 10px;">
         <h3 style="color:var(--offer-light);margin:0 0 6px;font-style:italic;font-size:22px;text-transform:uppercase;">Demande envoyée !</h3>
         <p style="color:rgba(255,255,255,0.8);margin:0;">Merci ! Je reviens vers toi très vite avec des propositions de créneaux pour ton entretien téléphonique découverte.</p>
       </div>
+    </div>
+
+    <!-- Bloc indépendant, hors du formulaire : offrir ce suivi à quelqu'un. -->
+    <div class="cadeau-box">
+      <p class="cadeau-titre">Tu veux offrir ce suivi à quelqu'un ?</p>
+      <p class="cadeau-texte">Écris-moi, je m'occupe du reste.</p>
+      <a href="mailto:contact@reding-running.fr?subject=Offrir%20un%20suivi%20personnalis%C3%A9" class="cadeau-lien">Écris-moi
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+      </a>
     </div>
     </div>
     </div>
