@@ -1651,10 +1651,30 @@
       display: block; margin-top: 4px; font-size: var(--fs-small); font-weight: 700;
       text-transform: uppercase; letter-spacing: 0.04em; color: rgba(255,255,255,0.65);
     }
-    .duree-mini-cadeau {
-      margin: var(--space-4) 0 0; font-size: var(--fs-small); color: rgba(255,255,255,0.72);
+
+    /* Bloc indépendant « offrir ce suivi », détaché du formulaire : on ne
+       veut pas qu'il ait l'air d'un champ de plus à remplir. */
+    .cadeau-box {
+      max-width: 760px; margin: var(--space-6) auto 0; padding: var(--space-5);
+      border: 1px solid var(--offer-border); border-radius: var(--radius-md);
+      background: var(--offer-soft); text-align: center;
     }
-    .duree-mini-cadeau a { color: var(--offer-light); font-weight: 700; text-decoration: underline; }
+    .cadeau-titre {
+      margin: 0 0 6px; font-size: var(--fs-h6); font-weight: 900; font-style: italic;
+      text-transform: uppercase; letter-spacing: 0.02em; color: #fff;
+    }
+    .cadeau-texte {
+      margin: 0 0 var(--space-4); font-size: var(--fs-small); color: rgba(255,255,255,0.72);
+    }
+    .cadeau-lien {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border-radius: var(--radius-pill);
+      background: var(--offer-fill); color: var(--offer-on);
+      font-weight: 800; font-size: var(--fs-small); text-decoration: none;
+      transition: background .18s ease;
+    }
+    .cadeau-lien:hover { background: var(--offer-hover); }
+    .cadeau-lien svg { width: 16px; height: 16px; flex-shrink: 0; }
 
 
     .service-card.terrain .service-features li::before {
@@ -2860,15 +2880,14 @@
       <!-- Repères de durée minimum, pour que la demande par mail parte déjà
            avec la bonne durée en tête. -->
       <div class="duree-mini-box">
-        <p class="duree-mini-titre">Combien de temps prévoir ?</p>
-        <p class="duree-mini-sub">Ta préparation est sur-mesure : écris-moi ton objectif par mail et je te propose un plan adapté. Voici la durée préconisée pour arriver prêt(e), selon ta distance.</p>
+        <p class="duree-mini-titre">Pour préparer une course, combien de temps prévoir ?</p>
+        <p class="duree-mini-sub">Voici les durées préconisées pour arriver prêt(e), selon ta distance.</p>
         <div class="duree-mini-grid">
           <div class="duree-mini-item"><span class="duree-mini-val">8 sem.</span><span class="duree-mini-lbl">5 km</span></div>
           <div class="duree-mini-item"><span class="duree-mini-val">12 sem.</span><span class="duree-mini-lbl">10 km</span></div>
           <div class="duree-mini-item"><span class="duree-mini-val">16 sem.</span><span class="duree-mini-lbl">Semi</span></div>
           <div class="duree-mini-item"><span class="duree-mini-val">18 sem.</span><span class="duree-mini-lbl">Marathon</span></div>
         </div>
-        <p class="duree-mini-cadeau">Tu peux aussi offrir ce suivi à quelqu'un — <a href="mailto:contact@reding-running.fr?subject=Offrir%20un%20suivi%20personnalis%C3%A9">écris-moi</a>.</p>
       </div>
 
     <!-- Formulaire dédié : démarrer le suivi à distance -->
@@ -2960,6 +2979,15 @@
         <h3 style="color:var(--offer-light);margin:0 0 6px;font-style:italic;font-size:22px;text-transform:uppercase;">Demande envoyée !</h3>
         <p style="color:rgba(255,255,255,0.8);margin:0;">Merci ! Je reviens vers toi très vite avec des propositions de créneaux pour ton entretien téléphonique découverte.</p>
       </div>
+    </div>
+
+    <!-- Bloc indépendant, hors du formulaire : offrir ce suivi à quelqu'un. -->
+    <div class="cadeau-box">
+      <p class="cadeau-titre">Tu veux offrir ce suivi à quelqu'un ?</p>
+      <p class="cadeau-texte">Contacte-moi par mail et précise-moi ce que tu souhaites offrir.</p>
+      <a href="mailto:contact@reding-running.fr?subject=Offrir%20un%20suivi%20personnalis%C3%A9" class="cadeau-lien">Écris-moi
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+      </a>
     </div>
     </div>
     </div>
