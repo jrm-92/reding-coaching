@@ -1604,6 +1604,44 @@
     }
     .service-card.distance .service-features li.feature-bonus strong { color: var(--offer-light) !important; }
 
+    /* Repères de durée minimum : aide le visiteur à savoir ce qu'il vient
+       demander par mail, avant même l'entretien découverte. */
+    .duree-mini-box {
+      max-width: 760px; margin: var(--space-6) auto 0; padding: var(--space-5);
+      border: 1px solid var(--offer-border); border-radius: var(--radius-md);
+      background: var(--offer-soft); text-align: center;
+    }
+    .duree-mini-titre {
+      margin: 0 0 6px; font-size: var(--fs-h6); font-weight: 900; font-style: italic;
+      text-transform: uppercase; letter-spacing: 0.02em; color: #fff;
+    }
+    .duree-mini-sub {
+      margin: 0 auto var(--space-4); max-width: 52ch;
+      font-size: var(--fs-small); line-height: 1.6; color: rgba(255,255,255,0.72);
+    }
+    .duree-mini-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-2);
+    }
+    @media (max-width: 640px) {
+      .duree-mini-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .duree-mini-item {
+      padding: var(--space-3) var(--space-2); border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.05); border: 1px solid var(--color-line-dark);
+    }
+    .duree-mini-val {
+      display: block; font-size: var(--fs-h5); font-weight: 900; font-style: italic;
+      color: var(--offer-light);
+    }
+    .duree-mini-lbl {
+      display: block; margin-top: 4px; font-size: var(--fs-small); font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.04em; color: rgba(255,255,255,0.65);
+    }
+    .duree-mini-cadeau {
+      margin: var(--space-4) 0 0; font-size: var(--fs-small); color: rgba(255,255,255,0.72);
+    }
+    .duree-mini-cadeau a { color: var(--offer-light); font-weight: 700; text-decoration: underline; }
+
 
     .service-card.terrain .service-features li::before {
       display: none;
@@ -2805,6 +2843,19 @@
         <p class="service-card-note">* Évaluation en présentiel, uniquement dans <a href="#zone-deplacement" class="link-accent-blue" style="white-space:nowrap;">la zone de déplacement</a>.</p>
       </div>
 
+      <!-- Repères de durée minimum, pour que la demande par mail parte déjà
+           avec la bonne durée en tête. -->
+      <div class="duree-mini-box">
+        <p class="duree-mini-titre">Combien de temps prévoir ?</p>
+        <p class="duree-mini-sub">Ta préparation est sur-mesure : écris-moi ton objectif par mail et je te propose un plan adapté. Voici la durée minimum à prévoir pour arriver prêt(e), selon ta distance.</p>
+        <div class="duree-mini-grid">
+          <div class="duree-mini-item"><span class="duree-mini-val">8 sem.</span><span class="duree-mini-lbl">5 km</span></div>
+          <div class="duree-mini-item"><span class="duree-mini-val">12 sem.</span><span class="duree-mini-lbl">10 km</span></div>
+          <div class="duree-mini-item"><span class="duree-mini-val">16 sem.</span><span class="duree-mini-lbl">Semi</span></div>
+          <div class="duree-mini-item"><span class="duree-mini-val">18 sem.</span><span class="duree-mini-lbl">Marathon</span></div>
+        </div>
+        <p class="duree-mini-cadeau">Tu peux aussi offrir ce suivi à quelqu'un — <a href="mailto:contact@reding-running.fr?subject=Offrir%20un%20suivi%20personnalis%C3%A9">écris-moi</a>.</p>
+      </div>
 
     <!-- Formulaire dédié : démarrer le suivi à distance -->
     <div class="suivi-form-wrap" id="suivi-form">
