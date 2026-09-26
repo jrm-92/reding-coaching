@@ -930,8 +930,17 @@
       scroll-padding-left: 0;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      /* Au doigt, on pousse ; à la souris, sans molette latérale ni
+         trackpad, rien n'indiquait qu'on pouvait cliquer-glisser. Le
+         curseur le dit (voir le script plus bas pour le geste lui-même). */
+      cursor: grab;
     }
     .prog-dates::-webkit-scrollbar { display: none; }
+    .prog-dates.prog-dates--drag {
+      cursor: grabbing;
+      scroll-snap-type: none;
+      user-select: none;
+    }
     .prog-dates li {
       position: relative; overflow: hidden;
       flex: 0 0 auto; width: 132px;
@@ -1489,7 +1498,7 @@
        bloc l'oriente vers le plan sur mesure, en bleu comme le reste de
        cette offre (voir le code couleur en tête de fichier). */
     .distance-cta {
-      margin: var(--space-8) auto 0; max-width: 640px; padding: var(--space-5);
+      margin: var(--space-8) auto 0; max-width: 1080px; padding: var(--space-5);
       border: 1px solid var(--offer-distance-border); border-radius: var(--radius-md);
       background: var(--offer-distance-soft); text-align: center;
     }
@@ -2759,6 +2768,39 @@
         window.addEventListener('resize', maj);
         maj();
       });
+
+      /* ── Défilement à la souris de la bande « .prog-dates » ──
+         Elle n'a ni flèches ni barre de défilement visible (elle imite un
+         agenda qu'on pousse du doigt) : sur PC, sans trackpad ni molette
+         latérale, rien ne la faisait bouger. On ajoute la molette
+         (verticale, convertie en horizontal) et le cliqué-glissé. */
+      document.addEventListener('wheel', function (e) {
+        var bande = e.target.closest('.prog-dates');
+        if (!bande || bande.scrollWidth <= bande.clientWidth) return;
+        bande.scrollLeft += e.deltaY;
+        e.preventDefault();
+      }, { passive: false });
+
+      (function () {
+        var bande = null, depart = 0, scrollDepart = 0;
+        document.addEventListener('mousedown', function (e) {
+          var cible = e.target.closest('.prog-dates');
+          if (!cible || e.button !== 0) return;
+          bande = cible; depart = e.clientX; scrollDepart = bande.scrollLeft;
+          bande.classList.add('prog-dates--drag');
+          e.preventDefault();
+        });
+        document.addEventListener('mousemove', function (e) {
+          if (!bande) return;
+          bande.scrollLeft = scrollDepart - (e.clientX - depart);
+        });
+        function relacher() {
+          if (bande) bande.classList.remove('prog-dates--drag');
+          bande = null;
+        }
+        document.addEventListener('mouseup', relacher);
+        document.addEventListener('mouseleave', relacher);
+      })();
 
       /* ── Modale ── */
       var overlay = document.getElementById('modal-overlay');
