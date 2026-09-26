@@ -1678,6 +1678,42 @@
       text-transform: uppercase; letter-spacing: 0.04em; color: rgba(255,255,255,0.65);
     }
 
+    /* Calculateur de date de début : la date de course et la distance
+       donnent directement une réponse, sans recalculer à la main à
+       partir des 4 cases au-dessus. */
+    .duree-calc {
+      margin-top: var(--space-4); padding-top: var(--space-4);
+      border-top: 1px solid var(--color-line-dark);
+    }
+    .duree-calc-titre {
+      margin: 0 0 12px; font-size: var(--fs-small); font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.04em; color: rgba(255,255,255,0.72);
+    }
+    .duree-calc-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      margin-bottom: 14px; text-align: left;
+    }
+    .duree-calc-row .form-group { margin-bottom: 0; }
+    @media (max-width: 480px) {
+      .duree-calc-row { grid-template-columns: 1fr; }
+    }
+    .duree-calc-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; border: none; border-radius: var(--radius-pill); cursor: pointer;
+      background: var(--offer-fill); color: var(--offer-on);
+      font-family: inherit; font-weight: 800; font-size: var(--fs-small);
+      transition: background .18s ease;
+    }
+    .duree-calc-btn:hover { background: var(--offer-hover); }
+    .duree-calc-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .duree-calc-resultat {
+      margin: 14px 0 0; padding: 12px 16px; border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.05); border: 1px solid var(--offer-border);
+      font-size: var(--fs-small); line-height: 1.5; color: rgba(255,255,255,0.85);
+    }
+    .duree-calc-resultat strong { color: var(--offer-light); }
+    .duree-calc-resultat--erreur { border-color: rgba(248,113,113,0.5); color: #f87171; }
+
     /* Bloc indépendant « offrir ce suivi », détaché du formulaire : on ne
        veut pas qu'il ait l'air d'un champ de plus à remplir. Pas de marge
        en haut : l'écart avec le bloc voisin vient du « gap » de
@@ -2922,6 +2958,31 @@
           <div class="duree-mini-item"><span class="duree-mini-val">16 sem.</span><span class="duree-mini-lbl">Semi</span></div>
           <div class="duree-mini-item"><span class="duree-mini-val">18 sem.</span><span class="duree-mini-lbl">Marathon</span></div>
         </div>
+
+        <!-- Calculateur : date de course + distance -> nombre de semaines
+             et date de début, sans repasser par les 4 cases au-dessus. -->
+        <div class="duree-calc">
+          <p class="duree-calc-titre">Calcule ta date de début idéale</p>
+          <div class="duree-calc-row">
+            <div class="form-group">
+              <label for="duree-calc-date">Date de la course</label>
+              <input type="date" id="duree-calc-date">
+            </div>
+            <div class="form-group">
+              <label for="duree-calc-distance">Distance</label>
+              <select id="duree-calc-distance">
+                <option value="8">5 km</option>
+                <option value="12" selected>10 km</option>
+                <option value="16">Semi</option>
+                <option value="18">Marathon</option>
+              </select>
+            </div>
+          </div>
+          <button type="button" id="duree-calc-btn" class="duree-calc-btn">Calculer ma date de début
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+          </button>
+          <p class="duree-calc-resultat" id="duree-calc-resultat" hidden></p>
+        </div>
       </div>
       </div>
 
@@ -3766,6 +3827,37 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
             if (btn) { btn.disabled = false; btn.innerHTML = original; }
           }
         });
+      });
+    })();
+
+    // ── Calculateur de date de début (bloc "Combien de temps...") ──
+    (function () {
+      var btn = document.getElementById('duree-calc-btn');
+      if (!btn) return;
+      var dateInput = document.getElementById('duree-calc-date');
+      var distanceSelect = document.getElementById('duree-calc-distance');
+      var resultat = document.getElementById('duree-calc-resultat');
+
+      btn.addEventListener('click', function () {
+        if (!dateInput.value) {
+          resultat.textContent = 'Choisis d’abord la date de ta course.';
+          resultat.classList.add('duree-calc-resultat--erreur');
+          resultat.hidden = false;
+          return;
+        }
+        var semaines = parseInt(distanceSelect.value, 10);
+        var courseDate = new Date(dateInput.value + 'T12:00:00');
+        var debut = new Date(courseDate.getTime() - semaines * 7 * 24 * 60 * 60 * 1000);
+        var aujourdhui = new Date(); aujourdhui.setHours(12, 0, 0, 0);
+
+        resultat.classList.remove('duree-calc-resultat--erreur');
+        if (debut < aujourdhui) {
+          resultat.innerHTML = 'Il te faut <strong>' + semaines + ' semaines</strong> de préparation — commence dès maintenant, la course approche vite !';
+        } else {
+          var texte = debut.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+          resultat.innerHTML = 'Il te faut <strong>' + semaines + ' semaines</strong> de préparation.<br>Commence le <strong>' + texte + '</strong>.';
+        }
+        resultat.hidden = false;
       });
     })();
 
