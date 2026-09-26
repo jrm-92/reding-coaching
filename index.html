@@ -1147,8 +1147,22 @@
       gap: 40px;
       align-items: stretch;
     }
-    /* La precision est repassee dans la carte : la grille redevient a deux
-       colonnes simples, sans placement explicite. */
+    /* Sur desktop, la carte de prix est bien plus haute que les deux petits
+       encarts de la colonne de droite : sans placement explicite, la grille
+       les traite comme une grille 2x2 stricte et le 2e encart ("offrir")
+       hérite de la hauteur de ligne du formulaire, très en dessous du 1er
+       encart ("durées") — d'où le grand vide observé dans la colonne de
+       droite. On place donc explicitement les 4 blocs : la carte de prix
+       occupe les 2 premières lignes de la colonne 1, les deux petits encarts
+       se suivent directement dans la colonne 2, et le formulaire prend la
+       3e ligne de la colonne 1. */
+    @media (min-width: 1025px) {
+      .suivi-cards-grid { grid-template-rows: auto auto auto; }
+      .suivi-cards-grid > .service-card.distance { grid-column: 1; grid-row: 1 / span 2; }
+      .suivi-cards-grid > .duree-mini-box { grid-column: 2; grid-row: 1; align-self: start; }
+      .suivi-cards-grid > .cadeau-box { grid-column: 2; grid-row: 2; align-self: start; }
+      .suivi-cards-grid > .suivi-form-wrap { grid-column: 1; grid-row: 3; }
+    }
 
     /* Tablettes : on passe en colonne unique pour éviter l'écrasement */
     @media (max-width: 1024px) {
