@@ -1516,6 +1516,18 @@
       text-wrap: balance;
     }
     .distance-cta-texte:last-of-type { margin-bottom: var(--space-4); }
+    /* Les 3 étapes, un émoji par étape — même principe que les icônes de
+       la liste de la carte "Planification & suivi", en plus léger. */
+    .distance-cta-etapes {
+      list-style: none; margin: var(--space-3) 0; padding: 0;
+      display: flex; flex-direction: column; gap: 8px;
+      max-width: 60ch; margin-left: auto; margin-right: auto;
+    }
+    .distance-cta-etapes li {
+      display: flex; align-items: flex-start; gap: 10px; text-align: left;
+      font-size: var(--fs-small); line-height: 1.5; color: rgba(255,255,255,0.78);
+    }
+    .distance-cta-etapes li span { flex-shrink: 0; font-size: 16px; line-height: 1.5; }
     .distance-cta-lien {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 12px 22px; border-radius: var(--radius-pill);
@@ -1746,7 +1758,11 @@
       <p class="distance-cta-kicker">Planification et Suivi</p>
       <h2 class="distance-cta-titre">Tu souhaites te préparer pour une course en particulier ?</h2>
       <p class="distance-cta-texte"><strong>Je te prépare pour ton prochain objectif !</strong></p>
-      <p class="distance-cta-texte">On commence par évaluer ton niveau ensemble avec un test terrain. Je conçois ensuite un plan d'entraînement personnalisé, que j'ajuste à chaque étape selon ton évolution.</p>
+      <ul class="distance-cta-etapes">
+        <li><span aria-hidden="true">✅</span>On commence par évaluer ton niveau ensemble avec un test terrain.</li>
+        <li><span aria-hidden="true">📋</span>Je conçois ensuite un plan d'entraînement personnalisé.</li>
+        <li><span aria-hidden="true">🔄</span>J'analyse tes séances et ajuste le plan selon ton évolution.</li>
+      </ul>
       <p class="distance-cta-texte">Clique en dessous pour plus de précision.</p>
       <a href="index.html#suivi-personnalise" class="distance-cta-lien">Planification et suivi
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
