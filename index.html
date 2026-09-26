@@ -1147,24 +1147,17 @@
       gap: 40px;
       align-items: stretch;
     }
-    /* Sur desktop, la carte de prix est bien plus haute que les deux petits
-       encarts de la colonne de droite. Les faire chacun occuper leur propre
-       ligne de la grille ne suffit pas : une ligne de grille dont un item
-       déborde sur la suivante (ici la carte de prix, en « span 2 ») gonfle
-       les DEUX lignes qu'elle traverse pour se répartir son propre surplus
-       de hauteur — même quand rien d'autre ne le demande. Les deux encarts
-       héritaient donc chacun d'une ligne bien plus haute qu'eux, d'où le
-       décalage en haut et le grand vide entre les deux.
-       On regroupe donc les deux encarts dans UN seul bloc (.suivi-colonne-
-       droite, empilé en flex) : plus aucun item ne traverse deux lignes,
-       donc plus aucune ligne ne peut gonfler au-delà de son propre contenu. */
+    /* Sur desktop, grille 2×2 : la carte de prix à côté du formulaire en
+       haut, les durées préconisées à côté du bloc « offrir » en dessous.
+       Placement explicite des 4 blocs — aucun ne traverse plusieurs lignes,
+       donc aucune ligne ne peut gonfler au-delà de son propre contenu. */
     @media (min-width: 1025px) {
       .suivi-cards-grid { grid-template-rows: auto auto; }
       .suivi-cards-grid > .service-card.distance { grid-column: 1; grid-row: 1; }
-      .suivi-cards-grid > .suivi-colonne-droite { grid-column: 2; grid-row: 1; align-self: start; }
-      .suivi-cards-grid > .suivi-form-wrap { grid-column: 1; grid-row: 2; }
+      .suivi-cards-grid > .suivi-form-wrap { grid-column: 2; grid-row: 1; }
+      .suivi-cards-grid > .duree-mini-box { grid-column: 1; grid-row: 2; }
+      .suivi-cards-grid > .cadeau-box { grid-column: 2; grid-row: 2; }
     }
-    .suivi-colonne-droite { display: flex; flex-direction: column; gap: 24px; }
 
     /* Tablettes : on passe en colonne unique pour éviter l'écrasement */
     @media (max-width: 1024px) {
@@ -1173,9 +1166,6 @@
         margin-top: 60px;
         gap: 30px;
       }
-      /* Plus de grille pour donner cet espace : on le pose ici, sur le
-         conteneur, une seule fois plutôt que sur chacune des deux boîtes. */
-      .suivi-colonne-droite { margin-top: var(--space-6); }
     }
 
     @media (max-width: 768px) {
@@ -1639,11 +1629,9 @@
 
     /* Repères de durée minimum : aide le visiteur à savoir ce qu'il vient
        demander par mail, avant même l'entretien découverte.
-       Pas de marge en haut : l'espacement au-dessus vient du conteneur
-       (.suivi-colonne-droite, voir plus haut), pour rester à zéro sur
-       desktop — où ce bloc doit démarrer pile au niveau de la carte de
-       prix — et valoir de l'air sur mobile, où on l'ajoute sur le
-       conteneur plutôt que sur la boîte elle-même. */
+       Pas de marge en haut : sur desktop, l'espacement avec la ligne du
+       dessus vient du « gap » de .suivi-cards-grid (voir plus haut) ; sur
+       mobile, du « gap » de la grille en colonne unique. */
     .duree-mini-box {
       max-width: 760px; margin: 0 auto; padding: var(--space-5);
       border: 1px solid var(--offer-border); border-radius: var(--radius-md);
@@ -1678,8 +1666,8 @@
 
     /* Bloc indépendant « offrir ce suivi », détaché du formulaire : on ne
        veut pas qu'il ait l'air d'un champ de plus à remplir. Pas de marge
-       en haut : l'écart avec le bloc des durées vient du « gap » du
-       conteneur (.suivi-colonne-droite), sinon les deux s'additionnent. */
+       en haut : l'écart avec les blocs voisins vient du « gap » de
+       .suivi-cards-grid, sinon les marges s'additionnent. */
     .cadeau-box {
       max-width: 760px; margin: 0 auto; padding: var(--space-5);
       border: 1px solid var(--offer-border); border-radius: var(--radius-md);
@@ -2903,32 +2891,6 @@
         <p class="service-card-note">* Évaluation en présentiel, uniquement dans <a href="#zone-deplacement" class="link-accent-blue" style="white-space:nowrap;">la zone de déplacement</a>.</p>
       </div>
 
-      <!-- Colonne de droite, sur desktop : les deux petits encarts empilés
-           ensemble (voir la note sur .suivi-cards-grid pour le pourquoi). -->
-      <div class="suivi-colonne-droite">
-        <!-- Repères de durée minimum, pour que la demande par mail parte
-             déjà avec la bonne durée en tête. -->
-        <div class="duree-mini-box">
-          <p class="duree-mini-titre">Pour préparer une course, combien de temps prévoir ?</p>
-          <p class="duree-mini-sub">Voici les durées préconisées pour arriver prêt(e), selon ta distance.</p>
-          <div class="duree-mini-grid">
-            <div class="duree-mini-item"><span class="duree-mini-val">8 sem.</span><span class="duree-mini-lbl">5 km</span></div>
-            <div class="duree-mini-item"><span class="duree-mini-val">12 sem.</span><span class="duree-mini-lbl">10 km</span></div>
-            <div class="duree-mini-item"><span class="duree-mini-val">16 sem.</span><span class="duree-mini-lbl">Semi</span></div>
-            <div class="duree-mini-item"><span class="duree-mini-val">18 sem.</span><span class="duree-mini-lbl">Marathon</span></div>
-          </div>
-        </div>
-
-        <!-- Offrir ce suivi à quelqu'un : bloc indépendant, hors du formulaire. -->
-        <div class="cadeau-box">
-          <p class="cadeau-titre">Tu veux offrir ce suivi à quelqu'un ?</p>
-          <p class="cadeau-texte">Contacte-moi par mail et précise-moi ce que tu souhaites offrir.</p>
-          <a href="mailto:contact@reding-running.fr?subject=Offrir%20un%20suivi%20personnalis%C3%A9" class="cadeau-lien">Écris-moi
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
-          </a>
-        </div>
-      </div>
-
     <!-- Formulaire dédié : démarrer le suivi à distance -->
     <div class="suivi-form-wrap" id="suivi-form">
       <h3 class="suivi-form-title">Parle-moi de ton projet</h3>
@@ -3019,6 +2981,28 @@
         <p style="color:rgba(255,255,255,0.8);margin:0;">Merci ! Je reviens vers toi très vite avec des propositions de créneaux pour ton entretien téléphonique découverte.</p>
       </div>
     </div>
+
+      <!-- Repères de durée minimum, pour que la demande par mail parte
+           déjà avec la bonne durée en tête. -->
+      <div class="duree-mini-box">
+        <p class="duree-mini-titre">Pour préparer une course, combien de temps prévoir ?</p>
+        <p class="duree-mini-sub">Voici les durées préconisées pour arriver prêt(e), selon ta distance.</p>
+        <div class="duree-mini-grid">
+          <div class="duree-mini-item"><span class="duree-mini-val">8 sem.</span><span class="duree-mini-lbl">5 km</span></div>
+          <div class="duree-mini-item"><span class="duree-mini-val">12 sem.</span><span class="duree-mini-lbl">10 km</span></div>
+          <div class="duree-mini-item"><span class="duree-mini-val">16 sem.</span><span class="duree-mini-lbl">Semi</span></div>
+          <div class="duree-mini-item"><span class="duree-mini-val">18 sem.</span><span class="duree-mini-lbl">Marathon</span></div>
+        </div>
+      </div>
+
+      <!-- Offrir ce suivi à quelqu'un : bloc indépendant, hors du formulaire. -->
+      <div class="cadeau-box">
+        <p class="cadeau-titre">Tu veux offrir ce suivi à quelqu'un ?</p>
+        <p class="cadeau-texte">Contacte-moi par mail et précise-moi ce que tu souhaites offrir.</p>
+        <a href="mailto:contact@reding-running.fr?subject=Offrir%20un%20suivi%20personnalis%C3%A9" class="cadeau-lien">Écris-moi
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+        </a>
+      </div>
     </div>
     </div>
 
