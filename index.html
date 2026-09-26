@@ -1697,6 +1697,21 @@
     @media (max-width: 480px) {
       .duree-calc-row { grid-template-columns: 1fr; }
     }
+    /* Champs sombres : le fond blanc par défaut de .form-group tranchait
+       trop fort sur cette carte plus discrète. */
+    .duree-calc-row .form-group input,
+    .duree-calc-row .form-group select {
+      background-color: rgba(255,255,255,0.06); border-color: var(--color-line-dark);
+      color: #fff; color-scheme: dark;
+    }
+    .duree-calc-row .form-group input:focus,
+    .duree-calc-row .form-group select:focus {
+      background-color: rgba(255,255,255,0.1); border-color: var(--offer);
+      box-shadow: 0 0 0 4px var(--offer-glow), 0 4px 12px rgba(0,0,0,0.25);
+    }
+    .duree-calc-row .form-group select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    }
     .duree-calc-btn {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 12px 22px; border: none; border-radius: var(--radius-pill); cursor: pointer;
@@ -2965,10 +2980,6 @@
           <p class="duree-calc-titre">Calcule ta date de début idéale</p>
           <div class="duree-calc-row">
             <div class="form-group">
-              <label for="duree-calc-date">Date de la course</label>
-              <input type="date" id="duree-calc-date">
-            </div>
-            <div class="form-group">
               <label for="duree-calc-distance">Distance</label>
               <select id="duree-calc-distance">
                 <option value="8">5 km</option>
@@ -2976,6 +2987,10 @@
                 <option value="16">Semi</option>
                 <option value="18">Marathon</option>
               </select>
+            </div>
+            <div class="form-group">
+              <label for="duree-calc-date">Date de la course</label>
+              <input type="date" id="duree-calc-date">
             </div>
           </div>
           <button type="button" id="duree-calc-btn" class="duree-calc-btn">Calculer ma date de début
@@ -3846,16 +3861,21 @@ Je le remercie grandement pour ça. Hâte d'écrire la suite et de battre mon re
           return;
         }
         var semaines = parseInt(distanceSelect.value, 10);
+        var distanceLabel = distanceSelect.options[distanceSelect.selectedIndex].text;
         var courseDate = new Date(dateInput.value + 'T12:00:00');
         var debut = new Date(courseDate.getTime() - semaines * 7 * 24 * 60 * 60 * 1000);
+        // La préparation démarre toujours un lundi (début de semaine
+        // d'entraînement) : on recule jusqu'au lundi de cette semaine-là.
+        var jour = debut.getDay();
+        debut.setDate(debut.getDate() - ((jour + 6) % 7));
         var aujourdhui = new Date(); aujourdhui.setHours(12, 0, 0, 0);
 
         resultat.classList.remove('duree-calc-resultat--erreur');
         if (debut < aujourdhui) {
-          resultat.innerHTML = 'Il te faut <strong>' + semaines + ' semaines</strong> de préparation — commence dès maintenant, la course approche vite !';
+          resultat.innerHTML = 'Pour une préparation <strong>' + distanceLabel + '</strong> en <strong>' + semaines + ' semaines</strong>, il est temps de commencer dès maintenant — la course approche vite !';
         } else {
           var texte = debut.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-          resultat.innerHTML = 'Il te faut <strong>' + semaines + ' semaines</strong> de préparation.<br>Commence le <strong>' + texte + '</strong>.';
+          resultat.innerHTML = 'Pour une préparation <strong>' + distanceLabel + '</strong> en <strong>' + semaines + ' semaines</strong>, la date de début est le <strong>' + texte + '</strong>.';
         }
         resultat.hidden = false;
       });
